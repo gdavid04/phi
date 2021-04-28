@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": { 
+        "layer0": "phi:items/huge_spell_magazine"
+    }
+}

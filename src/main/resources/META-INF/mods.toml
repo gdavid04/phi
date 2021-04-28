@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[34,)"
+license="GNU LGPLv3"
+logoFile="logo.png"
+displayURL="https://github.com/gdavid04/Phi"
+authors="GDavid"
+[[mods]]
+modId="phi"
+version="${file.jarVersion}"
+displayName="Phi"
+description='''
+A Psi addon
+'''
+[[dependencies.phi]]
+	modId="forge"
+    mandatory=true
+    versionRange="[34.1.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.phi]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.3,1.17)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.phi]]
+    modId="psi"
+    mandatory=true
+    versionRange="[1.16-94,)"
+    ordering="AFTER"
+    side="BOTH"
