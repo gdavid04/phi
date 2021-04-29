@@ -18,7 +18,10 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.PsiAPI;
+import vazkii.psi.api.cad.AssembleCADEvent;
 import vazkii.psi.api.cad.EnumCADComponent;
 import vazkii.psi.api.cad.EnumCADStat;
 import vazkii.psi.api.cad.ICAD;
@@ -27,6 +30,7 @@ import vazkii.psi.api.cad.ISocketable;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
+@EventBusSubscriber
 public class SpellMagazineItem extends Item implements ICADComponent {
 
 	public static final String tagSlot = "slot_";
@@ -72,6 +76,15 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack item, CompoundNBT nbt) {
 		return new MagazineSocketable(item, sockets);
+	}
+	
+	@SubscribeEvent
+	public static void AssembleCAD(AssembleCADEvent e) {
+		// Assembling a CAD with a magazine transfers bullets and vectors to the CAD
+		ItemStack socket = e.getAssembler().getStackForComponent(EnumCADComponent.SOCKET);
+		if (socket.getItem() instanceof SpellMagazineItem) {
+			((SpellMagazineItem) socket.getItem()).swap(socket, e.getCad());
+		}
 	}
 	
 	@Override
