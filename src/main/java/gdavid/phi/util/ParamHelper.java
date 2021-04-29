@@ -1,5 +1,6 @@
 package gdavid.phi.util;
 
+import net.minecraft.util.math.BlockPos;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
@@ -28,9 +29,21 @@ public class ParamHelper {
 	public static Vector3 nonNull(SpellPiece piece, SpellContext context, SpellParam<Vector3> param) throws SpellRuntimeException {
 		Vector3 res = piece.getNonnullParamValue(context, param);
 		if (res.isZero()) {
-			throw new SpellRuntimeException(SpellCompilationException.NULL_PARAM);
+			throw new SpellRuntimeException(SpellRuntimeException.NULL_VECTOR);
 		}
 		return res;
+	}
+	
+	public static Vector3 inRange(SpellPiece piece, SpellContext context, SpellParam<Vector3> param) throws SpellRuntimeException {
+		Vector3 res = nonNull(piece, context, param);
+		if (!context.isInRadius(res)) {
+			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
+		}
+		return res;
+	}
+	
+	public static BlockPos block(SpellPiece piece, SpellContext context, SpellParam<Vector3> param) throws SpellRuntimeException {
+		return inRange(piece, context, param).toBlockPos();
 	}
 	
 }
