@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IM",
+		"IS",
+		"MM"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"S": { "item": "psi:cad_socket_large" }
+	},
+	"result": {
+		"item": "phi:large_spell_magazine"
+	}
+}

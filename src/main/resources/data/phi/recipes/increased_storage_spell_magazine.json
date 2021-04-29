@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IS",
+		"IG",
+		"MM"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"G": { "tag": "forge:ingots/gold" },
+		"S": { "item": "psi:cad_socket_huge" }
+	},
+	"result": {
+		"item": "phi:increased_storage_spell_magazine"
+	}
+}

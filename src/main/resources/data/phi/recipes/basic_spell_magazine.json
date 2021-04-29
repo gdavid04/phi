@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ID",
+		"IS",
+		"MM"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"D": { "tag": "psi:psidust" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"S": { "item": "psi:cad_socket_basic" }
+	},
+	"result": {
+		"item": "phi:basic_spell_magazine"
+	}
+}
