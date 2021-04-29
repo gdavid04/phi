@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.PsiAPI;
-import vazkii.psi.api.cad.AssembleCADEvent;
+import vazkii.psi.api.cad.CADTakeEvent;
 import vazkii.psi.api.cad.EnumCADComponent;
 import vazkii.psi.api.cad.EnumCADStat;
 import vazkii.psi.api.cad.ICAD;
@@ -79,7 +79,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	}
 	
 	@SubscribeEvent
-	public static void AssembleCAD(AssembleCADEvent e) {
+	public static void TakeCAD(CADTakeEvent e) {
 		// Assembling a CAD with a magazine transfers bullets and vectors to the CAD
 		ItemStack socket = e.getAssembler().getStackForComponent(EnumCADComponent.SOCKET);
 		if (socket.getItem() instanceof SpellMagazineItem) {
