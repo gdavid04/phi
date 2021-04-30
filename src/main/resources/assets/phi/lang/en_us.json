@@ -1,33 +1,33 @@
 {
 	"phi.spellparam.frequency": "Frequency",
-	
+
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
-	
+
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
-	
+
 	"phi.spellpiece.trick_shadow": "Trick: Shadow",
 	"phi.spellpiece.trick_shadow.desc": "Casts a shadow over a block",
 	"phi.spellpiece.trick_shadow_sequence": "Trick: Shadow Sequence",
 	"phi.spellpiece.trick_shadow_sequence.desc": "Casts a shadow over multiple blocks in a line",
-	
+
 	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
-	
+
 	"item.phi.basic_spell_magazine": "Basic Spell Magazine",
 	"item.phi.basic_spell_magazine.desc": "A cheap Spell Magazine",
 	"item.phi.large_spell_magazine": "Large Spell Magazine",
 	"item.phi.large_spell_magazine.desc": "A Spell Magazine with increased capacity",
 	"item.phi.huge_spell_magazine": "Huge Spell Magazine",
 	"item.phi.huge_spell_magazine.desc": "A Spell Magazine with extra-large capacity",
-	
+
 	"item.phi.wide_band_spell_magazine": "Wide Band Spell Magazine",
 	"item.phi.wide_band_spell_magazine.desc": "A cheaper Spell Magazine optimized for high-bandwidth spells",
-	
+
 	"item.phi.increased_storage_spell_magazine": "Increased Storage Spell Magazine",
 	"item.phi.increased_storage_spell_magazine.desc": "A Spell Magazine with more capacity allocated to vector data storage",
 	"item.phi.bulk_storage_spell_magazine": "Bulk Storage Spell Magazine",
 	"item.phi.bulk_storage_spell_magazine.desc": "A Spell Magazine optimized for storing large amounts of vector data",
-	
+
 	"item.phi.smart_spell_magazine": "Smart Spell Magazine",
 	"item.phi.smart_spell_magazine.desc": "A Spell Magazine with a smart selection system to assist in loopcasting spells that span more than one bullet\nRemembers the selected bullet and reselects it when loopcast ends",
 	"item.phi.compound_spell_magazine": "Compound Spell Magazine",

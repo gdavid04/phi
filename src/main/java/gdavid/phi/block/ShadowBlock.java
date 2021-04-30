@@ -1,8 +1,7 @@
 package gdavid.phi.block;
 
-import java.util.Random;
-
 import gdavid.phi.Phi;
+import java.util.Random;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -23,9 +22,7 @@ public class ShadowBlock extends AirBlock {
 	public static ShadowBlock instance;
 	
 	public ShadowBlock() {
-		super(Properties.create(Material.AIR)
-			.notSolid()
-			.noDrops());
+		super(Properties.create(Material.AIR).notSolid().noDrops());
 		setRegistryName(id);
 	}
 	

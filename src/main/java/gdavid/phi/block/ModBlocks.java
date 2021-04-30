@@ -11,9 +11,7 @@ public class ModBlocks {
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(
-			new ShadowBlock()
-		);
+		event.getRegistry().registerAll(new ShadowBlock());
 	}
 	
 }

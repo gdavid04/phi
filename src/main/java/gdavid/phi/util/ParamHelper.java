@@ -35,7 +35,8 @@ public class ParamHelper {
 		return res;
 	}
 	
-	public static Vector3 inRange(SpellPiece piece, SpellContext context, SpellParam<Vector3> param) throws SpellRuntimeException {
+	public static Vector3 inRange(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
+			throws SpellRuntimeException {
 		Vector3 res = nonNull(piece, context, param);
 		if (!context.isInRadius(res)) {
 			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
@@ -43,7 +44,8 @@ public class ParamHelper {
 		return res;
 	}
 	
-	public static BlockPos block(SpellPiece piece, SpellContext context, SpellParam<Vector3> param) throws SpellRuntimeException {
+	public static BlockPos block(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
+			throws SpellRuntimeException {
 		return inRange(piece, context, param).toBlockPos();
 	}
 	
