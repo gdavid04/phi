@@ -17,7 +17,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16-0.2'
+version = '1.16-0.3'
 group = 'gdavid.phi'
 archivesBaseName = 'phi'
 
