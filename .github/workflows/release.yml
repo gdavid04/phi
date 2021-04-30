@@ -22,11 +22,11 @@ jobs:
       run: ./gradlew build
     - name: Get Release
       id: get_release
-      uses: bruceadams/get-release@v1
+      uses: bruceadams/get-release@v1.2.2
       env:
         GITHUB_TOKEN: ${{github.token}}
     - name: Publish
-      uses: actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v1.0.2
       env:
         GITHUB_TOKEN: ${{github.token}}
       with:
