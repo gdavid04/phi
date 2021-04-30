@@ -25,7 +25,8 @@ public class ParamHelper {
 		return res;
 	}
 	
-	public static Vector3 nonNull(SpellPiece piece, SpellContext context, SpellParam<Vector3> param) throws SpellRuntimeException {
+	public static Vector3 nonNull(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
+			throws SpellRuntimeException {
 		Vector3 res = piece.getNonnullParamValue(context, param);
 		if (res.isZero()) {
 			throw new SpellRuntimeException(SpellCompilationException.NULL_PARAM);

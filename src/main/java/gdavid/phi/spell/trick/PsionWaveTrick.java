@@ -60,8 +60,12 @@ public class PsionWaveTrick extends PieceTrick {
 		}
 		distanceVal = Math.max(1, distanceVal);
 		if (context.focalPoint.getEntityWorld() instanceof ServerWorld) {
-			PsionWaveEntity wave = new PsionWaveEntity(context.focalPoint.getEntityWorld(), new Vector3f((float) directionVal.x, (float) directionVal.y, (float) directionVal.z), speedVal, frequencyVal, distanceVal);
-			wave.setPosition(context.focalPoint.getPosX(), context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - 0.5, context.focalPoint.getPosZ());
+			PsionWaveEntity wave = new PsionWaveEntity(context.focalPoint.getEntityWorld(),
+					new Vector3f((float) directionVal.x, (float) directionVal.y, (float) directionVal.z), speedVal,
+					frequencyVal, distanceVal);
+			wave.setPosition(context.focalPoint.getPosX(),
+					context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - 0.5,
+					context.focalPoint.getPosZ());
 			wave.setShooter(context.focalPoint);
 			wave.getEntityWorld().addEntity(wave);
 		}

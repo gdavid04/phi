@@ -1,8 +1,8 @@
 package gdavid.phi.util;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.cad.ICADColorizer;
 
 @OnlyIn(Dist.CLIENT)
