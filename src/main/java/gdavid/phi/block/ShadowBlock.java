@@ -24,7 +24,6 @@ public class ShadowBlock extends AirBlock {
 	
 	public ShadowBlock() {
 		super(Properties.create(Material.AIR)
-			.setAir()
 			.notSolid()
 			.noDrops());
 		setRegistryName(id);
@@ -43,7 +42,6 @@ public class ShadowBlock extends AirBlock {
 	
 	@Override
 	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
-		System.out.println(pos);
 		world.removeBlock(pos, false);
 	}
 	
