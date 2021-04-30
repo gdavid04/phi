@@ -1,4 +1,4 @@
-# eclipse
+# Eclipse
 bin
 *.launch
 .settings
@@ -6,23 +6,26 @@ bin
 .classpath
 .project
 
-# idea
+# Idea
 out
 *.ipr
 *.iws
 *.iml
 .idea
 
-# gradle
+# Gradle
 build
 .gradle
 
-# other
+# Other
 eclipse
 run
 
 # Files from Forge MDK
 forge*changelog.txt
 
+# Maven
 mcmodsrepo
 
+# MacOS
+**/.DS_Store

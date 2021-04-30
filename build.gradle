@@ -1,12 +1,18 @@
 buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-    }
+	repositories {
+		maven { url = 'https://files.minecraftforge.net/maven' }
+		mavenCentral()
+	}
+	dependencies {
+		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+	}
 }
+
+plugins {
+id 'com.diffplug.spotless' version '5.12.4'
+id 'pmd'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
@@ -18,33 +24,33 @@ archivesBaseName = 'phi'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: "snapshot", version: "20200916-1.16.2"
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                phi { source sourceSets.main }
-            }
-        }
-        server {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                phi { source sourceSets.main }
-            }
-        }
-        data {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-            args '--mod', 'phi', '--all',
-            	'--output', file('src/generated/resources/'),
-            	'--existing', file('src/main/resources/')
-            mods {
-                phi { source sourceSets.main }
-            }
-        }
-    }
+	mappings channel: "snapshot", version: "20200916-1.16.2"
+	runs {
+		client {
+			workingDirectory project.file('run')
+			property 'forge.logging.console.level', 'debug'
+			mods {
+				phi { source sourceSets.main }
+			}
+		}
+		server {
+			workingDirectory project.file('run')
+			property 'forge.logging.console.level', 'debug'
+			mods {
+				phi { source sourceSets.main }
+			}
+		}
+		data {
+			workingDirectory project.file('run')
+			property 'forge.logging.console.level', 'debug'
+			args '--mod', 'phi', '--all',
+				'--output', file('src/generated/resources/'),
+				'--existing', file('src/main/resources/')
+			mods {
+				phi { source sourceSets.main }
+			}
+		}
+	}
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -54,39 +60,71 @@ repositories {
 }
 
 dependencies {
-    minecraft group: 'net.minecraftforge', name: 'forge', version: "1.16.3-34.1.0"
-    
-    compileOnly fg.deobf("vazkii.psi:Psi:1.16-94.373:api")
-    runtimeOnly fg.deobf("vazkii.psi:Psi:1.16-94.373")
-    
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47-SNAPSHOT")
+	minecraft group: 'net.minecraftforge', name: 'forge', version: "1.16.3-34.1.0"
+
+	compileOnly fg.deobf("vazkii.psi:Psi:1.16-94.373:api")
+	runtimeOnly fg.deobf("vazkii.psi:Psi:1.16-94.373")
+
+	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47-SNAPSHOT")
+}
+
+spotless {
+	enforceCheck = false
+	format 'misc', {
+		target '*.gradle', '.gitignore', '**/*.properties', '**/*.md', '*.xml', '**/*.json', '**/*.yml'
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+	format 'indent', {
+		target '*.gradle', '.gitignore', '**/*.properties', '**/*.md', '*.xml', '**/*.json'
+		indentWithTabs()
+	}
+	java {
+		trimTrailingWhitespace()
+		endWithNewline()
+		indentWithTabs()
+		importOrder()
+		removeUnusedImports()
+		eclipse().configFile 'spotless.xml'
+	}
+}
+
+pmd {
+	toolVersion '6.22.0'
+	incrementalAnalysis.set(true)
+	ruleSets.clear()
+	ruleSetFiles = files("pmd.xml")
+}
+
+task syntaxCheck {
+	dependsOn spotlessCheck, pmdMain
 }
 
 jar {
-    manifest {
-        attributes([
-            "Specification-Title": "phi",
-            "Specification-Vendor": "gdavid",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"gdavid",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
+	manifest {
+		attributes([
+			"Specification-Title": "phi",
+			"Specification-Vendor": "gdavid",
+			"Specification-Version": "1",
+			"Implementation-Title": project.name,
+			"Implementation-Version": "${version}",
+			"Implementation-Vendor" :"gdavid",
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+		])
+	}
 }
 
 jar.finalizedBy('reobfJar')
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
+	publications {
+		mavenJava(MavenPublication) {
+			artifact jar
+		}
+	}
+	repositories {
+		maven {
+			url "file:///${project.projectDir}/mcmodsrepo"
+		}
+	}
 }

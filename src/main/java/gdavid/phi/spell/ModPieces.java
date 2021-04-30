@@ -15,15 +15,18 @@ import vazkii.psi.api.spell.SpellPiece;
 public class ModPieces {
 	
 	public static class Groups {
+		
 		public static final String psionManipulation = "psion_manipulation";
 	}
 	
 	public static class Params {
+		
 		public static final String speed = PsiAPI.MOD_ID + ".spellparam.speed";
 		public static final String frequency = Phi.modId + ".spellparam.frequency";
 	}
 	
 	public static class Errors {
+		
 		public static final String range = Phi.modId + ".spellerror.range";
 	}
 	

@@ -1,7 +1,7 @@
 {
-  "criteria": {
-    "code_triggered": {
-      "trigger": "minecraft:impossible"
-    }
-  }
+"criteria": {
+	"code_triggered": {
+	"trigger": "minecraft:impossible"
+	}
+}
 }

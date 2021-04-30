@@ -1,12 +1,9 @@
 package gdavid.phi.entity.render;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.util.RenderHelper;
@@ -24,32 +21,34 @@ import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.PsiAPI;
 
 @OnlyIn(Dist.CLIENT)
 public class PsionWaveRenderer extends EntityRenderer<PsionWaveEntity> {
 	
 	static final RenderType layer = RenderType.makeType(Phi.modId + ":" + PsionWaveEntity.id,
-		DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 1440, false, false, RenderType.State.getBuilder()
-			.texture(new RenderState.TextureState(new ResourceLocation(PsiAPI.MOD_ID, "textures/particle/wisp.png"), false, false))
-			.cull(new RenderState.CullState(false))
-			.transparency(new RenderState.TransparencyState("lightning_transparency", () -> {
-				RenderSystem.enableBlend();
-				RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-			}, () -> {
-				RenderSystem.disableBlend();
-				RenderSystem.defaultBlendFunc();
-			}))
-			.writeMask(new RenderState.WriteMaskState(true, false))
-			.lightmap(new RenderState.LightmapState(true))
-			.build(true));
+			DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 1440, false, false,
+			RenderType.State.getBuilder()
+					.texture(new RenderState.TextureState(
+							new ResourceLocation(PsiAPI.MOD_ID, "textures/particle/wisp.png"), false, false))
+					.cull(new RenderState.CullState(false))
+					.transparency(new RenderState.TransparencyState("lightning_transparency", () -> {
+						RenderSystem.enableBlend();
+						RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+					}, () -> {
+						RenderSystem.disableBlend();
+						RenderSystem.defaultBlendFunc();
+					})).writeMask(new RenderState.WriteMaskState(true, false))
+					.lightmap(new RenderState.LightmapState(true)).build(true));
 	
 	public PsionWaveRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 	
 	@Override
-	public void render(PsionWaveEntity entity, float entityYaw, float partialTicks, MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	public void render(PsionWaveEntity entity, float entityYaw, float partialTicks, MatrixStack ms,
+			IRenderTypeBuffer buffers, int light) {
 		EntityDataManager dm = entity.getDataManager();
 		ItemStack colorizer = dm.get(PsionWaveEntity.colorizer);
 		int color = RenderHelper.getColorForColorizer(colorizer);
@@ -62,7 +61,9 @@ public class PsionWaveRenderer extends EntityRenderer<PsionWaveEntity> {
 		rotation.multiply(Vector3f.XN.rotationDegrees(entity.rotationPitch));
 		float traveledPercent = (float) (dm.get(PsionWaveEntity.traveled) / dm.get(PsionWaveEntity.distance));
 		float size = 4 * traveledPercent * (1 - traveledPercent);
-		size += Math.sin(dm.get(PsionWaveEntity.frequency) * dm.get(PsionWaveEntity.traveled) / dm.get(PsionWaveEntity.speed)) * size / 20;
+		size += Math.sin(
+				dm.get(PsionWaveEntity.frequency) * dm.get(PsionWaveEntity.traveled) / dm.get(PsionWaveEntity.speed))
+				* size / 20;
 		int particleCount = 90;
 		for (float angle = 0; angle < 360; angle += 360f / particleCount) {
 			Vector3f pos = new Vector3f(0, size / 2f, 0);

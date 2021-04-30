@@ -1,10 +1,9 @@
 package gdavid.phi.entity;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import gdavid.phi.Phi;
 import gdavid.phi.util.BBHelper;
+import java.util.Optional;
+import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,15 +43,24 @@ public class PsionWaveEntity extends ThrowableEntity {
 	static final String tagDistance = "distance";
 	static final String tagTraveled = "traveled";
 	
-	public static final DataParameter<ItemStack> colorizer = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.ITEMSTACK);
-	public static final DataParameter<Optional<UUID>> shooter = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
-	public static final DataParameter<Float> directionX = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
-	public static final DataParameter<Float> directionY = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
-	public static final DataParameter<Float> directionZ = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
-	public static final DataParameter<Float> speed = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
-	public static final DataParameter<Float> frequency = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
-	public static final DataParameter<Float> distance = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
-	public static final DataParameter<Float> traveled = EntityDataManager.createKey(PsionWaveEntity.class, DataSerializers.FLOAT);
+	public static final DataParameter<ItemStack> colorizer = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.ITEMSTACK);
+	public static final DataParameter<Optional<UUID>> shooter = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.OPTIONAL_UNIQUE_ID);
+	public static final DataParameter<Float> directionX = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
+	public static final DataParameter<Float> directionY = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
+	public static final DataParameter<Float> directionZ = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
+	public static final DataParameter<Float> speed = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
+	public static final DataParameter<Float> frequency = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
+	public static final DataParameter<Float> distance = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
+	public static final DataParameter<Float> traveled = EntityDataManager.createKey(PsionWaveEntity.class,
+			DataSerializers.FLOAT);
 	
 	public PsionWaveEntity(EntityType<PsionWaveEntity> type, World world) {
 		super(type, world);
@@ -124,11 +132,9 @@ public class PsionWaveEntity extends ThrowableEntity {
 	
 	@Override
 	public void tick() {
-		setMotion(
-			dataManager.get(directionX) * dataManager.get(speed) / 40,
-			dataManager.get(directionY) * dataManager.get(speed) / 40,
-			dataManager.get(directionZ) * dataManager.get(speed) / 40
-		);
+		setMotion(dataManager.get(directionX) * dataManager.get(speed) / 40,
+				dataManager.get(directionY) * dataManager.get(speed) / 40,
+				dataManager.get(directionZ) * dataManager.get(speed) / 40);
 		super.tick();
 		dataManager.set(traveled, dataManager.get(traveled) + dataManager.get(speed) / 40);
 		if (dataManager.get(traveled) > dataManager.get(distance)) {
@@ -144,10 +150,8 @@ public class PsionWaveEntity extends ThrowableEntity {
 				return;
 			}
 			AxisAlignedBB bb = hit.getBoundingBox();
-			if (Math.min(
-				Math.abs(BBHelper.min(bb).subtract(getPositionVec()).dotProduct(getForward())),
-				Math.abs(BBHelper.max(bb).subtract(getPositionVec()).dotProduct(getForward()))
-			) > 0.5) {
+			if (Math.min(Math.abs(BBHelper.min(bb).subtract(getPositionVec()).dotProduct(getForward())),
+					Math.abs(BBHelper.max(bb).subtract(getPositionVec()).dotProduct(getForward()))) > 0.5) {
 				// TODO torus check
 				// return;
 			}
@@ -156,13 +160,15 @@ public class PsionWaveEntity extends ThrowableEntity {
 				IPlayerData data = PsiAPI.internalHandler.getDataForPlayer(player);
 				float traveledPercent = dataManager.get(traveled) / dataManager.get(distance);
 				float focus = 2 * traveledPercent * (traveledPercent - 1) + 1;
-				data.deductPsi((int) Math.ceil(dataManager.get(frequency) * 10 * focus), (int) Math.ceil(dataManager.get(frequency) * 2 * focus), true, true);
+				data.deductPsi((int) Math.ceil(dataManager.get(frequency) * 10 * focus),
+						(int) Math.ceil(dataManager.get(frequency) * 2 * focus), true, true);
 				EffectInstance effect = player.getActivePotionEffect(Effects.SLOWNESS);
 				int newTime;
 				if (effect == null) {
 					newTime = (int) Math.ceil(dataManager.get(frequency) * focus);
 				} else {
-					newTime = (int) Math.ceil(Math.pow(dataManager.get(frequency) * focus + effect.getDuration(), 1 + 0.2 * focus));
+					newTime = (int) Math
+							.ceil(Math.pow(dataManager.get(frequency) * focus + effect.getDuration(), 1 + 0.2 * focus));
 				}
 				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, newTime % 600, newTime / 60, false, false));
 			}

@@ -1,9 +1,8 @@
 package gdavid.phi.item;
 
-import java.util.List;
-
 import gdavid.phi.Phi;
 import gdavid.phi.capability.MagazineSocketable;
+import java.util.List;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -32,7 +31,7 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 
 @EventBusSubscriber
 public class SpellMagazineItem extends Item implements ICADComponent {
-
+	
 	public static final String tagSlot = "slot_";
 	public static final String tagVector = "vector_";
 	
@@ -41,21 +40,19 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public int bandwidth, sockets, vectors;
 	
 	public SpellMagazineItem(String id, int sockets, int bandwidth, int vectors) {
-		super(new Properties()
-			.maxStackSize(1)
-			.group(ItemGroup.MISC)); // TODO Phi creative tab
+		super(new Properties().maxStackSize(1).group(ItemGroup.MISC)); // TODO Phi creative tab
 		setRegistryName(id);
 		this.id = id;
 		this.bandwidth = bandwidth;
 		this.sockets = sockets;
 		this.vectors = vectors;
 	}
-
+	
 	@Override
 	public EnumCADComponent getComponentType(ItemStack stack) {
 		return EnumCADComponent.SOCKET;
 	}
-
+	
 	@Override
 	public int getCADStatValue(ItemStack stack, EnumCADStat stat) {
 		if (stat == EnumCADStat.BANDWIDTH) return bandwidth;
@@ -68,9 +65,15 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public void addInformation(ItemStack item, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + "." + id + ".desc"));
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + ".spell_magazine.desc"));
-		tooltip.add(new StringTextComponent(" ").append(new TranslationTextComponent(EnumCADStat.BANDWIDTH.getName()).mergeStyle(TextFormatting.AQUA)).appendString(": " + bandwidth));
-		tooltip.add(new StringTextComponent(" ").append(new TranslationTextComponent(EnumCADStat.SOCKETS.getName()).mergeStyle(TextFormatting.AQUA)).appendString(": " + sockets));
-		tooltip.add(new StringTextComponent(" ").append(new TranslationTextComponent(EnumCADStat.SAVED_VECTORS.getName()).mergeStyle(TextFormatting.AQUA)).appendString(": " + vectors));
+		tooltip.add(new StringTextComponent(" ")
+				.append(new TranslationTextComponent(EnumCADStat.BANDWIDTH.getName()).mergeStyle(TextFormatting.AQUA))
+				.appendString(": " + bandwidth));
+		tooltip.add(new StringTextComponent(" ")
+				.append(new TranslationTextComponent(EnumCADStat.SOCKETS.getName()).mergeStyle(TextFormatting.AQUA))
+				.appendString(": " + sockets));
+		tooltip.add(new StringTextComponent(" ").append(
+				new TranslationTextComponent(EnumCADStat.SAVED_VECTORS.getName()).mergeStyle(TextFormatting.AQUA))
+				.appendString(": " + vectors));
 	}
 	
 	@Override
@@ -120,18 +123,16 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 			try {
 				vec = cadItem.getStoredVector(cad, i);
 				cadItem.setStoredVector(cad, i, getStoredVector(item, i));
-			} catch (SpellRuntimeException e) {}
+			} catch (SpellRuntimeException e) {
+			}
 			setStoredVector(item, i, vec);
 		}
 	}
 	
 	public Vector3 getStoredVector(ItemStack item, int slot) {
 		CompoundNBT nbt = item.getOrCreateTag();
-		return new Vector3(
-			nbt.getDouble(tagVector + slot + "_x"),
-			nbt.getDouble(tagVector + slot + "_y"),
-			nbt.getDouble(tagVector + slot + "_z")
-		);
+		return new Vector3(nbt.getDouble(tagVector + slot + "_x"), nbt.getDouble(tagVector + slot + "_y"),
+				nbt.getDouble(tagVector + slot + "_z"));
 	}
 	
 	public void setStoredVector(ItemStack item, int slot, Vector3 vec) {
