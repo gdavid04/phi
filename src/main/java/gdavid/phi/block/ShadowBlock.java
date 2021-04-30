@@ -30,6 +30,11 @@ public class ShadowBlock extends AirBlock {
 	}
 	
 	@Override
+	public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+		return false;
+	}
+	
+	@Override
 	public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
 		return 8;
 	}

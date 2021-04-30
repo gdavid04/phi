@@ -6,7 +6,9 @@
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
 	"phi.spellpiece.trick_shadow": "Trick: Shadow",
-	"phi.spellpiece.trick_shadow.desc": "Creates a shadow over a block",
+	"phi.spellpiece.trick_shadow.desc": "Casts a shadow over a block",
+	"phi.spellpiece.trick_shadow_sequence": "Trick: Shadow Sequence",
+	"phi.spellpiece.trick_shadow_sequence.desc": "Casts a shadow over multiple blocks in a line",
 	
 	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
 	

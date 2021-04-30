@@ -2,6 +2,7 @@ package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
 import gdavid.phi.spell.trick.PsionWaveTrick;
+import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -33,6 +34,7 @@ public class ModPieces {
 	public static void init(RegistryEvent.Register<Item> event) {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
+		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, true);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {
