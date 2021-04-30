@@ -51,7 +51,7 @@ public class PsionWaveTrick extends PieceTrick {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		Vector3 directionVal = ParamHelper.nonNull(this, context, direction).normalize();
+		Vector3 directionVal = ParamHelper.nonNull(this, context, direction).copy().normalize();
 		float speedVal = getNonnullParamValue(context, speed).floatValue();
 		float frequencyVal = getNonnullParamValue(context, frequency).floatValue();
 		float distanceVal = getNonnullParamValue(context, distance).floatValue();
