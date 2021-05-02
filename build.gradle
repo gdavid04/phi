@@ -9,15 +9,22 @@ buildscript {
 }
 
 plugins {
-id 'com.diffplug.spotless' version '5.12.4'
-id 'pmd'
+	id 'com.diffplug.spotless' version '5.12.4'
+	id 'pmd'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16-0.3'
+ext.configFile = file('build.properties')
+configFile.withReader {
+	def props = new Properties()
+	props.load(it)
+	ext.config = new ConfigSlurper().parse(props)
+}
+
+version = "${config.mcversion}-${config.version}"
 group = 'gdavid.phi'
 archivesBaseName = 'phi'
 
