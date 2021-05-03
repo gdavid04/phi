@@ -17,14 +17,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-ext.configFile = file('build.properties')
-configFile.withReader {
-	def props = new Properties()
-	props.load(it)
-	ext.config = new ConfigSlurper().parse(props)
-}
-
-version = "${config.mcversion}-${config.version}"
+version = "${mc_version}-${mod_version}"
 group = 'gdavid.phi'
 archivesBaseName = 'phi'
 
@@ -69,10 +62,10 @@ repositories {
 dependencies {
 	minecraft group: 'net.minecraftforge', name: 'forge', version: "1.16.3-34.1.0"
 
-	compileOnly fg.deobf("vazkii.psi:Psi:1.16-94.373:api")
-	runtimeOnly fg.deobf("vazkii.psi:Psi:1.16-94.373")
+	compileOnly fg.deobf("vazkii.psi:Psi:${psi_version}:api")
+	runtimeOnly fg.deobf("vazkii.psi:Psi:${psi_version}")
 
-	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-47-SNAPSHOT")
+	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 }
 
 spotless {

@@ -1,7 +1,7 @@
 name: Release
 on:
   release:
-    types: [created]
+    types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,6 +10,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Get Release
+      id: get_release
+      uses: bruceadams/get-release@v1.2.2
+      env:
+        GITHUB_TOKEN: ${{github.token}}
     - name: JDK 1.8
       uses: actions/setup-java@v2
       with:
@@ -21,12 +26,7 @@ jobs:
         path: ~/.gradle/caches
         key: ${{runner.os}}-gradle-${{hashFiles('build.gradle')}}
     - name: Gradle Build
-      run: ./gradlew build
-    - name: Get Release
-      id: get_release
-      uses: bruceadams/get-release@v1.2.2
-      env:
-        GITHUB_TOKEN: ${{github.token}}
+      run: ./gradlew -Pversion=${{steps.get_release.outputs.tag_name}} build
     - name: Publish
       uses: actions/upload-release-asset@v1.0.2
       env:
