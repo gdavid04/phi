@@ -29,9 +29,9 @@ public class SplitVectorOperator extends PieceOperator {
 	@Override
 	public void initParams() {
 		addParam(vector = new ParamVector(SpellParam.GENERIC_NAME_VECTOR, SpellParam.GREEN, false, false));
-		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, 0, true));
-		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, 0, true));
-		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, 0, true));
+		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true));
+		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true));
+		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true));
 	}
 	
 	@Override
