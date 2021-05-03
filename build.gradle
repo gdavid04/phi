@@ -1,10 +1,12 @@
 buildscript {
 	repositories {
 		maven { url = 'https://files.minecraftforge.net/maven' }
+		maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
 		mavenCentral()
 	}
 	dependencies {
 		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+		classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
 	}
 }
 
@@ -14,6 +16,7 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
@@ -29,6 +32,7 @@ minecraft {
 		client {
 			workingDirectory project.file('run')
 			property 'forge.logging.console.level', 'debug'
+			arg "-mixin.config=phi.mixins.json"
 			mods {
 				phi { source sourceSets.main }
 			}
@@ -61,11 +65,16 @@ repositories {
 
 dependencies {
 	minecraft group: 'net.minecraftforge', name: 'forge', version: "1.16.3-34.1.0"
+	annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 
 	compileOnly fg.deobf("vazkii.psi:Psi:${psi_version}:api")
 	runtimeOnly fg.deobf("vazkii.psi:Psi:${psi_version}")
 
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+}
+
+mixin {
+	add sourceSets.main, "phi.refmap.json"
 }
 
 spotless {
@@ -109,7 +118,8 @@ jar {
 			"Implementation-Title": project.name,
 			"Implementation-Version": "${version}",
 			"Implementation-Vendor" :"gdavid",
-			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"MixinConfigs": "phi.mixins.json"
 		])
 	}
 }
