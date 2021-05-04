@@ -55,7 +55,7 @@ public class RewriteVariableTrick extends PieceTrick {
 			targetPiece.writeToNBT(nbt);
 			double val = getNonnullParamValue(context, value).doubleValue();
 			int decimalPlaces = Math.max(0, 3 - (int) Math.floor(Math.log10(Math.abs(val))));
-			if (val == 0) decimalPlaces = 3;
+			if (val < 10) decimalPlaces = 3;
 			if (val < 0) decimalPlaces--;
 			nbt.putString("constantValue", new BigDecimal(val).setScale(decimalPlaces, RoundingMode.HALF_UP).toPlainString());
 			targetPiece.readFromNBT(nbt);
