@@ -2,7 +2,6 @@ package gdavid.phi.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -66,7 +65,7 @@ public class ParamHelper {
 		int minX = 4 + side.offx * 9, minY = 4 + side.offy * 9;
 		int maxX = minX + 8, maxY = minY + 8;
 		float minU = side.u / 256f, minV = side.v / 256f;
-		float maxU = minU + 1/32f, maxV = minV + 1/32f;
+		float maxU = minU + 1 / 32f, maxV = minV + 1 / 32f;
 		int r = RenderHelper.r(color), g = RenderHelper.g(color), b = RenderHelper.b(color), a = 255;
 		Matrix4f mat = ms.getLast().getMatrix();
 		buffer.pos(mat, minX, maxY, 0).color(r, g, b, a).tex(minU, maxV).lightmap(light).endVertex();

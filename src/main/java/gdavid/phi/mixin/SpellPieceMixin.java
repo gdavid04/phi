@@ -1,20 +1,19 @@
 package gdavid.phi.mixin;
 
+import gdavid.phi.util.ISidedResult;
 import java.util.Map;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import gdavid.phi.util.ISidedResult;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellPiece;
+import vazkii.psi.api.spell.SpellRuntimeException;
 
 @Mixin(value = SpellPiece.class, remap = false)
 public class SpellPieceMixin {
@@ -31,7 +30,8 @@ public class SpellPieceMixin {
 	public int x, y;
 	
 	@Inject(method = "getRawParamValue(Lvazkii/psi/api/spell/SpellContext;Lvazkii/psi/api/spell/SpellParam;)Ljava/lang/Object;", at = @At("RETURN"), cancellable = true)
-	private void getRawParamValue(SpellContext context, SpellParam<?> param, CallbackInfoReturnable<Object> callback) {
+	private void getRawParamValue(SpellContext context, SpellParam<?> param, CallbackInfoReturnable<Object> callback)
+			throws SpellRuntimeException {
 		Object res = callback.getReturnValue();
 		SpellParam.Side side = paramSides.get(param);
 		if (!side.isEnabled()) {
@@ -49,7 +49,8 @@ public class SpellPieceMixin {
 						break;
 					}
 				}
-			} catch (SpellCompilationException e) {}
+			} catch (SpellCompilationException e) {
+			}
 		}
 	}
 	
