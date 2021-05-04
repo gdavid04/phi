@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
-import gdavid.phi.util.ReferenceParam;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import vazkii.psi.api.PsiAPI;
@@ -22,8 +21,7 @@ import vazkii.psi.api.spell.piece.PieceTrick;
 
 public class RewriteVariableTrick extends PieceTrick {
 	
-	ReferenceParam target;
-	SpellParam<Number> value;
+	SpellParam<Number> target, value;
 	
 	public RewriteVariableTrick(Spell spell) {
 		super(spell);
@@ -31,7 +29,7 @@ public class RewriteVariableTrick extends PieceTrick {
 	
 	@Override
 	public void initParams() {
-		addParam(target = new ReferenceParam(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false) {
+		addParam(target = new ParamNumber(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false, true) {
 			
 			@Override
 			public boolean canAccept(SpellPiece piece) {
