@@ -11,6 +11,9 @@
 	"phi.spellpiece.trick_shadow_sequence": "Trick: Shadow Sequence",
 	"phi.spellpiece.trick_shadow_sequence.desc": "Casts a shadow over multiple blocks in a line",
 
+	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
+	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
+
 	"phi.spellpiece.connector_clockwise": "Clockwise Connector",
 	"phi.spellpiece.connector_clockwise.desc": "Readability not included",
 	"phi.spellpiece.connector_counterclockwise": "Counterclockwise Connector",
