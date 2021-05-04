@@ -15,17 +15,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
 import vazkii.psi.api.internal.Vector3;
+import vazkii.psi.api.spell.EnumPieceType;
+import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamVector;
-import vazkii.psi.api.spell.piece.PieceOperator;
 
-public class SplitVectorOperator extends PieceOperator {
+public class SplitVectorOperator extends SpellPiece {
 	
 	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
 			"spell/operator_split_vector_lines");
@@ -43,6 +45,32 @@ public class SplitVectorOperator extends PieceOperator {
 		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true));
 		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true));
 		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true));
+	}
+	
+	@Override
+	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
+		int components = 0;
+		if (paramSides.get(outX).isEnabled()) components++;
+		if (paramSides.get(outY).isEnabled()) components++;
+		if (paramSides.get(outZ).isEnabled()) components++;
+		for (Side side : Side.values()) {
+			checkSide(side);
+		}
+		meta.addStat(EnumSpellStat.COMPLEXITY, components);
+		if (components > 1) meta.addStat(EnumSpellStat.COMPLEXITY, 1);
+	}
+	
+	public void checkSide(Side side) throws SpellCompilationException {
+		if (paramSides.get(outX) == side || paramSides.get(outY) == side || paramSides.get(outZ) == side) {
+			return;
+		}
+		SpellPiece other = spell.grid.getPieceAtSideSafely(x, y, side);
+		if (other == null) {
+			return;
+		}
+		if (other.paramSides.containsValue(side.getOpposite())) {
+			throw new SpellCompilationException(SpellCompilationException.INVALID_PARAM, other.x, other.y);
+		}
 	}
 	
 	@Override
@@ -81,10 +109,20 @@ public class SplitVectorOperator extends PieceOperator {
 		buffer.pos(mat, 0, 0, 0).color(r, g, b, a);
 		buffer.tex(minU, minV).lightmap(light).endVertex();
 	}
+
+	@Override
+	public EnumPieceType getPieceType() {
+		return EnumPieceType.OPERATOR;
+	}
 	
 	@Override
 	public Class<?> getEvaluationType() {
 		return Double.class;
+	}
+	
+	@Override
+	public Object evaluate() throws SpellCompilationException {
+		return null;
 	}
 	
 	@Override
