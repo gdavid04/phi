@@ -2,6 +2,7 @@ package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
 import gdavid.phi.spell.operator.SplitVectorOperator;
+import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
@@ -29,14 +30,20 @@ public class ModPieces {
 	
 	public static class Params {
 		
-		public static final String speed = PsiAPI.MOD_ID + ".spellparam.speed";
-		public static final String frequency = Phi.modId + ".spellparam.frequency";
+		public static final String prefix = Phi.modId + ".spellparam.";
+		
+		public static final String speed = PsiAPI.MOD_ID + "speed";
+		public static final String frequency = prefix + "frequency";
+		public static final String fromTo = prefix + "from_to";
+		public static final String toFrom = prefix + "to_from";
 		
 	}
 	
 	public static class Errors {
 		
-		public static final String range = Phi.modId + ".spellerror.range";
+		public static final String prefix = Phi.modId + ".spellerror.";
+		
+		public static final String range = prefix + "range";
 		
 	}
 	
@@ -45,8 +52,11 @@ public class ModPieces {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, true);
+		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, true);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, true);
+		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, true);
+		
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
 	}
 	
