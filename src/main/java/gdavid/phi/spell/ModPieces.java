@@ -5,6 +5,7 @@ import gdavid.phi.spell.operator.SplitVectorOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
+import gdavid.phi.spell.other.JumpConnector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
@@ -56,6 +57,7 @@ public class ModPieces {
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, true);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, true);
 		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, true);
+		register("connector_jump", JumpConnector.class, Groups.dataFlow, true);
 		
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
 	}
