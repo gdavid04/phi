@@ -4,6 +4,7 @@ import gdavid.phi.Phi;
 import gdavid.phi.spell.operator.SplitVectorOperator;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
+import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
@@ -48,6 +49,7 @@ public class ModPieces {
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, true);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, true);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
+		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {
