@@ -63,8 +63,8 @@ public class JumpConnector extends SpellPiece {
 	}
 	
 	public SpellPiece getTarget() throws SpellCompilationException {
-		int tx = (int) Math.floor(getParamEvaluation(targetX)) - 1;
-		int ty = (int) Math.floor(getParamEvaluation(targetY)) - 1;
+		int tx = getNonNullParamEvaluation(targetX).intValue() - 1;
+		int ty = getNonNullParamEvaluation(targetX).intValue() - 1;
 		SpellPiece target = spell.grid.getPieceAtSideWithRedirections(tx, ty - 1, Side.BOTTOM);
 		if (target == null || target instanceof JumpConnector) {
 			throw new SpellCompilationException(SpellCompilationException.INVALID_PARAM);
