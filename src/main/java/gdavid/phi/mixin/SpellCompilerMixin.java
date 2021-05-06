@@ -5,7 +5,6 @@ import gdavid.phi.util.ReferenceParam;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,9 +33,8 @@ public class SpellCompilerMixin {
 	}
 	
 	@Inject(method = "buildPiece(Lvazkii/psi/api/spell/SpellPiece;Ljava/util/Set;)V", at = @At("RETURN"))
-	private void buildPieceOverride(SpellPiece piece, Set<SpellPiece> visited,
-			CallbackInfo callback) throws SpellCompilationException {
-		System.out.print(piece);
+	private void buildPieceOverride(SpellPiece piece, Set<SpellPiece> visited, CallbackInfo callback)
+			throws SpellCompilationException {
 		if (piece instanceof JumpConnector) {
 			buildPiece(((JumpConnector) piece).getTarget(), new HashSet<>(visited));
 		}

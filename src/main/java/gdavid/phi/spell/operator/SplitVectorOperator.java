@@ -109,7 +109,7 @@ public class SplitVectorOperator extends SpellPiece {
 		buffer.pos(mat, 0, 0, 0).color(r, g, b, a);
 		buffer.tex(minU, minV).lightmap(light).endVertex();
 	}
-
+	
 	@Override
 	public EnumPieceType getPieceType() {
 		return EnumPieceType.OPERATOR;
