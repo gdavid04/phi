@@ -2,7 +2,6 @@ package gdavid.phi.spell.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.spell.ModPieces;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -19,9 +18,9 @@ import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Side;
-import vazkii.psi.api.spell.param.ParamAny;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
+import vazkii.psi.api.spell.param.ParamAny;
 
 public class BidirectionalConnector extends SpellPiece implements IGenericRedirector {
 	
@@ -49,7 +48,8 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {}
+	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
