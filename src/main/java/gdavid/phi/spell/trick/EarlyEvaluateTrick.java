@@ -2,6 +2,7 @@ package gdavid.phi.spell.trick;
 
 import java.util.Map.Entry;
 
+import gdavid.phi.spell.other.JumpConnector;
 import gdavid.phi.util.ReferenceParam;
 import vazkii.psi.api.spell.CompiledSpell.CatchHandler;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -57,6 +58,12 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	
 	public void hoist(SpellPiece piece, SpellContext context) {
 		if (piece instanceof EarlyEvaluateTrick) {
+			return;
+		}
+		if (piece instanceof JumpConnector) {
+			try {
+				hoist(((JumpConnector) piece).getTarget(), context);
+			} catch (SpellCompilationException e) {}
 			return;
 		}
 		if (piece.getEvaluationType() != null && piece.getEvaluationType() != Void.class && context.evaluatedObjects[piece.x][piece.y] != null) {
