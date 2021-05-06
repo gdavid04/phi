@@ -7,6 +7,7 @@ import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.JumpConnector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
+import gdavid.phi.spell.trick.RewriteVariableTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import net.minecraft.item.Item;
@@ -26,6 +27,7 @@ public class ModPieces {
 		public static final String psionManipulation = "psion_manipulation";
 		public static final String opticalMagic = "opticl_magic";
 		public static final String dataFlow = "data_flow";
+		public static final String variables = "variables";
 		
 	}
 	
@@ -60,6 +62,7 @@ public class ModPieces {
 		register("connector_jump", JumpConnector.class, Groups.dataFlow, true);
 		
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
+		register("trick_rewrite_variable", RewriteVariableTrick.class, Groups.variables, true);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {
