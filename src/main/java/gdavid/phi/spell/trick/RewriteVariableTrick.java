@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
+import gdavid.phi.spell.other.JumpConnector;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import vazkii.psi.api.PsiAPI;
@@ -33,6 +34,13 @@ public class RewriteVariableTrick extends PieceTrick {
 			
 			@Override
 			public boolean canAccept(SpellPiece piece) {
+				if (piece instanceof JumpConnector) {
+					try {
+						piece = ((JumpConnector) piece).getTarget();
+					} catch (SpellCompilationException e) {
+						return false;
+					}
+				}
 				return piece.getClass().getName().equals("vazkii.psi.common.spell.constant.PieceConstantNumber");
 			}
 			
@@ -49,6 +57,9 @@ public class RewriteVariableTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		try {
 			SpellPiece targetPiece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
+			if (targetPiece instanceof JumpConnector) {
+				targetPiece = ((JumpConnector) targetPiece).getTarget();
+			}
 			CompoundNBT nbt = new CompoundNBT(), spellNbt = new CompoundNBT();
 			targetPiece.writeToNBT(nbt);
 			double val = getNonnullParamValue(context, value).doubleValue();
