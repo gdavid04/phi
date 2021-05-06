@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
 import gdavid.phi.util.ISidedResult;
-import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.ReferenceParam;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -76,7 +75,7 @@ public class SplitVectorOperator extends SpellPiece {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		ParamHelper.draw(ms, buffers, light, vector.color, paramSides.get(vector));
+		RenderHelper.param(ms, buffers, light, vector.color, paramSides.get(vector));
 	}
 	
 	@Override
