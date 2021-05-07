@@ -2,7 +2,8 @@ package gdavid.phi.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import gdavid.phi.spell.other.BidirectionalConnector;
+import gdavid.phi.spell.other.ClockwiseConnector;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -12,6 +13,7 @@ import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.ICADColorizer;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Side;
+import vazkii.psi.api.spell.SpellPiece;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderHelper {
@@ -39,7 +41,17 @@ public class RenderHelper {
 		return (color >> 24) & 0xFF;
 	}
 	
-	@OnlyIn(Dist.CLIENT)
+	public static void param(MatrixStack ms, IRenderTypeBuffer buffers, int light, int color, SpellParam.Side side,
+			SpellPiece piece) {
+		SpellPiece other = piece.spell.grid.getPieceAtSideSafely(piece.x, piece.y, side);
+		if (other == null) {
+			RenderHelper.param(ms, buffers, light, color, side);
+			return;
+		}
+		boolean merged = other instanceof BidirectionalConnector || other instanceof ClockwiseConnector;
+		RenderHelper.doubleParam(ms, buffers, light, color, side, merged);
+	}
+	
 	public static void param(MatrixStack ms, IRenderTypeBuffer buffers, int light, int color, SpellParam.Side side) {
 		if (!side.isEnabled()) {
 			return;
@@ -57,28 +69,32 @@ public class RenderHelper {
 		buffer.pos(mat, minX, minY, 0).color(r, g, b, a).tex(minU, minV).lightmap(light).endVertex();
 	}
 	
-	@OnlyIn(Dist.CLIENT)
-	public static void doubleParam(MatrixStack ms, IRenderTypeBuffer buffers, int light, int color, SpellParam.Side side) {
+	public static void doubleParam(MatrixStack ms, IRenderTypeBuffer buffers, int light, int color,
+			SpellParam.Side side, boolean merged) {
 		if (!side.isEnabled()) {
 			return;
 		}
 		IVertexBuilder buffer = buffers.getBuffer(PsiAPI.internalHandler.getProgrammerLayer());
-		int minX = 4 + side.offx * 9, minY = 4 + side.offy * 9;
+		int minX = 4 + side.offx * 7, minY = 4 + side.offy * 7;
+		if (merged) {
+			minX += side.offx;
+			minY += side.offy;
+		}
 		int maxX = minX + 8, maxY = minY + 8;
 		float minU = side.u / 256f, minV = side.v / 256f;
 		float maxU = minU + 1 / 32f, maxV = minV + 1 / 32f;
 		if (side == Side.TOP) {
-			minX += 4;
-			minU += 1 / 64f;
+			minY += 3;
+			minV += 3 / 256f;
 		} else if (side == Side.BOTTOM) {
-			maxX -= 4;
-			maxU -= 1 / 64f;
+			maxY -= 3;
+			maxV -= 3 / 256f;
 		} else if (side == Side.LEFT) {
-			minY += 4;
-			minV += 1 / 64f;
+			minX += 3;
+			minU += 3 / 256f;
 		} else if (side == Side.RIGHT) {
-			maxY -= 4;
-			maxV -= 1 / 64f;
+			maxX -= 3;
+			maxU -= 3 / 256f;
 		}
 		int r = r(color), g = g(color), b = b(color), a = 255;
 		Matrix4f mat = ms.getLast().getMatrix();
