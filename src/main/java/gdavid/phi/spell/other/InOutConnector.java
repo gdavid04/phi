@@ -11,10 +11,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
 import vazkii.psi.api.spell.EnumPieceType;
+import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.IGenericRedirector;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
@@ -27,6 +29,11 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	
 	public InOutConnector(Spell spell) {
 		super(spell);
+	}
+	
+	@Override
+	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
+		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 	}
 	
 	@Override
