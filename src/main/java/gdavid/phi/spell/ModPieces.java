@@ -54,14 +54,14 @@ public class ModPieces {
 	public static void init(RegistryEvent.Register<Item> event) {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
-		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, true);
-		
-		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, true);
-		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, true);
-		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, true);
-		register("connector_in_out", InOutConnector.class, Groups.dataFlow, true);
+		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
 		
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
+		
+		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);
+		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, false);
+		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, false);
+		register("connector_in_out", InOutConnector.class, Groups.dataFlow, false);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {
