@@ -49,8 +49,8 @@ public class RenderHelper {
 			RenderHelper.param(ms, buffers, light, color, side);
 			return;
 		}
-		boolean merged = other instanceof BidirectionalConnector ||
-				other instanceof ClockwiseConnector || other instanceof InOutConnector;
+		boolean merged = other instanceof BidirectionalConnector || other instanceof ClockwiseConnector
+				|| other instanceof InOutConnector;
 		RenderHelper.doubleParam(ms, buffers, light, color, side, merged);
 	}
 	

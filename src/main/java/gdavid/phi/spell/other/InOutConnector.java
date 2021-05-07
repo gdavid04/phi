@@ -66,11 +66,13 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean in, boolean out) {
+	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean in,
+			boolean out) {
 		if (!side.isEnabled()) {
 			return;
 		}
-		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, BidirectionalConnector.lineTexture);
+		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS,
+				BidirectionalConnector.lineTexture);
 		IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
 		int minX = 0, minY = 0, maxX = 16, maxY = 16;
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;

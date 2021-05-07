@@ -1,7 +1,6 @@
 package gdavid.phi.spell.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -46,7 +45,8 @@ public class ClockwiseConnector extends SpellPiece implements IGenericRedirector
 	@OnlyIn(Dist.CLIENT)
 	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
 		for (SpellParam.Side side : SpellParam.Side.values()) {
-			if (!side.isEnabled() || !ParamHelper.checkSide(spell.grid.getPieceAtSideSafely(x, y, side), side.getOpposite())) {
+			if (!side.isEnabled()
+					|| !ParamHelper.checkSide(spell.grid.getPieceAtSideSafely(x, y, side), side.getOpposite())) {
 				continue;
 			}
 			RenderHelper.param(ms, buffers, light, SpellParam.GRAY, remapSide(side.getOpposite()), this);

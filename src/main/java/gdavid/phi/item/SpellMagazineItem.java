@@ -16,6 +16,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -62,6 +64,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	}
 	
 	@Override
+	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack item, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + "." + id + ".desc"));
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + ".spell_magazine.desc"));

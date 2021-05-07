@@ -64,7 +64,8 @@ public class ParamHelper {
 					((ClockwiseConnector) piece).reverseSide(side.getOpposite())) != null;
 		} else if (piece instanceof InOutConnector) {
 			InOutConnector connector = (InOutConnector) piece;
-			return connector.paramSides.get(connector.from) == side || connector.paramSides.get(connector.bidir) == side;
+			return connector.paramSides.get(connector.from) == side
+					|| connector.paramSides.get(connector.bidir) == side;
 		} else if (piece instanceof SplitVectorOperator) {
 			return piece.paramSides.get(((SplitVectorOperator) piece).vector) == side;
 		}
