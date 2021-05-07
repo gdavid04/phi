@@ -1,9 +1,8 @@
 package gdavid.phi.entity;
 
+import gdavid.phi.Phi;
 import java.util.Optional;
 import java.util.UUID;
-
-import gdavid.phi.Phi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
