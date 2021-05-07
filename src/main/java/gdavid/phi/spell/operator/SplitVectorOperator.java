@@ -31,7 +31,7 @@ public class SplitVectorOperator extends SpellPiece {
 	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
 			"spell/operator_split_vector_lines");
 	
-	SpellParam<Vector3> vector;
+	public SpellParam<Vector3> vector;
 	ReferenceParam outX, outY, outZ;
 	
 	public SplitVectorOperator(Spell spell) {

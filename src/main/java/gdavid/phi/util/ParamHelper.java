@@ -1,10 +1,15 @@
 package gdavid.phi.util;
 
+import java.util.Map.Entry;
+
+import gdavid.phi.spell.operator.SplitVectorOperator;
+import gdavid.phi.spell.other.ClockwiseConnector;
 import net.minecraft.util.math.BlockPos;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
@@ -47,6 +52,25 @@ public class ParamHelper {
 	public static BlockPos block(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
 			throws SpellRuntimeException {
 		return inRange(piece, context, param).toBlockPos();
+	}
+	
+	public static boolean checkSide(SpellPiece piece, Side side) {
+		if (piece == null) {
+			return false;
+		}
+		if (piece instanceof ClockwiseConnector) {
+			// No recursive check to avoid dealing with infinite loops
+			return piece.spell.grid.getPieceAtSideSafely(piece.x, piece.y,
+					((ClockwiseConnector) piece).reverseSide(side.getOpposite())) != null;
+		} else if (piece instanceof SplitVectorOperator) {
+			return piece.paramSides.get(((SplitVectorOperator) piece).vector) == side;
+		}
+		for (Side param : piece.paramSides.values()) {
+			if (param == side) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

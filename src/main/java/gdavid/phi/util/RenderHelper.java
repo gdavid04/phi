@@ -44,7 +44,7 @@ public class RenderHelper {
 	public static void param(MatrixStack ms, IRenderTypeBuffer buffers, int light, int color, SpellParam.Side side,
 			SpellPiece piece) {
 		SpellPiece other = piece.spell.grid.getPieceAtSideSafely(piece.x, piece.y, side);
-		if (other == null) {
+		if (!ParamHelper.checkSide(other, side.getOpposite())) {
 			RenderHelper.param(ms, buffers, light, color, side);
 			return;
 		}

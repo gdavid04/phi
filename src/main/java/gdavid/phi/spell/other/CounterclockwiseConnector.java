@@ -14,4 +14,9 @@ public class CounterclockwiseConnector extends ClockwiseConnector {
 		return side.rotateCW();
 	}
 	
+	@Override
+	public Side reverseSide(Side side) {
+		return side.rotateCCW();
+	}
+	
 }
