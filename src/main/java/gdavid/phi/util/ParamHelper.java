@@ -1,9 +1,8 @@
 package gdavid.phi.util;
 
-import java.util.Map.Entry;
-
 import gdavid.phi.spell.operator.SplitVectorOperator;
 import gdavid.phi.spell.other.ClockwiseConnector;
+import gdavid.phi.spell.other.InOutConnector;
 import net.minecraft.util.math.BlockPos;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -58,10 +57,14 @@ public class ParamHelper {
 		if (piece == null) {
 			return false;
 		}
+		// TODO move these to piece classes
 		if (piece instanceof ClockwiseConnector) {
 			// No recursive check to avoid dealing with infinite loops
 			return piece.spell.grid.getPieceAtSideSafely(piece.x, piece.y,
 					((ClockwiseConnector) piece).reverseSide(side.getOpposite())) != null;
+		} else if (piece instanceof InOutConnector) {
+			InOutConnector connector = (InOutConnector) piece;
+			return connector.paramSides.get(connector.from) == side || connector.paramSides.get(connector.bidir) == side;
 		} else if (piece instanceof SplitVectorOperator) {
 			return piece.paramSides.get(((SplitVectorOperator) piece).vector) == side;
 		}

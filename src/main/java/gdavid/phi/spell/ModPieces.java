@@ -5,6 +5,7 @@ import gdavid.phi.spell.operator.SplitVectorOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
+import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
@@ -34,6 +35,8 @@ public class ModPieces {
 		
 		public static final String speed = PsiAPI.MOD_ID + "speed";
 		public static final String frequency = prefix + "frequency";
+		public static final String from = prefix + "from";
+		public static final String to = prefix + "to";
 		public static final String fromTo = prefix + "from_to";
 		public static final String toFrom = prefix + "to_from";
 		
@@ -56,6 +59,7 @@ public class ModPieces {
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, true);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, true);
 		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, true);
+		register("connector_in_out", InOutConnector.class, Groups.dataFlow, true);
 		
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
 	}

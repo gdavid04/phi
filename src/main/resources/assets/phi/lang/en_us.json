@@ -1,5 +1,7 @@
 {
 	"phi.spellparam.frequency": "Frequency",
+	"phi.spellparam.from": "From",
+	"phi.spellparam.to": "To",
 	"phi.spellparam.from_to": "From / To",
 	"phi.spellparam.to_from": "To / From",
 
@@ -22,6 +24,8 @@
 	"phi.spellpiece.connector_counterclockwise.desc": "Also counter-intuitive to read",
 	"phi.spellpiece.connector_bidirectional": "Bidirectional Connector",
 	"phi.spellpiece.connector_bidirectional.desc": "Creates a two-way connection between its ends",
+	"phi.spellpiece.connector_in_out": "In-Out Connector",
+	"phi.spellpiece.connector_in_out.desc": "Splits a two-way connection",
 
 	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
 

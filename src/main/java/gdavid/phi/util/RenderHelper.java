@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
+import gdavid.phi.spell.other.InOutConnector;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -48,7 +49,8 @@ public class RenderHelper {
 			RenderHelper.param(ms, buffers, light, color, side);
 			return;
 		}
-		boolean merged = other instanceof BidirectionalConnector || other instanceof ClockwiseConnector;
+		boolean merged = other instanceof BidirectionalConnector ||
+				other instanceof ClockwiseConnector || other instanceof InOutConnector;
 		RenderHelper.doubleParam(ms, buffers, light, color, side, merged);
 	}
 	
