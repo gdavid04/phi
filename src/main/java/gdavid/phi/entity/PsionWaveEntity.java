@@ -1,9 +1,9 @@
 package gdavid.phi.entity;
 
-import gdavid.phi.Phi;
-import gdavid.phi.util.BBHelper;
 import java.util.Optional;
 import java.util.UUID;
+
+import gdavid.phi.Phi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +16,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3f;
@@ -148,12 +147,6 @@ public class PsionWaveEntity extends ThrowableEntity {
 			Entity hit = ((EntityRayTraceResult) result).getEntity();
 			if (hit.getUniqueID().equals(dataManager.get(shooter).get()) && dataManager.get(traveled) < 0.8) {
 				return;
-			}
-			AxisAlignedBB bb = hit.getBoundingBox();
-			if (Math.min(Math.abs(BBHelper.min(bb).subtract(getPositionVec()).dotProduct(getForward())),
-					Math.abs(BBHelper.max(bb).subtract(getPositionVec()).dotProduct(getForward()))) > 0.5) {
-				// TODO torus check
-				// return;
 			}
 			if (hit instanceof PlayerEntity && !world.isRemote) {
 				PlayerEntity player = (PlayerEntity) hit;
