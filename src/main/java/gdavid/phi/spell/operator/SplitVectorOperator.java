@@ -52,24 +52,9 @@ public class SplitVectorOperator extends SpellPiece {
 		if (paramSides.get(outX).isEnabled()) components++;
 		if (paramSides.get(outY).isEnabled()) components++;
 		if (paramSides.get(outZ).isEnabled()) components++;
-		for (Side side : Side.values()) {
-			checkSide(side);
-		}
+		// TODO check sides
 		meta.addStat(EnumSpellStat.COMPLEXITY, components);
 		if (components > 1) meta.addStat(EnumSpellStat.COMPLEXITY, 1);
-	}
-	
-	public void checkSide(Side side) throws SpellCompilationException {
-		if (paramSides.get(outX) == side || paramSides.get(outY) == side || paramSides.get(outZ) == side) {
-			return;
-		}
-		SpellPiece other = spell.grid.getPieceAtSideSafely(x, y, side);
-		if (other == null) {
-			return;
-		}
-		if (other.paramSides.containsValue(side.getOpposite())) {
-			throw new SpellCompilationException(SpellCompilationException.INVALID_PARAM, other.x, other.y);
-		}
 	}
 	
 	@Override
