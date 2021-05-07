@@ -97,9 +97,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack item = player.getHeldItem(hand);
 		ItemStack cad = PsiAPI.getPlayerCAD(player);
-		ICAD cadItem = (ICAD) cad.getItem();
-		ItemStack socket = cadItem.getComponentInSlot(cad, EnumCADComponent.SOCKET);
-		if (!isCompatible(item, socket)) {
+		if (!isCADCompatible(item, cad)) {
 			return ActionResult.resultFail(item);
 		}
 		if (!world.isRemote) {
@@ -108,11 +106,22 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 		return ActionResult.resultConsume(item);
 	}
 	
-	public boolean isCompatible(ItemStack item, ItemStack socket) {
+	public boolean isCADCompatible(ItemStack item, ItemStack cad) {
+		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) {
+			return false;
+		}
+		return isSocketCompatible(item, ((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.SOCKET));
+	}
+	
+	public boolean isSocketCompatible(ItemStack item, ItemStack socket) {
 		return item.getItem() == socket.getItem();
 	}
 	
 	public void swap(ItemStack item, ItemStack cad) {
+		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) {
+			return;
+		}
+		ICAD cadItem = (ICAD) cad.getItem();
 		ISocketable socket = ISocketable.socketable(cad);
 		ISocketable contents = ISocketable.socketable(item);
 		for (int i = 0; i < sockets; i++) {
@@ -120,15 +129,13 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 			socket.setBulletInSocket(i, contents.getBulletInSocket(i));
 			contents.setBulletInSocket(i, bullet);
 		}
-		ICAD cadItem = (ICAD) cad.getItem();
 		for (int i = 0; i < vectors; i++) {
-			Vector3 vec = Vector3.zero;
 			try {
-				vec = cadItem.getStoredVector(cad, i);
+				Vector3 vec = cadItem.getStoredVector(cad, i);
 				cadItem.setStoredVector(cad, i, getStoredVector(item, i));
+				setStoredVector(item, i, vec);
 			} catch (SpellRuntimeException e) {
 			}
-			setStoredVector(item, i, vec);
 		}
 	}
 	
