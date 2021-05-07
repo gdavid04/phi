@@ -33,7 +33,7 @@ public class ModPieces {
 		
 		public static final String prefix = Phi.modId + ".spellparam.";
 		
-		public static final String speed = PsiAPI.MOD_ID + "speed";
+		public static final String speed = PsiAPI.MOD_ID + ".spellparam.speed";
 		public static final String frequency = prefix + "frequency";
 		public static final String from = prefix + "from";
 		public static final String to = prefix + "to";
