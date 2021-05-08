@@ -1,4 +1,4 @@
-package gdavid.phi.spell.operator;
+package gdavid.phi.spell.operator.vector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

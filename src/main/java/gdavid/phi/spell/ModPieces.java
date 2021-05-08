@@ -1,7 +1,9 @@
 package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
-import gdavid.phi.spell.operator.SplitVectorOperator;
+import gdavid.phi.spell.operator.number.ToDegreesOperator;
+import gdavid.phi.spell.operator.number.ToRadiansOperator;
+import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
@@ -26,6 +28,7 @@ public class ModPieces {
 		public static final String psionManipulation = "psion_manipulation";
 		public static final String opticalMagic = "opticl_magic";
 		public static final String dataFlow = "data_flow";
+		public static final String math = "math";
 		
 	}
 	
@@ -55,6 +58,9 @@ public class ModPieces {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
+		
+		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
+		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
 		
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
 		

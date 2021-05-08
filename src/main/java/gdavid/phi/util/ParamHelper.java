@@ -1,6 +1,6 @@
 package gdavid.phi.util;
 
-import gdavid.phi.spell.operator.SplitVectorOperator;
+import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import net.minecraft.util.math.BlockPos;

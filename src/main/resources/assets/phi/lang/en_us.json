@@ -15,6 +15,11 @@
 	"phi.spellpiece.trick_shadow_sequence": "Trick: Shadow Sequence",
 	"phi.spellpiece.trick_shadow_sequence.desc": "Casts a shadow over multiple blocks in a line",
 
+	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
+	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
+	"phi.spellpiece.operator_to_radians": "Operator: To Radians",
+	"phi.spellpiece.operator_to_radians.desc": "Converts degrees to radians",
+
 	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
 	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
 
