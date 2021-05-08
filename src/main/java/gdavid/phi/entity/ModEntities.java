@@ -17,7 +17,7 @@ public class ModEntities {
 		event.getRegistry().registerAll(
 				EntityType.Builder.create((EntityType.IFactory<PsionWaveEntity>) PsionWaveEntity::new, MISC)
 						.setTrackingRange(256).setUpdateInterval(10).setShouldReceiveVelocityUpdates(false).size(1, 1)
-						.build("").setRegistryName(Phi.modId, PsionWaveEntity.id));
+						.immuneToFire().build("").setRegistryName(Phi.modId, PsionWaveEntity.id));
 	}
 	
 }
