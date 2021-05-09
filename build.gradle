@@ -32,6 +32,8 @@ minecraft {
 		client {
 			workingDirectory project.file('run')
 			property 'forge.logging.console.level', 'debug'
+			property 'mixin.env.remapRefMap', 'true'
+			property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 			arg "-mixin.config=phi.mixins.json"
 			mods {
 				phi { source sourceSets.main }
@@ -40,6 +42,8 @@ minecraft {
 		server {
 			workingDirectory project.file('run')
 			property 'forge.logging.console.level', 'debug'
+			property 'mixin.env.remapRefMap', 'true'
+			property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 			mods {
 				phi { source sourceSets.main }
 			}

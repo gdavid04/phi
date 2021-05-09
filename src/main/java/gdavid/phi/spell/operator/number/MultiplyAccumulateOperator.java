@@ -29,8 +29,8 @@ public class MultiplyAccumulateOperator extends PieceOperator {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		return getParamValue(context, a).doubleValue() * getParamValue(context, b).doubleValue() +
-				getParamValue(context, c).doubleValue();
+		return getParamValue(context, a).doubleValue() * getParamValue(context, b).doubleValue()
+				+ getParamValue(context, c).doubleValue();
 	}
 	
 }

@@ -65,7 +65,8 @@ public class ModPieces {
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
 		register("operator_multiply_accumulate", MultiplyAccumulateOperator.class, Groups.math, true);
 		
-		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math, true);
+		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
+				true);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
 		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);
