@@ -23,8 +23,9 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.internal.IPlayerData;
+import vazkii.psi.api.spell.ISpellImmune;
 
-public class PsionWaveEntity extends ThrowableEntity {
+public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 	
 	public static final String id = "psion_wave";
 	
@@ -181,6 +182,11 @@ public class PsionWaveEntity extends ThrowableEntity {
 	@Override
 	public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+	
+	@Override
+	public boolean isImmune() {
+		return true;
 	}
 	
 }
