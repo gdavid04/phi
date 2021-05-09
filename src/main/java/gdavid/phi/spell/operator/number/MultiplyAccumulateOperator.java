@@ -17,9 +17,9 @@ public class MultiplyAccumulateOperator extends PieceOperator {
 	
 	@Override
 	public void initParams() {
-		addParam(a = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER, SpellParam.GREEN, false, false));
-		addParam(b = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER, SpellParam.GREEN, false, false));
-		addParam(c = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER, SpellParam.GREEN, false, false));
+		addParam(a = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER1, SpellParam.GREEN, false, false));
+		addParam(b = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER2, SpellParam.GREEN, false, false));
+		addParam(c = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER3, SpellParam.GREEN, false, false));
 	}
 	
 	@Override
