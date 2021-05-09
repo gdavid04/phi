@@ -3,6 +3,7 @@ package gdavid.phi.spell;
 import gdavid.phi.Phi;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
+import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
@@ -62,6 +63,7 @@ public class ModPieces {
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
 		
+		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math, true);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
 		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);

@@ -20,6 +20,8 @@
 	"phi.spellpiece.operator_to_radians": "Operator: To Radians",
 	"phi.spellpiece.operator_to_radians.desc": "Converts degrees to radians",
 
+	"phi.spellpiece.operator_vector_component_wise_multiply": "Operator: Vector Component Wise Multiply",
+	"phi.spellpiece.operator_vector_component_wise_multiply.desc": "Also known as the Hadamard product",
 	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
 	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
 
