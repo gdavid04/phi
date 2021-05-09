@@ -20,7 +20,7 @@ public class ComponentWiseMultiplyVectorOperator extends PieceOperator {
 	public void initParams() {
 		addParam(a = new ParamVector(SpellParam.GENERIC_NAME_VECTOR1, SpellParam.GREEN, false, false));
 		addParam(b = new ParamVector(SpellParam.GENERIC_NAME_VECTOR2, SpellParam.GREEN, false, false));
-		addParam(c = new ParamVector(SpellParam.GENERIC_NAME_VECTOR2, SpellParam.GREEN, true, false));
+		addParam(c = new ParamVector(SpellParam.GENERIC_NAME_VECTOR3, SpellParam.GREEN, true, false));
 	}
 	
 	@Override
