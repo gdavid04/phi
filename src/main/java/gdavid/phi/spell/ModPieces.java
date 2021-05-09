@@ -1,6 +1,7 @@
 package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
+import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
@@ -62,6 +63,7 @@ public class ModPieces {
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
+		register("operator_multiply_accumulate", MultiplyAccumulateOperator.class, Groups.math, true);
 		
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math, true);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
