@@ -38,6 +38,7 @@ public class ModPieces {
 	public static class Errors {
 		
 		public static final String range = Phi.modId + ".spellerror.range";
+		public static final String errored = Phi.modId + ".spellerror.ed";
 		
 	}
 	

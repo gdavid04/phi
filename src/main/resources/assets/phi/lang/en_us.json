@@ -2,6 +2,7 @@
 	"phi.spellparam.frequency": "Frequency",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
+	"phi.spellerror.ed": "?",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",

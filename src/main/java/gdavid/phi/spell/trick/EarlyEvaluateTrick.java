@@ -1,8 +1,11 @@
 package gdavid.phi.spell.trick;
 
 import java.util.Map.Entry;
+import java.util.Optional;
 
+import gdavid.phi.spell.ModPieces;
 import gdavid.phi.util.ReferenceParam;
+import vazkii.psi.api.spell.CompiledSpell.Action;
 import vazkii.psi.api.spell.CompiledSpell.CatchHandler;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -32,15 +35,8 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	}
 	
 	@Override
-	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
-		meta.addStat(EnumSpellStat.COMPLEXITY, 2);
-		SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
-		if (piece == null || piece instanceof EarlyEvaluateTrick) {
-			throw new SpellCompilationException(SpellCompilationException.INVALID_PARAM);
-		}
-		if (piece.getEvaluationType() == null || piece.getEvaluationType() == Void.class) {
-			piece.addToMetadata(meta);
-		}
+	public void addToMetadata(SpellMetadata meta) {
+		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 	}
 	
 	@Override
@@ -51,18 +47,19 @@ public class EarlyEvaluateTrick extends PieceTrick {
 		try {
 			SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
 			hoist(piece, context);
-		} catch (SpellCompilationException e) {}
+		} catch (SpellCompilationException e) {
+			throw new SpellRuntimeException(ModPieces.Errors.errored);
+		}
 		return null;
 	}
 	
-	public void hoist(SpellPiece piece, SpellContext context) {
-		if (piece instanceof EarlyEvaluateTrick) {
+	public void hoist(SpellPiece piece, SpellContext context) throws SpellCompilationException {
+		Optional<Action> opt = context.actions.stream().filter(action -> action.piece == piece).findFirst();
+		if (!opt.isPresent()) {
 			return;
 		}
-		if (piece.getEvaluationType() != null && piece.getEvaluationType() != Void.class && context.evaluatedObjects[piece.x][piece.y] != null) {
-			return;
-		}
-		context.actions.push(context.cspell.new Action(piece));
+		context.actions.remove(opt.get());
+		context.actions.push(opt.get());
 		CatchHandler catchHandler = context.cspell.errorHandlers.get(piece);
 		if (catchHandler != null) {
 			hoist(catchHandler.handlerPiece, context);
@@ -71,9 +68,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 			if (!param.getValue().isEnabled() || param.getKey() instanceof ReferenceParam) {
 				continue;
 			}
-			try {
-				hoist(spell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()), context);
-			} catch (SpellCompilationException e) {}
+			hoist(spell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()), context);
 		}
 	}
 	
