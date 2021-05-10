@@ -10,6 +10,7 @@ import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
+import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
@@ -52,6 +53,7 @@ public class ModPieces {
 		public static final String prefix = Phi.modId + ".spellerror.";
 		
 		public static final String range = prefix + "range";
+		public static final String errored = prefix + "ed";
 		
 	}
 	
@@ -60,6 +62,8 @@ public class ModPieces {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
+		
+		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
