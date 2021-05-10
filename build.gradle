@@ -85,11 +85,13 @@ spotless {
 	enforceCheck = false
 	format 'misc', {
 		target '*.gradle', '.gitignore', '**/*.properties', '**/*.md', '*.xml', '**/*.json', '**/*.yml'
+		targetExclude 'run/**'
 		trimTrailingWhitespace()
 		endWithNewline()
 	}
 	format 'indent', {
 		target '*.gradle', '.gitignore', '**/*.properties', '**/*.md', '*.xml', '**/*.json'
+		targetExclude 'run/**'
 		indentWithTabs()
 	}
 	java {

@@ -47,7 +47,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 			SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
 			hoist(piece, context);
 		} catch (SpellCompilationException e) {
-			throw new SpellRuntimeException(ModPieces.Errors.errored);
+			throw new SpellRuntimeException(ModPieces.Errors.errored); // NOPMD
 		}
 		return null;
 	}
