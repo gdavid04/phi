@@ -1,8 +1,7 @@
 package gdavid.phi.spell.operator.number;
 
-import java.math.BigDecimal;
-
 import gdavid.phi.spell.ModPieces;
+import java.math.BigDecimal;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;

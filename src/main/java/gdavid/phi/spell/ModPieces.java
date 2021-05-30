@@ -82,7 +82,8 @@ public class ModPieces {
 		register("operator_difference", DifferenceOperator.class, Groups.math, true);
 		register("operator_div_mod", DivModOperator.class, Groups.math, true);
 		register("operator_extract_digit", ExtractDigitOperator.class, Groups.math, true);
-		//register("operator_replace_digit", ReplaceDigitOperator.class, Groups.math, true);
+		// register("operator_replace_digit", ReplaceDigitOperator.class, Groups.math,
+		// true);
 		
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				true);

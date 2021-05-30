@@ -2,7 +2,6 @@ package gdavid.phi.spell.operator.number;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.spell.ModPieces;
 import gdavid.phi.util.ISidedResult;
@@ -27,8 +26,7 @@ import vazkii.psi.api.spell.piece.PieceOperator;
 
 public class DivModOperator extends PieceOperator {
 	
-	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
-			"spell/operator_div_mod_lines");
+	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId, "spell/operator_div_mod_lines");
 	
 	public SpellParam<Number> a, b;
 	ReferenceParam div, mod;
