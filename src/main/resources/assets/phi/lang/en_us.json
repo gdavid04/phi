@@ -4,9 +4,15 @@
 	"phi.spellparam.to": "To",
 	"phi.spellparam.from_to": "From / To",
 	"phi.spellparam.to_from": "To / From",
+	"phi.spellparam.condition": "Condition",
+	"phi.spellparam.positive": "Positive",
+	"phi.spellparam.negative": "Negative",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.ed": "?",
+	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
+
+	"psi.datatype.object": "Object",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
@@ -30,6 +36,9 @@
 	"phi.spellpiece.operator_vector_component_wise_multiply.desc": "Also known as the Hadamard product",
 	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
 	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
+
+	"phi.spellpiece.operator_branch": "Operator: Branch",
+	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
 
 	"phi.spellpiece.connector_clockwise": "Clockwise Connector",
 	"phi.spellpiece.connector_clockwise.desc": "Readability not included",

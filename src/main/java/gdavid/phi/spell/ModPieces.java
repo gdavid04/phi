@@ -1,6 +1,7 @@
 package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
+import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
@@ -45,6 +46,9 @@ public class ModPieces {
 		public static final String to = prefix + "to";
 		public static final String fromTo = prefix + "from_to";
 		public static final String toFrom = prefix + "to_from";
+		public static final String condition = prefix + "condition";
+		public static final String positive = prefix + "positive";
+		public static final String negative = prefix + "negative";
 		
 	}
 	
@@ -54,6 +58,7 @@ public class ModPieces {
 		
 		public static final String range = prefix + "range";
 		public static final String errored = prefix + "ed";
+		public static final String ambiguous = prefix + "ambiguous";
 		
 	}
 	
@@ -72,6 +77,8 @@ public class ModPieces {
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				true);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
+		
+		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, false);

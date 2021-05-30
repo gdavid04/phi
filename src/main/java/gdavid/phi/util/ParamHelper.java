@@ -3,6 +3,9 @@ package gdavid.phi.util;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
+import java.util.HashSet;
+import java.util.Map.Entry;
+import java.util.Set;
 import net.minecraft.util.math.BlockPos;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -71,6 +74,27 @@ public class ParamHelper {
 		}
 		for (Side param : piece.paramSides.values()) {
 			if (param == side) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isLoop(SpellPiece piece) {
+		return isLoop(piece, new HashSet<>());
+	}
+	
+	public static boolean isLoop(SpellPiece piece, Set<SpellPiece> visited) {
+		if (piece == null) return false;
+		if (visited.contains(piece)) return true;
+		visited.add(piece);
+		for (Entry<SpellParam<?>, Side> param : piece.paramSides.entrySet()) {
+			if (param.getKey() instanceof ReferenceParam) continue;
+			if (!param.getValue().isEnabled()) continue;
+			try {
+				SpellPiece other = piece.spell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue());
+				if (isLoop(other, new HashSet<>(visited))) return true;
+			} catch (SpellCompilationException e) {
 				return true;
 			}
 		}

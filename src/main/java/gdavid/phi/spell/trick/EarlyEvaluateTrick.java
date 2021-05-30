@@ -30,7 +30,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	@Override
 	public void initParams() {
 		addParam(target = new ReferenceParam(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false));
-		addParam(condition = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER, SpellParam.BLUE, false, false));
+		addParam(condition = new ParamNumber(ModPieces.Params.condition, SpellParam.BLUE, false, false));
 	}
 	
 	@Override
