@@ -2,6 +2,9 @@ package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
 import gdavid.phi.spell.operator.BranchOperator;
+import gdavid.phi.spell.operator.number.DifferenceOperator;
+import gdavid.phi.spell.operator.number.DivModOperator;
+import gdavid.phi.spell.operator.number.ExtractDigitOperator;
 import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
@@ -49,6 +52,9 @@ public class ModPieces {
 		public static final String condition = prefix + "condition";
 		public static final String positive = prefix + "positive";
 		public static final String negative = prefix + "negative";
+		public static final String div = prefix + "div";
+		public static final String mod = prefix + "mod";
+		public static final String digit = prefix + "digit";
 		
 	}
 	
@@ -73,6 +79,10 @@ public class ModPieces {
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
 		register("operator_multiply_accumulate", MultiplyAccumulateOperator.class, Groups.math, true);
+		register("operator_difference", DifferenceOperator.class, Groups.math, true);
+		register("operator_div_mod", DivModOperator.class, Groups.math, true);
+		register("operator_extract_digit", ExtractDigitOperator.class, Groups.math, true);
+		//register("operator_replace_digit", ReplaceDigitOperator.class, Groups.math, true);
 		
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				true);
