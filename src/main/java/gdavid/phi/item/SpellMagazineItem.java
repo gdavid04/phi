@@ -118,14 +118,13 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	}
 	
 	public void swap(ItemStack item, ItemStack cad) {
-		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) {
-			return;
-		}
+		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return;
 		ICAD cadItem = (ICAD) cad.getItem();
-		ItemStack socketStack = cadItem.getComponentInSlot(cad, EnumCADComponent.SOCKET);
+		ItemStack socketStack = cadItem.getComponentInSlot(cad, EnumCADComponent.SOCKET).copy();
 		ITextComponent name = item.getDisplayName();
 		item.setDisplayName(socketStack.getDisplayName());
 		socketStack.setDisplayName(name);
+		cadItem.setCADComponent(cad, socketStack);
 		ISocketable socket = ISocketable.socketable(cad);
 		ISocketable contents = ISocketable.socketable(item);
 		for (int i = 0; i < sockets; i++) {
