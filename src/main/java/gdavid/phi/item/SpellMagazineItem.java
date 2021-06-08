@@ -122,6 +122,10 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 			return;
 		}
 		ICAD cadItem = (ICAD) cad.getItem();
+		ItemStack socketStack = cadItem.getComponentInSlot(cad, EnumCADComponent.SOCKET);
+		ITextComponent name = item.getDisplayName();
+		item.setDisplayName(socketStack.getDisplayName());
+		socketStack.setDisplayName(name);
 		ISocketable socket = ISocketable.socketable(cad);
 		ISocketable contents = ISocketable.socketable(item);
 		for (int i = 0; i < sockets; i++) {
