@@ -41,15 +41,15 @@ public class ClockwiseConnector extends SpellPiece implements IGenericRedirector
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		// TODO fix this when there's an API that doesn't require a registered SpellParam
+		// TODO fix this when there's an API that doesn't require a registered
+		// SpellParam
 		/*
-		for (SpellParam.Side side : SpellParam.Side.values()) {
-			if (!side.isEnabled() || !spell.grid.getPieceAtSideSafely(x, y, side).isInputSide(side.getOpposite())) {
-				continue;
-			}
-			RenderHelper.param(ms, buffers, light, SpellParam.GRAY, ArrowType.IN, remapSide(side.getOpposite()), this);
-		}
-		*/
+		 * for (SpellParam.Side side : SpellParam.Side.values()) { if (!side.isEnabled()
+		 * || !spell.grid.getPieceAtSideSafely(x, y,
+		 * side).isInputSide(side.getOpposite())) { continue; } RenderHelper.param(ms,
+		 * buffers, light, SpellParam.GRAY, ArrowType.IN, remapSide(side.getOpposite()),
+		 * this); }
+		 */
 	}
 	
 	@Override
