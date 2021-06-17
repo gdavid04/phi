@@ -7,6 +7,7 @@ import java.util.Optional;
 import vazkii.psi.api.spell.CompiledSpell.Action;
 import vazkii.psi.api.spell.CompiledSpell.CatchHandler;
 import vazkii.psi.api.spell.EnumSpellStat;
+import vazkii.psi.api.spell.IErrorCatcher;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
@@ -64,7 +65,8 @@ public class EarlyEvaluateTrick extends PieceTrick {
 			hoist(catchHandler.handlerPiece, context);
 		}
 		for (Entry<SpellParam<?>, Side> param : piece.paramSides.entrySet()) {
-			if (!param.getValue().isEnabled() || param.getKey() instanceof ReferenceParam) {
+			if (!param.getValue().isEnabled() || param.getKey() instanceof ReferenceParam ||
+					(piece instanceof IErrorCatcher && ((IErrorCatcher) piece).catchParam(param.getKey()))) {
 				continue;
 			}
 			hoist(spell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()), context);
