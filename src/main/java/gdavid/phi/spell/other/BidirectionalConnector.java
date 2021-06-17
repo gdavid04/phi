@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
 import gdavid.phi.spell.ModPieces;
-import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.ResourceLocation;
@@ -45,13 +44,6 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 		if (side.getOpposite() == paramSides.get(a)) return paramSides.get(b);
 		if (side.getOpposite() == paramSides.get(b)) return paramSides.get(a);
 		return Side.OFF;
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		RenderHelper.param(ms, buffers, light, a.color, paramSides.get(a), this);
-		RenderHelper.param(ms, buffers, light, b.color, paramSides.get(b), this);
 	}
 	
 	@Override

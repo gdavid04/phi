@@ -3,7 +3,6 @@ package gdavid.phi.spell.other;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.spell.ModPieces;
-import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -18,6 +17,7 @@ import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -40,7 +40,7 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	public void initParams() {
 		addParam(from = new ParamAny(ModPieces.Params.from, SpellParam.GRAY, false));
 		addParam(bidir = new ParamAny(ModPieces.Params.fromTo, SpellParam.GRAY, false));
-		addParam(to = new ParamAny(ModPieces.Params.to, SpellParam.GRAY, false));
+		addParam(to = new ParamAny(ModPieces.Params.to, SpellParam.GRAY, false, ArrowType.NONE));
 	}
 	
 	@Override
@@ -48,13 +48,6 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 		if (side.getOpposite() == paramSides.get(bidir)) return paramSides.get(from);
 		if (side.getOpposite() == paramSides.get(to)) return paramSides.get(bidir);
 		return Side.OFF;
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		RenderHelper.param(ms, buffers, light, from.color, paramSides.get(from));
-		RenderHelper.param(ms, buffers, light, from.color, paramSides.get(bidir), this);
 	}
 	
 	@Override
@@ -132,6 +125,11 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		return null;
+	}
+	
+	@Override
+	public boolean isInputSide(Side side) {
+		return paramSides.get(from) == side || paramSides.get(bidir) == side;
 	}
 	
 }

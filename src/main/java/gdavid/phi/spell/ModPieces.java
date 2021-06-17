@@ -56,6 +56,8 @@ public class ModPieces {
 		public static final String mod = prefix + "mod";
 		public static final String digit = prefix + "digit";
 		
+		public static final String virtualRender = prefix + "virtual_render";
+		
 	}
 	
 	public static class Errors {
