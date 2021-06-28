@@ -130,7 +130,7 @@ jar {
 	}
 }
 
-jar.finalizedBy('reobfJar')
+build.dependsOn('reobfJar')
 
 publishing {
 	publications {
