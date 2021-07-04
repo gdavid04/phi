@@ -33,7 +33,8 @@ public class BranchOperator extends PieceOperator {
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		// Any is returned in invalid spells only as Psi doesn't handle it properly as an evaluation type
+		// Any is returned in invalid spells only as Psi doesn't handle it properly as
+		// an evaluation type
 		if (!isInGrid || paramSides.get(positive) == Side.OFF || paramSides.get(negative) == Side.OFF) return Any.class;
 		try {
 			SpellPiece piece1 = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(positive));
