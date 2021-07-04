@@ -40,7 +40,7 @@ public class SplitVectorOperator extends SpellPiece {
 	
 	@Override
 	public void initParams() {
-		addParam(vector = new ParamVector(SpellParam.GENERIC_NAME_VECTOR, SpellParam.GREEN, false, false));
+		addParam(vector = new ParamVector(SpellParam.GENERIC_NAME_VECTOR, SpellParam.GRAY, false, false));
 		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true));
 		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true));
 		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true));
