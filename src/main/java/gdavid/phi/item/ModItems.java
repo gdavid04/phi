@@ -11,17 +11,18 @@ public class ModItems {
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(new SpellMagazineItem("basic_spell_magazine", 3, 5, 1),
+		event.getRegistry().registerAll(
+				new SpellMagazineItem("basic_spell_magazine", 3, 5, 1),
 				new SpellMagazineItem("large_spell_magazine", 6, 7, 2),
 				new SpellMagazineItem("huge_spell_magazine", 9, 9, 3),
 				
 				new SpellMagazineItem("wide_band_spell_magazine", 1, 9, 2),
 				
 				new SpellMagazineItem("increased_storage_spell_magazine", 5, 9, 9),
-				new SpellMagazineItem("bulk_storage_spell_magazine", 3, 9, 15)
-		
-		// TODO compound magazine (casts all 3 spells simultaneously)
-		// TODO smart magazine (2 slots, auto resets to slot 1 outside loopcast)
+				new SpellMagazineItem("bulk_storage_spell_magazine", 3, 9, 15),
+				
+				new SmartSpellMagazineItem("smart_spell_magazine", 3, 9, 2)
+				// TODO compound magazine (casts all 3 spells simultaneously)
 		);
 	}
 	

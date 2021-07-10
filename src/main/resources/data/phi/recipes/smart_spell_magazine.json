@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IG",
+		"IS",
+		"MM"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"G": { "tag": "forge:gems/psigem" },
+		"S": { "item": "psi:cad_socket_transmissive" }
+	},
+	"result": {
+		"item": "phi:smart_spell_magazine"
+	}
+}
