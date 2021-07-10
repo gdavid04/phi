@@ -12,4 +12,8 @@ public class ReferenceParam extends ParamAny {
 		super(name, color, canDisable);
 	}
 	
+	public ReferenceParam(String name, int color, boolean canDisable, ArrowType arrowType) {
+		super(name, color, canDisable, arrowType);
+	}
+	
 }

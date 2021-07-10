@@ -1,8 +1,5 @@
 package gdavid.phi.util;
 
-import gdavid.phi.spell.operator.vector.SplitVectorOperator;
-import gdavid.phi.spell.other.ClockwiseConnector;
-import gdavid.phi.spell.other.InOutConnector;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,30 +51,6 @@ public class ParamHelper {
 	public static BlockPos block(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
 			throws SpellRuntimeException {
 		return inRange(piece, context, param).toBlockPos();
-	}
-	
-	public static boolean checkSide(SpellPiece piece, Side side) {
-		if (piece == null) {
-			return false;
-		}
-		// TODO move these to piece classes
-		if (piece instanceof ClockwiseConnector) {
-			// No recursive check to avoid dealing with infinite loops
-			return piece.spell.grid.getPieceAtSideSafely(piece.x, piece.y,
-					((ClockwiseConnector) piece).reverseSide(side.getOpposite())) != null;
-		} else if (piece instanceof InOutConnector) {
-			InOutConnector connector = (InOutConnector) piece;
-			return connector.paramSides.get(connector.from) == side
-					|| connector.paramSides.get(connector.bidir) == side;
-		} else if (piece instanceof SplitVectorOperator) {
-			return piece.paramSides.get(((SplitVectorOperator) piece).vector) == side;
-		}
-		for (Side param : piece.paramSides.values()) {
-			if (param == side) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public static boolean isLoop(SpellPiece piece) {

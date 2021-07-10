@@ -21,6 +21,7 @@ import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -40,10 +41,10 @@ public class SplitVectorOperator extends SpellPiece {
 	
 	@Override
 	public void initParams() {
-		addParam(vector = new ParamVector(SpellParam.GENERIC_NAME_VECTOR, SpellParam.GRAY, false, false));
-		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true));
-		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true));
-		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true));
+		addParam(vector = new ParamVector(SpellParam.GENERIC_NAME_VECTOR, SpellParam.GREEN, false, false));
+		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true, ArrowType.NONE));
+		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true, ArrowType.NONE));
+		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true, ArrowType.NONE));
 	}
 	
 	@Override
@@ -52,15 +53,8 @@ public class SplitVectorOperator extends SpellPiece {
 		if (paramSides.get(outX).isEnabled()) components++;
 		if (paramSides.get(outY).isEnabled()) components++;
 		if (paramSides.get(outZ).isEnabled()) components++;
-		// TODO check sides
 		meta.addStat(EnumSpellStat.COMPLEXITY, components);
 		if (components > 1) meta.addStat(EnumSpellStat.COMPLEXITY, 1);
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		RenderHelper.param(ms, buffers, light, vector.color, paramSides.get(vector));
 	}
 	
 	@Override
@@ -135,6 +129,11 @@ public class SplitVectorOperator extends SpellPiece {
 			throw new SpellRuntimeException(SpellCompilationException.INVALID_PARAM);
 		}
 		
+	}
+	
+	@Override
+	public boolean isInputSide(Side side) {
+		return paramSides.get(vector) == side;
 	}
 	
 }

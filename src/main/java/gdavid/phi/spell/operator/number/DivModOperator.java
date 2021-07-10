@@ -18,6 +18,7 @@ import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -39,15 +40,8 @@ public class DivModOperator extends PieceOperator {
 	public void initParams() {
 		addParam(a = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER1, SpellParam.RED, false, false));
 		addParam(b = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER2, SpellParam.GREEN, false, false));
-		addParam(div = new ReferenceParam(ModPieces.Params.div, SpellParam.RED, true));
-		addParam(mod = new ReferenceParam(ModPieces.Params.mod, SpellParam.GREEN, true));
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		RenderHelper.param(ms, buffers, light, a.color, paramSides.get(a));
-		RenderHelper.param(ms, buffers, light, b.color, paramSides.get(b));
+		addParam(div = new ReferenceParam(ModPieces.Params.div, SpellParam.RED, true, ArrowType.NONE));
+		addParam(mod = new ReferenceParam(ModPieces.Params.mod, SpellParam.GREEN, true, ArrowType.NONE));
 	}
 	
 	@Override
@@ -84,6 +78,11 @@ public class DivModOperator extends PieceOperator {
 	@Override
 	public Class<?> getEvaluationType() {
 		return Double.class;
+	}
+	
+	@Override
+	public boolean isInputSide(Side side) {
+		return paramSides.get(a) == side || paramSides.get(b) == side;
 	}
 	
 	@Override
