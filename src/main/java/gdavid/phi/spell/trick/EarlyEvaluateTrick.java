@@ -35,7 +35,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	}
 	
 	@Override
-	public void addToMetadata(SpellMetadata meta) {
+	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 	}
 	
