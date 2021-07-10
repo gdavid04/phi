@@ -26,6 +26,6 @@ A Psi addon
 [[dependencies.phi]]
     modId="psi"
     mandatory=true
-    versionRange="[1.16-94,)"
+    versionRange="[1.16-95,)"
     ordering="AFTER"
     side="BOTH"
