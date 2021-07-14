@@ -23,7 +23,7 @@ public class ClockwiseConnector extends SpellPiece implements IGenericRedirector
 	
 	@Override
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
-		meta.addStat(EnumSpellStat.COMPLEXITY, 2);
+		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 	}
 	
 	@Override
