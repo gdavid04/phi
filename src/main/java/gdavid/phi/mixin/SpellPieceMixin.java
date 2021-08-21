@@ -29,7 +29,7 @@ public class SpellPieceMixin {
 	@Shadow
 	public int x, y;
 	
-	@Inject(method = "getRawParamValue(Lvazkii/psi/api/spell/SpellContext;Lvazkii/psi/api/spell/SpellParam;)Ljava/lang/Object;", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "getRawParamValue", at = @At("RETURN"), cancellable = true)
 	private void getRawParamValue(SpellContext context, SpellParam<?> param, CallbackInfoReturnable<Object> callback)
 			throws SpellRuntimeException {
 		Object res = callback.getReturnValue();

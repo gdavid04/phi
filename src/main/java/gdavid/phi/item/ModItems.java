@@ -21,8 +21,10 @@ public class ModItems {
 				new SpellMagazineItem("increased_storage_spell_magazine", 5, 9, 9),
 				new SpellMagazineItem("bulk_storage_spell_magazine", 3, 9, 15),
 				
-				new SmartSpellMagazineItem("smart_spell_magazine", 3, 9, 2)
+				new SmartSpellMagazineItem("smart_spell_magazine", 3, 9, 2),
 				// TODO compound magazine (casts all 3 spells simultaneously)
+				
+				new BloodConverterItem("blood_converter", 0.5f)
 		);
 	}
 	
