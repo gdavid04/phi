@@ -14,7 +14,7 @@
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.ed": "?",
 	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
-	
+
 	"phi.cadstat.overflow_damage": "Overflow Damage",
 
 	"psi.datatype.object": "Object",
@@ -83,7 +83,7 @@
 	"item.phi.smart_spell_magazine.desc": "A Spell Magazine with a smart selection system to assist in loopcasting spells that span more than one bullet\nAutomatically reselects the first slot when loopcast ends",
 	"item.phi.compound_spell_magazine": "Compound Spell Magazine",
 	"item.phi.compound_spell_magazine.desc": "A Spell Magazine designed for simultaneous activation of up to 3 spells",
-	
+
 	"item.phi.blood_converter": "Blood Converter",
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use"
 }

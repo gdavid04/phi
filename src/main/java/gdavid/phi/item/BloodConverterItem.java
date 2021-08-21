@@ -1,8 +1,7 @@
 package gdavid.phi.item;
 
-import java.util.List;
-
 import gdavid.phi.Phi;
+import java.util.List;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -53,9 +52,10 @@ public class BloodConverterItem extends Item implements ICADComponent {
 	public void addInformation(ItemStack item, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + "." + id + ".desc"));
 		tooltip.add(new StringTextComponent(" ")
-				.append(new TranslationTextComponent(Phi.modId + ".cadstat.overflow_damage").mergeStyle(TextFormatting.AQUA))
-				.appendString(": ")
-				.append(new TranslationTextComponent("-" + 100 * (1 - damageMultiplier) + "%").mergeStyle(TextFormatting.GREEN)));
+				.append(new TranslationTextComponent(Phi.modId + ".cadstat.overflow_damage")
+						.mergeStyle(TextFormatting.AQUA))
+				.appendString(": ").append(new TranslationTextComponent("-" + 100 * (1 - damageMultiplier) + "%")
+						.mergeStyle(TextFormatting.GREEN)));
 	}
 	
 	@SubscribeEvent
