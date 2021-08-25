@@ -63,6 +63,7 @@ public class ModPieces {
 		public static final String prefix = Phi.modId + ".spellerror.";
 		
 		public static final String range = prefix + "range";
+		public static final String minWave = prefix + "min_wave";
 		public static final String errored = prefix + "ed";
 		public static final String ambiguous = prefix + "ambiguous";
 		

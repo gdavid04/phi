@@ -12,6 +12,7 @@
 	"phi.spellparam.digit": "Digit",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
+	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
 	"phi.spellerror.ed": "?",
 	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 

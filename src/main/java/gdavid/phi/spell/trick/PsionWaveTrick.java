@@ -40,11 +40,12 @@ public class PsionWaveTrick extends PieceTrick {
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		super.addToMetadata(meta);
 		double speedVal = ParamHelper.positive(this, speed);
+		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
 		double frequencyVal = ParamHelper.positive(this, frequency);
-		double distanceVal = Math.max(1, ParamHelper.positive(this, distance));
-		if (distanceVal > 32) {
-			throw new SpellCompilationException(ModPieces.Errors.range);
-		}
+		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
+		double distanceVal = ParamHelper.positive(this, distance);
+		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
+		if (distanceVal > 32) throw new SpellCompilationException(ModPieces.Errors.range);
 		meta.addStat(EnumSpellStat.POTENCY, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 		meta.addStat(EnumSpellStat.COST, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 	}
@@ -55,7 +56,7 @@ public class PsionWaveTrick extends PieceTrick {
 		float speedVal = getNonnullParamValue(context, speed).floatValue();
 		float frequencyVal = getNonnullParamValue(context, frequency).floatValue();
 		float distanceVal = getNonnullParamValue(context, distance).floatValue();
-		if (speedVal == 0 || frequencyVal == 0 || distanceVal == 0) {
+		if (speedVal < 1 || frequencyVal < 1 || distanceVal < 1) {
 			return null;
 		}
 		distanceVal = Math.max(1, distanceVal);
