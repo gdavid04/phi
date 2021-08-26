@@ -14,6 +14,7 @@ import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
+import gdavid.phi.spell.trick.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
@@ -74,21 +75,22 @@ public class ModPieces {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
+		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
-		register("operator_to_radians", ToRadiansOperator.class, Groups.math, true);
-		register("operator_multiply_accumulate", MultiplyAccumulateOperator.class, Groups.math, true);
-		register("operator_difference", DifferenceOperator.class, Groups.math, true);
-		register("operator_div_mod", DivModOperator.class, Groups.math, true);
-		register("operator_extract_digit", ExtractDigitOperator.class, Groups.math, true);
+		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
+		register("operator_multiply_accumulate", MultiplyAccumulateOperator.class, Groups.math, false);
+		register("operator_difference", DifferenceOperator.class, Groups.math, false);
+		register("operator_div_mod", DivModOperator.class, Groups.math, false);
+		register("operator_extract_digit", ExtractDigitOperator.class, Groups.math, false);
 		// register("operator_replace_digit", ReplaceDigitOperator.class, Groups.math,
-		// true);
+		// false);
 		
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
-				true);
-		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, true);
+				false);
+		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		

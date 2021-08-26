@@ -23,12 +23,9 @@ public class MarkerEntity extends Entity implements ISpellImmune {
 	@ObjectHolder(Phi.modId + ":" + id)
 	public static EntityType<MarkerEntity> type;
 	
-	static final String tagColorizer = "colorizer";
 	static final String tagOwner = "owner";
 	static final String tagTime = "time";
 	
-	public static final DataParameter<ItemStack> colorizer = EntityDataManager.createKey(MarkerEntity.class,
-			DataSerializers.ITEMSTACK);
 	public static final DataParameter<Optional<UUID>> owner = EntityDataManager.createKey(MarkerEntity.class,
 			DataSerializers.OPTIONAL_UNIQUE_ID);
 	
@@ -38,9 +35,8 @@ public class MarkerEntity extends Entity implements ISpellImmune {
 		super(type, world);
 	}
 	
-	public MarkerEntity(World world, ItemStack colorizerStack, Entity ownerEntity, int time) {
+	public MarkerEntity(World world, Entity ownerEntity, int time) {
 		super(type, world);
-		dataManager.set(colorizer, colorizerStack);
 		if (owner != null) {
 			dataManager.set(owner, Optional.of(ownerEntity.getUniqueID()));
 		}
@@ -49,23 +45,17 @@ public class MarkerEntity extends Entity implements ISpellImmune {
 	
 	@Override
 	protected void registerData() {
-		dataManager.register(colorizer, ItemStack.EMPTY);
 		dataManager.register(owner, Optional.of(new UUID(0, 0)));
 	}
 	
 	@Override
 	public void writeAdditional(CompoundNBT nbt) {
-		ItemStack colorizerItem = dataManager.get(colorizer);
-		if (!colorizerItem.isEmpty()) {
-			nbt.put(tagColorizer, colorizerItem.write(new CompoundNBT()));
-		}
 		nbt.putUniqueId(tagOwner, dataManager.get(owner).get());
 		nbt.putInt(tagTime, time);
 	}
 	
 	@Override
 	public void readAdditional(CompoundNBT nbt) {
-		dataManager.set(colorizer, ItemStack.read(nbt.getCompound(tagColorizer)));
 		dataManager.set(owner, Optional.of(nbt.getUniqueId(tagOwner)));
 		time = nbt.getInt(tagTime);
 	}

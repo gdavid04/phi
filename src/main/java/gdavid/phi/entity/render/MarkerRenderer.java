@@ -1,5 +1,7 @@
 package gdavid.phi.entity.render;
 
+import java.util.UUID;
+
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -9,14 +11,13 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import gdavid.phi.Phi;
 import gdavid.phi.entity.MarkerEntity;
-import gdavid.phi.util.RenderHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -51,12 +52,8 @@ public class MarkerRenderer extends EntityRenderer<MarkerEntity> {
 	public void render(MarkerEntity entity, float entityYaw, float partialTicks, MatrixStack ms,
 			IRenderTypeBuffer buffers, int light) {
 		EntityDataManager dm = entity.getDataManager();
-		ItemStack colorizer = dm.get(MarkerEntity.colorizer);
-		int color = RenderHelper.getColorForColorizer(colorizer);
-		int r = RenderHelper.r(color);
-		int g = RenderHelper.g(color);
-		int b = RenderHelper.b(color);
-		r = g = b = 255;
+		UUID uuid = dm.get(MarkerEntity.owner).get();
+		if (!Minecraft.getInstance().player.getUniqueID().equals(uuid)) return;
 		IVertexBuilder buffer = buffers.getBuffer(layer);
 		float halfSize = 0.5f;
 		ms.push();
@@ -64,10 +61,10 @@ public class MarkerRenderer extends EntityRenderer<MarkerEntity> {
 		ms.rotate(renderManager.getCameraOrientation());
 		ms.rotate(Vector3f.YP.rotationDegrees(180));
 		Matrix4f mat = ms.getLast().getMatrix();
-		buffer.pos(mat, -halfSize, +halfSize, 0).color(r, g, b, 255).tex(0, 1).lightmap(light).endVertex();
-		buffer.pos(mat, +halfSize, +halfSize, 0).color(r, g, b, 255).tex(1, 1).lightmap(light).endVertex();
-		buffer.pos(mat, +halfSize, -halfSize, 0).color(r, g, b, 255).tex(1, 0).lightmap(light).endVertex();
-		buffer.pos(mat, -halfSize, -halfSize, 0).color(r, g, b, 255).tex(0, 0).lightmap(light).endVertex();
+		buffer.pos(mat, -halfSize, +halfSize, 0).color(255, 255, 255, 255).tex(0, 1).lightmap(light).endVertex();
+		buffer.pos(mat, +halfSize, +halfSize, 0).color(255, 255, 255, 255).tex(1, 1).lightmap(light).endVertex();
+		buffer.pos(mat, +halfSize, -halfSize, 0).color(255, 255, 255, 255).tex(1, 0).lightmap(light).endVertex();
+		buffer.pos(mat, -halfSize, -halfSize, 0).color(255, 255, 255, 255).tex(0, 0).lightmap(light).endVertex();
 		ms.pop();
 	}
 	
