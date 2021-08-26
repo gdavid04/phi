@@ -1,6 +1,8 @@
 package gdavid.phi;
 
+import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.entity.PsionWaveEntity;
+import gdavid.phi.entity.render.MarkerRenderer;
 import gdavid.phi.entity.render.PsionWaveRenderer;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
@@ -24,6 +26,7 @@ public class Client {
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		RenderingRegistry.registerEntityRenderingHandler(PsionWaveEntity.type, PsionWaveRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(MarkerEntity.type, MarkerRenderer::new);
 	}
 	
 	@SubscribeEvent
