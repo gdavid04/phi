@@ -25,7 +25,7 @@ public class ComponentWiseMultiplyVectorOperator extends PieceOperator {
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		return Double.class;
+		return Vector3.class;
 	}
 	
 	@Override
