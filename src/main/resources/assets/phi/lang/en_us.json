@@ -35,6 +35,9 @@
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates only if number is within (-1, 1) exclusive",
 
+	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
+	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
+
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
 	"phi.spellpiece.operator_to_radians": "Operator: To Radians",
