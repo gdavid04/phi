@@ -14,11 +14,12 @@ import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
-import gdavid.phi.spell.trick.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
+import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
+import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -67,6 +68,7 @@ public class ModPieces {
 		public static final String minWave = prefix + "min_wave";
 		public static final String errored = prefix + "ed";
 		public static final String ambiguous = prefix + "ambiguous";
+		public static final String invalidTarget = prefix + "invalid_target";
 		
 	}
 	
@@ -76,6 +78,7 @@ public class ModPieces {
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
 		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);
+		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		

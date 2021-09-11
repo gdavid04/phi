@@ -1,4 +1,4 @@
-package gdavid.phi.spell.trick;
+package gdavid.phi.spell.trick.marker;
 
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.util.ParamHelper;

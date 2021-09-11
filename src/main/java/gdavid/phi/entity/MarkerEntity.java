@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
@@ -43,6 +42,10 @@ public class MarkerEntity extends Entity implements ISpellImmune {
 		this.time = time;
 	}
 	
+	public UUID getOwner() {
+		return dataManager.get(owner).get();
+	}
+	
 	@Override
 	protected void registerData() {
 		dataManager.register(owner, Optional.of(new UUID(0, 0)));
@@ -50,7 +53,7 @@ public class MarkerEntity extends Entity implements ISpellImmune {
 	
 	@Override
 	public void writeAdditional(CompoundNBT nbt) {
-		nbt.putUniqueId(tagOwner, dataManager.get(owner).get());
+		nbt.putUniqueId(tagOwner, getOwner());
 		nbt.putInt(tagTime, time);
 	}
 	
