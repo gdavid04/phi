@@ -48,8 +48,8 @@ public class ConjureMarkerTrick extends PieceTrick {
 		Vector3 positionVal = ParamHelper.nonNull(this, context, position);
 		int timeVal = getNonnullParamValue(context, time).intValue();
 		if (timeVal < 1) throw new SpellRuntimeException(SpellRuntimeException.NON_POSITIVE_VALUE);
-		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z,
-				context.focalPoint.getPosX(), context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
+		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getPosX(),
+				context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
 			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
 		World world = context.focalPoint.getEntityWorld();

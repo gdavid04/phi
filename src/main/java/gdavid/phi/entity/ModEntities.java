@@ -19,8 +19,8 @@ public class ModEntities {
 						.setTrackingRange(256).setUpdateInterval(10).setShouldReceiveVelocityUpdates(false).size(1, 1)
 						.immuneToFire().build("").setRegistryName(Phi.modId, PsionWaveEntity.id),
 				EntityType.Builder.create((EntityType.IFactory<MarkerEntity>) MarkerEntity::new, MISC)
-						.setTrackingRange(256).setUpdateInterval(10).size(1, 1)
-						.immuneToFire().build("").setRegistryName(Phi.modId, MarkerEntity.id));
+						.setTrackingRange(256).setUpdateInterval(10).size(1, 1).immuneToFire().build("")
+						.setRegistryName(Phi.modId, MarkerEntity.id));
 	}
 	
 }

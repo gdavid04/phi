@@ -42,14 +42,16 @@ public class MoveMarkerTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Entity targetVal = getNonnullParamValue(context, target);
 		Vector3 positionVal = ParamHelper.nonNull(this, context, position);
-		if (!(targetVal instanceof MarkerEntity) ||
-				((MarkerEntity) targetVal).getOwner() != context.caster.getUniqueID()) {
+		if (!(targetVal instanceof MarkerEntity)
+				|| ((MarkerEntity) targetVal).getOwner() != context.caster.getUniqueID()) {
 			throw new SpellRuntimeException(ModPieces.Errors.invalidTarget);
 		}
 		if (MathHelper.pointDistanceSpace(targetVal.getPosX(), targetVal.getPosY(), targetVal.getPosZ(),
-				context.focalPoint.getPosX(), context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2 ||
-				MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z,
-				context.focalPoint.getPosX(), context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
+				context.focalPoint.getPosX(), context.focalPoint.getPosY(),
+				context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2
+				|| MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z,
+						context.focalPoint.getPosX(), context.focalPoint.getPosY(),
+						context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
 			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
 		targetVal.setPosition(positionVal.x, positionVal.y, positionVal.z);

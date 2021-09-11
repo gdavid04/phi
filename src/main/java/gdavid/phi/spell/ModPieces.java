@@ -82,7 +82,7 @@ public class ModPieces {
 		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
-
+		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
