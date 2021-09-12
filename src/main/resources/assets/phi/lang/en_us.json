@@ -49,9 +49,9 @@
 	"phi.spellpiece.operator_div_mod": "Operator: Integer Divide, Modulus",
 	"phi.spellpiece.operator_div_mod.desc": "Computes both a / b and a %% b",
 	"phi.spellpiece.operator_extract_digit": "Operator: Extract Digit",
-	"phi.spellpiece.operator_extract_digit.desc": "Extracts a signle digit (counting from last, default: 1) from an integer in the given base (default: 10)",
+	"phi.spellpiece.operator_extract_digit.desc": "Extracts a single digit (counting from last, default: 1) from an integer in the given base (default: 10)",
 	"phi.spellpiece.operator_replace_digit": "Operator: Replace Digit",
-	"phi.spellpiece.operator_replace_digit.desc": "Replaces a signle digit (counting from last, default: 1) in an integer in the given base (default: 10)",
+	"phi.spellpiece.operator_replace_digit.desc": "Replaces a single digit (counting from last, default: 1) in an integer in the given base (default: 10)",
 
 	"phi.spellpiece.operator_vector_component_wise_multiply": "Operator: Vector Component Wise Multiply",
 	"phi.spellpiece.operator_vector_component_wise_multiply.desc": "Also known as the Hadamard product",
