@@ -62,7 +62,7 @@ public class ParamHelper {
 		if (visited.contains(piece)) return true;
 		visited.add(piece);
 		for (Entry<SpellParam<?>, Side> param : piece.paramSides.entrySet()) {
-			if (param.getKey() instanceof ReferenceParam) continue;
+			if (param.getKey() instanceof ReferenceParam && !((ReferenceParam) param.getKey()).checkLoop) continue;
 			if (!param.getValue().isEnabled()) continue;
 			try {
 				SpellPiece other = piece.spell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue());

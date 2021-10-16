@@ -1,10 +1,9 @@
 package gdavid.phi.spell.trick;
 
 import gdavid.phi.spell.ModPieces;
+import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.ReferenceParam;
 import java.util.Map.Entry;
-import java.util.Optional;
-import vazkii.psi.api.spell.CompiledSpell.Action;
 import vazkii.psi.api.spell.CompiledSpell.CatchHandler;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.IErrorCatcher;
@@ -19,55 +18,54 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceTrick;
 
-public class EarlyEvaluateTrick extends PieceTrick {
+public class ReevaluateTrick extends PieceTrick {
 	
 	ReferenceParam target;
 	SpellParam<Number> condition;
 	
-	public EarlyEvaluateTrick(Spell spell) {
+	public ReevaluateTrick(Spell spell) {
 		super(spell);
 	}
 	
 	@Override
 	public void initParams() {
-		addParam(target = new ReferenceParam(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false));
-		addParam(condition = new ParamNumber(ModPieces.Params.condition, SpellParam.BLUE, false, false));
+		addParam(target = new ReferenceParam(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false).preventLoop());
+		addParam(condition = new ParamNumber(ModPieces.Params.condition, SpellParam.BLUE, true, false));
 	}
 	
 	@Override
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
-		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
+		if (paramSides.get(condition).isEnabled()) meta.addStat(EnumSpellStat.COMPLEXITY, 1);
+		if (ParamHelper.isLoop(this)) throw new SpellCompilationException(SpellCompilationException.INFINITE_LOOP);
+		SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
+		if (piece == null || !paramSides.get(target).isEnabled()) throw new SpellCompilationException(SpellCompilationException.INVALID_PARAM);
+		piece.addToMetadata(meta);
 	}
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		if (Math.abs(getNonnullParamValue(context, condition).doubleValue()) >= 1) return null;
+		if (Math.abs(getParamValueOrDefault(context, condition, 0).doubleValue()) >= 1) return null;
 		try {
 			SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
-			hoist(piece, context);
+			reevaluate(piece, context);
 		} catch (SpellCompilationException e) {
 			throw new SpellRuntimeException(ModPieces.Errors.errored); // NOPMD
 		}
 		return null;
 	}
 	
-	public static void hoist(SpellPiece piece, SpellContext context) throws SpellCompilationException {
-		Optional<Action> opt = context.actions.stream().filter(action -> action.piece == piece).findFirst();
-		if (!opt.isPresent()) {
-			return;
-		}
-		context.actions.remove(opt.get());
-		context.actions.push(opt.get());
+	public static void reevaluate(SpellPiece piece, SpellContext context) throws SpellCompilationException {
+		context.actions.push(context.cspell.new Action(piece));
 		CatchHandler catchHandler = context.cspell.errorHandlers.get(piece);
 		if (catchHandler != null) {
-			hoist(catchHandler.handlerPiece, context);
+			EarlyEvaluateTrick.hoist(catchHandler.handlerPiece, context);
 		}
 		for (Entry<SpellParam<?>, Side> param : piece.paramSides.entrySet()) {
 			if (!param.getValue().isEnabled() || param.getKey() instanceof ReferenceParam
 					|| (piece instanceof IErrorCatcher && ((IErrorCatcher) piece).catchParam(param.getKey()))) {
 				continue;
 			}
-			hoist(context.cspell.sourceSpell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()), context);
+			EarlyEvaluateTrick.hoist(context.cspell.sourceSpell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()), context);
 		}
 	}
 	

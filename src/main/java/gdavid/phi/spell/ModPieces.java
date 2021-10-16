@@ -17,6 +17,7 @@ import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
+import gdavid.phi.spell.trick.ReevaluateTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
@@ -82,6 +83,7 @@ public class ModPieces {
 		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
+		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		

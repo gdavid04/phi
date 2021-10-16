@@ -33,7 +33,9 @@
 	"phi.spellpiece.trick_move_marker.desc": "Moves a marker conjured by the caster. Has an increased range.",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
-	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates only if number is within (-1, 1) exclusive",
+	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates the target piece early if condition is within (-1, 1) exclusive",
+	"phi.spellpiece.trick_reevaluate": "Trick: Reevaluate",
+	"phi.spellpiece.trick_reevaluate.desc": "Reevaluates the target piece if condition is within (-1, 1) exclusive",
 
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
