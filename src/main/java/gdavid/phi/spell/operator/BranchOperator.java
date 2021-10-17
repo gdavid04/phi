@@ -1,7 +1,7 @@
 package gdavid.phi.spell.operator;
 
 import gdavid.phi.spell.ModPieces;
-import gdavid.phi.util.ParamHelper;
+import gdavid.phi.util.EvalHelper;
 import gdavid.phi.util.TypeHelper;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -38,9 +38,9 @@ public class BranchOperator extends PieceOperator {
 		if (!isInGrid || paramSides.get(positive) == Side.OFF || paramSides.get(negative) == Side.OFF) return Any.class;
 		try {
 			SpellPiece piece1 = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(positive));
-			if (piece1 == null || ParamHelper.isLoop(piece1)) return Any.class;
+			if (piece1 == null || EvalHelper.isLoop(piece1)) return Any.class;
 			SpellPiece piece2 = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(negative));
-			if (piece2 == null || ParamHelper.isLoop(piece2)) return Any.class;
+			if (piece2 == null || EvalHelper.isLoop(piece2)) return Any.class;
 			Class<?> clazz = TypeHelper.commonSuper(piece1.getEvaluationType(), piece2.getEvaluationType());
 			return clazz == null ? Object.class : clazz;
 		} catch (SpellCompilationException e) {
