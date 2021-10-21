@@ -19,6 +19,7 @@ import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
+import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
 import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import net.minecraft.item.Item;
@@ -80,6 +81,7 @@ public class ModPieces {
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
 		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);
 		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
+		register("trick_caster_blink", CasterBlinkTrick.class, "movement", true);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		
