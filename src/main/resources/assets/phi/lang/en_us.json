@@ -10,6 +10,8 @@
 	"phi.spellparam.div": "A / B",
 	"phi.spellparam.mod": "A %% B",
 	"phi.spellparam.digit": "Digit",
+	"phi.spellparam.target1": "Target A",
+	"phi.spellparam.target2": "Target B",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
@@ -31,6 +33,10 @@
 	"phi.spellpiece.trick_conjure_marker.desc": "Conjures a marker visible through walls to the caster and spells. Has an increased range.",
 	"phi.spellpiece.trick_move_marker": "Trick: Move Marker",
 	"phi.spellpiece.trick_move_marker.desc": "Moves a marker conjured by the caster. Has an increased range.",
+	"phi.spellpiece.trick_caster_blink": "Trick: Caster Blink",
+	"phi.spellpiece.trick_caster_blink.desc": "Teleports the caster in the given direction",
+	"phi.spellpiece.trick_swap_blink": "Trick: Swap Blink",
+	"phi.spellpiece.trick_swap_blink.desc": "Targets switch place. Targets caster by default",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates only if number is within (-1, 1) exclusive",
