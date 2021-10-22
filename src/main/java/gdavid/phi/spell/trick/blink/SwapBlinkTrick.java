@@ -67,8 +67,7 @@ public class SwapBlinkTrick extends PieceTrick {
 						.getConstructor(double.class, double.class, double.class)
 						.newInstance(offset.x, offset.y, offset.z);
 				Class.forName("vazkii.psi.common.network.MessageRegister")
-						.getMethod("sendToPlayer", Object.class, PlayerEntity.class)
-						.invoke(null, message, e1);
+						.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, e1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -79,8 +78,7 @@ public class SwapBlinkTrick extends PieceTrick {
 						.getConstructor(double.class, double.class, double.class)
 						.newInstance(-offset.x, -offset.y, -offset.z);
 				Class.forName("vazkii.psi.common.network.MessageRegister")
-						.getMethod("sendToPlayer", Object.class, PlayerEntity.class)
-						.invoke(null, message, e2);
+						.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, e2);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

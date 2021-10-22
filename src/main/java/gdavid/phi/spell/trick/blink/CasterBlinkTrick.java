@@ -41,15 +41,14 @@ public class CasterBlinkTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		double distanceVal = getNonnullParamValue(context, distance).doubleValue();
 		Vector3 directionVal = ParamHelper.nonNull(this, context, direction).copy().normalize().multiply(distanceVal);
-		context.caster.setPosition(context.caster.getPosX() + directionVal.x,
-				context.caster.getPosY() + directionVal.y, context.caster.getPosZ() + directionVal.z);
+		context.caster.setPosition(context.caster.getPosX() + directionVal.x, context.caster.getPosY() + directionVal.y,
+				context.caster.getPosZ() + directionVal.z);
 		try {
 			Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
 					.getConstructor(double.class, double.class, double.class)
 					.newInstance(directionVal.x, directionVal.y, directionVal.z);
 			Class.forName("vazkii.psi.common.network.MessageRegister")
-					.getMethod("sendToPlayer", Object.class, PlayerEntity.class)
-					.invoke(null, message, context.caster);
+					.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, context.caster);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
