@@ -20,6 +20,7 @@ import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
+import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
 import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import net.minecraft.item.Item;
@@ -59,6 +60,8 @@ public class ModPieces {
 		public static final String div = prefix + "div";
 		public static final String mod = prefix + "mod";
 		public static final String digit = prefix + "digit";
+		public static final String target1 = prefix + "target1";
+		public static final String target2 = prefix + "target2";
 		
 	}
 	
@@ -82,6 +85,7 @@ public class ModPieces {
 		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);
 		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
 		register("trick_caster_blink", CasterBlinkTrick.class, "movement", true);
+		register("trick_swap_blink", SwapBlinkTrick.class, "movement", true);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		
