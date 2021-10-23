@@ -71,6 +71,10 @@
 	"phi.spellpiece.operator_nearest_axial_vector.desc": "Returns the axial vector the input direction vector is closest to",
 	"phi.spellpiece.operator_round_vector": "Operator: Round Vector",
 	"phi.spellpiece.operator_round_vector.desc": "Rounds the components of a vector to integers",
+	"phi.spellpiece.operator_floor_vector": "Operator: Vector Floor",
+	"phi.spellpiece.operator_floor_vector.desc": "Rounds the components of a vector down",
+	"phi.spellpiece.operator_ceil_vector": "Operator: Vector Ceil",
+	"phi.spellpiece.operator_ceil_vector.desc": "Rounds the components of a vector up",
 	"phi.spellpiece.operator_truncate_vector": "Operator: Truncate Vector",
 	"phi.spellpiece.operator_truncate_vector.desc": "Limits a vector to be under the given magnitude",
 
