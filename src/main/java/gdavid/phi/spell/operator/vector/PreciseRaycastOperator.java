@@ -41,7 +41,7 @@ public class PreciseRaycastOperator extends PieceOperator {
 		Vector3 start = getNonnullParamValue(context, origin);
 		Vector3 direction = ParamHelper.nonNull(this, context, ray);
 		double length = getParamValueOrDefault(context, max, SpellContext.MAX_DISTANCE).doubleValue();
-		length = Math.min(length, SpellContext.MAX_DISTANCE);
+		length = Math.max(Math.min(length, SpellContext.MAX_DISTANCE), -SpellContext.MAX_DISTANCE);
 		Vector3 end = start.copy().add(direction.copy().normalize().multiply(length));
 		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(
 				new RayTraceContext(start.toVec3D(), end.toVec3D(), BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
