@@ -1,11 +1,11 @@
-package gdavid.phi.spell.operator.vector;
+package gdavid.phi.spell.operator.vector.raycast;
 
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.RayTraceResult;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
@@ -15,12 +15,12 @@ import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceOperator;
 
-public class PreciseRaycastOperator extends PieceOperator {
+public class OffsetRaycastOperator extends PieceOperator {
 	
 	SpellParam<Vector3> origin, ray;
 	SpellParam<Number> max;
 	
-	public PreciseRaycastOperator(Spell spell) {
+	public OffsetRaycastOperator(Spell spell) {
 		super(spell);
 	}
 	
@@ -43,12 +43,13 @@ public class PreciseRaycastOperator extends PieceOperator {
 		double length = getParamValueOrDefault(context, max, SpellContext.MAX_DISTANCE).doubleValue();
 		length = Math.max(Math.min(length, SpellContext.MAX_DISTANCE), -SpellContext.MAX_DISTANCE);
 		Vector3 end = start.copy().add(direction.copy().normalize().multiply(length));
-		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(
-				new RayTraceContext(start.toVec3D(), end.toVec3D(), BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
+		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(new RayTraceContext(start.toVec3D(),
+				end.toVec3D(), BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
 		if (res.getType() == RayTraceResult.Type.MISS) {
 			throw new SpellRuntimeException(SpellRuntimeException.NULL_VECTOR);
 		}
-		return Vector3.fromVec3d(res.getHitVec());
+		return Vector3.fromVec3d(res.getHitVec()).subtract(Vector3.fromBlockPos(res.getPos()))
+				.subtract(new Vector3(0.5, 0.5, 0.5));
 	}
 	
 }

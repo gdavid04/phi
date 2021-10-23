@@ -1,0 +1,11 @@
+{
+	"values": [
+		"phi:basic_spell_magazine",
+		"phi:large_spell_magazine",
+		"phi:huge_spell_magazine",
+		"phi:wide_band_spell_magazine",
+		"phi:increased_storage_spell_magazine",
+		"phi:bulk_storage_spell_magazine",
+		"phi:smart_spell_magazine"
+	]
+}

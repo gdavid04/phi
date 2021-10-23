@@ -65,6 +65,8 @@
 	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
 	"phi.spellpiece.operator_precise_raycast": "Operator: Precise Raycast",
 	"phi.spellpiece.operator_precise_raycast.desc": "Returns the exact hit position of a raycast",
+	"phi.spellpiece.operator_offset_raycast": "Operator: Offset Raycast",
+	"phi.spellpiece.operator_offset_raycast.desc": "Returns the offset of the hit position of a raycast from the center of the block it hit",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

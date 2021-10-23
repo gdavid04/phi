@@ -9,8 +9,9 @@ import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
-import gdavid.phi.spell.operator.vector.PreciseRaycastOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
+import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
+import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
@@ -85,8 +86,8 @@ public class ModPieces {
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
 		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);
 		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
-		register("trick_caster_blink", CasterBlinkTrick.class, "movement", true);
-		register("trick_swap_blink", SwapBlinkTrick.class, "movement", true);
+		register("trick_caster_blink", CasterBlinkTrick.class, "movement", false);
+		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		
@@ -104,7 +105,8 @@ public class ModPieces {
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				false);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, false);
-		register("operator_precise_raycast", PreciseRaycastOperator.class, Groups.dataFlow, false);
+		register("operator_precise_raycast", PreciseRaycastOperator.class, "block_works", false);
+		register("operator_offset_raycast", OffsetRaycastOperator.class, "block_works", false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
