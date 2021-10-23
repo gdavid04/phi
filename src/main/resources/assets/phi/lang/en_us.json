@@ -63,6 +63,8 @@
 	"phi.spellpiece.operator_vector_component_wise_multiply.desc": "Also known as the Hadamard product",
 	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
 	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
+	"phi.spellpiece.operator_precise_raycast": "Operator: Precise Raycast",
+	"phi.spellpiece.operator_precise_raycast.desc": "Returns the exact hit position of a raycast",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

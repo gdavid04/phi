@@ -9,6 +9,7 @@ import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
+import gdavid.phi.spell.operator.vector.PreciseRaycastOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
@@ -103,6 +104,7 @@ public class ModPieces {
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				false);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, false);
+		register("operator_precise_raycast", PreciseRaycastOperator.class, Groups.dataFlow, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
