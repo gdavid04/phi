@@ -9,7 +9,10 @@ import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
+import gdavid.phi.spell.operator.vector.NearestAxialVectorOperator;
+import gdavid.phi.spell.operator.vector.RoundVectorOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
+import gdavid.phi.spell.operator.vector.TruncateVectorOperator;
 import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
@@ -107,6 +110,9 @@ public class ModPieces {
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, false);
 		register("operator_precise_raycast", PreciseRaycastOperator.class, "block_works", false);
 		register("operator_offset_raycast", OffsetRaycastOperator.class, "block_works", false);
+		register("operator_nearest_axial_vector", NearestAxialVectorOperator.class, Groups.math, false);
+		register("operator_round_vector", RoundVectorOperator.class, Groups.math, false);
+		register("operator_truncate_vector", TruncateVectorOperator.class, Groups.math, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		

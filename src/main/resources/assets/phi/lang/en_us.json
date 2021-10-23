@@ -67,6 +67,12 @@
 	"phi.spellpiece.operator_precise_raycast.desc": "Returns the exact hit position of a raycast",
 	"phi.spellpiece.operator_offset_raycast": "Operator: Offset Raycast",
 	"phi.spellpiece.operator_offset_raycast.desc": "Returns the offset of the hit position of a raycast from the center of the block it hit",
+	"phi.spellpiece.operator_nearest_axial_vector": "Operator: Nearest Axial Vector",
+	"phi.spellpiece.operator_nearest_axial_vector.desc": "Returns the axial vector the input direction vector is closest to",
+	"phi.spellpiece.operator_round_vector": "Operator: Round Vector",
+	"phi.spellpiece.operator_round_vector.desc": "Rounds the components of a vector to integers",
+	"phi.spellpiece.operator_truncate_vector": "Operator: Truncate Vector",
+	"phi.spellpiece.operator_truncate_vector.desc": "Limits a vector to be under the given magnitude",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
