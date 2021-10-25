@@ -42,9 +42,9 @@ public class PsionWaveTrick extends PieceTrick {
 		double speedVal = ParamHelper.positive(this, speed);
 		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
 		double frequencyVal = ParamHelper.positive(this, frequency);
-		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
+		if (frequencyVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
 		double distanceVal = ParamHelper.positive(this, distance);
-		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
+		if (distanceVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
 		if (distanceVal > 32) throw new SpellCompilationException(ModPieces.Errors.range);
 		meta.addStat(EnumSpellStat.POTENCY, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 		meta.addStat(EnumSpellStat.COST, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
