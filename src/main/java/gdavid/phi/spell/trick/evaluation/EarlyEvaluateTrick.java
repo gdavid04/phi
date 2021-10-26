@@ -1,19 +1,14 @@
-package gdavid.phi.spell.trick;
+package gdavid.phi.spell.trick.evaluation;
 
 import gdavid.phi.spell.ModPieces;
+import gdavid.phi.util.EvalHelper;
 import gdavid.phi.util.ReferenceParam;
-import java.util.Map.Entry;
-import java.util.Optional;
-import vazkii.psi.api.spell.CompiledSpell.Action;
-import vazkii.psi.api.spell.CompiledSpell.CatchHandler;
 import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.IErrorCatcher;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
-import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
@@ -41,36 +36,14 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		if (Math.abs(getNonnullParamValue(context, condition).doubleValue()) >= 1) {
-			return null;
-		}
+		if (Math.abs(getNonnullParamValue(context, condition).doubleValue()) >= 1) return null;
 		try {
 			SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
-			hoist(piece, context);
+			EvalHelper.hoist(piece, context);
 		} catch (SpellCompilationException e) {
 			throw new SpellRuntimeException(ModPieces.Errors.errored); // NOPMD
 		}
 		return null;
-	}
-	
-	public void hoist(SpellPiece piece, SpellContext context) throws SpellCompilationException {
-		Optional<Action> opt = context.actions.stream().filter(action -> action.piece == piece).findFirst();
-		if (!opt.isPresent()) {
-			return;
-		}
-		context.actions.remove(opt.get());
-		context.actions.push(opt.get());
-		CatchHandler catchHandler = context.cspell.errorHandlers.get(piece);
-		if (catchHandler != null) {
-			hoist(catchHandler.handlerPiece, context);
-		}
-		for (Entry<SpellParam<?>, Side> param : piece.paramSides.entrySet()) {
-			if (!param.getValue().isEnabled() || param.getKey() instanceof ReferenceParam
-					|| (piece instanceof IErrorCatcher && ((IErrorCatcher) piece).catchParam(param.getKey()))) {
-				continue;
-			}
-			hoist(spell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()), context);
-		}
 	}
 	
 }

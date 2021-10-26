@@ -22,12 +22,13 @@ import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
-import gdavid.phi.spell.trick.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
+import gdavid.phi.spell.trick.evaluation.EarlyEvaluateTrick;
+import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import net.minecraft.item.Item;
@@ -95,6 +96,7 @@ public class ModPieces {
 		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
+		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		
