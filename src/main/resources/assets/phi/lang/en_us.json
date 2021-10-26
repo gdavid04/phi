@@ -80,9 +80,9 @@
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
 
 	"phi.spellpiece.connector_clockwise": "Clockwise Connector",
-	"phi.spellpiece.connector_clockwise.desc": "Readability not included",
+	"phi.spellpiece.connector_clockwise.desc": "Redirects inputs to outputs next to them clockwise",
 	"phi.spellpiece.connector_counterclockwise": "Counterclockwise Connector",
-	"phi.spellpiece.connector_counterclockwise.desc": "Also counter-intuitive to read",
+	"phi.spellpiece.connector_counterclockwise.desc": "Redirects inputs to outputs next to them counterclockwise",
 	"phi.spellpiece.connector_bidirectional": "Bidirectional Connector",
 	"phi.spellpiece.connector_bidirectional.desc": "Creates a two-way connection between its ends",
 	"phi.spellpiece.connector_in_out": "In-Out Connector",
