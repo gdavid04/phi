@@ -67,6 +67,11 @@ public class MagazineSocketable implements ICapabilityProvider, ISocketable {
 	}
 	
 	@Override
+	public int getLastSlot() {
+		return slots - 1;
+	}
+	
+	@Override
 	public boolean isItemValid(int slot, ItemStack bullet) {
 		return isSocketSlotAvailable(slot) && ISpellAcceptor.isContainer(bullet);
 	}
