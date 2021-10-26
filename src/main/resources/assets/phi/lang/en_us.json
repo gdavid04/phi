@@ -54,6 +54,8 @@
 	"phi.spellpiece.operator_difference.desc": "|a-b|",
 	"phi.spellpiece.operator_div_mod": "Operator: Integer Divide, Modulus",
 	"phi.spellpiece.operator_div_mod.desc": "Computes both a / b and a %% b",
+	"phi.spellpiece.operator_signum_positive_zero": "Operator: Signum (Positive Zero)",
+	"phi.spellpiece.operator_signum_positive_zero.desc": "Returns the sign of the input, treating zero as positive",
 	"phi.spellpiece.operator_extract_digit": "Operator: Extract Digit",
 	"phi.spellpiece.operator_extract_digit.desc": "Extracts a single digit (counting from last, default: 1) from an integer in the given base (default: 10)",
 	"phi.spellpiece.operator_replace_digit": "Operator: Replace Digit",

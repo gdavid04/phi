@@ -6,6 +6,7 @@ import gdavid.phi.spell.operator.number.DifferenceOperator;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.number.ExtractDigitOperator;
 import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
+import gdavid.phi.spell.operator.number.SignumPositiveZeroOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
@@ -102,6 +103,7 @@ public class ModPieces {
 		register("operator_multiply_accumulate", MultiplyAccumulateOperator.class, Groups.math, false);
 		register("operator_difference", DifferenceOperator.class, Groups.math, false);
 		register("operator_div_mod", DivModOperator.class, Groups.math, false);
+		register("operator_signum_positive_zero", SignumPositiveZeroOperator.class, Groups.math, false);
 		register("operator_extract_digit", ExtractDigitOperator.class, Groups.math, false);
 		// register("operator_replace_digit", ReplaceDigitOperator.class, Groups.math,
 		// false);
