@@ -43,8 +43,14 @@
 	"phi.spellpiece.trick_reevaluate": "Trick: Reevaluate",
 	"phi.spellpiece.trick_reevaluate.desc": "Reevaluates the target piece if condition is within (-1, 1) exclusive",
 
+	"phi.spellpiece.trick_save_vector_component": "Trick: Save Vector Component",
+	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
+
+	"phi.spellpiece.selector_saved_vector_component": "Selector: Saved Vector Component",
+	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",

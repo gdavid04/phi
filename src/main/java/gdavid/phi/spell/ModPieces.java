@@ -23,7 +23,9 @@ import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
+import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
+import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
@@ -99,7 +101,11 @@ public class ModPieces {
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
+		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
+		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
+		
+		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
