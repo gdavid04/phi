@@ -33,7 +33,7 @@ public class SavedVectorComponentSelector extends PieceSelector {
 	
 	@Override
 	public void initParams() {
-		addParam(target = new ParamNumber(SpellParam.GENERIC_NAME_TARGET, SpellParam.BLUE, false, false));
+		addParam(target = new ParamNumber(SpellParam.GENERIC_NAME_TARGET, SpellParam.BLUE, false, true));
 	}
 	
 	@Override
