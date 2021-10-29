@@ -48,8 +48,12 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public MPUTile() {
 		super(type);
 	}
-
-	// TODO programming changes UUID
+	
+	public void setSpell(Spell to) {
+		spell = to.copy();
+		spell.uuid = UUID.randomUUID();
+		markDirty();
+	}
 	
 	@Override
 	public void tick() {
