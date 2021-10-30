@@ -54,7 +54,7 @@ public class MPUBlock extends HorizontalBlock {
 	
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
+		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
 	}
 	
 	@Override

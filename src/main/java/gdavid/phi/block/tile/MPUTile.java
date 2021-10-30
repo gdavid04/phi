@@ -31,7 +31,7 @@ import vazkii.psi.api.spell.SpellPiece;
 
 public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
-	public static TileEntityType<?> type;
+	public static TileEntityType<MPUTile> type;
 	
 	public static final int efficiency = 30;
 	public static final int potency = 80;
@@ -191,7 +191,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public void fix() {
 			// MPU can't blink
-			float yaw = world.getBlockState(pos).get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle();
+			float yaw = getBlockState().get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle();
 			setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, yaw, 0);
 			rotationYawHead = rotationYaw;
 		}

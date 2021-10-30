@@ -29,8 +29,9 @@ public class ModBlocks {
 	}
 	
 	@SubscribeEvent
+	@SuppressWarnings("unchecked")
 	public static void initTiles(RegistryEvent.Register<TileEntityType<?>> event) {
-		event.getRegistry().registerAll(MPUTile.type = TileEntityType.Builder.create(MPUTile::new, mpu).build(null).setRegistryName(mpu.getRegistryName()));
+		event.getRegistry().registerAll(MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu).build(null).setRegistryName(mpu.getRegistryName()));
 	}
 	
 }
