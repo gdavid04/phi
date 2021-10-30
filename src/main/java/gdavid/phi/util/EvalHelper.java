@@ -67,17 +67,5 @@ public class EvalHelper {
 					context);
 		}
 	}
-
-	public static int complexity(SpellPiece piece) {
-		// Can be inaccurate in some cases, should work for pieces with context independent complexity
-		SpellMetadata meta = new SpellMetadata();
-		try {
-			piece.addToMetadata(meta);
-		} catch (SpellCompilationException e) {
-			// This shouldn't happen in valid spells
-			return 1;
-		}
-		return meta.getStat(EnumSpellStat.COMPLEXITY);
-	}
 	
 }

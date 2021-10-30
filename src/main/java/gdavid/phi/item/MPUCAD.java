@@ -1,7 +1,6 @@
 package gdavid.phi.item;
 
 import gdavid.phi.block.MPUBlock;
-import gdavid.phi.block.tile.MPUTile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,11 +28,11 @@ public class MPUCAD extends Item implements ICAD {
 
 	@Override
 	public int getStatValue(ItemStack stack, EnumCADStat stat) {
-		if (stat == EnumCADStat.EFFICIENCY) return MPUTile.efficiency;
-		if (stat == EnumCADStat.POTENCY) return MPUTile.potency;
-		if (stat == EnumCADStat.COMPLEXITY) return -1;
-		if (stat == EnumCADStat.PROJECTION) return -1;
-		if (stat == EnumCADStat.BANDWIDTH) return -1;
+		if (stat == EnumCADStat.EFFICIENCY) return 100;
+		if (stat == EnumCADStat.POTENCY) return 80;
+		if (stat == EnumCADStat.COMPLEXITY) return 40;
+		if (stat == EnumCADStat.PROJECTION) return 3;
+		if (stat == EnumCADStat.BANDWIDTH) return 9;
 		return 0;
 	}
 
