@@ -5,7 +5,8 @@
 	"refmap": "phi.refmap.json",
 	"mixins": [
 		"SpellPieceMixin",
-		"SpellCompilerMixin"
+		"SpellCompilerMixin",
+		"ActionMixin"
 	],
 	"minVersion": "0.8"
 }

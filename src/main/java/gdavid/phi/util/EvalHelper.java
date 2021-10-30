@@ -6,9 +6,11 @@ import java.util.Optional;
 import java.util.Set;
 import vazkii.psi.api.spell.CompiledSpell.Action;
 import vazkii.psi.api.spell.CompiledSpell.CatchHandler;
+import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.IErrorCatcher;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
@@ -64,6 +66,18 @@ public class EvalHelper {
 			hoist(context.cspell.sourceSpell.grid.getPieceAtSideWithRedirections(piece.x, piece.y, param.getValue()),
 					context);
 		}
+	}
+
+	public static int complexity(SpellPiece piece) {
+		// Can be inaccurate in some cases, should work for pieces with context independent complexity
+		SpellMetadata meta = new SpellMetadata();
+		try {
+			piece.addToMetadata(meta);
+		} catch (SpellCompilationException e) {
+			// This shouldn't happen in valid spells
+			return 1;
+		}
+		return meta.getStat(EnumSpellStat.COMPLEXITY);
 	}
 	
 }

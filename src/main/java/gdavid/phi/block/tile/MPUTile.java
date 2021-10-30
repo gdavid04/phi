@@ -1,5 +1,6 @@
 package gdavid.phi.block.tile;
 
+import java.util.Set;
 import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
@@ -33,6 +34,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public static final int efficiency = 30;
 	public static final int potency = 80;
+	public static final int complexityPerTick = 5;
 	
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
@@ -44,6 +46,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public ItemStack fakeCad = new ItemStack(MPUCAD.instance);
 	
 	public SpellContext context;
+	public int complexityProcessed;
 	
 	public MPUTile() {
 		super(type);
@@ -55,13 +58,23 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		markDirty();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void tick() {
 		if (world.isRemote) return;
 		if (spell == null) return;
 		if (fakePlayer == null) fakePlayer = new MPUCaster();
 		fakePlayer.fix();
-		if (context == null || context.stopped || context.actions == null || context.actions.isEmpty()) {
+		boolean recast = context == null;
+		if (!recast) {
+			try {
+				recast = !((Set<SpellContext>) Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler").getField("delayedContexts").get(null)).contains(context);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if (recast) {
+			complexityProcessed = 0;
 			context = new SpellContext().setPlayer(fakePlayer).setSpell(spell);
 			if (!context.isValid()) return;
 			if (!context.cspell.metadata.evaluateAgainst(fakeCad)) return;
@@ -73,6 +86,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 			context.cspell.safeExecute(context);
 		}
+	}
+	
+	public int complexityDelay(int complexity) {
+		complexityProcessed += complexity;
+		int delay = complexityProcessed / complexityPerTick;
+		complexityProcessed %= complexityPerTick;
+		return delay;
 	}
 	
 	@Override
@@ -135,8 +155,12 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public void fix() {
 			// MPU can't blink
-			setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-			setRotation(world.getBlockState(pos).get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle(), 0);
+			float yaw = world.getBlockState(pos).get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle();
+			setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, yaw, 0);
+		}
+		
+		public void complexityDelay(SpellContext context, int complexity) {
+			context.delay += MPUTile.this.complexityDelay(complexity);
 		}
 		
 	}
