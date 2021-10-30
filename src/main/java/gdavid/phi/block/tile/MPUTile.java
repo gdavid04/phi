@@ -27,6 +27,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.api.spell.SpellPiece;
 
 public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
@@ -38,6 +39,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
+	public static final String tagNext = "next";
 	
 	public Spell spell;
 	public int psi;
@@ -48,6 +50,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public SpellContext context;
 	public int complexityProcessed;
 	
+	public int nextX, nextY;
+	
+	public boolean spellChanged;
+	
 	public MPUTile() {
 		super(type);
 	}
@@ -55,7 +61,9 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public void setSpell(Spell to) {
 		spell = to.copy();
 		spell.uuid = UUID.randomUUID();
+		spellChanged = true;
 		markDirty();
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -74,7 +82,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 		}
 		if (recast) {
-			complexityProcessed = 0;
 			context = new SpellContext().setPlayer(fakePlayer).setSpell(spell);
 			if (!context.isValid()) return;
 			if (!context.cspell.metadata.evaluateAgainst(fakeCad)) return;
@@ -84,7 +91,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 				psi -= cost;
 				markDirty();
 			}
+			complexityProcessed = 0;
 			context.cspell.safeExecute(context);
+			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		} else if (context != null && context.actions != null && !context.actions.isEmpty()) {
+			SpellPiece piece = context.actions.peek().piece;
+			if (piece.x != nextX || piece.y != nextY) {
+				nextX = piece.x + 1;
+				nextY = piece.y + 1;
+				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+			}
 		}
 	}
 	
@@ -102,9 +118,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	}
 	
 	public void read(CompoundNBT nbt) {
-		if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
-		else spell.readFromNBT(nbt.getCompound(tagSpell));
+		if (nbt.contains(tagSpell)) {
+			if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
+			else spell.readFromNBT(nbt.getCompound(tagSpell));
+		}
 		psi = nbt.getInt(tagPsi);
+		nextX = nbt.getInt(tagNext + ".x");
+		nextY = nbt.getInt(tagNext + ".y");
 	}
 	
 	@Override
@@ -117,10 +137,26 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		return nbt;
 	}
 	
-	// TODO keep client synced with world.notifyBlockUpdate
+	public CompoundNBT writePacket(CompoundNBT nbt) {
+		if (spellChanged) {
+			CompoundNBT spellNbt = new CompoundNBT();
+			if (spell != null) spell.writeToNBT(spellNbt);
+			nbt.put(tagSpell, spellNbt);
+		}
+		nbt.putInt(tagPsi, psi);
+		if (context != null && context.actions != null && !context.actions.isEmpty()) {
+			SpellPiece piece = context.actions.peek().piece;
+			nbt.putInt(tagNext + ".x", piece.x + 1);
+			nbt.putInt(tagNext + ".y", piece.y + 1);
+		}
+		return nbt;
+	}
+	
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(getPos(), 0, write(new CompoundNBT()));
+		SUpdateTileEntityPacket packet = new SUpdateTileEntityPacket(getPos(), 0, writePacket(new CompoundNBT()));
+		spellChanged = false;
+		return packet;
 	}
 	
 	@Override
@@ -161,7 +197,9 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		}
 		
 		public void complexityDelay(SpellContext context, int complexity) {
-			context.delay += MPUTile.this.complexityDelay(complexity);
+			int delay = MPUTile.this.complexityDelay(complexity);
+			if (context.delay > 0) complexityProcessed = 0;
+			context.delay += delay;
 		}
 		
 	}
