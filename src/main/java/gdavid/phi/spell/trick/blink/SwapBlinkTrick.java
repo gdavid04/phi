@@ -55,12 +55,11 @@ public class SwapBlinkTrick extends PieceTrick {
 		if (offset.lengthSquared() > distanceVal * distanceVal) return null;
 		Vector3d pos1 = e1.getPositionVec();
 		Vector2f rot1 = e1.getPitchYaw();
-		e1.setPosition(e2.getPosX(), e2.getPosY(), e2.getPosZ());
-		e1.rotationYaw = e1.prevRotationYaw = e2.rotationYaw;
-		e1.rotationPitch = e1.prevRotationPitch = e2.rotationPitch;
-		e2.setPosition(pos1.x, pos1.y, pos1.z);
-		e1.rotationYaw = e1.prevRotationYaw = rot1.x;
-		e1.rotationPitch = e1.prevRotationPitch = rot1.y;
+		float rotyh1 = e1.getRotationYawHead();
+		e1.setPositionAndRotation(e2.getPosX(), e2.getPosY(), e2.getPosZ(), e2.rotationYaw, e2.rotationPitch);
+		e1.setRotationYawHead(e2.getRotationYawHead());
+		e2.setPositionAndRotation(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
+		e2.setRotationYawHead(rotyh1);
 		if (e1 instanceof PlayerEntity) {
 			try {
 				Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
