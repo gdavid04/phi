@@ -132,7 +132,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public class MPUCaster extends FakePlayer {
 		
 		private MPUCaster() {
-			super((ServerWorld) MPUTile.this.world, new GameProfile(new UUID(0, 0), "MPU"));
+			super((ServerWorld) MPUTile.this.world, new GameProfile(UUID.randomUUID(), "MPU"));
 			connection = new ServerPlayNetHandler(server, new NetworkManager(PacketDirection.SERVERBOUND) {
 				@Override public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {}
 			}, this);
