@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"RPR",
+		"ECI",
+		"EBI"
+	],
+	"key": {
+		"R": { "tag": "forge:ingots/iron" },
+		"E": { "tag": "forge:ingots/ebony_psimetal" },
+		"I": { "tag": "forge:ingots/ivory_psimetal" },
+		"P": { "item": "psi:programmer" },
+		"C": { "item": "psi:cad_core_hyperclocked" },
+		"B": { "item": "psi:cad_battery_ultradense" }
+	},
+	"result": {
+		"item": "phi:mpu"
+	}
+}
