@@ -9,7 +9,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import gdavid.phi.Phi;
 import gdavid.phi.entity.PsiProjectileEntity;
-import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
@@ -52,14 +51,14 @@ public class PsiProjectileRenderer extends EntityRenderer<PsiProjectileEntity> {
 	public void render(PsiProjectileEntity entity, float entityYaw, float partialTicks, MatrixStack ms,
 			IRenderTypeBuffer buffers, int light) {
 		EntityDataManager dm = entity.getDataManager();
-		ItemStack colorizer = dm.get(PsionWaveEntity.colorizer);
+		ItemStack colorizer = dm.get(PsiProjectileEntity.colorizer);
 		int color = RenderHelper.getColorForColorizer(colorizer);
 		int r = RenderHelper.r(color);
 		int g = RenderHelper.g(color);
 		int b = RenderHelper.b(color);
 		IVertexBuilder buffer = buffers.getBuffer(layer);
 		int fullbright = 0xF000F0;
-		float halfSize = 0.2f;
+		float halfSize = 0.2f * (float) Math.min(1, Math.sqrt(dm.get(PsiProjectileEntity.psi) / 350f));
 		ms.push();
 		ms.rotate(renderManager.getCameraOrientation());
 		ms.rotate(Vector3f.YP.rotationDegrees(180));

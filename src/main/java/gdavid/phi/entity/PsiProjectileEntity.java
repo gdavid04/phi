@@ -31,6 +31,7 @@ public class PsiProjectileEntity extends ThrowableEntity {
 	static final String tagDirectionY = "direction_y";
 	static final String tagDirectionZ = "direction_z";
 	static final String tagOrigin = "origin";
+	static final String tagTime = "time";
 	static final String tagPsi = "psi";
 	
 	public static final DataParameter<ItemStack> colorizer = EntityDataManager.createKey(PsiProjectileEntity.class,
@@ -43,6 +44,8 @@ public class PsiProjectileEntity extends ThrowableEntity {
 			DataSerializers.FLOAT);
 	public static final DataParameter<BlockPos> origin = EntityDataManager.createKey(PsiProjectileEntity.class,
 			DataSerializers.BLOCK_POS);
+	public static final DataParameter<Integer> time = EntityDataManager.createKey(PsiProjectileEntity.class,
+			DataSerializers.VARINT);
 	public static final DataParameter<Integer> psi = EntityDataManager.createKey(PsiProjectileEntity.class,
 			DataSerializers.VARINT);
 	
@@ -73,6 +76,7 @@ public class PsiProjectileEntity extends ThrowableEntity {
 		dataManager.register(directionY, 0f);
 		dataManager.register(directionZ, 0f);
 		dataManager.register(origin, BlockPos.ZERO);
+		dataManager.register(time, 0);
 		dataManager.register(psi, 0);
 	}
 	
@@ -90,6 +94,7 @@ public class PsiProjectileEntity extends ThrowableEntity {
 		nbt.putInt(tagOrigin + "_x", originPos.getX());
 		nbt.putInt(tagOrigin + "_y", originPos.getY());
 		nbt.putInt(tagOrigin + "_z", originPos.getZ());
+		nbt.putFloat(tagTime, dataManager.get(time));
 		nbt.putFloat(tagPsi, dataManager.get(psi));
 	}
 	
@@ -101,6 +106,7 @@ public class PsiProjectileEntity extends ThrowableEntity {
 		dataManager.set(directionY, nbt.getFloat(tagDirectionY));
 		dataManager.set(directionZ, nbt.getFloat(tagDirectionZ));
 		dataManager.set(origin, new BlockPos(nbt.getInt(tagOrigin + "_x"), nbt.getInt(tagOrigin + "_y"), nbt.getInt(tagOrigin + "_z")));
+		dataManager.set(time, nbt.getInt(tagTime));
 		dataManager.set(psi, nbt.getInt(tagPsi));
 	}
 	
@@ -111,6 +117,7 @@ public class PsiProjectileEntity extends ThrowableEntity {
 				dataManager.get(directionZ) * 5 / 40);
 		super.tick();
 		if (ticksExisted > 600) remove();
+		dataManager.set(time, ticksExisted);
 	}
 	
 	@Override
