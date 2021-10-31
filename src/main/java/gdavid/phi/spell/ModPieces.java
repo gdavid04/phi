@@ -24,6 +24,7 @@ import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
+import gdavid.phi.spell.trick.PsiTransferTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
@@ -91,6 +92,7 @@ public class ModPieces {
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Item> event) {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
+		register("trick_psi_transfer", PsiTransferTrick.class, Groups.psionManipulation, false);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
 		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);

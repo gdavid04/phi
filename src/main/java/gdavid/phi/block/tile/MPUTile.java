@@ -8,6 +8,7 @@ import com.mojang.authlib.GameProfile;
 
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.item.MPUCAD;
+import gdavid.phi.spell.trick.PsiTransferTrick;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import io.netty.util.concurrent.Future;
@@ -64,6 +65,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		markDirty();
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
+
+	public void addPsi(int amount) {
+		psi = Math.min(getPsiCapacity(), psi + amount);
+		markDirty();
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+	}
+	
+	public int getPsiCapacity() {
+		return 1000;
+	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -96,6 +107,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 				markDirty();
 			}
 			castDelay = context.cspell.metadata.getStat(EnumSpellStat.COMPLEXITY) / complexityPerTick;
+			if (context.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
 			context.cspell.safeExecute(context);
 			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
