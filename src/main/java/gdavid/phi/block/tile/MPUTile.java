@@ -83,6 +83,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell == null) return;
 		if (fakePlayer == null) fakePlayer = new MPUCaster();
 		fakePlayer.fix();
+		if (castDelay > 0) {
+			castDelay--;
+			return;
+		}
 		boolean recast = context == null;
 		if (!recast) {
 			try {
@@ -92,10 +96,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 		}
 		if (recast) {
-			if (castDelay > 0) {
-				castDelay--;
-				return;
-			}
 			context = new SpellContext().setPlayer(fakePlayer).setSpell(spell);
 			if (!context.isValid()) return;
 			if (!context.cspell.metadata.evaluateAgainst(fakeCad)) return;
