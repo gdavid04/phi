@@ -111,6 +111,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 					if (meta.getStat(EnumSpellStat.PROJECTION) != 0) {
 						String name = piece.getClass().getName();
 						if (!name.equals("vazkii.psi.common.spell.trick.PieceTrickParticleTrail") &&
+								!name.equals("vazkii.psi.common.spell.trick.PieceTrickPlaySound") &&
 								!(piece instanceof MoveMarkerTrick) &&
 								!(piece instanceof ReevaluateTrick)) return true;
 					}
