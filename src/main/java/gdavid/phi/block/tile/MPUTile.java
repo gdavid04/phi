@@ -7,6 +7,8 @@ import com.mojang.authlib.GameProfile;
 
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.item.MPUCAD;
+import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
+import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.block.BlockState;
@@ -24,9 +26,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
+import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
+import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.api.spell.SpellMetadata;
+import vazkii.psi.api.spell.SpellPiece;
 
 public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
@@ -81,6 +87,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			if (!context.isValid()) return;
 			if (!context.cspell.metadata.evaluateAgainst(fakeCad)) return;
 			int cost = context.cspell.metadata.getStat(EnumSpellStat.COST);
+			if (cost == 0 && minCostFix(spell)) cost = 1;
 			if (psi < cost) return;
 			if (cost != 0) {
 				psi -= cost;
@@ -90,6 +97,25 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			context.cspell.safeExecute(context);
 			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
+	}
+	
+	public boolean minCostFix(Spell spell) {
+		for (SpellPiece[] pieces : spell.grid.gridData) {
+			for (SpellPiece piece : pieces) {
+				if (piece == null || piece.getPieceType() != EnumPieceType.TRICK) continue;
+				try {
+					SpellMetadata meta = new SpellMetadata();
+					piece.addToMetadata(meta);
+					if (meta.getStat(EnumSpellStat.PROJECTION) != 0) {
+						String name = piece.getClass().getName();
+						if (!name.equals("vazkii.psi.common.spell.trick.PieceTrickParticleTrail") &&
+								!(piece instanceof MoveMarkerTrick) &&
+								!(piece instanceof ReevaluateTrick)) return true;
+					}
+				} catch (SpellCompilationException e) {}
+			}
+		}
+		return false;
 	}
 	
 	@Override
