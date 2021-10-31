@@ -38,7 +38,7 @@ public class PsiTransferTrick extends PieceTrick {
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		super.addToMetadata(meta);
 		int psiVal = (int) ParamHelper.positive(this, psi);
-		meta.addStat(EnumSpellStat.POTENCY, psiVal / 5);
+		meta.addStat(EnumSpellStat.POTENCY, psiVal);
 		meta.addStat(EnumSpellStat.COST, psiVal);
 		meta.setFlag(flag, true);
 	}
@@ -47,8 +47,7 @@ public class PsiTransferTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 directionVal = ParamHelper.nonNull(this, context, direction).copy().normalize();
 		int psiVal = getNonnullParamValue(context, psi).intValue();
-		float efficiency = 0.3f;
-		if (context.caster instanceof MPUCaster) efficiency = 0.98f;
+		float efficiency = 0.98f;
 		int value = (int) (psiVal * efficiency);
 		if (value <= 0) return null;
 		if (context.focalPoint.getEntityWorld() instanceof ServerWorld) {
