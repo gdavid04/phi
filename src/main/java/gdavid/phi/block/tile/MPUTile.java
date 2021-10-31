@@ -1,5 +1,6 @@
 package gdavid.phi.block.tile;
 
+import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -163,6 +165,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 				@Override public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {}
 			}, this);
 			inventory.mainInventory.set(0, fakeCad);
+			try {
+				Field eyeHeight = Entity.class.getDeclaredField("eyeHeight");
+				eyeHeight.setAccessible(true);
+				eyeHeight.setFloat(this, 0);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		@Override
