@@ -49,8 +49,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public Spell spell;
 	public int psi;
 	
-	public MPUCaster fakePlayer;
-	public ItemStack fakeCad = new ItemStack(MPUCAD.instance);
+	public MPUCaster caster;
+	public ItemStack cad = new ItemStack(MPUCAD.instance);
 	
 	public SpellContext context;
 	public int castDelay;
@@ -80,9 +80,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	@SuppressWarnings("unchecked")
 	public void tick() {
 		if (world.isRemote) return;
+		MPUCAD.instance.incrementTime(cad);
 		if (spell == null) return;
-		if (fakePlayer == null) fakePlayer = new MPUCaster();
-		fakePlayer.fix();
+		if (caster == null) caster = new MPUCaster();
+		caster.fix();
 		if (castDelay > 0) {
 			castDelay--;
 			return;
@@ -96,9 +97,9 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 		}
 		if (recast) {
-			context = new SpellContext().setPlayer(fakePlayer).setSpell(spell);
+			context = new SpellContext().setPlayer(caster).setSpell(spell);
 			if (!context.isValid()) return;
-			if (!context.cspell.metadata.evaluateAgainst(fakeCad)) return;
+			if (!context.cspell.metadata.evaluateAgainst(cad)) return;
 			int cost = context.cspell.metadata.getStat(EnumSpellStat.COST);
 			if (cost == 0 && minCostFix(spell)) cost = 1;
 			if (psi < cost) return;
@@ -143,6 +144,9 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
 		else spell.readFromNBT(nbt.getCompound(tagSpell));
 		psi = nbt.getInt(tagPsi);
+		CompoundNBT cadTag = cad.getOrCreateTag();
+		cadTag.put(MPUCAD.tagMemory, nbt.getCompound(MPUCAD.tagMemory));
+		cadTag.putInt(MPUCAD.tagTime, nbt.getInt(MPUCAD.tagTime));
 	}
 	
 	@Override
@@ -152,6 +156,9 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell != null) spell.writeToNBT(spellNbt);
 		nbt.put(tagSpell, spellNbt);
 		nbt.putInt(tagPsi, psi);
+		CompoundNBT cadTag = cad.getOrCreateTag();
+		nbt.put(MPUCAD.tagMemory, cadTag.getCompound(MPUCAD.tagMemory));
+		nbt.putInt(MPUCAD.tagTime, cadTag.getInt(MPUCAD.tagTime));
 		return nbt;
 	}
 	
@@ -177,7 +184,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			connection = new ServerPlayNetHandler(server, new NetworkManager(PacketDirection.SERVERBOUND) {
 				@Override public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {}
 			}, this);
-			inventory.mainInventory.set(0, fakeCad);
+			inventory.mainInventory.set(0, cad);
 			try {
 				Field eyeHeight = Entity.class.getDeclaredField("eyeHeight");
 				eyeHeight.setAccessible(true);

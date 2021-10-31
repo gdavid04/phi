@@ -4,6 +4,7 @@ import gdavid.phi.block.MPUBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import vazkii.psi.api.cad.EnumCADComponent;
 import vazkii.psi.api.cad.EnumCADStat;
 import vazkii.psi.api.cad.ICAD;
@@ -15,6 +16,11 @@ import vazkii.psi.api.spell.piece.PieceCraftingTrick;
 public class MPUCAD extends Item implements ICAD {
 	
 	public static final MPUCAD instance = new MPUCAD();
+	
+	public static final String tagTime = "time";
+	public static final String tagMemory = "memory";
+	
+	public static int savedVectors = 1;
 	
 	private MPUCAD() {
 		super(new Properties());
@@ -46,32 +52,43 @@ public class MPUCAD extends Item implements ICAD {
 
 	@Override
 	public int consumePsi(ItemStack stack, int psi) {
-		return 0;
+		return psi;
 	}
 
 	@Override
 	public int getMemorySize(ItemStack stack) {
-		return 0;
+		return savedVectors;
 	}
 
 	@Override
 	public void setStoredVector(ItemStack stack, int memorySlot, Vector3 vec) throws SpellRuntimeException {
-		throw new SpellRuntimeException(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
+		if (memorySlot < 0 || memorySlot >= savedVectors) {
+			throw new SpellRuntimeException(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
+		}
+		CompoundNBT nbt = stack.getOrCreateChildTag(tagMemory);
+		nbt.putDouble(memorySlot + "_x", vec.x);
+		nbt.putDouble(memorySlot + "_y", vec.y);
+		nbt.putDouble(memorySlot + "_z", vec.z);
 	}
-
+	
 	@Override
 	public Vector3 getStoredVector(ItemStack stack, int memorySlot) throws SpellRuntimeException {
-		throw new SpellRuntimeException(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
+		if (memorySlot < 0 || memorySlot >= savedVectors) {
+			throw new SpellRuntimeException(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
+		}
+		CompoundNBT nbt = stack.getOrCreateChildTag(tagMemory);
+		return new Vector3(nbt.getDouble(memorySlot + "_x"), nbt.getDouble(memorySlot + "_y"), nbt.getDouble(memorySlot + "_z"));
 	}
-
+	
 	@Override
 	public int getTime(ItemStack stack) {
-		// MPU has no clock
-		return 0;
+		return stack.getOrCreateTag().getInt(tagTime);
 	}
 
 	@Override
-	public void incrementTime(ItemStack stack) {}
+	public void incrementTime(ItemStack stack) {
+		stack.getOrCreateTag().putInt(tagTime, stack.getTag().getInt(tagTime) + 1);
+	}
 
 	@Override
 	public int getSpellColor(ItemStack stack) {
@@ -80,7 +97,7 @@ public class MPUCAD extends Item implements ICAD {
 
 	@Override
 	public boolean craft(ItemStack cad, PlayerEntity entity, PieceCraftingTrick trick) {
-		// MPUs can't craft for whatever reason
+		// MPUs can't craft
 		return false;
 	}
 	
