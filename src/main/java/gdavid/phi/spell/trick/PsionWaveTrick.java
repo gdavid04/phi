@@ -66,7 +66,7 @@ public class PsionWaveTrick extends PieceTrick {
 					new Vector3f((float) directionVal.x, (float) directionVal.y, (float) directionVal.z), speedVal,
 					frequencyVal, distanceVal);
 			wave.setPosition(context.focalPoint.getPosX(),
-					context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0.5 : 0),
+					context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0 : 0.5),
 					context.focalPoint.getPosZ());
 			wave.setShooter(context.focalPoint);
 			wave.getEntityWorld().addEntity(wave);

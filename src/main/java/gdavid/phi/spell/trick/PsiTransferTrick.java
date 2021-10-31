@@ -55,7 +55,7 @@ public class PsiTransferTrick extends PieceTrick {
 			PsiProjectileEntity projectile = new PsiProjectileEntity(context.focalPoint.getEntityWorld(),
 					directionVal.toVec3D(), value);
 			projectile.setPosition(context.focalPoint.getPosX(),
-					context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0.5 : 0),
+					context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0 : 0.5),
 					context.focalPoint.getPosZ());
 			projectile.setOrigin();
 			projectile.getEntityWorld().addEntity(projectile);
