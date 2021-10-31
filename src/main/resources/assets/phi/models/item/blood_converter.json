@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "phi:items/blood_converter"
+		"layer0": "phi:item/blood_converter"
 	}
 }
