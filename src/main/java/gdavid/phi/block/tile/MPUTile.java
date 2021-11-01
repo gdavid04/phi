@@ -45,6 +45,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
+	public static final String tagCad = "cad";
 	
 	public Spell spell;
 	public int psi;
@@ -144,9 +145,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
 		else spell.readFromNBT(nbt.getCompound(tagSpell));
 		psi = nbt.getInt(tagPsi);
-		CompoundNBT cadTag = cad.getOrCreateTag();
-		cadTag.put(MPUCAD.tagMemory, nbt.getCompound(MPUCAD.tagMemory));
-		cadTag.putInt(MPUCAD.tagTime, nbt.getInt(MPUCAD.tagTime));
+		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
 	}
 	
 	@Override
@@ -156,9 +155,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell != null) spell.writeToNBT(spellNbt);
 		nbt.put(tagSpell, spellNbt);
 		nbt.putInt(tagPsi, psi);
-		CompoundNBT cadTag = cad.getOrCreateTag();
-		nbt.put(MPUCAD.tagMemory, cadTag.getCompound(MPUCAD.tagMemory));
-		nbt.putInt(MPUCAD.tagTime, cadTag.getInt(MPUCAD.tagTime));
+		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
 		return nbt;
 	}
 	
