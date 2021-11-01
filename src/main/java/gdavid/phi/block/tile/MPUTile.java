@@ -207,6 +207,22 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, yaw, 0);
 			rotationYawHead = rotationYaw;
 		}
+
+		public void deductPsi(int psi, int cd) {
+			MPUTile.this.psi -= psi;
+			if (MPUTile.this.psi < 0) MPUTile.this.psi = 0;
+			castDelay += cd;
+			markDirty();
+			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		}
+
+		public int getPsi() {
+			return psi;
+		}
+
+		public Integer getMaxPsi() {
+			return getPsiCapacity();
+		}
 		
 	}
 	
