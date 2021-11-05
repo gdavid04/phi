@@ -27,6 +27,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import vazkii.psi.api.spell.EnumPieceType;
@@ -43,12 +45,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public static final int complexityPerTick = 5;
 	
+	public static final ITextComponent statError = new TranslationTextComponent("psimisc.weak_cad");
+	
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
+	public static final String tagMessage = "message";
 	public static final String tagCad = "cad";
 	
 	public Spell spell;
 	public int psi;
+	public ITextComponent message;
 	
 	public MPUCaster caster;
 	public ItemStack cad = new ItemStack(MPUCAD.instance);
@@ -67,6 +73,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public void setSpell(Spell to) {
 		spell = to.copy();
 		spell.uuid = UUID.randomUUID();
+		message = null;
 		markDirty();
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
@@ -106,18 +113,29 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (recast) {
 			context = new SpellContext().setPlayer(caster).setSpell(spell);
 			if (!context.isValid()) return;
-			if (!context.cspell.metadata.evaluateAgainst(cad)) return;
+			if (!context.cspell.metadata.evaluateAgainst(cad)) {
+				if (message != statError) {
+					message = statError;
+					markDirty();
+					world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+				}
+				return;
+			} else if (message == statError) {
+				message = null;
+				markDirty();
+				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+			}
 			int cost = context.cspell.metadata.getStat(EnumSpellStat.COST);
 			if (cost == 0 && minCostFix(spell)) cost = 1;
 			if (psi < cost) return;
 			if (cost != 0) {
 				psi -= cost;
 				markDirty();
+				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 			}
 			castDelay = context.cspell.metadata.getStat(EnumSpellStat.COMPLEXITY) / complexityPerTick;
 			if (context.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
 			context.cspell.safeExecute(context);
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
 	}
 	
@@ -153,6 +171,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		psi = nbt.getInt(tagPsi);
 		prevPsi = nbt.getInt(tagPrevPsi);
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
+		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
 	}
 	
 	@Override
@@ -164,6 +183,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		nbt.putInt(tagPsi, psi);
 		nbt.putInt(tagPrevPsi, prevPsi);
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
+		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
 		return nbt;
 	}
 	
@@ -214,6 +234,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			float yaw = getBlockState().get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle();
 			setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, yaw, 0);
 			rotationYawHead = rotationYaw;
+		}
+		
+		@Override
+		public void sendMessage(ITextComponent component, UUID senderUUID) {
+			message = component;
+			markDirty();
+			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
 
 		public void deductPsi(int psi, int cd) {
