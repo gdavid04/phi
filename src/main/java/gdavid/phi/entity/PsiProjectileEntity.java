@@ -112,11 +112,11 @@ public class PsiProjectileEntity extends ThrowableEntity {
 	
 	@Override
 	public void tick() {
-		setMotion(dataManager.get(directionX) * 5 / 40,
-				dataManager.get(directionY) * 5 / 40,
-				dataManager.get(directionZ) * 5 / 40);
+		setMotion(dataManager.get(directionX) * 12 / 40,
+				dataManager.get(directionY) * 12 / 40,
+				dataManager.get(directionZ) * 12 / 40);
 		super.tick();
-		if (ticksExisted > 600) remove();
+		if (ticksExisted > 240) remove();
 		dataManager.set(time, ticksExisted);
 	}
 	
