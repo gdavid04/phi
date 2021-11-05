@@ -67,18 +67,18 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 			mc.fontRenderer.renderString(mpu.spell.name, 38, 164, 0xFFFFFF, false, ms.getLast().getMatrix(), buf, false, 0, light);
 		}
 		mc.textureManager.bindTexture(psiBarTexture);
-		RenderSystem.disableCull();
 		ms.translate(w + 3, (h - bh) / 2f, 0);
 		ms.push();
 		ms.translate(0, 0, -0.01f);
+		RenderSystem.disableCull();
 		RenderSystem.enableBlend();
 		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderSystem.color4f(1, 1, 1, 0.5f);
 		AbstractGui.blit(ms, 0, 0, 4, 6, bw, bh, 64, 256);
 		RenderSystem.color4f(1, 1, 1, 1);
-		RenderSystem.disableBlend();
 		ms.pop();
 		float percent = mpu.psi / (float) mpu.getPsiCapacity();
+		float percent2 = mpu.prevPsi / (float) mpu.getPsiCapacity();
 		int color = ICADColorizer.DEFAULT_SPELL_COLOR;
 		int r = RenderHelper.r(color);
 		int g = RenderHelper.g(color);
@@ -90,8 +90,13 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		builder.pos(mat, 6 + 12, 20 + 106, 0).color(r, g, b, 255).tex(46/64f, 106/256f).lightmap(light).endVertex();
 		builder.pos(mat, 6 + 12, 20 + (1 - percent) * 106, 0).color(r, g, b, 255).tex(46/64f, (1 - percent) * 106/256f).lightmap(light).endVertex();
 		builder.pos(mat, 6, 20 + (1 - percent) * 106, 0).color(r, g, b, 255).tex(34/64f, (1 - percent) * 106/256f).lightmap(light).endVertex();
+		builder.pos(mat, 6, 20 + (1 - percent) * 106, 0).color(r, g, b, 128).tex(34/64f, (1 - percent) * 106/256f).lightmap(light).endVertex();
+		builder.pos(mat, 6 + 12, 20 + (1 - percent) * 106, 0).color(r, g, b, 128).tex(46/64f, (1 - percent) * 106/256f).lightmap(light).endVertex();
+		builder.pos(mat, 6 + 12, 20 + (1 - percent2) * 106, 0).color(r, g, b, 128).tex(46/64f, (1 - percent2) * 106/256f).lightmap(light).endVertex();
+		builder.pos(mat, 6, 20 + (1 - percent2) * 106, 0).color(r, g, b, 128).tex(34/64f, (1 - percent2) * 106/256f).lightmap(light).endVertex();
 		Tessellator.getInstance().draw();
 		RenderSystem.enableCull();
+		RenderSystem.disableBlend();
 		ms.pop();
 	}
 	
