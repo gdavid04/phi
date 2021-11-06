@@ -24,8 +24,10 @@ import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
+import gdavid.phi.spell.trick.PsiTransferTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
+import gdavid.phi.spell.trick.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
@@ -85,12 +87,14 @@ public class ModPieces {
 		public static final String errored = prefix + "ed";
 		public static final String ambiguous = prefix + "ambiguous";
 		public static final String invalidTarget = prefix + "invalid_target";
+		public static final String noMpu = prefix + "no_mpu";
 		
 	}
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Item> event) {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
+		register("trick_psi_transfer", PsiTransferTrick.class, Groups.psionManipulation, false);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);
 		register("trick_shadow_sequence", ShadowSequenceTrick.class, Groups.opticalMagic, false);
 		register("trick_conjure_marker", ConjureMarkerTrick.class, Groups.opticalMagic, false);
@@ -102,6 +106,7 @@ public class ModPieces {
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
+		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		

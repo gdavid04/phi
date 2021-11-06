@@ -1,6 +1,6 @@
 package gdavid.phi.spell.trick;
 
-import gdavid.phi.block.ShadowBlock;
+import gdavid.phi.block.ModBlocks;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -52,8 +52,8 @@ public class ShadowTrick extends PieceTrick {
 		}
 		BlockState block = world.getBlockState(pos);
 		if (block.isAir(world, pos) || block.getMaterial().isReplaceable()) {
-			if (world.setBlockState(pos, ShadowBlock.instance.getDefaultState())) {
-				world.getPendingBlockTicks().scheduleTick(pos, ShadowBlock.instance, timeVal);
+			if (world.setBlockState(pos, ModBlocks.shadow.getDefaultState())) {
+				world.getPendingBlockTicks().scheduleTick(pos, ModBlocks.shadow, timeVal);
 			}
 		}
 		return null;

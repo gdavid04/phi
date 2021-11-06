@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "phi:items/increased_storage_spell_magazine"
+		"layer0": "phi:item/increased_storage_spell_magazine"
 	}
 }

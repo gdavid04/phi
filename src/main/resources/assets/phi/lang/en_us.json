@@ -18,6 +18,7 @@
 	"phi.spellerror.ed": "?",
 	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
+	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
 
 	"phi.cadstat.overflow_damage": "Overflow Damage",
 
@@ -25,6 +26,8 @@
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
+	"phi.spellpiece.trick_psi_transfer": "Trick: Psi Transfer",
+	"phi.spellpiece.trick_psi_transfer.desc": "Compresses psionic energy into a projectile that can charge Magic Processing Units",
 	"phi.spellpiece.trick_shadow": "Trick: Shadow",
 	"phi.spellpiece.trick_shadow.desc": "Casts a shadow over a block",
 	"phi.spellpiece.trick_shadow_sequence": "Trick: Shadow Sequence",
@@ -45,6 +48,8 @@
 
 	"phi.spellpiece.trick_save_vector_component": "Trick: Save Vector Component",
 	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.trick_set_comparator_output": "Trick: Set Comparator Output",
+	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
 
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
@@ -123,5 +128,7 @@
 	"item.phi.compound_spell_magazine.desc": "A Spell Magazine designed for simultaneous activation of up to 3 spells",
 
 	"item.phi.blood_converter": "Blood Converter",
-	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use"
+	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
+
+	"block.phi.mpu": "Magic Processing Unit"
 }

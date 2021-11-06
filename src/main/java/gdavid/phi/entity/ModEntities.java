@@ -18,6 +18,9 @@ public class ModEntities {
 				EntityType.Builder.create((EntityType.IFactory<PsionWaveEntity>) PsionWaveEntity::new, MISC)
 						.setTrackingRange(256).setUpdateInterval(10).setShouldReceiveVelocityUpdates(false).size(1, 1)
 						.immuneToFire().build("").setRegistryName(Phi.modId, PsionWaveEntity.id),
+				EntityType.Builder.create((EntityType.IFactory<PsiProjectileEntity>) PsiProjectileEntity::new, MISC)
+						.setTrackingRange(256).setUpdateInterval(10).setShouldReceiveVelocityUpdates(false)
+						.size(0.4f, 0.4f).immuneToFire().build("").setRegistryName(Phi.modId, PsiProjectileEntity.id),
 				EntityType.Builder.create((EntityType.IFactory<MarkerEntity>) MarkerEntity::new, MISC)
 						.setTrackingRange(256).setUpdateInterval(10).size(1, 1).immuneToFire().build("")
 						.setRegistryName(Phi.modId, MarkerEntity.id));

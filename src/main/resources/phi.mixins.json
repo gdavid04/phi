@@ -5,7 +5,9 @@
 	"refmap": "phi.refmap.json",
 	"mixins": [
 		"SpellPieceMixin",
-		"SpellCompilerMixin"
+		"SpellCompilerMixin",
+		"PlayerDataMixin",
+		"CasterEnergySelectorMixin"
 	],
 	"minVersion": "0.8"
 }

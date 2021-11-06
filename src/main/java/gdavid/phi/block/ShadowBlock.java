@@ -1,6 +1,5 @@
 package gdavid.phi.block;
 
-import gdavid.phi.Phi;
 import java.util.Random;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.BlockState;
@@ -10,16 +9,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ObjectHolder;
 
 public class ShadowBlock extends AirBlock {
 	
 	// TODO allow waterlogging
 	
 	public static final String id = "shadow";
-	
-	@ObjectHolder(Phi.modId + ":" + id)
-	public static ShadowBlock instance;
 	
 	public ShadowBlock() {
 		super(Properties.create(Material.AIR).notSolid().noDrops());
