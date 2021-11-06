@@ -93,6 +93,7 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		ms.push();
 		ms.translate(0, 0, -0.01f);
 		RenderSystem.disableCull();
+		RenderSystem.enableDepthTest();
 		RenderSystem.enableBlend();
 		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderSystem.color4f(1, 1, 1, 0.5f);
