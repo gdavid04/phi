@@ -8,7 +8,6 @@ import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.BlockState;
@@ -29,6 +28,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -220,12 +220,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 				@Override
 				public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {
 				}
+				
 			}, this);
 			inventory.mainInventory.set(0, cad);
 			try {
-				Field eyeHeight = Entity.class.getDeclaredField("eyeHeight");
-				eyeHeight.setAccessible(true);
-				eyeHeight.setFloat(this, 0);
+				ObfuscationReflectionHelper.setPrivateValue(Entity.class, this, 0, "field_213326_aJ"); // eyeHeight
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
