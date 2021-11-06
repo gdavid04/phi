@@ -1,9 +1,9 @@
 {
-    "parent": "block/orientable",
-    "textures": {
-        "top": "phi:block/mpu_top",
-        "bottom": "phi:block/mpu_bottom",
-        "front": "phi:block/mpu_front",
-        "side": "phi:block/mpu_side"
-    }
+	"parent": "block/orientable",
+	"textures": {
+		"top": "phi:block/mpu_top",
+		"bottom": "phi:block/mpu_bottom",
+		"front": "phi:block/mpu_front",
+		"side": "phi:block/mpu_side"
+	}
 }

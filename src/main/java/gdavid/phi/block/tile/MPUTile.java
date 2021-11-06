@@ -1,11 +1,6 @@
 package gdavid.phi.block.tile;
 
-import java.lang.reflect.Field;
-import java.util.Set;
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
-
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.PsiTransferTrick;
@@ -13,6 +8,9 @@ import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import java.lang.reflect.Field;
+import java.util.Set;
+import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -63,7 +61,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public SpellContext context;
 	public int castDelay;
-
+	
 	public static final String tagPrevPsi = "prev_psi";
 	
 	public int prevPsi;
@@ -73,13 +71,17 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	}
 	
 	public void setSpell(Spell to) {
-		spell = to.copy();
-		spell.uuid = UUID.randomUUID();
+		if (to == null) {
+			spell = null;
+		} else {
+			spell = to.copy();
+			spell.uuid = UUID.randomUUID();
+		}
 		message = null;
 		markDirty();
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
-
+	
 	public void addPsi(int amount) {
 		psi = Math.min(getPsiCapacity(), psi + amount);
 		markDirty();
@@ -107,7 +109,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		boolean recast = context == null;
 		if (!recast) {
 			try {
-				recast = !((Set<SpellContext>) Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler").getField("delayedContexts").get(null)).contains(context);
+				recast = !((Set<SpellContext>) Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler")
+						.getField("delayedContexts").get(null)).contains(context);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -151,12 +154,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 					piece.addToMetadata(meta);
 					if (meta.getStat(EnumSpellStat.PROJECTION) != 0) {
 						String name = piece.getClass().getName();
-						if (!name.equals("vazkii.psi.common.spell.trick.PieceTrickParticleTrail") &&
-								!name.equals("vazkii.psi.common.spell.trick.PieceTrickPlaySound") &&
-								!(piece instanceof MoveMarkerTrick) &&
-								!(piece instanceof ReevaluateTrick)) return true;
+						if (!name.equals("vazkii.psi.common.spell.trick.PieceTrickParticleTrail")
+								&& !name.equals("vazkii.psi.common.spell.trick.PieceTrickPlaySound")
+								&& !(piece instanceof MoveMarkerTrick) && !(piece instanceof ReevaluateTrick))
+							return true;
 					}
-				} catch (SpellCompilationException e) {}
+				} catch (SpellCompilationException e) {
+				}
 			}
 		}
 		return false;
@@ -212,7 +216,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		private MPUCaster() {
 			super((ServerWorld) MPUTile.this.world, new GameProfile(UUID.randomUUID(), "MPU"));
 			connection = new ServerPlayNetHandler(server, new NetworkManager(PacketDirection.SERVERBOUND) {
-				@Override public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {}
+				
+				@Override
+				public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {
+				}
 			}, this);
 			inventory.mainInventory.set(0, cad);
 			try {
@@ -247,7 +254,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			markDirty();
 			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
-
+		
 		public void deductPsi(int amount, int cd) {
 			psi -= amount;
 			if (psi < 0) psi = 0;
@@ -255,11 +262,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			markDirty();
 			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
-
+		
 		public int getPsi() {
 			return psi;
 		}
-
+		
 		public Integer getMaxPsi() {
 			return getPsiCapacity();
 		}

@@ -33,7 +33,8 @@ public class MPUBlock extends HorizontalBlock {
 	}
 	
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult rayTraceResult) {
 		ItemStack item = player.getHeldItem(hand);
 		if (!ISpellAcceptor.isAcceptor(item)) return ActionResultType.PASS;
 		ISpellAcceptor acceptor = ISpellAcceptor.acceptor(item);
@@ -44,7 +45,8 @@ public class MPUBlock extends HorizontalBlock {
 		if (!world.isRemote) {
 			boolean truePlayer = true;
 			try {
-				truePlayer = (boolean) Class.forName("vazkii.psi.common.item.ItemCAD").getMethod("isTruePlayer", Entity.class).invoke(null, player);
+				truePlayer = (boolean) Class.forName("vazkii.psi.common.item.ItemCAD")
+						.getMethod("isTruePlayer", Entity.class).invoke(null, player);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

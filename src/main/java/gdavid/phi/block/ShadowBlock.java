@@ -1,7 +1,6 @@
 package gdavid.phi.block;
 
 import java.util.Random;
-
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;

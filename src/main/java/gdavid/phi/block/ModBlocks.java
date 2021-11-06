@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(bus = Bus.MOD)
 public class ModBlocks {
-
+	
 	public static final Block shadow = new ShadowBlock();
 	public static final Block mpu = new MPUBlock();
 	
@@ -25,13 +25,16 @@ public class ModBlocks {
 	
 	@SubscribeEvent
 	public static void initItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC)).setRegistryName(mpu.getRegistryName()));
+		event.getRegistry()
+				.registerAll(new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
+						.setRegistryName(mpu.getRegistryName()));
 	}
 	
 	@SubscribeEvent
 	@SuppressWarnings("unchecked")
 	public static void initTiles(RegistryEvent.Register<TileEntityType<?>> event) {
-		event.getRegistry().registerAll(MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu).build(null).setRegistryName(mpu.getRegistryName()));
+		event.getRegistry().registerAll(MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder
+				.create(MPUTile::new, mpu).build(null).setRegistryName(mpu.getRegistryName()));
 	}
 	
 }

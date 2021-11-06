@@ -1,12 +1,11 @@
 package gdavid.phi.mixin;
 
+import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import vazkii.psi.api.spell.SpellContext;
 
 @Pseudo

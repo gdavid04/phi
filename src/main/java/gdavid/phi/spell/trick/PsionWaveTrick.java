@@ -71,8 +71,8 @@ public class PsionWaveTrick extends PieceTrick {
 					frequencyVal, distanceVal);
 			ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
 			wave.setColorizer(((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.DYE));
-			wave.setPosition(context.focalPoint.getPosX(),
-					context.focalPoint.getPosY() + context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0 : 0.5),
+			wave.setPosition(context.focalPoint.getPosX(), context.focalPoint.getPosY()
+					+ context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0 : 0.5),
 					context.focalPoint.getPosZ());
 			wave.setShooter(context.focalPoint);
 			wave.getEntityWorld().addEntity(wave);

@@ -45,7 +45,7 @@ public class MPUCAD extends Item implements ICAD {
 	public ItemStack getComponentInSlot(ItemStack stack, EnumCADComponent type) {
 		return ItemStack.EMPTY;
 	}
-
+	
 	@Override
 	public int getStatValue(ItemStack stack, EnumCADStat stat) {
 		if (stat == EnumCADStat.EFFICIENCY) return 100;
@@ -55,25 +55,26 @@ public class MPUCAD extends Item implements ICAD {
 		if (stat == EnumCADStat.BANDWIDTH) return 9;
 		return 0;
 	}
-
+	
 	@Override
 	public int getStoredPsi(ItemStack stack) {
 		return 0;
 	}
-
+	
 	@Override
-	public void regenPsi(ItemStack stack, int psi) {}
-
+	public void regenPsi(ItemStack stack, int psi) {
+	}
+	
 	@Override
 	public int consumePsi(ItemStack stack, int psi) {
 		return psi;
 	}
-
+	
 	@Override
 	public int getMemorySize(ItemStack stack) {
 		return savedVectors;
 	}
-
+	
 	@Override
 	public void setStoredVector(ItemStack stack, int memorySlot, Vector3 vec) throws SpellRuntimeException {
 		if (memorySlot < 0 || memorySlot >= savedVectors) {
@@ -94,18 +95,18 @@ public class MPUCAD extends Item implements ICAD {
 	public int getTime(ItemStack stack) {
 		return getData(stack).getTime();
 	}
-
+	
 	@Override
 	public void incrementTime(ItemStack stack) {
 		ICADData data = getData(stack);
 		data.setTime(data.getTime() + 1);
 	}
-
+	
 	@Override
 	public int getSpellColor(ItemStack stack) {
 		return ICADColorizer.DEFAULT_SPELL_COLOR;
 	}
-
+	
 	@Override
 	public boolean craft(ItemStack cad, PlayerEntity entity, PieceCraftingTrick trick) {
 		// MPUs can't craft

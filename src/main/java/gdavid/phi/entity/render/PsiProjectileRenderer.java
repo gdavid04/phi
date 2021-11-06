@@ -1,12 +1,9 @@
 package gdavid.phi.entity.render;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.entity.PsiProjectileEntity;
 import gdavid.phi.util.RenderHelper;
@@ -23,6 +20,7 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.PsiAPI;
 
 @OnlyIn(Dist.CLIENT)

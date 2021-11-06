@@ -105,15 +105,15 @@ public class PsiProjectileEntity extends ThrowableEntity {
 		dataManager.set(directionX, nbt.getFloat(tagDirectionX));
 		dataManager.set(directionY, nbt.getFloat(tagDirectionY));
 		dataManager.set(directionZ, nbt.getFloat(tagDirectionZ));
-		dataManager.set(origin, new BlockPos(nbt.getInt(tagOrigin + "_x"), nbt.getInt(tagOrigin + "_y"), nbt.getInt(tagOrigin + "_z")));
+		dataManager.set(origin,
+				new BlockPos(nbt.getInt(tagOrigin + "_x"), nbt.getInt(tagOrigin + "_y"), nbt.getInt(tagOrigin + "_z")));
 		dataManager.set(time, nbt.getInt(tagTime));
 		dataManager.set(psi, nbt.getInt(tagPsi));
 	}
 	
 	@Override
 	public void tick() {
-		setMotion(dataManager.get(directionX) * 12 / 40,
-				dataManager.get(directionY) * 12 / 40,
+		setMotion(dataManager.get(directionX) * 12 / 40, dataManager.get(directionY) * 12 / 40,
 				dataManager.get(directionZ) * 12 / 40);
 		super.tick();
 		if (ticksExisted > 240) remove();
