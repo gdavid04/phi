@@ -11,6 +11,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -18,6 +19,7 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
+import vazkii.psi.api.PsiAPI;
 
 public class PsiProjectileEntity extends ThrowableEntity {
 	
@@ -125,6 +127,8 @@ public class PsiProjectileEntity extends ThrowableEntity {
 		if (world.isRemote) return;
 		if (result instanceof BlockRayTraceResult) {
 			BlockPos hit = ((BlockRayTraceResult) result).getPos();
+			if (world.getBlockState(hit).getBlock().getRegistryName()
+					.equals(new ResourceLocation(PsiAPI.MOD_ID, "conjured"))) return;
 			if (hit.equals(dataManager.get(origin))) return;
 			TileEntity tile = world.getTileEntity(hit);
 			if (tile instanceof MPUTile) {
