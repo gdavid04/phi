@@ -130,5 +130,6 @@
 	"item.phi.blood_converter": "Blood Converter",
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
-	"block.phi.mpu": "Magic Processing Unit"
+	"block.phi.mpu": "Magic Processing Unit",
+	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal"
 }
