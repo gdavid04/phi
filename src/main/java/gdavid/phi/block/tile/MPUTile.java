@@ -50,11 +50,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
 	public static final String tagMessage = "message";
+	public static final String tagComparatorSignal = "comparator_signal";
 	public static final String tagCad = "cad";
 	
 	public Spell spell;
 	public int psi;
 	public ITextComponent message;
+	public int comparatorSignal;
 	
 	public MPUCaster caster;
 	public ItemStack cad = new ItemStack(MPUCAD.instance);
@@ -173,6 +175,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		prevPsi = nbt.getInt(tagPrevPsi);
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
 		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
+		comparatorSignal = nbt.getInt(tagComparatorSignal);
 	}
 	
 	@Override
@@ -185,6 +188,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		nbt.putInt(tagPrevPsi, prevPsi);
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
 		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
+		nbt.putInt(tagComparatorSignal, comparatorSignal);
 		return nbt;
 	}
 	
@@ -241,15 +245,15 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		public void sendMessage(ITextComponent component, UUID senderUUID) {
 			message = component;
 			markDirty();
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
 
-		public void deductPsi(int psi, int cd) {
-			MPUTile.this.psi -= psi;
-			if (MPUTile.this.psi < 0) MPUTile.this.psi = 0;
+		public void deductPsi(int amount, int cd) {
+			psi -= amount;
+			if (psi < 0) psi = 0;
 			castDelay += cd;
 			markDirty();
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
 
 		public int getPsi() {
@@ -258,6 +262,12 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 
 		public Integer getMaxPsi() {
 			return getPsiCapacity();
+		}
+		
+		public void setComparatorSignal(int value) {
+			comparatorSignal = Math.max(Math.min(value, 15), 0);
+			markDirty();
+			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 		}
 		
 	}

@@ -27,6 +27,7 @@ import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.trick.PsiTransferTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
+import gdavid.phi.spell.trick.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
@@ -86,6 +87,7 @@ public class ModPieces {
 		public static final String errored = prefix + "ed";
 		public static final String ambiguous = prefix + "ambiguous";
 		public static final String invalidTarget = prefix + "invalid_target";
+		public static final String noMpu = prefix + "no_mpu";
 		
 	}
 	
@@ -104,6 +106,7 @@ public class ModPieces {
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
+		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		

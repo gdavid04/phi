@@ -73,4 +73,16 @@ public class MPUBlock extends HorizontalBlock {
 		return true;
 	}
 	
+	@Override
+	public int getComparatorInputOverride(BlockState state, World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (!(tile instanceof MPUTile)) return 0;
+		return ((MPUTile) tile).comparatorSignal;
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride(BlockState state) {
+		return true;
+	}
+	
 }
