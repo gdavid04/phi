@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,6 @@ public class MPUBlock extends HorizontalBlock {
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-		// TODO make it work with spell drives
 		ItemStack item = player.getHeldItem(hand);
 		if (!ISpellAcceptor.isAcceptor(item)) return ActionResultType.PASS;
 		ISpellAcceptor acceptor = ISpellAcceptor.acceptor(item);
@@ -42,7 +42,13 @@ public class MPUBlock extends HorizontalBlock {
 		TileEntity tile = world.getTileEntity(pos);
 		if (!(tile instanceof MPUTile)) return ActionResultType.PASS;
 		if (!world.isRemote) {
-			((MPUTile) tile).setSpell(spell);
+			boolean truePlayer = true;
+			try {
+				truePlayer = (boolean) Class.forName("vazkii.psi.common.item.ItemCAD").getMethod("isTruePlayer", Entity.class).invoke(null, player);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (truePlayer) ((MPUTile) tile).setSpell(spell);
 		}
 		return ActionResultType.SUCCESS;
 	}
