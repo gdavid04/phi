@@ -111,6 +111,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 		}
 		if (recast) {
+			if (world.isBlockPowered(getPos())) return;
 			context = new SpellContext().setPlayer(caster).setSpell(spell);
 			if (!context.isValid()) return;
 			if (!context.cspell.metadata.evaluateAgainst(cad)) {
