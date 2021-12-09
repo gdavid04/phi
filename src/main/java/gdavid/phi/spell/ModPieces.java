@@ -13,6 +13,7 @@ import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
 import gdavid.phi.spell.operator.vector.NearestAxialVectorOperator;
+import gdavid.phi.spell.operator.vector.ReplaceVectorComponentOperator;
 import gdavid.phi.spell.operator.vector.RoundVectorOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.operator.vector.TruncateVectorOperator;
@@ -126,6 +127,7 @@ public class ModPieces {
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				false);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, false);
+		register("operator_replace_vector_component", ReplaceVectorComponentOperator.class, Groups.dataFlow, false);
 		register("operator_precise_raycast", PreciseRaycastOperator.class, "block_works", false);
 		register("operator_offset_raycast", OffsetRaycastOperator.class, "block_works", false);
 		register("operator_nearest_axial_vector", NearestAxialVectorOperator.class, Groups.math, false);

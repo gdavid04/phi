@@ -80,6 +80,8 @@
 	"phi.spellpiece.operator_vector_component_wise_multiply.desc": "Also known as the Hadamard product",
 	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
 	"phi.spellpiece.operator_split_vector.desc": "Splits a vector to its components",
+	"phi.spellpiece.operator_replace_vector_component": "Operator: Replace Vector Component",
+	"phi.spellpiece.operator_replace_vector_component.desc": "Replaces components of a vector",
 	"phi.spellpiece.operator_precise_raycast": "Operator: Precise Raycast",
 	"phi.spellpiece.operator_precise_raycast.desc": "Returns the exact hit position of a raycast",
 	"phi.spellpiece.operator_offset_raycast": "Operator: Offset Raycast",
