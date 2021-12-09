@@ -2,6 +2,7 @@ package gdavid.phi.spell.trick.blink;
 
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -43,14 +44,16 @@ public class CasterBlinkTrick extends PieceTrick {
 		Vector3 directionVal = ParamHelper.nonNull(this, context, direction).copy().normalize().multiply(distanceVal);
 		context.caster.setPosition(context.caster.getPosX() + directionVal.x, context.caster.getPosY() + directionVal.y,
 				context.caster.getPosZ() + directionVal.z);
-		try {
-			Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
-					.getConstructor(double.class, double.class, double.class)
-					.newInstance(directionVal.x, directionVal.y, directionVal.z);
-			Class.forName("vazkii.psi.common.network.MessageRegister")
-					.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, context.caster);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (context.caster instanceof ServerPlayerEntity) {
+			try {
+				Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
+						.getConstructor(double.class, double.class, double.class)
+						.newInstance(directionVal.x, directionVal.y, directionVal.z);
+				Class.forName("vazkii.psi.common.network.MessageRegister")
+						.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, context.caster);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

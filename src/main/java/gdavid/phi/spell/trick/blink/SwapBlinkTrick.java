@@ -3,7 +3,8 @@ package gdavid.phi.spell.trick.blink;
 import gdavid.phi.spell.ModPieces;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -58,29 +59,17 @@ public class SwapBlinkTrick extends PieceTrick {
 		float rotyh1 = e1.getRotationYawHead();
 		e1.setPositionAndRotation(e2.getPosX(), e2.getPosY(), e2.getPosZ(), e2.rotationYaw, e2.rotationPitch);
 		e1.setRotationYawHead(e2.getRotationYawHead());
+		if (e1 instanceof ServerPlayerEntity) {
+			ServerPlayNetHandler c = ((ServerPlayerEntity) e1).connection;
+			c.setPlayerLocation(e2.getPosX(), e2.getPosY(), e2.getPosZ(), e2.rotationYaw, e2.rotationPitch);
+			c.captureCurrentPosition();
+		}
 		e2.setPositionAndRotation(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
 		e2.setRotationYawHead(rotyh1);
-		if (e1 instanceof PlayerEntity) {
-			try {
-				Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
-						.getConstructor(double.class, double.class, double.class)
-						.newInstance(offset.x, offset.y, offset.z);
-				Class.forName("vazkii.psi.common.network.MessageRegister")
-						.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, e1);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if (e2 instanceof PlayerEntity) {
-			try {
-				Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
-						.getConstructor(double.class, double.class, double.class)
-						.newInstance(-offset.x, -offset.y, -offset.z);
-				Class.forName("vazkii.psi.common.network.MessageRegister")
-						.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, e2);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if (e2 instanceof ServerPlayerEntity) {
+			ServerPlayNetHandler c = ((ServerPlayerEntity) e2).connection;
+			c.setPlayerLocation(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
+			c.captureCurrentPosition();
 		}
 		return null;
 	}
