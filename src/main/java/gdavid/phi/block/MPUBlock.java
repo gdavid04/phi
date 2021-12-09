@@ -2,6 +2,7 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
+
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -50,21 +51,34 @@ public class MPUBlock extends HorizontalBlock {
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult rayTraceResult) {
 		ItemStack item = player.getHeldItem(hand);
-		if (!ISpellAcceptor.isAcceptor(item)) return ActionResultType.PASS;
-		ISpellAcceptor acceptor = ISpellAcceptor.acceptor(item);
-		if (!acceptor.containsSpell()) return ActionResultType.PASS;
-		Spell spell = acceptor.getSpell();
 		TileEntity tile = world.getTileEntity(pos);
 		if (!(tile instanceof MPUTile)) return ActionResultType.PASS;
-		if (!world.isRemote) {
-			boolean truePlayer = true;
+		Class<?> spellDrive = null;
+		try {
+			spellDrive = Class.forName("vazkii.psi.common.item.ItemSpellDrive");
+			if (!(boolean) Class.forName("vazkii.psi.common.item.ItemCAD")
+					.getMethod("isTruePlayer", Entity.class).invoke(null, player)) {
+				return ActionResultType.PASS;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Spell spell = null;
+		if (spellDrive != null && spellDrive.isInstance(item.getItem())) {
 			try {
-				truePlayer = (boolean) Class.forName("vazkii.psi.common.item.ItemCAD")
-						.getMethod("isTruePlayer", Entity.class).invoke(null, player);
+				spell = (Spell) spellDrive.getMethod("getSpell", ItemStack.class).invoke(item.getItem(), item);
 			} catch (Exception e) {
 				e.printStackTrace();
+				return ActionResultType.PASS;
 			}
-			if (truePlayer) ((MPUTile) tile).setSpell(spell);
+		} else {
+			if (!ISpellAcceptor.isAcceptor(item)) return ActionResultType.PASS;
+			ISpellAcceptor acceptor = ISpellAcceptor.acceptor(item);
+			if (!acceptor.containsSpell()) return ActionResultType.PASS;
+			spell = acceptor.getSpell();
+		}
+		if (!world.isRemote && spell != null) {
+			((MPUTile) tile).setSpell(spell);
 		}
 		return ActionResultType.SUCCESS;
 	}
