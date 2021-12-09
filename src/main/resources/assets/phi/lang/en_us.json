@@ -94,6 +94,8 @@
 	"phi.spellpiece.operator_truncate_vector.desc": "Removes the decimal places of the components of a vector",
 	"phi.spellpiece.operator_clamp_vector": "Operator: Clamp Vector",
 	"phi.spellpiece.operator_clamp_vector.desc": "Clamps a vector to be under the given magnitude",
+	"phi.spellpiece.operator_focused_block": "Operator: Focused Block",
+	"phi.spellpiece.operator_focused_block.desc": "Gets the block the target entity is looking at",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
