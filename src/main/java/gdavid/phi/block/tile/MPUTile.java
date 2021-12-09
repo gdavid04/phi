@@ -83,13 +83,19 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	}
 	
 	public void addPsi(int amount) {
-		psi = Math.min(getPsiCapacity(), psi + amount);
+		if (amount == 0) return;
+		psi = Math.max(0, Math.min(getPsiCapacity(), psi + amount));
 		markDirty();
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
 	
 	public int getPsiCapacity() {
 		return 1000;
+	}
+	
+	public void waveImpact(Float frequency, float focus) {
+		addPsi(-Math.round(frequency * focus * 4));
+		castDelay = Math.round(frequency * focus * 4);
 	}
 	
 	@Override
@@ -134,11 +140,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			int cost = context.cspell.metadata.getStat(EnumSpellStat.COST);
 			if (cost == 0 && minCostFix(spell)) cost = 1;
 			if (psi < cost) return;
-			if (cost != 0) {
-				psi -= cost;
-				markDirty();
-				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
-			}
+			addPsi(-cost);
 			castDelay = context.cspell.metadata.getStat(EnumSpellStat.COMPLEXITY) / complexityPerTick;
 			if (context.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
 			context.cspell.safeExecute(context);
@@ -255,11 +257,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		}
 		
 		public void deductPsi(int amount, int cd) {
-			psi -= amount;
-			if (psi < 0) psi = 0;
+			addPsi(-amount);
 			castDelay += cd;
-			markDirty();
-			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 		}
 		
 		public int getPsi() {

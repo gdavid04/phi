@@ -1,6 +1,8 @@
 package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
+import gdavid.phi.block.tile.MPUTile;
+
 import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
@@ -15,6 +17,8 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3f;
@@ -143,6 +147,8 @@ public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 	
 	@Override
 	protected void onImpact(RayTraceResult result) {
+		float traveledPercent = dataManager.get(traveled) / dataManager.get(distance);
+		float focus = 2 * traveledPercent * (traveledPercent - 1) + 1;
 		if (result instanceof EntityRayTraceResult) {
 			Entity hit = ((EntityRayTraceResult) result).getEntity();
 			if (hit.getUniqueID().equals(dataManager.get(shooter).get()) && dataManager.get(traveled) < 0.8) {
@@ -151,8 +157,6 @@ public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 			if (hit instanceof PlayerEntity && !world.isRemote) {
 				PlayerEntity player = (PlayerEntity) hit;
 				IPlayerData data = PsiAPI.internalHandler.getDataForPlayer(player);
-				float traveledPercent = dataManager.get(traveled) / dataManager.get(distance);
-				float focus = 2 * traveledPercent * (traveledPercent - 1) + 1;
 				data.deductPsi((int) Math.ceil(dataManager.get(frequency) * 10 * focus),
 						(int) Math.ceil(dataManager.get(frequency) * 2 * focus), true, true);
 				EffectInstance effect = player.getActivePotionEffect(Effects.SLOWNESS);
@@ -166,6 +170,12 @@ public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, newTime % 600, newTime / 60, false, false));
 			}
 			remove();
+		} else if (result instanceof BlockRayTraceResult) {
+			TileEntity tile = world.getTileEntity(((BlockRayTraceResult) result).getPos());
+			if (tile instanceof MPUTile) {
+				((MPUTile) tile).waveImpact(dataManager.get(frequency), focus);
+				remove();
+			}
 		}
 	}
 	
