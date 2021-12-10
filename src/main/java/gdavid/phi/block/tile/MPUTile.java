@@ -62,8 +62,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public SpellContext context;
 	public int castDelay;
 	
-	public static final String tagPrevPsi = "prev_psi";
-	
 	public int prevPsi;
 	
 	public MPUTile() {
@@ -101,9 +99,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void tick() {
-		if (psi < prevPsi) prevPsi = Math.max(psi, prevPsi - 25);
-		else prevPsi = psi;
-		if (world.isRemote) return;
+		if (world.isRemote) {
+			if (psi < prevPsi) prevPsi = Math.max(psi, prevPsi - 25);
+			else prevPsi = psi;
+			return;
+		}
 		MPUCAD.instance.incrementTime(cad);
 		if (spell == null) return;
 		if (caster == null) caster = new MPUCaster();
@@ -178,7 +178,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
 		else spell.readFromNBT(nbt.getCompound(tagSpell));
 		psi = nbt.getInt(tagPsi);
-		prevPsi = nbt.getInt(tagPrevPsi);
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
 		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
 		comparatorSignal = nbt.getInt(tagComparatorSignal);
@@ -191,7 +190,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		if (spell != null) spell.writeToNBT(spellNbt);
 		nbt.put(tagSpell, spellNbt);
 		nbt.putInt(tagPsi, psi);
-		nbt.putInt(tagPrevPsi, prevPsi);
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
 		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
 		nbt.putInt(tagComparatorSignal, comparatorSignal);
