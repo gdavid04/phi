@@ -3,9 +3,9 @@ package gdavid.phi.block.tile;
 import com.mojang.authlib.GameProfile;
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.item.MPUCAD;
-import gdavid.phi.spell.trick.PsiTransferTrick;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
+import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.util.Set;
@@ -91,6 +91,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		return 1000;
 	}
 	
+	public void setTime(int time) {
+		MPUCAD.instance.setTime(cad, time);
+		markDirty();
+	}
+	
 	public void waveImpact(Float frequency, float focus) {
 		addPsi(-Math.round(frequency * focus * 4));
 		castDelay = Math.round(frequency * focus * 4);
@@ -132,10 +137,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 					world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 				}
 				return;
-			} else if (message == statError) {
-				message = null;
-				markDirty();
-				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 			}
 			int cost = context.cspell.metadata.getStat(EnumSpellStat.COST);
 			if (cost == 0 && minCostFix(spell)) cost = 1;
@@ -271,6 +272,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			comparatorSignal = Math.max(Math.min(value, 15), 0);
 			markDirty();
 			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		}
+		
+		public void setTime(int time) {
+			MPUTile.this.setTime(time);
 		}
 		
 	}

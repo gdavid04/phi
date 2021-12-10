@@ -50,6 +50,8 @@
 	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
 	"phi.spellpiece.trick_set_comparator_output": "Trick: Set Comparator Output",
 	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
+	"phi.spellpiece.trick_set_time": "Trick: Set Time",
+	"phi.spellpiece.trick_set_time.desc": "Sets the internal time of a Magic Processing Unit",
 
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",

@@ -1,4 +1,4 @@
-package gdavid.phi.spell.trick;
+package gdavid.phi.spell.trick.mpu;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;

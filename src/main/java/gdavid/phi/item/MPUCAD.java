@@ -97,6 +97,11 @@ public class MPUCAD extends Item implements ICAD {
 		return getData(stack).getTime();
 	}
 	
+	public void setTime(ItemStack stack, int time) {
+		ICADData data = getData(stack);
+		data.setTime(time);
+	}
+	
 	@Override
 	public void incrementTime(ItemStack stack) {
 		ICADData data = getData(stack);

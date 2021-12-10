@@ -27,10 +27,8 @@ import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
-import gdavid.phi.spell.trick.PsiTransferTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
-import gdavid.phi.spell.trick.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
@@ -39,6 +37,9 @@ import gdavid.phi.spell.trick.evaluation.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
+import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
+import gdavid.phi.spell.trick.mpu.SetComparatorOutputTrick;
+import gdavid.phi.spell.trick.mpu.SetTimeTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -110,6 +111,7 @@ public class ModPieces {
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
+		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		
