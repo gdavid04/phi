@@ -96,6 +96,8 @@
 	"phi.spellpiece.operator_clamp_vector.desc": "Clamps a vector to be under the given magnitude",
 	"phi.spellpiece.operator_focused_block": "Operator: Focused Block",
 	"phi.spellpiece.operator_focused_block.desc": "Gets the block the target entity is looking at",
+	"phi.spellpiece.operator_focused_block_face": "Operator: Focused Block Face",
+	"phi.spellpiece.operator_focused_block_face.desc": "Gets the normal vector of the block face the target entity is looking at",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

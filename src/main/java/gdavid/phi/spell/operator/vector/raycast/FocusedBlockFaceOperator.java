@@ -1,4 +1,4 @@
-package gdavid.phi.spell.operator.vector;
+package gdavid.phi.spell.operator.vector.raycast;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -15,11 +15,11 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamEntity;
 import vazkii.psi.api.spell.piece.PieceOperator;
 
-public class FocusedBlockOperator extends PieceOperator {
+public class FocusedBlockFaceOperator extends PieceOperator {
 	
 	SpellParam<Entity> target;
 	
-	public FocusedBlockOperator(Spell spell) {
+	public FocusedBlockFaceOperator(Spell spell) {
 		super(spell);
 	}
 	
@@ -44,7 +44,7 @@ public class FocusedBlockOperator extends PieceOperator {
 		if (res.getType() == RayTraceResult.Type.MISS) {
 			throw new SpellRuntimeException(SpellRuntimeException.NULL_VECTOR);
 		}
-		return Vector3.fromBlockPos(res.getPos());
+		return Vector3.fromDirection(res.getFace());
 	}
 	
 }

@@ -12,12 +12,13 @@ import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
-import gdavid.phi.spell.operator.vector.FocusedBlockOperator;
 import gdavid.phi.spell.operator.vector.NearestAxialVectorOperator;
 import gdavid.phi.spell.operator.vector.ReplaceVectorComponentOperator;
 import gdavid.phi.spell.operator.vector.RoundVectorOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
 import gdavid.phi.spell.operator.vector.TruncateVectorOperator;
+import gdavid.phi.spell.operator.vector.raycast.FocusedBlockFaceOperator;
+import gdavid.phi.spell.operator.vector.raycast.FocusedBlockOperator;
 import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
@@ -136,6 +137,7 @@ public class ModPieces {
 		register("operator_truncate_vector", TruncateVectorOperator.class, Groups.math, false);
 		register("operator_clamp_vector", ClampVectorOperator.class, Groups.math, false);
 		register("operator_focused_block", FocusedBlockOperator.class, "entities_intro", false);
+		register("operator_focused_block_face", FocusedBlockFaceOperator.class, "entities_intro", false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
