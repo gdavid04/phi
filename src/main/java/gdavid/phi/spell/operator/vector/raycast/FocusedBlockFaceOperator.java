@@ -1,5 +1,6 @@
 package gdavid.phi.spell.operator.vector.raycast;
 
+import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -38,6 +39,7 @@ public class FocusedBlockFaceOperator extends PieceOperator {
 		Entity source = getParamValueOrDefault(context, target, context.caster);
 		double distance = 32;
 		Vector3d start = source.getPositionVec().add(0, source.getEyeHeight(), 0);
+		if (source instanceof MPUCaster) start = start.add(source.getLookVec());
 		Vector3d end = start.add(source.getLookVec().scale(distance));
 		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(new RayTraceContext(start, end,
 				BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
