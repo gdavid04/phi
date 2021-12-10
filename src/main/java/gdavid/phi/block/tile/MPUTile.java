@@ -49,12 +49,14 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public static final String tagPsi = "psi";
 	public static final String tagMessage = "message";
 	public static final String tagComparatorSignal = "comparator_signal";
+	public static final String tagSuccessCount = "success_count";
 	public static final String tagCad = "cad";
 	
 	public Spell spell;
 	public int psi;
 	public ITextComponent message;
 	public int comparatorSignal;
+	public int successCount;
 	
 	public MPUCaster caster;
 	public ItemStack cad = new ItemStack(MPUCAD.instance);
@@ -76,6 +78,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			spell.uuid = UUID.randomUUID();
 		}
 		message = null;
+		successCount = 0;
 		markDirty();
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
@@ -109,6 +112,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			else prevPsi = psi;
 			return;
 		}
+		// TODO save CAD data changes when not casting
 		MPUCAD.instance.incrementTime(cad);
 		if (spell == null) return;
 		if (caster == null) caster = new MPUCaster();
@@ -145,6 +149,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			castDelay = context.cspell.metadata.getStat(EnumSpellStat.COMPLEXITY) / complexityPerTick;
 			if (context.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
 			context.cspell.safeExecute(context);
+			successCount++;
+			markDirty();
 		}
 	}
 	
@@ -182,6 +188,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
 		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
 		comparatorSignal = nbt.getInt(tagComparatorSignal);
+		successCount = nbt.getInt(tagSuccessCount);
 	}
 	
 	@Override
@@ -194,6 +201,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
 		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
 		nbt.putInt(tagComparatorSignal, comparatorSignal);
+		nbt.putInt(tagSuccessCount, successCount);
 		return nbt;
 	}
 	
@@ -264,7 +272,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			return psi;
 		}
 		
-		public Integer getMaxPsi() {
+		public int getMaxPsi() {
 			return getPsiCapacity();
 		}
 		
@@ -276,6 +284,15 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public void setTime(int time) {
 			MPUTile.this.setTime(time);
+		}
+		
+		public int getSuccessCount() {
+			return successCount;
+		}
+		
+		public void fail() {
+			successCount = 0;
+			markDirty();
 		}
 		
 	}

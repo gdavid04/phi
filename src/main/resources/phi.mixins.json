@@ -7,7 +7,9 @@
 		"SpellPieceMixin",
 		"SpellCompilerMixin",
 		"PlayerDataMixin",
-		"CasterEnergySelectorMixin"
+		"CasterEnergySelectorMixin",
+		"SuccessCounterSelectorMixin",
+		"CompiledSpellMixin"
 	],
 	"minVersion": "0.8"
 }
