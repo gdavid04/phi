@@ -2,7 +2,6 @@ package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
-
 import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.entity.Entity;

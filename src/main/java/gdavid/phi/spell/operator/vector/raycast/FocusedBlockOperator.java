@@ -4,9 +4,9 @@ import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
@@ -41,8 +41,8 @@ public class FocusedBlockOperator extends PieceOperator {
 		Vector3d start = source.getPositionVec().add(0, source.getEyeHeight(), 0);
 		if (source instanceof MPUCaster) start = start.add(source.getLookVec());
 		Vector3d end = start.add(source.getLookVec().scale(distance));
-		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(new RayTraceContext(start, end,
-				BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
+		BlockRayTraceResult res = context.focalPoint.world
+				.rayTraceBlocks(new RayTraceContext(start, end, BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
 		if (res.getType() == RayTraceResult.Type.MISS) {
 			throw new SpellRuntimeException(SpellRuntimeException.NULL_VECTOR);
 		}

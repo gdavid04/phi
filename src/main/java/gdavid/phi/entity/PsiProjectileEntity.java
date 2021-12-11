@@ -128,7 +128,9 @@ public class PsiProjectileEntity extends ThrowableEntity {
 		if (result instanceof BlockRayTraceResult) {
 			BlockPos hit = ((BlockRayTraceResult) result).getPos();
 			if (world.getBlockState(hit).getBlock().getRegistryName()
-					.equals(new ResourceLocation(PsiAPI.MOD_ID, "conjured"))) return;
+					.equals(new ResourceLocation(PsiAPI.MOD_ID, "conjured"))) {
+				return;
+			}
 			if (hit.equals(dataManager.get(origin))) return;
 			TileEntity tile = world.getTileEntity(hit);
 			if (tile instanceof MPUTile) {

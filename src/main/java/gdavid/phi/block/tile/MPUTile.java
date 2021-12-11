@@ -8,7 +8,6 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-
 import java.lang.ref.WeakReference;
 import java.util.Set;
 import java.util.UUID;

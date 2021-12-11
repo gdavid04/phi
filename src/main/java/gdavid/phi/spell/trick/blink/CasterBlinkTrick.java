@@ -50,7 +50,8 @@ public class CasterBlinkTrick extends PieceTrick {
 						.getConstructor(double.class, double.class, double.class)
 						.newInstance(directionVal.x, directionVal.y, directionVal.z);
 				Class.forName("vazkii.psi.common.network.MessageRegister")
-						.getMethod("sendToPlayer", Object.class, PlayerEntity.class).invoke(null, message, context.caster);
+						.getMethod("sendToPlayer", Object.class, PlayerEntity.class)
+						.invoke(null, message, context.caster);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

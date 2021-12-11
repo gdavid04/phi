@@ -2,7 +2,6 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
-
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -56,8 +55,8 @@ public class MPUBlock extends HorizontalBlock {
 		Class<?> spellDrive = null;
 		try {
 			spellDrive = Class.forName("vazkii.psi.common.item.ItemSpellDrive");
-			if (!(boolean) Class.forName("vazkii.psi.common.item.ItemCAD")
-					.getMethod("isTruePlayer", Entity.class).invoke(null, player)) {
+			if (!(boolean) Class.forName("vazkii.psi.common.item.ItemCAD").getMethod("isTruePlayer", Entity.class)
+					.invoke(null, player)) {
 				return ActionResultType.PASS;
 			}
 		} catch (Exception e) {
