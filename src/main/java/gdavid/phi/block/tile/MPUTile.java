@@ -8,6 +8,8 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+
+import java.lang.ref.WeakReference;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.BlockState;
@@ -61,7 +63,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public MPUCaster caster;
 	public ItemStack cad = new ItemStack(MPUCAD.instance);
 	
-	public SpellContext context;
+	public WeakReference<SpellContext> context;
 	public int castDelay;
 	
 	public int prevPsi;
@@ -121,20 +123,21 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			castDelay--;
 			return;
 		}
-		boolean recast = context == null;
+		boolean recast = context == null || context.get() == null;
 		if (!recast) {
 			try {
 				recast = !((Set<SpellContext>) Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler")
-						.getField("delayedContexts").get(null)).contains(context);
+						.getField("delayedContexts").get(null)).contains(context.get());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		if (recast) {
 			if (world.isBlockPowered(getPos())) return;
-			context = new SpellContext().setPlayer(caster).setSpell(spell);
-			if (!context.isValid()) return;
-			if (!context.cspell.metadata.evaluateAgainst(cad)) {
+			SpellContext ctx = new SpellContext().setPlayer(caster).setSpell(spell);
+			context = new WeakReference<>(ctx);
+			if (!ctx.isValid()) return;
+			if (!ctx.cspell.metadata.evaluateAgainst(cad)) {
 				if (message != statError) {
 					message = statError;
 					markDirty();
@@ -142,13 +145,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 				}
 				return;
 			}
-			int cost = context.cspell.metadata.getStat(EnumSpellStat.COST);
+			int cost = ctx.cspell.metadata.getStat(EnumSpellStat.COST);
 			if (cost == 0 && minCostFix(spell)) cost = 1;
 			if (psi < cost) return;
 			addPsi(-cost);
-			castDelay = context.cspell.metadata.getStat(EnumSpellStat.COMPLEXITY) / complexityPerTick;
-			if (context.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
-			context.cspell.safeExecute(context);
+			castDelay = ctx.cspell.metadata.getStat(EnumSpellStat.COMPLEXITY) / complexityPerTick;
+			if (ctx.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
+			ctx.cspell.safeExecute(ctx);
 			successCount++;
 			markDirty();
 		}
