@@ -92,7 +92,6 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void drawPsiBar(MPUTile mpu, MatrixStack ms, IRenderTypeBuffer buf, int light) {
 		Minecraft.getInstance().textureManager.bindTexture(psiBarTexture);
 		ms.push();
