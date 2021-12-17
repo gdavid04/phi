@@ -1,9 +1,8 @@
 {
-	"parent": "block/orientable",
+	"parent": "block/cube_bottom_top",
 	"textures": {
-		"top": "phi:block/mpu_top",
+		"top": "phi:block/vsu_top",
 		"bottom": "phi:block/machine_bottom",
-		"front": "phi:block/mpu_front",
 		"side": "phi:block/machine_side"
 	}
 }

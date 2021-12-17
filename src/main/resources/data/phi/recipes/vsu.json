@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IPI",
+		"ICI",
+		"III"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"P": { "tag": "forge:ingots/psimetal" },
+		"C": { "item": "psi:cad_core_basic" }
+	},
+	"result": {
+		"item": "phi:vsu"
+	}
+}

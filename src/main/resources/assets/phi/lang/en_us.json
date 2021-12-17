@@ -48,6 +48,8 @@
 
 	"phi.spellpiece.trick_save_vector_component": "Trick: Save Vector Component",
 	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.trick_write_vector_storage": "Trick: Write Vector Storage",
+	"phi.spellpiece.trick_write_vector_storage.desc": "Writes a vector to an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
 	"phi.spellpiece.trick_set_comparator_output": "Trick: Set Comparator Output",
 	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
 	"phi.spellpiece.trick_set_time": "Trick: Set Time",
@@ -58,6 +60,8 @@
 
 	"phi.spellpiece.selector_saved_vector_component": "Selector: Saved Vector Component",
 	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.selector_read_vector_storage": "Selector: Read Vector Storage",
+	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
@@ -139,5 +143,7 @@
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
 	"block.phi.mpu": "Magic Processing Unit",
-	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal"
+	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal",
+	"block.phi.vsu": "Vector Storage Unit",
+	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines"
 }

@@ -27,6 +27,7 @@ import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
+import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
@@ -40,6 +41,7 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import gdavid.phi.spell.trick.mpu.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.mpu.SetTimeTrick;
+import gdavid.phi.spell.trick.mpu.WriteVectorStorageTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -110,12 +112,14 @@ public class ModPieces {
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
+		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
+		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);

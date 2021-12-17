@@ -1,6 +1,7 @@
 package gdavid.phi.block;
 
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.block.tile.VSUTile;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -17,24 +18,32 @@ public class ModBlocks {
 	
 	public static final Block shadow = new ShadowBlock();
 	public static final Block mpu = new MPUBlock();
+	public static final Block vsu = new VSUBlock();
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu);
+		event.getRegistry().registerAll(shadow, mpu, vsu);
 	}
 	
 	@SubscribeEvent
 	public static void initItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry()
-				.registerAll(new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
-						.setRegistryName(mpu.getRegistryName()));
+		event.getRegistry().registerAll(
+				new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
+						.setRegistryName(mpu.getRegistryName()),
+				new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
+						.setRegistryName(vsu.getRegistryName())
+		);
 	}
 	
 	@SubscribeEvent
 	@SuppressWarnings("unchecked")
 	public static void initTiles(RegistryEvent.Register<TileEntityType<?>> event) {
-		event.getRegistry().registerAll(MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder
-				.create(MPUTile::new, mpu).build(null).setRegistryName(mpu.getRegistryName()));
+		event.getRegistry().registerAll(
+				MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu)
+						.build(null).setRegistryName(mpu.getRegistryName()),
+				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu)
+						.build(null).setRegistryName(vsu.getRegistryName())
+		);
 	}
 	
 }
