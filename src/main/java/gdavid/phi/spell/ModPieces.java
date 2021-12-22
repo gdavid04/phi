@@ -22,6 +22,7 @@ import gdavid.phi.spell.operator.vector.raycast.FocusedBlockOperator;
 import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
 import gdavid.phi.spell.other.BidirectionalConnector;
+import gdavid.phi.spell.other.BridgeConnector;
 import gdavid.phi.spell.other.ClockwiseConnector;
 import gdavid.phi.spell.other.CounterclockwiseConnector;
 import gdavid.phi.spell.other.InOutConnector;
@@ -151,6 +152,7 @@ public class ModPieces {
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, false);
 		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, false);
 		register("connector_in_out", InOutConnector.class, Groups.dataFlow, false);
+		register("connector_bridge", BridgeConnector.class, Groups.dataFlow, false);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {

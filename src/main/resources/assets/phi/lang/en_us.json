@@ -116,6 +116,8 @@
 	"phi.spellpiece.connector_bidirectional.desc": "Creates a two-way connection between its ends",
 	"phi.spellpiece.connector_in_out": "In-Out Connector",
 	"phi.spellpiece.connector_in_out.desc": "Splits a two-way connection",
+	"phi.spellpiece.connector_bridge": "Bridge Connector",
+	"phi.spellpiece.connector_bridge.desc": "Connects to pieces from a distance of two grid cells",
 
 	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
 

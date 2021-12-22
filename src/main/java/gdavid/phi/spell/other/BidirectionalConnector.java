@@ -2,6 +2,7 @@ package gdavid.phi.spell.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import gdavid.phi.Phi;
 import gdavid.phi.spell.ModPieces;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -17,6 +18,7 @@ import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.Any;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -87,7 +89,7 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		return null;
+		return Any.class;
 	}
 	
 	@Override

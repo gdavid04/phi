@@ -2,6 +2,7 @@ package gdavid.phi.spell.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import gdavid.phi.spell.ModPieces;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
@@ -17,6 +18,7 @@ import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.Any;
 import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
@@ -114,7 +116,7 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		return null;
+		return Any.class;
 	}
 	
 	@Override

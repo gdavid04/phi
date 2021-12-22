@@ -1,6 +1,7 @@
 package gdavid.phi.spell.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -11,6 +12,7 @@ import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
+import vazkii.psi.api.spell.SpellParam.Any;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -64,7 +66,7 @@ public class ClockwiseConnector extends SpellPiece implements IGenericRedirector
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		return null;
+		return Any.class;
 	}
 	
 	@Override
