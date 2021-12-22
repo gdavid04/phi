@@ -6,7 +6,6 @@ import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellGrid;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Any;
@@ -40,11 +39,18 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	
 	@Override
 	public SpellPiece redirect(Side side) {
-		Side dir = side;
-		if (paramSides.get(direction) != Side.OFF) dir = paramSides.get(direction);
-		int tx = x + 2 * dir.offx, ty = y + 2 * dir.offy;
-		if (tx < 0 || tx >= SpellGrid.GRID_SIZE || ty < 0 || ty >= SpellGrid.GRID_SIZE) return null;
-		return spell.grid.gridData[tx][ty];
+		if (paramSides.get(direction) != Side.OFF) side = paramSides.get(direction);
+		try {
+			Class<?> clazz = Class.forName("vazkii.psi.common.spell.other.PieceConnector");
+			SpellPiece connector = (SpellPiece) clazz.getConstructor(Spell.class).newInstance(spell);
+			connector.paramSides.put((SpellParam<?>) clazz.getField("target").get(connector), side);
+			connector.x = x + side.offx;
+			connector.y = y + side.offy;
+			return connector;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override
