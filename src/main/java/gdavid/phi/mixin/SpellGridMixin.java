@@ -1,13 +1,11 @@
 package gdavid.phi.mixin;
 
+import com.google.common.collect.Multimap;
+import gdavid.phi.util.IWarpRedirector;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import com.google.common.collect.Multimap;
-
-import gdavid.phi.util.IWarpRedirector;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellGrid;
 import vazkii.psi.api.spell.SpellGrid.SpellPieceConsumer;
@@ -18,11 +16,12 @@ import vazkii.psi.api.spell.SpellPiece;
 public abstract class SpellGridMixin {
 	
 	@Shadow
-	protected abstract SpellPiece getPieceAtSide(Multimap<SpellPiece, Side> traversed, int x, int y, Side side) throws SpellCompilationException;
+	protected abstract SpellPiece getPieceAtSide(Multimap<SpellPiece, Side> traversed, int x, int y, Side side)
+			throws SpellCompilationException;
 	
-	@Redirect(method = "getPieceAtSideWithRedirections(IILvazkii/psi/api/spell/SpellParam$Side;Lvazkii/psi/api/spell/SpellGrid$SpellPieceConsumer;)Lvazkii/psi/api/spell/SpellPiece;", at = @At(value = "INVOKE",
-			target = "vazkii/psi/api/spell/SpellGrid.getPieceAtSide(Lcom/google/common/collect/Multimap;IILvazkii/psi/api/spell/SpellParam$Side;)Lvazkii/psi/api/spell/SpellPiece;", remap = false))
-	private SpellPiece advancedRedirects(SpellGrid grid, Multimap<SpellPiece, Side> traversed, int x, int y, Side side, int ox, int oy, Side oside, SpellPieceConsumer walker) throws SpellCompilationException {
+	@Redirect(method = "getPieceAtSideWithRedirections(IILvazkii/psi/api/spell/SpellParam$Side;Lvazkii/psi/api/spell/SpellGrid$SpellPieceConsumer;)Lvazkii/psi/api/spell/SpellPiece;", at = @At(value = "INVOKE", target = "vazkii/psi/api/spell/SpellGrid.getPieceAtSide(Lcom/google/common/collect/Multimap;IILvazkii/psi/api/spell/SpellParam$Side;)Lvazkii/psi/api/spell/SpellPiece;", remap = false))
+	private SpellPiece advancedRedirects(SpellGrid grid, Multimap<SpellPiece, Side> traversed, int x, int y, Side side,
+			int ox, int oy, Side oside, SpellPieceConsumer walker) throws SpellCompilationException {
 		SpellPiece piece = ((SpellGridMixin) (Object) grid).getPieceAtSide(traversed, x, y, side);
 		while (piece instanceof IWarpRedirector) {
 			walker.accept(piece);

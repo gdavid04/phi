@@ -17,7 +17,7 @@ import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceSelector;
 
 public class ReadVectorStorageSelector extends PieceSelector {
-
+	
 	SpellParam<Vector3> direction;
 	
 	public ReadVectorStorageSelector(Spell spell) {

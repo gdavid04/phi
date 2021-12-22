@@ -2,7 +2,6 @@ package gdavid.phi.spell.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.spell.ModPieces;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

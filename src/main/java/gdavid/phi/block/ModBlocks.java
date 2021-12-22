@@ -31,19 +31,17 @@ public class ModBlocks {
 				new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
 						.setRegistryName(mpu.getRegistryName()),
 				new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(vsu.getRegistryName())
-		);
+						.setRegistryName(vsu.getRegistryName()));
 	}
 	
 	@SubscribeEvent
 	@SuppressWarnings("unchecked")
 	public static void initTiles(RegistryEvent.Register<TileEntityType<?>> event) {
 		event.getRegistry().registerAll(
-				MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu)
-						.build(null).setRegistryName(mpu.getRegistryName()),
-				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu)
-						.build(null).setRegistryName(vsu.getRegistryName())
-		);
+				MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu).build(null)
+						.setRegistryName(mpu.getRegistryName()),
+				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
+						.setRegistryName(vsu.getRegistryName()));
 	}
 	
 }
