@@ -6,6 +6,7 @@ import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.api.spell.SpellGrid;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Any;
@@ -41,7 +42,9 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	public SpellPiece redirect(Side side) {
 		Side dir = side;
 		if (paramSides.get(direction) != Side.OFF) dir = paramSides.get(direction);
-		return spell.grid.gridData[x + 2 * dir.offx][y + 2 * dir.offy];
+		int tx = x + 2 * dir.offx, ty = y + 2 * dir.offy;
+		if (tx < 0 || tx >= SpellGrid.GRID_SIZE || ty < 0 || ty >= SpellGrid.GRID_SIZE) return null;
+		return spell.grid.gridData[tx][ty];
 	}
 	
 	@Override
