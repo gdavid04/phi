@@ -2,6 +2,7 @@ package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
 import gdavid.phi.spell.operator.BranchOperator;
+import gdavid.phi.spell.operator.entity.EntitySneakStatusOperator;
 import gdavid.phi.spell.operator.number.DifferenceOperator;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.number.ExtractDigitOperator;
@@ -145,6 +146,8 @@ public class ModPieces {
 		register("operator_clamp_vector", ClampVectorOperator.class, Groups.math, false);
 		register("operator_focused_block", FocusedBlockOperator.class, "entities_intro", false);
 		register("operator_focused_block_face", FocusedBlockFaceOperator.class, "entities_intro", false);
+		
+		register("operator_entity_sneak_status", EntitySneakStatusOperator.class, "entities_intro", false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		

@@ -105,6 +105,9 @@
 	"phi.spellpiece.operator_focused_block_face": "Operator: Focused Block Face",
 	"phi.spellpiece.operator_focused_block_face.desc": "Gets the normal vector of the block face the target entity is looking at",
 
+	"phi.spellpiece.operator_entity_sneak_status": "Operator: Entity Sneak Status",
+	"phi.spellpiece.operator_entity_sneak_status.desc": "Selects if the target entity is sneaking (0 if yes, 1 if no)",
+
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
 
