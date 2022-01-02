@@ -39,6 +39,7 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 	}
 	
 	@Override
+	@SuppressWarnings("resource")
 	public void render(MPUTile mpu, float partialTicks, MatrixStack ms, IRenderTypeBuffer buf, int worldLight,
 			int overlay) {
 		ms.push();
@@ -92,6 +93,7 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		}
 	}
 	
+	@SuppressWarnings({ "deprecation", "resource" })
 	public void drawPsiBar(MPUTile mpu, MatrixStack ms, IRenderTypeBuffer buf, int light) {
 		Minecraft.getInstance().textureManager.bindTexture(psiBarTexture);
 		ms.push();

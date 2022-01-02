@@ -44,6 +44,7 @@ public class MarkerRenderer extends EntityRenderer<MarkerEntity> {
 	}
 	
 	@Override
+	@SuppressWarnings("resource")
 	public void render(MarkerEntity entity, float entityYaw, float partialTicks, MatrixStack ms,
 			IRenderTypeBuffer buffers, int light) {
 		EntityDataManager dm = entity.getDataManager();
