@@ -37,7 +37,7 @@ public class MagazineSocketable implements ICapabilityProvider, ISocketable {
 	
 	@Override
 	public ItemStack getBulletInSocket(int slot) {
-		CompoundNBT nbt = item.getOrCreateChildTag(SpellMagazineItem.tagSlot + slot);
+		CompoundNBT nbt = item.getOrCreateChildTag(SpellMagazineItem.tagSlot).getCompound(Integer.toString(slot));
 		if (nbt.isEmpty()) {
 			return ItemStack.EMPTY;
 		}
@@ -50,10 +50,10 @@ public class MagazineSocketable implements ICapabilityProvider, ISocketable {
 		if (!bullet.isEmpty()) {
 			bullet.write(nbt);
 		}
-		item.getOrCreateTag().put(SpellMagazineItem.tagSlot + slot, nbt);
+		item.getOrCreateChildTag(SpellMagazineItem.tagSlot).put(Integer.toString(slot), nbt);
 	}
 	
-	// TODO allow selecting slots and using programmer
+	// TODO consider allowing selecting slots and using programmer
 	
 	@Override
 	public int getSelectedSlot() {

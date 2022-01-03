@@ -34,8 +34,8 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 @EventBusSubscriber
 public class SpellMagazineItem extends Item implements ICADComponent {
 	
-	public static final String tagSlot = "slot_";
-	public static final String tagVector = "vector_";
+	public static final String tagSlot = "slot";
+	public static final String tagVector = "vector";
 	
 	public final String id;
 	
@@ -89,7 +89,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 		// Assembling a CAD with a magazine transfers bullets and vectors to the CAD
 		ItemStack socket = e.getAssembler().getStackForComponent(EnumCADComponent.SOCKET);
 		if (socket.getItem() instanceof SpellMagazineItem) {
-			((SpellMagazineItem) socket.getItem()).swap(socket, e.getCad());
+			((SpellMagazineItem) socket.getItem()).insertMag(socket, e.getCad());
 		}
 	}
 	
@@ -97,62 +97,82 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack item = player.getHeldItem(hand);
 		ItemStack cad = PsiAPI.getPlayerCAD(player);
-		if (!isCADCompatible(item, cad)) {
-			return ActionResult.resultFail(item);
-		}
+		ItemStack old = ejectMag(cad);
+		if (old.isEmpty()) return ActionResult.resultFail(item);
 		if (!world.isRemote) {
-			swap(item, cad);
+			insertMag(item, cad);
 		}
-		return ActionResult.resultConsume(item);
+		return ActionResult.resultConsume(old);
 	}
 	
-	public boolean isCADCompatible(ItemStack item, ItemStack cad) {
-		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) {
-			return false;
-		}
-		return isSocketCompatible(item, ((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.SOCKET));
-	}
-	
-	public boolean isSocketCompatible(ItemStack item, ItemStack socket) {
-		return item.getItem() == socket.getItem();
-	}
-	
-	public void swap(ItemStack item, ItemStack cad) {
-		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return;
+	/**
+	 * Creates a copy of the magazine in the CAD and copies all socket data from the CAD to the magazine
+	 */
+	public static ItemStack ejectMag(ItemStack cad) {
+		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return ItemStack.EMPTY;
 		ICAD cadItem = (ICAD) cad.getItem();
 		ItemStack socketStack = cadItem.getComponentInSlot(cad, EnumCADComponent.SOCKET).copy();
-		ITextComponent name = item.getDisplayName();
-		item.setDisplayName(socketStack.getDisplayName());
-		socketStack.setDisplayName(name);
-		cadItem.setCADComponent(cad, socketStack);
+		if (!(socketStack.getItem() instanceof SpellMagazineItem)) return ItemStack.EMPTY;
+		((SpellMagazineItem) socketStack.getItem()).fromCad(cad, socketStack);
+		return socketStack;
+	}
+	
+	/**
+	 * Copies all socket data (bullets and vectors) from the CAD to the magazine
+	 */
+	public void fromCad(ItemStack cad, ItemStack mag) {
+		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return;
+		ICAD cadItem = (ICAD) cad.getItem();
 		ISocketable socket = ISocketable.socketable(cad);
-		ISocketable contents = ISocketable.socketable(item);
+		ISocketable contents = ISocketable.socketable(mag);
 		for (int i = 0; i < sockets; i++) {
-			ItemStack bullet = socket.getBulletInSocket(i);
-			socket.setBulletInSocket(i, contents.getBulletInSocket(i));
-			contents.setBulletInSocket(i, bullet);
+			contents.setBulletInSocket(i, socket.getBulletInSocket(i));
 		}
 		for (int i = 0; i < vectors; i++) {
 			try {
-				Vector3 vec = cadItem.getStoredVector(cad, i);
-				cadItem.setStoredVector(cad, i, getStoredVector(item, i));
-				setStoredVector(item, i, vec);
+				setStoredVector(mag, i, cadItem.getStoredVector(cad, i));
 			} catch (SpellRuntimeException e) {
 			}
 		}
 	}
 	
+	public void insertMag(ItemStack mag, ItemStack cad) {
+		if (cad == null || !(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return;
+		ICAD cadItem = (ICAD) cad.getItem();
+		// set component to change stats and allow safe writing of socket data to the CAD
+		cadItem.setCADComponent(cad, mag);
+		ISocketable socket = ISocketable.socketable(cad);
+		ISocketable contents = ISocketable.socketable(mag);
+		for (int i = 0; i < sockets; i++) {
+			socket.setBulletInSocket(i, contents.getBulletInSocket(i));
+		}
+		for (int i = 0; i < vectors; i++) {
+			try {
+				cadItem.setStoredVector(cad, i, getStoredVector(mag, i));
+			} catch (SpellRuntimeException e) {
+			}
+		}
+		// remove duplicate socket data
+		stripCadData(mag);
+		// set component again to reflect changes to nbt
+		cadItem.setCADComponent(cad, mag);
+	}
+	
+	public void stripCadData(ItemStack item) {
+		item.removeChildTag(tagVector);
+		item.removeChildTag(tagSlot);
+	}
+	
 	public Vector3 getStoredVector(ItemStack item, int slot) {
-		CompoundNBT nbt = item.getOrCreateTag();
-		return new Vector3(nbt.getDouble(tagVector + slot + "_x"), nbt.getDouble(tagVector + slot + "_y"),
-				nbt.getDouble(tagVector + slot + "_z"));
+		CompoundNBT nbt = item.getOrCreateChildTag(tagVector);
+		return new Vector3(nbt.getDouble(slot + "_x"), nbt.getDouble(slot + "_y"), nbt.getDouble(slot + "_z"));
 	}
 	
 	public void setStoredVector(ItemStack item, int slot, Vector3 vec) {
-		CompoundNBT nbt = item.getOrCreateTag();
-		nbt.putDouble(tagVector + slot + "_x", vec.x);
-		nbt.putDouble(tagVector + slot + "_y", vec.y);
-		nbt.putDouble(tagVector + slot + "_z", vec.z);
+		CompoundNBT nbt = item.getOrCreateChildTag(tagVector);
+		nbt.putDouble(slot + "_x", vec.x);
+		nbt.putDouble(slot + "_y", vec.y);
+		nbt.putDouble(slot + "_z", vec.z);
 	}
 	
 }
