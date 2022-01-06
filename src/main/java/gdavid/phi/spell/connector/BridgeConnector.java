@@ -1,4 +1,4 @@
-package gdavid.phi.spell.other;
+package gdavid.phi.spell.connector;
 
 import gdavid.phi.util.IWarpRedirector;
 import vazkii.psi.api.spell.EnumPieceType;

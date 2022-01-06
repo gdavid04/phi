@@ -1,6 +1,12 @@
 package gdavid.phi.spell;
 
 import gdavid.phi.Phi;
+import gdavid.phi.spell.connector.BidirectionalConnector;
+import gdavid.phi.spell.connector.BridgeConnector;
+import gdavid.phi.spell.connector.ClockwiseConnector;
+import gdavid.phi.spell.connector.CounterclockwiseConnector;
+import gdavid.phi.spell.connector.InOutConnector;
+import gdavid.phi.spell.constant.StringConstant;
 import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.entity.EntitySneakStatusOperator;
 import gdavid.phi.spell.operator.number.DifferenceOperator;
@@ -22,11 +28,6 @@ import gdavid.phi.spell.operator.vector.raycast.FocusedBlockFaceOperator;
 import gdavid.phi.spell.operator.vector.raycast.FocusedBlockOperator;
 import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
-import gdavid.phi.spell.other.BidirectionalConnector;
-import gdavid.phi.spell.other.BridgeConnector;
-import gdavid.phi.spell.other.ClockwiseConnector;
-import gdavid.phi.spell.other.CounterclockwiseConnector;
-import gdavid.phi.spell.other.InOutConnector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
@@ -62,6 +63,7 @@ public class ModPieces {
 		public static final String opticalMagic = "opticl_magic";
 		public static final String dataFlow = "data_flow";
 		public static final String math = "math";
+		public static final String text = "text";
 		
 	}
 	
@@ -83,6 +85,7 @@ public class ModPieces {
 		public static final String digit = prefix + "digit";
 		public static final String target1 = prefix + "target1";
 		public static final String target2 = prefix + "target2";
+		public static final String pre = prefix + "prefix";
 		
 	}
 	
@@ -156,6 +159,8 @@ public class ModPieces {
 		register("connector_bidirectional", BidirectionalConnector.class, Groups.dataFlow, false);
 		register("connector_in_out", InOutConnector.class, Groups.dataFlow, false);
 		register("connector_bridge", BridgeConnector.class, Groups.dataFlow, false);
+		
+		register("constant_string", StringConstant.class, Groups.text, true);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {

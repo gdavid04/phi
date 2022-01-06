@@ -1,4 +1,4 @@
-package gdavid.phi.spell.other;
+package gdavid.phi.spell.connector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
