@@ -251,6 +251,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			return pos;
 		}
 		
+		@Override
+		public Vector3d getLookVec() {
+			return Vector3d.copy(getBlockState().get(MPUBlock.HORIZONTAL_FACING).getDirectionVec());
+		}
+		
 		public void fix() {
 			// MPU can't blink
 			float yaw = getBlockState().get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle();
