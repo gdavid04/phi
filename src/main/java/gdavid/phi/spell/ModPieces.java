@@ -30,6 +30,7 @@ import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
+import gdavid.phi.spell.selector.SpellNameSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
@@ -125,6 +126,8 @@ public class ModPieces {
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
+
+		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
