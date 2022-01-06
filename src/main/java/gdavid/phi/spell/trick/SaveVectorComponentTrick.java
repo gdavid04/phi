@@ -43,7 +43,7 @@ public class SaveVectorComponentTrick extends PieceTrick {
 		int targetVal = getParamValue(context, target).intValue() - 1;
 		int n = targetVal / 3, c = targetVal % 3;
 		ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
-		if (cad == null || !(cad.getItem() instanceof ICAD)) {
+		if (!(cad.getItem() instanceof ICAD)) {
 			throw new SpellRuntimeException(SpellRuntimeException.NO_CAD);
 		}
 		Vector3 vec = ((ICAD) cad.getItem()).getStoredVector(cad, n).copy();

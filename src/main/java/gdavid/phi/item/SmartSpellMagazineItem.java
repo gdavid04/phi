@@ -19,7 +19,7 @@ public class SmartSpellMagazineItem extends SpellMagazineItem {
 	@SubscribeEvent
 	public static void loopcastEnd(LoopcastEndEvent event) {
 		ItemStack item = event.getPlayer().getHeldItem(event.getHand());
-		if (item == null || !(item.getItem() instanceof ICAD) || !ISocketable.isSocketable(item)) return;
+		if (!(item.getItem() instanceof ICAD) || !ISocketable.isSocketable(item)) return;
 		ICAD cad = (ICAD) item.getItem();
 		Item socket = cad.getComponentInSlot(item, EnumCADComponent.SOCKET).getItem();
 		if (socket instanceof SmartSpellMagazineItem) {

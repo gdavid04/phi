@@ -44,7 +44,7 @@ public class SavedVectorComponentSelector extends PieceSelector {
 			throw new SpellRuntimeException(SpellRuntimeException.LOCKED_MEMORY);
 		}
 		ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
-		if (cad == null || !(cad.getItem() instanceof ICAD)) {
+		if (!(cad.getItem() instanceof ICAD)) {
 			throw new SpellRuntimeException(SpellRuntimeException.NO_CAD);
 		}
 		return getComponent(((ICAD) cad.getItem()).getStoredVector(cad, n), c);

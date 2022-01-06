@@ -56,7 +56,7 @@ public class PsiTransferTrick extends PieceTrick {
 			PsiProjectileEntity projectile = new PsiProjectileEntity(context.focalPoint.getEntityWorld(),
 					directionVal.toVec3D(), psiVal);
 			ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
-			if (cad != null) {
+			if (!cad.isEmpty()) {
 				projectile.setColorizer(((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.DYE));
 			}
 			projectile
