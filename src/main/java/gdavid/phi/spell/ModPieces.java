@@ -17,6 +17,7 @@ import gdavid.phi.spell.operator.number.SignumNegativeZeroOperator;
 import gdavid.phi.spell.operator.number.SignumPositiveZeroOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
+import gdavid.phi.spell.operator.text.AsTextOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
 import gdavid.phi.spell.operator.vector.NearestAxialVectorOperator;
@@ -154,6 +155,8 @@ public class ModPieces {
 		register("operator_focused_block_face", FocusedBlockFaceOperator.class, "entities_intro", false);
 		
 		register("operator_entity_sneak_status", EntitySneakStatusOperator.class, "entities_intro", false);
+		
+		register("operator_as_text", AsTextOperator.class, Groups.text, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
