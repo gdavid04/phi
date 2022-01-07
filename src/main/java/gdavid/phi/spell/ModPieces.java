@@ -6,7 +6,7 @@ import gdavid.phi.spell.connector.BridgeConnector;
 import gdavid.phi.spell.connector.ClockwiseConnector;
 import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
-import gdavid.phi.spell.constant.StringConstant;
+import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.entity.EntitySneakStatusOperator;
 import gdavid.phi.spell.operator.number.DifferenceOperator;
@@ -18,6 +18,7 @@ import gdavid.phi.spell.operator.number.SignumPositiveZeroOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
 import gdavid.phi.spell.operator.text.AsTextOperator;
+import gdavid.phi.spell.operator.text.TextLengthOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
 import gdavid.phi.spell.operator.vector.NearestAxialVectorOperator;
@@ -157,6 +158,7 @@ public class ModPieces {
 		register("operator_entity_sneak_status", EntitySneakStatusOperator.class, "entities_intro", false);
 		
 		register("operator_as_text", AsTextOperator.class, Groups.text, false);
+		register("operator_text_length", TextLengthOperator.class, Groups.text, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
@@ -166,7 +168,7 @@ public class ModPieces {
 		register("connector_in_out", InOutConnector.class, Groups.dataFlow, false);
 		register("connector_bridge", BridgeConnector.class, Groups.dataFlow, false);
 		
-		register("constant_string", StringConstant.class, Groups.text, true);
+		register("constant_text", TextConstant.class, Groups.text, true);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {

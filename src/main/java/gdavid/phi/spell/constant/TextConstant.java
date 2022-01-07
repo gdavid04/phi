@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import gdavid.phi.spell.ModPieces;
-import gdavid.phi.spell.param.StringParam;
+import gdavid.phi.spell.param.TextParam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -20,7 +20,7 @@ import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
-public class StringConstant extends SpellPiece {
+public class TextConstant extends SpellPiece {
 	
 	public static final String tagValue = "value";
 	
@@ -28,13 +28,13 @@ public class StringConstant extends SpellPiece {
 	
 	public String str;
 	
-	public StringConstant(Spell spell) {
+	public TextConstant(Spell spell) {
 		super(spell);
 	}
 	
 	@Override
 	public void initParams() {
-		addParam(prefix = new StringParam(ModPieces.Params.pre, SpellParam.GRAY, true, true));
+		addParam(prefix = new TextParam(ModPieces.Params.pre, SpellParam.GRAY, true, true));
 		str = "";
 	}
 	
