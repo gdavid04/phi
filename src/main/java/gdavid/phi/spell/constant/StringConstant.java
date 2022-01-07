@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.Spell;
+import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellPiece;
@@ -33,7 +34,7 @@ public class StringConstant extends SpellPiece {
 	
 	@Override
 	public void initParams() {
-		addParam(prefix = new StringParam(ModPieces.Params.pre, SpellParam.GRAY, true));
+		addParam(prefix = new StringParam(ModPieces.Params.pre, SpellParam.GRAY, true, true));
 		str = "";
 	}
 	
@@ -46,6 +47,7 @@ public class StringConstant extends SpellPiece {
 		if (str.length() > 5) str = str.substring(0, 5);
 		FontRenderer font = Minecraft.getInstance().fontRenderer;
 		String rstr = str.replaceAll(" ", "§8_§r");
+		if (rstr.length() == 0) rstr = "§8Text";
 		ms.push();
 		ms.translate(8 - font.getStringWidth(rstr) / 4f, 4, 0);
 		ms.scale(0.5f, 0.5f, 1);
@@ -111,14 +113,16 @@ public class StringConstant extends SpellPiece {
 
 	@Override
 	public EnumPieceType getPieceType() {
-		// Not constant as constants are expected to return a constant value
-		// This is not really a constant as it can append to any string
-		return EnumPieceType.SELECTOR;
+		return EnumPieceType.CONSTANT;
 	}
 
 	@Override
-	public Object evaluate() {
-		return null;
+	public Object evaluate() throws SpellCompilationException {
+		if (str.length() > 5) str = str.substring(0, 5);
+		if (paramSides.get(prefix).isEnabled()) {
+			return getParamEvaluation(prefix) + str;
+		}
+		return str;
 	}
 	
 }
