@@ -40,8 +40,8 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	@Override
 	public void initParams() {
 		addParam(from = new ParamAny(ModPieces.Params.from, SpellParam.GRAY, false));
-		addParam(bidir = new ParamAny(ModPieces.Params.fromTo, SpellParam.GRAY, false));
-		addParam(to = new ParamAny(ModPieces.Params.to, SpellParam.GRAY, false, ArrowType.NONE));
+		addParam(bidir = new ParamAny(ModPieces.Params.fromTo, SpellParam.PURPLE, false));
+		addParam(to = new ParamAny(ModPieces.Params.to, SpellParam.PURPLE, false, ArrowType.NONE));
 	}
 	
 	@Override
