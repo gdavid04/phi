@@ -1,6 +1,7 @@
 package gdavid.phi.spell.trick.blink;
 
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
+import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -29,8 +30,8 @@ public class SwapBlinkTrick extends PieceTrick {
 	
 	@Override
 	public void initParams() {
-		addParam(a = new ParamEntity(ModPieces.Params.target1, SpellParam.YELLOW, false, false));
-		addParam(b = new ParamEntity(ModPieces.Params.target2, SpellParam.YELLOW, true, false));
+		addParam(a = new ParamEntity(Param.target1.name, SpellParam.YELLOW, false, false));
+		addParam(b = new ParamEntity(Param.target2.name, SpellParam.YELLOW, true, false));
 		addParam(distance = new ParamNumber(SpellParam.GENERIC_NAME_DISTANCE, SpellParam.RED, false, true));
 	}
 	
@@ -50,7 +51,7 @@ public class SwapBlinkTrick extends PieceTrick {
 		context.verifyEntity(e1);
 		context.verifyEntity(e2);
 		if (!context.isInRadius(e1) || !context.isInRadius(e2)) {
-			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
+			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
 		Vector3d offset = e2.getPositionVec().subtract(e1.getPositionVec());
 		if (offset.lengthSquared() > distanceVal * distanceVal) return null;

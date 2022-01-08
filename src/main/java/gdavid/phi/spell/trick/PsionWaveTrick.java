@@ -2,7 +2,8 @@ package gdavid.phi.spell.trick;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.entity.PsionWaveEntity;
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
+import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.vector.Vector3f;
@@ -36,8 +37,8 @@ public class PsionWaveTrick extends PieceTrick {
 	@Override
 	public void initParams() {
 		addParam(direction = new ParamVector(SpellParam.GENERIC_NAME_DIRECTION, SpellParam.GREEN, false, false));
-		addParam(speed = new ParamNumber(ModPieces.Params.speed, SpellParam.RED, false, true));
-		addParam(frequency = new ParamNumber(ModPieces.Params.frequency, SpellParam.BLUE, false, true));
+		addParam(speed = new ParamNumber(Param.speed.name, SpellParam.RED, false, true));
+		addParam(frequency = new ParamNumber(Param.frequency.name, SpellParam.BLUE, false, true));
 		addParam(distance = new ParamNumber(SpellParam.GENERIC_NAME_DISTANCE, SpellParam.CYAN, false, true));
 	}
 	
@@ -45,12 +46,12 @@ public class PsionWaveTrick extends PieceTrick {
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		super.addToMetadata(meta);
 		double speedVal = ParamHelper.positive(this, speed);
-		if (speedVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
+		if (speedVal < 1) Errors.minWave.compile();;
 		double frequencyVal = ParamHelper.positive(this, frequency);
-		if (frequencyVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
+		if (frequencyVal < 1) Errors.minWave.compile();
 		double distanceVal = ParamHelper.positive(this, distance);
-		if (distanceVal < 1) throw new SpellCompilationException(ModPieces.Errors.minWave);
-		if (distanceVal > 32) throw new SpellCompilationException(ModPieces.Errors.range);
+		if (distanceVal < 1) Errors.minWave.compile();;
+		if (distanceVal > 32) Errors.range.compile();;
 		meta.addStat(EnumSpellStat.POTENCY, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 		meta.addStat(EnumSpellStat.COST, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 	}

@@ -13,6 +13,10 @@
 	"phi.spellparam.target1": "Target A",
 	"phi.spellparam.target2": "Target B",
 	"phi.spellparam.prefix": "Prefix",
+	"phi.spellparam.text1": "Text 1",
+	"phi.spellparam.text2": "Text 2",
+	"phi.spellparam.text3": "Text 3",
+	"phi.spellparam.text4": "Text 4",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
@@ -117,6 +121,8 @@
 	"phi.spellpiece.operator_as_text.desc": "Converts its input to text",
 	"phi.spellpiece.operator_text_length": "Operator: Text Length",
 	"phi.spellpiece.operator_text_length.desc": "Returns the length of the given text in characters",
+	"phi.spellpiece.operator_append_text": "Operator: Append Text",
+	"phi.spellpiece.operator_append_text.desc": "Appends pieces of text to each other (doesn't add spaces between)",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

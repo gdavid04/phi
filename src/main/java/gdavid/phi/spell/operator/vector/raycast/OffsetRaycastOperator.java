@@ -1,5 +1,6 @@
 package gdavid.phi.spell.operator.vector.raycast;
 
+import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -45,9 +46,7 @@ public class OffsetRaycastOperator extends PieceOperator {
 		Vector3 end = start.copy().add(direction.copy().normalize().multiply(length));
 		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(new RayTraceContext(start.toVec3D(),
 				end.toVec3D(), BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
-		if (res.getType() == RayTraceResult.Type.MISS) {
-			throw new SpellRuntimeException(SpellRuntimeException.NULL_VECTOR);
-		}
+		if (res.getType() == RayTraceResult.Type.MISS) Errors.runtime(SpellRuntimeException.NULL_VECTOR);
 		return Vector3.fromVec3d(res.getHitVec()).subtract(Vector3.fromBlockPos(res.getPos()))
 				.subtract(new Vector3(0.5, 0.5, 0.5));
 	}

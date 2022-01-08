@@ -3,6 +3,7 @@ package gdavid.phi.spell.operator.vector;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
+import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.ISidedResult;
 import gdavid.phi.util.RenderHelper;
@@ -126,7 +127,8 @@ public class SplitVectorOperator extends SpellPiece {
 			if (side == x) return value.x;
 			if (side == y) return value.y;
 			if (side == z) return value.z;
-			throw new SpellRuntimeException(SpellCompilationException.INVALID_PARAM);
+			Errors.runtime(SpellCompilationException.INVALID_PARAM);
+			return null;
 		}
 		
 	}

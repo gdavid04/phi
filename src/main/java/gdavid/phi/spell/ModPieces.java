@@ -17,6 +17,7 @@ import gdavid.phi.spell.operator.number.SignumNegativeZeroOperator;
 import gdavid.phi.spell.operator.number.SignumPositiveZeroOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
 import gdavid.phi.spell.operator.number.ToRadiansOperator;
+import gdavid.phi.spell.operator.text.AppendTextOperator;
 import gdavid.phi.spell.operator.text.AsTextOperator;
 import gdavid.phi.spell.operator.text.TextLengthOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
@@ -67,41 +68,6 @@ public class ModPieces {
 		public static final String dataFlow = "data_flow";
 		public static final String math = "math";
 		public static final String text = "text";
-		
-	}
-	
-	public static class Params {
-		
-		public static final String prefix = Phi.modId + ".spellparam.";
-		
-		public static final String speed = PsiAPI.MOD_ID + ".spellparam.speed";
-		public static final String frequency = prefix + "frequency";
-		public static final String from = prefix + "from";
-		public static final String to = prefix + "to";
-		public static final String fromTo = prefix + "from_to";
-		public static final String toFrom = prefix + "to_from";
-		public static final String condition = prefix + "condition";
-		public static final String positive = prefix + "positive";
-		public static final String negative = prefix + "negative";
-		public static final String div = prefix + "div";
-		public static final String mod = prefix + "mod";
-		public static final String digit = prefix + "digit";
-		public static final String target1 = prefix + "target1";
-		public static final String target2 = prefix + "target2";
-		public static final String pre = prefix + "prefix";
-		
-	}
-	
-	public static class Errors {
-		
-		public static final String prefix = Phi.modId + ".spellerror.";
-		
-		public static final String range = prefix + "range";
-		public static final String minWave = prefix + "min_wave";
-		public static final String errored = prefix + "ed";
-		public static final String ambiguous = prefix + "ambiguous";
-		public static final String invalidTarget = prefix + "invalid_target";
-		public static final String noMpu = prefix + "no_mpu";
 		
 	}
 	
@@ -159,6 +125,7 @@ public class ModPieces {
 		
 		register("operator_as_text", AsTextOperator.class, Groups.text, false);
 		register("operator_text_length", TextLengthOperator.class, Groups.text, false);
+		register("operator_append_text", AppendTextOperator.class, Groups.text, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		

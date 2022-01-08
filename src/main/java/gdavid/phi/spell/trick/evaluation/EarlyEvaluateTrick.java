@@ -1,6 +1,7 @@
 package gdavid.phi.spell.trick.evaluation;
 
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
+import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.EvalHelper;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -26,7 +27,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	@Override
 	public void initParams() {
 		addParam(target = new ReferenceParam(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false));
-		addParam(condition = new ParamNumber(ModPieces.Params.condition, SpellParam.BLUE, false, false));
+		addParam(condition = new ParamNumber(Param.condition.name, SpellParam.BLUE, false, false));
 	}
 	
 	@Override
@@ -41,7 +42,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 			SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
 			EvalHelper.hoist(piece, context);
 		} catch (SpellCompilationException e) {
-			throw new SpellRuntimeException(ModPieces.Errors.errored); // NOPMD
+			Errors.errored.runtime();
 		}
 		return null;
 	}

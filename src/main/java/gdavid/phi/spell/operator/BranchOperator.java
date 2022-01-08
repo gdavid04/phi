@@ -1,6 +1,7 @@
 package gdavid.phi.spell.operator;
 
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
+import gdavid.phi.spell.Param;
 import gdavid.phi.util.EvalHelper;
 import gdavid.phi.util.TypeHelper;
 import vazkii.psi.api.spell.Spell;
@@ -26,9 +27,9 @@ public class BranchOperator extends PieceOperator {
 	
 	@Override
 	public void initParams() {
-		addParam(positive = new ParamAny(ModPieces.Params.positive, SpellParam.RED, false));
-		addParam(negative = new ParamAny(ModPieces.Params.negative, SpellParam.GREEN, false));
-		addParam(condition = new ParamNumber(ModPieces.Params.condition, SpellParam.BLUE, false, false));
+		addParam(positive = new ParamAny(Param.positive.name, SpellParam.RED, false));
+		addParam(negative = new ParamAny(Param.negative.name, SpellParam.GREEN, false));
+		addParam(condition = new ParamNumber(Param.condition.name, SpellParam.BLUE, false, false));
 	}
 	
 	@Override
@@ -58,7 +59,7 @@ public class BranchOperator extends PieceOperator {
 		} else {
 			Object a = getRawParamValue(context, positive);
 			Object b = getRawParamValue(context, negative);
-			if (!a.equals(b)) throw new SpellRuntimeException(ModPieces.Errors.ambiguous);
+			if (!a.equals(b)) Errors.ambiguous.runtime();
 			return a;
 		}
 	}

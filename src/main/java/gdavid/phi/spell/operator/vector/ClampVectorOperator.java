@@ -1,5 +1,6 @@
 package gdavid.phi.spell.operator.vector;
 
+import gdavid.phi.spell.Errors;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
@@ -33,9 +34,7 @@ public class ClampVectorOperator extends PieceOperator {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 vec = getNonnullParamValue(context, vector);
 		double maxLength = getNonnullParamValue(context, max).doubleValue();
-		if (maxLength < 0) {
-			throw new SpellRuntimeException(SpellRuntimeException.NEGATIVE_NUMBER);
-		}
+		if (maxLength < 0) Errors.runtime(SpellRuntimeException.NEGATIVE_NUMBER);
 		if (vec.magSquared() > maxLength * maxLength) {
 			return vec.copy().normalize().multiply(maxLength);
 		}

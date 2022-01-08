@@ -1,6 +1,7 @@
 package gdavid.phi.spell.operator.vector.raycast;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
+import gdavid.phi.spell.Errors;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -43,9 +44,7 @@ public class FocusedBlockFaceOperator extends PieceOperator {
 		Vector3d end = start.add(source.getLookVec().scale(distance));
 		BlockRayTraceResult res = context.focalPoint.world
 				.rayTraceBlocks(new RayTraceContext(start, end, BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
-		if (res.getType() == RayTraceResult.Type.MISS) {
-			throw new SpellRuntimeException(SpellRuntimeException.NULL_VECTOR);
-		}
+		if (res.getType() == RayTraceResult.Type.MISS) Errors.runtime(SpellRuntimeException.NULL_VECTOR);
 		return Vector3.fromDirection(res.getFace());
 	}
 	

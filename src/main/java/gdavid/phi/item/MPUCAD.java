@@ -2,6 +2,7 @@ package gdavid.phi.item;
 
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.capability.MPUCADData;
+import gdavid.phi.spell.Errors;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -79,7 +80,7 @@ public class MPUCAD extends Item implements ICAD {
 	@Override
 	public void setStoredVector(ItemStack stack, int memorySlot, Vector3 vec) throws SpellRuntimeException {
 		if (memorySlot < 0 || memorySlot >= savedVectors) {
-			throw new SpellRuntimeException(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
+			Errors.runtime(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
 		}
 		getData(stack).setSavedVector(memorySlot, vec);
 	}
@@ -87,7 +88,7 @@ public class MPUCAD extends Item implements ICAD {
 	@Override
 	public Vector3 getStoredVector(ItemStack stack, int memorySlot) throws SpellRuntimeException {
 		if (memorySlot < 0 || memorySlot >= savedVectors) {
-			throw new SpellRuntimeException(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
+			Errors.runtime(SpellRuntimeException.MEMORY_OUT_OF_BOUNDS);
 		}
 		return getData(stack).getSavedVector(memorySlot);
 	}

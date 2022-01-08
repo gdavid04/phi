@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.TextParam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -34,7 +34,7 @@ public class TextConstant extends SpellPiece {
 	
 	@Override
 	public void initParams() {
-		addParam(prefix = new TextParam(ModPieces.Params.pre, SpellParam.GRAY, true, true));
+		addParam(prefix = new TextParam(Param.pre.name, SpellParam.GRAY, true, true));
 		str = "";
 	}
 	

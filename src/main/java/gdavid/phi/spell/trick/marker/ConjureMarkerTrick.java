@@ -1,6 +1,7 @@
 package gdavid.phi.spell.trick.marker;
 
 import gdavid.phi.entity.MarkerEntity;
+import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -37,7 +38,7 @@ public class ConjureMarkerTrick extends PieceTrick {
 		super.addToMetadata(meta);
 		Double timeVal = getNonNullParamEvaluation(time).doubleValue();
 		if (timeVal <= 0 || timeVal != timeVal.intValue()) {
-			throw new SpellCompilationException(SpellCompilationException.NON_POSITIVE_INTEGER);
+			Errors.compile(SpellCompilationException.NON_POSITIVE_INTEGER);
 		}
 		meta.addStat(EnumSpellStat.POTENCY, (int) Math.max(1, timeVal / 5));
 		meta.addStat(EnumSpellStat.COST, (int) Math.max(1, timeVal / 20));
@@ -47,10 +48,10 @@ public class ConjureMarkerTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 positionVal = ParamHelper.nonNull(this, context, position);
 		int timeVal = getNonnullParamValue(context, time).intValue();
-		if (timeVal < 1) throw new SpellRuntimeException(SpellRuntimeException.NON_POSITIVE_VALUE);
+		if (timeVal < 1) Errors.runtime(SpellRuntimeException.NON_POSITIVE_VALUE);
 		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getPosX(),
 				context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
-			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
+			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
 		World world = context.focalPoint.getEntityWorld();
 		MarkerEntity marker = new MarkerEntity(world, context.caster, timeVal);
