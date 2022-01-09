@@ -13,6 +13,7 @@
 	"phi.spellparam.target1": "Target A",
 	"phi.spellparam.target2": "Target B",
 	"phi.spellparam.prefix": "Prefix",
+	"phi.spellparam.text": "Text",
 	"phi.spellparam.text1": "Text 1",
 	"phi.spellparam.text2": "Text 2",
 	"phi.spellparam.text3": "Text 3",
@@ -123,6 +124,10 @@
 	"phi.spellpiece.operator_text_length.desc": "Returns the length of the given text in characters",
 	"phi.spellpiece.operator_append_text": "Operator: Append Text",
 	"phi.spellpiece.operator_append_text.desc": "Appends pieces of text to each other (doesn't add spaces between)",
+	"phi.spellpiece.operator_character_code_at": "Operator: Character Code At",
+	"phi.spellpiece.operator_character_code_at.desc": "Gets the code of the Nth character in the given text",
+	"phi.spellpiece.operator_character_from_code": "Operator: Character From Code",
+	"phi.spellpiece.operator_character_from_code.desc": "Gets the character corresponding to the given code (between 0 and 255)",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

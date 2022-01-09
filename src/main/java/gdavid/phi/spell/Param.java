@@ -15,7 +15,7 @@ public enum Param {
 	digit,
 	target1, target2,
 	pre("prefix"),
-	text1, text2, text3, text4;
+	text, text1, text2, text3, text4;
 	
 	public static final String prefix = Phi.modId + ".spellparam.";
 	public static final String psiPrefix = PsiAPI.MOD_ID + ".spellparam.";
