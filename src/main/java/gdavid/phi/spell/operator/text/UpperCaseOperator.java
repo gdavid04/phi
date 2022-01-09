@@ -8,11 +8,11 @@ import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.piece.PieceOperator;
 
-public class TextLengthOperator extends PieceOperator {
+public class UpperCaseOperator extends PieceOperator {
 	
 	SpellParam<String> text;
 	
-	public TextLengthOperator(Spell spell) {
+	public UpperCaseOperator(Spell spell) {
 		super(spell);
 	}
 	
@@ -23,12 +23,12 @@ public class TextLengthOperator extends PieceOperator {
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		return Double.class;
+		return String.class;
 	}
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		return getParamValue(context, text).length();
+		return getParamValue(context, text).toUpperCase();
 	}
 	
 }

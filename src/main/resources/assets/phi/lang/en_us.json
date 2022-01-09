@@ -128,6 +128,10 @@
 	"phi.spellpiece.operator_character_code_at.desc": "Gets the code of the Nth character in the given text",
 	"phi.spellpiece.operator_character_from_code": "Operator: Character From Code",
 	"phi.spellpiece.operator_character_from_code.desc": "Gets the character corresponding to the given code (between 0 and 255)",
+	"phi.spellpiece.operator_lower_case": "Operator: Lower Case",
+	"phi.spellpiece.operator_lower_case.desc": "Converts the given text to lower case",
+	"phi.spellpiece.operator_upper_case": "Operator: Upper Case",
+	"phi.spellpiece.operator_upper_case.desc": "Converts the given text to upper case",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
