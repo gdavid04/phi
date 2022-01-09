@@ -22,6 +22,8 @@ import gdavid.phi.spell.operator.text.AsTextOperator;
 import gdavid.phi.spell.operator.text.CharacterCodeAtOperator;
 import gdavid.phi.spell.operator.text.CharacterFromCodeOperator;
 import gdavid.phi.spell.operator.text.LowerCaseOperator;
+import gdavid.phi.spell.operator.text.SplitTextAtOperator;
+import gdavid.phi.spell.operator.text.SplitTextOperator;
 import gdavid.phi.spell.operator.text.TextLengthOperator;
 import gdavid.phi.spell.operator.text.UpperCaseOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
@@ -134,6 +136,8 @@ public class ModPieces {
 		register("operator_character_from_code", CharacterFromCodeOperator.class, Groups.text, false);
 		register("operator_lower_case", LowerCaseOperator.class, Groups.text, false);
 		register("operator_upper_case", UpperCaseOperator.class, Groups.text, false);
+		register("operator_split_text", SplitTextOperator.class, Groups.text, false);
+		register("operator_split_text_at", SplitTextAtOperator.class, Groups.text, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
