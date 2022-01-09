@@ -28,6 +28,7 @@
 	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
+	"phi.spellerror.not_number": "ERROR: The provided text doesn't represent a number",
 
 	"phi.cadstat.overflow_damage": "Overflow Damage",
 
@@ -75,6 +76,8 @@
 	
 	"phi.spellpiece.selector_spell_name": "Selector: Spell Name",
 	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
+	"phi.spellpiece.selector_caster_speech": "Selector: Caster Speech",
+	"phi.spellpiece.selector_caster_speech.desc": "Gets the last chat message said by the caster",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
@@ -139,6 +142,8 @@
 	"phi.spellpiece.operator_split_text.desc": "Splits the given text before the Nth character",
 	"phi.spellpiece.operator_split_text_at": "Operator: Split Text At",
 	"phi.spellpiece.operator_split_text_at.desc": "Splits a text at the first occurence of the given part of said text",
+	"phi.spellpiece.operator_number_from_text": "Operator: Number From Text",
+	"phi.spellpiece.operator_number_from_text.desc": "Gets the numeric value of a textual number representation",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

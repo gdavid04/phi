@@ -13,7 +13,8 @@ public enum Errors {
 	errored("ed"),
 	ambiguous,
 	invalidTarget,
-	noMpu;
+	noMpu,
+	notNumber;
 	
 	public static final String prefix = Phi.modId + ".spellerror.";
 	

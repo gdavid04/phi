@@ -13,6 +13,7 @@ import gdavid.phi.spell.operator.number.DifferenceOperator;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.number.ExtractDigitOperator;
 import gdavid.phi.spell.operator.number.MultiplyAccumulateOperator;
+import gdavid.phi.spell.operator.number.NumberFromTextOperator;
 import gdavid.phi.spell.operator.number.SignumNegativeZeroOperator;
 import gdavid.phi.spell.operator.number.SignumPositiveZeroOperator;
 import gdavid.phi.spell.operator.number.ToDegreesOperator;
@@ -37,6 +38,7 @@ import gdavid.phi.spell.operator.vector.raycast.FocusedBlockFaceOperator;
 import gdavid.phi.spell.operator.vector.raycast.FocusedBlockOperator;
 import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
+import gdavid.phi.spell.selector.CasterSpeechSelector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
@@ -102,6 +104,7 @@ public class ModPieces {
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
 
 		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
+		register("selector_caster_speech", CasterSpeechSelector.class, Groups.text, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
@@ -138,6 +141,7 @@ public class ModPieces {
 		register("operator_upper_case", UpperCaseOperator.class, Groups.text, false);
 		register("operator_split_text", SplitTextOperator.class, Groups.text, false);
 		register("operator_split_text_at", SplitTextAtOperator.class, Groups.text, false);
+		register("operator_number_from_text", NumberFromTextOperator.class, Groups.text, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
