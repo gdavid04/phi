@@ -8,6 +8,8 @@ import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
 import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.operator.BranchOperator;
+import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
+import gdavid.phi.spell.operator.entity.EntityFootPositionOperator;
 import gdavid.phi.spell.operator.entity.EntityNameOperator;
 import gdavid.phi.spell.operator.entity.EntitySneakStatusOperator;
 import gdavid.phi.spell.operator.number.DifferenceOperator;
@@ -133,6 +135,8 @@ public class ModPieces {
 		
 		register("operator_entity_sneak_status", EntitySneakStatusOperator.class, "entities_intro", false);
 		register("operator_entity_name", EntityNameOperator.class, "entities_intro", false);
+		register("operator_entity_eye_position", EntityEyePositionOperator.class, "entities_intro", false);
+		register("operator_entity_foot_position", EntityFootPositionOperator.class, "entities_intro", false);
 		
 		register("operator_as_text", AsTextOperator.class, Groups.text, false);
 		register("operator_text_length", TextLengthOperator.class, Groups.text, false);
