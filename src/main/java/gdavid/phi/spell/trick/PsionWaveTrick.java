@@ -46,12 +46,12 @@ public class PsionWaveTrick extends PieceTrick {
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		super.addToMetadata(meta);
 		double speedVal = ParamHelper.positive(this, speed);
-		if (speedVal < 1) Errors.minWave.compile();;
+		if (speedVal < 1) Errors.minWave.compile();
 		double frequencyVal = ParamHelper.positive(this, frequency);
 		if (frequencyVal < 1) Errors.minWave.compile();
 		double distanceVal = ParamHelper.positive(this, distance);
-		if (distanceVal < 1) Errors.minWave.compile();;
-		if (distanceVal > 32) Errors.range.compile();;
+		if (distanceVal < 1) Errors.minWave.compile();
+		if (distanceVal > 32) Errors.range.compile();
 		meta.addStat(EnumSpellStat.POTENCY, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 		meta.addStat(EnumSpellStat.COST, (int) (speedVal * Math.pow(frequencyVal, 1.2) * distanceVal));
 	}

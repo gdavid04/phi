@@ -105,7 +105,7 @@ public class ModPieces {
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
-
+		
 		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
 		register("selector_caster_speech", CasterSpeechSelector.class, Groups.text, false);
 		

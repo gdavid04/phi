@@ -1,7 +1,6 @@
 package gdavid.phi.spell.selector;
 
 import java.util.WeakHashMap;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

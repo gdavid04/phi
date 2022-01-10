@@ -37,8 +37,8 @@ public class EntityEyePositionOperator extends PieceOperator {
 	
 	@Override
 	public String getSortingName() {
-		return new TranslationTextComponent(PsiAPI.MOD_ID + ".spellpiece.operator_entity_position").getString() +
-				"/" + super.getSortingName();
+		return new TranslationTextComponent(PsiAPI.MOD_ID + ".spellpiece.operator_entity_position").getString() + "/"
+				+ super.getSortingName();
 	}
 	
 }

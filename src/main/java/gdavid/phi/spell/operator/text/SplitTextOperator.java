@@ -29,7 +29,8 @@ import vazkii.psi.api.spell.piece.PieceOperator;
 
 public class SplitTextOperator extends PieceOperator {
 	
-	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId, "spell/operator_split_text_lines");
+	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
+			"spell/operator_split_text_lines");
 	
 	public SpellParam<String> text;
 	public SpellParam<Number> position;

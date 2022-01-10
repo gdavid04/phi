@@ -28,7 +28,8 @@ import vazkii.psi.api.spell.piece.PieceOperator;
 
 public class SplitTextAtOperator extends PieceOperator {
 	
-	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId, "spell/operator_split_text_at_lines");
+	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
+			"spell/operator_split_text_at_lines");
 	
 	public SpellParam<String> text, at;
 	ReferenceParam before, after;
@@ -92,8 +93,8 @@ public class SplitTextAtOperator extends PieceOperator {
 		String substr = getParamValue(context, at);
 		int pos = str.indexOf(substr);
 		if (pos == -1) Errors.runtime(SpellRuntimeException.NULL_TARGET);
-		return new Result(str.substring(0, pos), str.substring(pos + substr.length()),
-				paramSides.get(before), paramSides.get(after));
+		return new Result(str.substring(0, pos), str.substring(pos + substr.length()), paramSides.get(before),
+				paramSides.get(after));
 	}
 	
 	public static class Result implements ISidedResult {

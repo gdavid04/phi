@@ -1,20 +1,13 @@
 package gdavid.phi.spell;
 
 import com.google.common.base.CaseFormat;
-
 import gdavid.phi.Phi;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
 public enum Errors {
 	
-	range,
-	minWave,
-	errored("ed"),
-	ambiguous,
-	invalidTarget,
-	noMpu,
-	notNumber;
+	range, minWave, errored("ed"), ambiguous, invalidTarget, noMpu, notNumber;
 	
 	public static final String prefix = Phi.modId + ".spellerror.";
 	

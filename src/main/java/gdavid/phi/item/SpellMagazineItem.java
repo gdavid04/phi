@@ -106,7 +106,8 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	}
 	
 	/**
-	 * Creates a copy of the magazine in the CAD and copies all socket data from the CAD to the magazine
+	 * Creates a copy of the magazine in the CAD and copies all socket data from the
+	 * CAD to the magazine
 	 */
 	public static ItemStack ejectMag(ItemStack cad) {
 		if (!(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return ItemStack.EMPTY;
@@ -139,7 +140,8 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public void insertMag(ItemStack mag, ItemStack cad) {
 		if (!(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return;
 		ICAD cadItem = (ICAD) cad.getItem();
-		// set component to change stats and allow safe writing of socket data to the CAD
+		// set component to change stats and allow safe writing of socket data to the
+		// CAD
 		cadItem.setCADComponent(cad, mag);
 		ISocketable socket = ISocketable.socketable(cad);
 		ISocketable contents = ISocketable.socketable(mag);

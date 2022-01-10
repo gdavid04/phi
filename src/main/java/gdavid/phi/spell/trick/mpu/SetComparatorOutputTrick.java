@@ -33,7 +33,7 @@ public class SetComparatorOutputTrick extends PieceTrick {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		if (!(context.caster instanceof MPUCaster)) 	Errors.noMpu.runtime();
+		if (!(context.caster instanceof MPUCaster)) Errors.noMpu.runtime();
 		((MPUCaster) context.caster).setComparatorSignal(getNonnullParamValue(context, num).intValue());
 		return null;
 	}

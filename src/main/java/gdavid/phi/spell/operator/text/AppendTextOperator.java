@@ -31,8 +31,8 @@ public class AppendTextOperator extends PieceOperator {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		return getParamValue(context, a) + getParamValue(context, b) +
-				getParamValueOrDefault(context, c, "") + getParamValueOrDefault(context, d, "");
+		return getParamValue(context, a) + getParamValue(context, b) + getParamValueOrDefault(context, c, "")
+				+ getParamValueOrDefault(context, d, "");
 	}
 	
 }

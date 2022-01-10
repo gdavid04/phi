@@ -1,9 +1,6 @@
 package gdavid.phi.spell.constant;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.TextParam;
 import net.minecraft.client.Minecraft;
@@ -12,6 +9,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.glfw.GLFW;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -65,7 +63,7 @@ public class TextConstant extends SpellPiece {
 	@OnlyIn(Dist.CLIENT)
 	public boolean onCharTyped(char ch, int key, boolean doit) {
 		if (str.length() + 1 > 5) return false;
-		if (ch < 0x20 || ch >0x7e) return false;
+		if (ch < 0x20 || ch > 0x7e) return false;
 		if (doit) {
 			str = str + ch;
 		}
@@ -110,12 +108,12 @@ public class TextConstant extends SpellPiece {
 	public Class<?> getEvaluationType() {
 		return String.class;
 	}
-
+	
 	@Override
 	public EnumPieceType getPieceType() {
 		return EnumPieceType.CONSTANT;
 	}
-
+	
 	@Override
 	public Object evaluate() throws SpellCompilationException {
 		if (str.length() > 5) str = str.substring(0, 5);

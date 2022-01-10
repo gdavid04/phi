@@ -73,7 +73,7 @@
 	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
 	"phi.spellpiece.selector_read_vector_storage": "Selector: Read Vector Storage",
 	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
-	
+
 	"phi.spellpiece.selector_spell_name": "Selector: Spell Name",
 	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
 	"phi.spellpiece.selector_caster_speech": "Selector: Caster Speech",
@@ -164,7 +164,7 @@
 	"phi.spellpiece.connector_in_out.desc": "Splits a two-way connection",
 	"phi.spellpiece.connector_bridge": "Bridge Connector",
 	"phi.spellpiece.connector_bridge.desc": "Connects to pieces from a distance of two grid cells",
-	
+
 	"phi.spellpiece.constant_text": "Constant: Text",
 	"phi.spellpiece.constant_text.desc": "Select and type to set value",
 

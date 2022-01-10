@@ -1,10 +1,8 @@
 package gdavid.phi.util;
 
+import gdavid.phi.spell.param.ReferenceParam;
 import java.util.HashSet;
 import java.util.Map.Entry;
-
-import gdavid.phi.spell.param.ReferenceParam;
-
 import java.util.Optional;
 import java.util.Set;
 import vazkii.psi.api.spell.CompiledSpell.Action;

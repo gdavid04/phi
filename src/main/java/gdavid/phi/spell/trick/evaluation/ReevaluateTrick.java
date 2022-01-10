@@ -35,7 +35,8 @@ public class ReevaluateTrick extends PieceTrick {
 		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 		if (EvalHelper.isLoop(this)) Errors.compile(SpellCompilationException.INFINITE_LOOP);
 		SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
-		if (piece == null || !paramSides.get(target).isEnabled()) Errors.compile(SpellCompilationException.INVALID_PARAM);
+		if (piece == null || !paramSides.get(target).isEnabled())
+			Errors.compile(SpellCompilationException.INVALID_PARAM);
 		piece.addToMetadata(meta);
 	}
 	

@@ -43,7 +43,8 @@ public class MoveMarkerTrick extends PieceTrick {
 		Entity targetVal = getNonnullParamValue(context, target);
 		Vector3 positionVal = ParamHelper.nonNull(this, context, position);
 		if (!(targetVal instanceof MarkerEntity)
-				|| ((MarkerEntity) targetVal).getOwner() != context.caster.getUniqueID()) Errors.invalidTarget.runtime();
+				|| ((MarkerEntity) targetVal).getOwner() != context.caster.getUniqueID())
+			Errors.invalidTarget.runtime();
 		if (MathHelper.pointDistanceSpace(targetVal.getPosX(), targetVal.getPosY(), targetVal.getPosZ(),
 				context.focalPoint.getPosX(), context.focalPoint.getPosY(),
 				context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2
