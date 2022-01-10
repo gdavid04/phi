@@ -123,6 +123,8 @@
 
 	"phi.spellpiece.operator_entity_sneak_status": "Operator: Entity Sneak Status",
 	"phi.spellpiece.operator_entity_sneak_status.desc": "Selects if the target entity is sneaking (0 if yes, 1 if no)",
+	"phi.spellpiece.operator_entity_name": "Operator: Entity Name",
+	"phi.spellpiece.operator_entity_name.desc": "Gets the name of the given entity",
 
 	"phi.spellpiece.operator_as_text": "Operator: As Text",
 	"phi.spellpiece.operator_as_text.desc": "Converts its input to text",
