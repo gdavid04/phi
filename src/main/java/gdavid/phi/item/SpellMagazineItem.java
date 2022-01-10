@@ -89,7 +89,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 		// Assembling a CAD with a magazine transfers bullets and vectors to the CAD
 		ItemStack socket = e.getAssembler().getStackForComponent(EnumCADComponent.SOCKET);
 		if (socket.getItem() instanceof SpellMagazineItem) {
-			((SpellMagazineItem) socket.getItem()).insertMag(socket, e.getCad());
+			((SpellMagazineItem) socket.getItem()).insertMag(socket.copy(), e.getCad());
 		}
 	}
 	
