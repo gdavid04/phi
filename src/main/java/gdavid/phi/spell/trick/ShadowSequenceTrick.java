@@ -1,6 +1,7 @@
 package gdavid.phi.spell.trick;
 
 import gdavid.phi.block.ModBlocks;
+import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +57,7 @@ public class ShadowSequenceTrick extends PieceTrick {
 		World world = context.focalPoint.getEntityWorld();
 		for (BlockPos at : MathHelper.getBlocksAlongRay(pos.toVec3D(), pos.copy().add(to).toVec3D(), max)) {
 			if (!context.isInRadius(Vector3.fromBlockPos(at))) {
-				throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
+				Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 			}
 			if (!world.isBlockLoaded(at) || !world.isBlockModifiable(context.caster, at)) {
 				continue;

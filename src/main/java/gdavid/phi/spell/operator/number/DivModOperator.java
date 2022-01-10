@@ -3,9 +3,10 @@ package gdavid.phi.spell.operator.number;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
+import gdavid.phi.spell.Param;
+import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.ISidedResult;
-import gdavid.phi.util.ReferenceParam;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
@@ -40,8 +41,8 @@ public class DivModOperator extends PieceOperator {
 	public void initParams() {
 		addParam(a = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER1, SpellParam.RED, false, false));
 		addParam(b = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER2, SpellParam.GREEN, false, false));
-		addParam(div = new ReferenceParam(ModPieces.Params.div, SpellParam.RED, true, ArrowType.NONE));
-		addParam(mod = new ReferenceParam(ModPieces.Params.mod, SpellParam.GREEN, true, ArrowType.NONE));
+		addParam(div = new ReferenceParam(Param.div.name, SpellParam.RED, true, ArrowType.NONE));
+		addParam(mod = new ReferenceParam(Param.mod.name, SpellParam.GREEN, true, ArrowType.NONE));
 	}
 	
 	@Override
@@ -89,7 +90,7 @@ public class DivModOperator extends PieceOperator {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Double av = getParamValue(context, a).doubleValue();
 		Double bv = getParamValue(context, b).doubleValue();
-		if (bv == 0) throw new SpellRuntimeException(SpellRuntimeException.DIVIDE_BY_ZERO);
+		if (bv == 0) Errors.runtime(SpellRuntimeException.DIVIDE_BY_ZERO);
 		return new Result(av, bv, paramSides.get(div), paramSides.get(mod));
 	}
 	
@@ -109,7 +110,8 @@ public class DivModOperator extends PieceOperator {
 		public Object get(Side side) throws SpellRuntimeException {
 			if (side == sdiv) return div;
 			if (side == smod) return mod;
-			throw new SpellRuntimeException(SpellCompilationException.INVALID_PARAM);
+			Errors.runtime(SpellCompilationException.INVALID_PARAM);
+			return null;
 		}
 		
 	}

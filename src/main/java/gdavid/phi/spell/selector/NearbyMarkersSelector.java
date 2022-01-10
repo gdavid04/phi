@@ -1,6 +1,7 @@
 package gdavid.phi.spell.selector;
 
 import gdavid.phi.entity.MarkerEntity;
+import gdavid.phi.spell.Errors;
 import net.minecraft.util.math.AxisAlignedBB;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
@@ -33,12 +34,10 @@ public class NearbyMarkersSelector extends PieceSelector {
 		Vector3 positionVal = getParamValueOrDefault(context, position,
 				Vector3.fromVec3d(context.focalPoint.getPositionVec()));
 		double radiusVal = getParamValueOrDefault(context, radius, SpellContext.MAX_DISTANCE * 2).doubleValue();
-		if (radiusVal <= 0) {
-			throw new SpellRuntimeException(SpellRuntimeException.NON_POSITIVE_VALUE);
-		}
+		if (radiusVal <= 0) Errors.runtime(SpellRuntimeException.NON_POSITIVE_VALUE);
 		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getPosX(),
 				context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
-			throw new SpellRuntimeException(SpellRuntimeException.OUTSIDE_RADIUS);
+			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
 		AxisAlignedBB boundingBox = AxisAlignedBB.withSizeAtOrigin(radiusVal, radiusVal, radiusVal)
 				.offset(positionVal.toVec3D());

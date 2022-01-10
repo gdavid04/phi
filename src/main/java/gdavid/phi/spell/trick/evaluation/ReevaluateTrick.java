@@ -1,8 +1,9 @@
 package gdavid.phi.spell.trick.evaluation;
 
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
+import gdavid.phi.spell.Param;
+import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.EvalHelper;
-import gdavid.phi.util.ReferenceParam;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -26,16 +27,15 @@ public class ReevaluateTrick extends PieceTrick {
 	@Override
 	public void initParams() {
 		addParam(target = new ReferenceParam(SpellParam.GENERIC_NAME_TARGET, SpellParam.RED, false).preventLoop());
-		addParam(condition = new ParamNumber(ModPieces.Params.condition, SpellParam.BLUE, true, false));
+		addParam(condition = new ParamNumber(Param.condition.name, SpellParam.BLUE, true, false));
 	}
 	
 	@Override
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
-		if (EvalHelper.isLoop(this)) throw new SpellCompilationException(SpellCompilationException.INFINITE_LOOP);
+		if (EvalHelper.isLoop(this)) Errors.compile(SpellCompilationException.INFINITE_LOOP);
 		SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
-		if (piece == null || !paramSides.get(target).isEnabled())
-			throw new SpellCompilationException(SpellCompilationException.INVALID_PARAM);
+		if (piece == null || !paramSides.get(target).isEnabled()) Errors.compile(SpellCompilationException.INVALID_PARAM);
 		piece.addToMetadata(meta);
 	}
 	
@@ -46,7 +46,7 @@ public class ReevaluateTrick extends PieceTrick {
 			SpellPiece piece = spell.grid.getPieceAtSideWithRedirections(x, y, paramSides.get(target));
 			EvalHelper.reevaluate(piece, context);
 		} catch (SpellCompilationException e) {
-			throw new SpellRuntimeException(ModPieces.Errors.errored); // NOPMD
+			Errors.errored.runtime();
 		}
 		return null;
 	}

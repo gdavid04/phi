@@ -12,6 +12,15 @@
 	"phi.spellparam.digit": "Digit",
 	"phi.spellparam.target1": "Target A",
 	"phi.spellparam.target2": "Target B",
+	"phi.spellparam.prefix": "Prefix",
+	"phi.spellparam.text": "Text",
+	"phi.spellparam.text1": "Text A",
+	"phi.spellparam.text2": "Text B",
+	"phi.spellparam.text3": "Text C",
+	"phi.spellparam.text4": "Text D",
+	"phi.spellparam.before": "Before",
+	"phi.spellparam.after": "After",
+	"phi.spellparam.at": "At",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
@@ -19,10 +28,12 @@
 	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
+	"phi.spellerror.not_number": "ERROR: The provided text doesn't represent a number",
 
 	"phi.cadstat.overflow_damage": "Overflow Damage",
 
-	"psi.datatype.object": "Object",
+	"psi.datatype.object": "Any",
+	"psi.datatype.string": "Text",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
@@ -62,6 +73,11 @@
 	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
 	"phi.spellpiece.selector_read_vector_storage": "Selector: Read Vector Storage",
 	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
+	
+	"phi.spellpiece.selector_spell_name": "Selector: Spell Name",
+	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
+	"phi.spellpiece.selector_caster_speech": "Selector: Caster Speech",
+	"phi.spellpiece.selector_caster_speech.desc": "Gets the last chat message said by the caster",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
@@ -107,6 +123,29 @@
 
 	"phi.spellpiece.operator_entity_sneak_status": "Operator: Entity Sneak Status",
 	"phi.spellpiece.operator_entity_sneak_status.desc": "Selects if the target entity is sneaking (0 if yes, 1 if no)",
+	"phi.spellpiece.operator_entity_name": "Operator: Entity Name",
+	"phi.spellpiece.operator_entity_name.desc": "Gets the name of the given entity",
+
+	"phi.spellpiece.operator_as_text": "Operator: As Text",
+	"phi.spellpiece.operator_as_text.desc": "Converts its input to text",
+	"phi.spellpiece.operator_text_length": "Operator: Text Length",
+	"phi.spellpiece.operator_text_length.desc": "Returns the length of the given text in characters",
+	"phi.spellpiece.operator_append_text": "Operator: Append Text",
+	"phi.spellpiece.operator_append_text.desc": "Appends pieces of text to each other (doesn't add spaces between)",
+	"phi.spellpiece.operator_character_code_at": "Operator: Character Code At",
+	"phi.spellpiece.operator_character_code_at.desc": "Gets the code of the Nth character in the given text",
+	"phi.spellpiece.operator_character_from_code": "Operator: Character From Code",
+	"phi.spellpiece.operator_character_from_code.desc": "Gets the character corresponding to the given code (between 0 and 255)",
+	"phi.spellpiece.operator_lower_case": "Operator: Lower Case",
+	"phi.spellpiece.operator_lower_case.desc": "Converts the given text to lower case",
+	"phi.spellpiece.operator_upper_case": "Operator: Upper Case",
+	"phi.spellpiece.operator_upper_case.desc": "Converts the given text to upper case",
+	"phi.spellpiece.operator_split_text": "Operator: Split Text",
+	"phi.spellpiece.operator_split_text.desc": "Splits the given text before the Nth character",
+	"phi.spellpiece.operator_split_text_at": "Operator: Split Text At",
+	"phi.spellpiece.operator_split_text_at.desc": "Splits a text at the first occurence of the given part of said text",
+	"phi.spellpiece.operator_number_from_text": "Operator: Number From Text",
+	"phi.spellpiece.operator_number_from_text.desc": "Gets the numeric value of a textual number representation",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
@@ -121,6 +160,9 @@
 	"phi.spellpiece.connector_in_out.desc": "Splits a two-way connection",
 	"phi.spellpiece.connector_bridge": "Bridge Connector",
 	"phi.spellpiece.connector_bridge.desc": "Connects to pieces from a distance of two grid cells",
+	
+	"phi.spellpiece.constant_text": "Constant: Text",
+	"phi.spellpiece.constant_text.desc": "Select and type to set value",
 
 	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
 

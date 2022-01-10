@@ -8,9 +8,11 @@ import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.entity.render.MarkerRenderer;
 import gdavid.phi.entity.render.PsiProjectileRenderer;
 import gdavid.phi.entity.render.PsionWaveRenderer;
+import gdavid.phi.spell.connector.BidirectionalConnector;
 import gdavid.phi.spell.operator.number.DivModOperator;
+import gdavid.phi.spell.operator.text.SplitTextAtOperator;
+import gdavid.phi.spell.operator.text.SplitTextOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
-import gdavid.phi.spell.other.BidirectionalConnector;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,6 +45,10 @@ public class Client {
 				DivModOperator.lineTexture);
 		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "operator_split_vector_lines"),
 				SplitVectorOperator.lineTexture);
+		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "operator_split_text_lines"),
+				SplitTextOperator.lineTexture);
+		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "operator_split_text_at_lines"),
+				SplitTextAtOperator.lineTexture);
 		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "connector_bidirectional_lines"),
 				BidirectionalConnector.lineTexture);
 	}

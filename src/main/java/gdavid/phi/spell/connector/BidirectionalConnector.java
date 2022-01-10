@@ -1,9 +1,9 @@
-package gdavid.phi.spell.other;
+package gdavid.phi.spell.connector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Param;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.ResourceLocation;
@@ -36,8 +36,8 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	
 	@Override
 	public void initParams() {
-		addParam(a = new ParamAny(ModPieces.Params.fromTo, SpellParam.GRAY, false));
-		addParam(b = new ParamAny(ModPieces.Params.toFrom, SpellParam.GRAY, false));
+		addParam(a = new ParamAny(Param.fromTo.name, SpellParam.GRAY, false));
+		addParam(b = new ParamAny(Param.toFrom.name, SpellParam.GRAY, false));
 	}
 	
 	@Override

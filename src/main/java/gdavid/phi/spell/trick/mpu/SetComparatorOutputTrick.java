@@ -1,7 +1,7 @@
 package gdavid.phi.spell.trick.mpu;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -33,9 +33,7 @@ public class SetComparatorOutputTrick extends PieceTrick {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		if (!(context.caster instanceof MPUCaster)) {
-			throw new SpellRuntimeException(ModPieces.Errors.noMpu);
-		}
+		if (!(context.caster instanceof MPUCaster)) 	Errors.noMpu.runtime();
 		((MPUCaster) context.caster).setComparatorSignal(getNonnullParamValue(context, num).intValue());
 		return null;
 	}

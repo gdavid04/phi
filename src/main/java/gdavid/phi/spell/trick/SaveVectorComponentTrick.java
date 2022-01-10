@@ -1,5 +1,6 @@
 package gdavid.phi.spell.trick;
 
+import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.item.ItemStack;
 import vazkii.psi.api.PsiAPI;
@@ -44,7 +45,7 @@ public class SaveVectorComponentTrick extends PieceTrick {
 		int n = targetVal / 3, c = targetVal % 3;
 		ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
 		if (!(cad.getItem() instanceof ICAD)) {
-			throw new SpellRuntimeException(SpellRuntimeException.NO_CAD);
+			Errors.runtime(SpellRuntimeException.NO_CAD);
 		}
 		Vector3 vec = ((ICAD) cad.getItem()).getStoredVector(cad, n).copy();
 		setComponent(vec, c, getNonnullParamValue(context, number).doubleValue());

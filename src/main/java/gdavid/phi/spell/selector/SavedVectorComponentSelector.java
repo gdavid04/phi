@@ -1,5 +1,6 @@
 package gdavid.phi.spell.selector;
 
+import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.item.ItemStack;
@@ -40,13 +41,9 @@ public class SavedVectorComponentSelector extends PieceSelector {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		int targetVal = getParamValue(context, target).intValue() - 1;
 		int n = targetVal / 3, c = targetVal % 3;
-		if (isLocked(context, n, c)) {
-			throw new SpellRuntimeException(SpellRuntimeException.LOCKED_MEMORY);
-		}
+		if (isLocked(context, n, c)) Errors.runtime(SpellRuntimeException.LOCKED_MEMORY);
 		ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
-		if (!(cad.getItem() instanceof ICAD)) {
-			throw new SpellRuntimeException(SpellRuntimeException.NO_CAD);
-		}
+		if (!(cad.getItem() instanceof ICAD)) Errors.runtime(SpellRuntimeException.NO_CAD);
 		return getComponent(((ICAD) cad.getItem()).getStoredVector(cad, n), c);
 	}
 	

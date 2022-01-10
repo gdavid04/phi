@@ -2,7 +2,7 @@ package gdavid.phi.spell.trick.mpu;
 
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
-import gdavid.phi.spell.ModPieces;
+import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -56,9 +56,7 @@ public class SetTimeTrick extends PieceTrick {
 				((MPUTile) tile).setTime(time);
 			}
 		} else {
-			if (!(context.caster instanceof MPUCaster)) {
-				throw new SpellRuntimeException(ModPieces.Errors.noMpu);
-			}
+			if (!(context.caster instanceof MPUCaster)) Errors.noMpu.runtime();
 			((MPUCaster) context.caster).setTime(time);
 		}
 		return null;

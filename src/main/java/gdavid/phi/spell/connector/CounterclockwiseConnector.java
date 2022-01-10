@@ -1,4 +1,4 @@
-package gdavid.phi.spell.other;
+package gdavid.phi.spell.connector;
 
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellParam.Side;

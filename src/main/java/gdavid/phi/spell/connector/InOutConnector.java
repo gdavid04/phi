@@ -1,8 +1,9 @@
-package gdavid.phi.spell.other;
+package gdavid.phi.spell.connector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import gdavid.phi.spell.ModPieces;
+
+import gdavid.phi.spell.Param;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -39,9 +40,9 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	
 	@Override
 	public void initParams() {
-		addParam(from = new ParamAny(ModPieces.Params.from, SpellParam.GRAY, false));
-		addParam(bidir = new ParamAny(ModPieces.Params.fromTo, SpellParam.PURPLE, false));
-		addParam(to = new ParamAny(ModPieces.Params.to, SpellParam.PURPLE, false, ArrowType.NONE));
+		addParam(from = new ParamAny(Param.from.name, SpellParam.GRAY, false));
+		addParam(bidir = new ParamAny(Param.fromTo.name, SpellParam.PURPLE, false));
+		addParam(to = new ParamAny(Param.to.name, SpellParam.PURPLE, false, ArrowType.NONE));
 	}
 	
 	@Override
