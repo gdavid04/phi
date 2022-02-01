@@ -21,6 +21,7 @@
 	"phi.spellparam.before": "Before",
 	"phi.spellparam.after": "After",
 	"phi.spellparam.at": "At",
+	"phi.spellparam.default": "Default",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
@@ -98,6 +99,8 @@
 	"phi.spellpiece.operator_replace_digit": "Operator: Replace Digit",
 	"phi.spellpiece.operator_replace_digit.desc": "Replaces a single digit (counting from last, default: 1) in an integer in the given base (default: 10)",
 
+	"phi.spellpiece.operator_defaulted_vector_construct": "Operator: Defaulted Vector Construct",
+	"phi.spellpiece.operator_defaulted_vector_construct.desc": "Constructs a vector, replacing unspecified components with the given default value",
 	"phi.spellpiece.operator_vector_component_wise_multiply": "Operator: Vector Component Wise Multiply",
 	"phi.spellpiece.operator_vector_component_wise_multiply.desc": "Also known as the Hadamard product",
 	"phi.spellpiece.operator_split_vector": "Operator: Split Vector",
@@ -150,6 +153,9 @@
 	"phi.spellpiece.operator_split_text_at.desc": "Splits a text at the first occurence of the given part of said text",
 	"phi.spellpiece.operator_number_from_text": "Operator: Number From Text",
 	"phi.spellpiece.operator_number_from_text.desc": "Gets the numeric value of a textual number representation",
+
+	"phi.spellpiece.operator_hash": "Operator: Hash",
+	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
 
 	"phi.spellpiece.operator_branch": "Operator: Branch",
 	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",

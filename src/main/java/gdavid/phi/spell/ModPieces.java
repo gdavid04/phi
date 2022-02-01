@@ -8,6 +8,7 @@ import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
 import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.operator.BranchOperator;
+import gdavid.phi.spell.operator.HashOperator;
 import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
 import gdavid.phi.spell.operator.entity.EntityFootPositionOperator;
 import gdavid.phi.spell.operator.entity.EntityNameOperator;
@@ -32,6 +33,7 @@ import gdavid.phi.spell.operator.text.TextLengthOperator;
 import gdavid.phi.spell.operator.text.UpperCaseOperator;
 import gdavid.phi.spell.operator.vector.ClampVectorOperator;
 import gdavid.phi.spell.operator.vector.ComponentWiseMultiplyVectorOperator;
+import gdavid.phi.spell.operator.vector.DefaultedVectorConstructOperator;
 import gdavid.phi.spell.operator.vector.NearestAxialVectorOperator;
 import gdavid.phi.spell.operator.vector.ReplaceVectorComponentOperator;
 import gdavid.phi.spell.operator.vector.RoundVectorOperator;
@@ -120,6 +122,7 @@ public class ModPieces {
 		// register("operator_replace_digit", ReplaceDigitOperator.class, Groups.math,
 		// false);
 		
+		register("operator_defaulted_vector_construct", DefaultedVectorConstructOperator.class, Groups.dataFlow, false);
 		register("operator_vector_component_wise_multiply", ComponentWiseMultiplyVectorOperator.class, Groups.math,
 				false);
 		register("operator_split_vector", SplitVectorOperator.class, Groups.dataFlow, false);
@@ -148,6 +151,8 @@ public class ModPieces {
 		register("operator_split_text", SplitTextOperator.class, Groups.text, false);
 		register("operator_split_text_at", SplitTextAtOperator.class, Groups.text, false);
 		register("operator_number_from_text", NumberFromTextOperator.class, Groups.text, false);
+		
+		register("operator_hash", HashOperator.class, Groups.dataFlow, false);
 		
 		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
