@@ -66,6 +66,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack item, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
+		ISocketable socket = ISocketable.socketable(item);
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + "." + id + ".desc"));
 		tooltip.add(new TranslationTextComponent("item." + Phi.modId + ".spell_magazine.desc"));
 		tooltip.add(new StringTextComponent(" ")
@@ -74,9 +75,26 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 		tooltip.add(new StringTextComponent(" ")
 				.append(new TranslationTextComponent(EnumCADStat.SOCKETS.getName()).mergeStyle(TextFormatting.AQUA))
 				.appendString(": " + sockets));
+		for (int i = 0; i < sockets; i++) {
+			ItemStack bullet = socket.getBulletInSocket(i);
+			if (bullet.isEmpty()) tooltip.add(new StringTextComponent(" - [Empty]").mergeStyle(TextFormatting.GRAY));
+			else tooltip.add(new StringTextComponent(" - ").mergeStyle(TextFormatting.GRAY)
+					.append(socket.getBulletInSocket(i).getDisplayName()));
+		}
 		tooltip.add(new StringTextComponent(" ").append(
 				new TranslationTextComponent(EnumCADStat.SAVED_VECTORS.getName()).mergeStyle(TextFormatting.AQUA))
 				.appendString(": " + vectors));
+		for (int i = 0; i < vectors; i++) {
+			Vector3 vector = getStoredVector(item, i);
+			if (vector.isZero()) continue;
+			tooltip.add(new StringTextComponent(" " + (i + 1) + ": [").mergeStyle(TextFormatting.GRAY)
+					.append(new StringTextComponent(Double.toString(vector.x)).mergeStyle(TextFormatting.RED))
+					.append(new StringTextComponent(", ").mergeStyle(TextFormatting.GRAY))
+					.append(new StringTextComponent(Double.toString(vector.y)).mergeStyle(TextFormatting.GREEN))
+					.append(new StringTextComponent(", ").mergeStyle(TextFormatting.GRAY))
+					.append(new StringTextComponent(Double.toString(vector.z)).mergeStyle(TextFormatting.BLUE))
+					.append(new StringTextComponent("]").mergeStyle(TextFormatting.GRAY)));
+		}
 	}
 	
 	@Override
