@@ -7,6 +7,7 @@ import gdavid.phi.spell.connector.ClockwiseConnector;
 import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
 import gdavid.phi.spell.constant.TextConstant;
+import gdavid.phi.spell.constant.VectorConstant;
 import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.HashOperator;
 import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
@@ -163,6 +164,7 @@ public class ModPieces {
 		register("connector_bridge", BridgeConnector.class, Groups.dataFlow, false);
 		
 		register("constant_text", TextConstant.class, Groups.text, true);
+		register("constant_vector", VectorConstant.class, Groups.dataFlow, true);
 	}
 	
 	public static void register(String id, Class<? extends SpellPiece> piece, String group, boolean main) {

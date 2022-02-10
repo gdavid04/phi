@@ -173,6 +173,8 @@
 
 	"phi.spellpiece.constant_text": "Constant: Text",
 	"phi.spellpiece.constant_text.desc": "Select and type to set value",
+	"phi.spellpiece.constant_vector": "Constant: Vector",
+	"phi.spellpiece.constant_vector.desc": "Select, press X, Y or Z and type to set coordinate",
 
 	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
 
