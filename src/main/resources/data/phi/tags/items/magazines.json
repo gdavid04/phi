@@ -6,6 +6,7 @@
 		"phi:wide_band_spell_magazine",
 		"phi:increased_storage_spell_magazine",
 		"phi:bulk_storage_spell_magazine",
-		"phi:smart_spell_magazine"
+		"phi:smart_spell_magazine",
+		"phi:compound_spell_magazine"
 	]
 }

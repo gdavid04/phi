@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IC",
+		"IS",
+		"MM"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"C": { "item": "psi:cad_core_radiative" },
+		"S": { "item": "psi:cad_socket_transmissive" }
+	},
+	"result": {
+		"item": "phi:compound_spell_magazine"
+	}
+}
