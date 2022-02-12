@@ -52,6 +52,8 @@
 	"phi.spellpiece.trick_caster_blink.desc": "Teleports the caster in the given direction",
 	"phi.spellpiece.trick_swap_blink": "Trick: Swap Blink",
 	"phi.spellpiece.trick_swap_blink.desc": "Targets switch place. Targets caster by default",
+	"phi.spellpiece.trick_swap_blink_position": "Trick: Swap Blink (Position Only)",
+	"phi.spellpiece.trick_swap_blink_position.desc": "Targets switch place, but not look direction. Targets caster by default",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates the target piece early if condition is within (-1, 1) exclusive",

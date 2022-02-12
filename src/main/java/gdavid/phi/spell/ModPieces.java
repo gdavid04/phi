@@ -55,6 +55,7 @@ import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
+import gdavid.phi.spell.trick.blink.SwapBlinkPositionTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
 import gdavid.phi.spell.trick.evaluation.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
@@ -96,6 +97,7 @@ public class ModPieces {
 		register("trick_move_marker", MoveMarkerTrick.class, Groups.opticalMagic, false);
 		register("trick_caster_blink", CasterBlinkTrick.class, "movement", false);
 		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
+		register("trick_swap_blink_position", SwapBlinkPositionTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
