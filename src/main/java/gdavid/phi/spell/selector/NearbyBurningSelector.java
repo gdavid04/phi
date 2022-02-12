@@ -41,11 +41,11 @@ public class NearbyBurningSelector extends PieceSelector {
 		}
 		AxisAlignedBB boundingBox = AxisAlignedBB.withSizeAtOrigin(radiusVal, radiusVal, radiusVal)
 				.offset(positionVal.toVec3D());
-		boundingBox = boundingBox
-				.intersect(AxisAlignedBB.withSizeAtOrigin(SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE,
-						SpellContext.MAX_DISTANCE).offset(context.focalPoint.getPositionVec()));
-		return EntityListWrapper
-				.make(context.focalPoint.getEntityWorld().getEntitiesWithinAABB(Entity.class, boundingBox, entity -> entity.isBurning()));
+		boundingBox = boundingBox.intersect(AxisAlignedBB
+				.withSizeAtOrigin(SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE)
+				.offset(context.focalPoint.getPositionVec()));
+		return EntityListWrapper.make(context.focalPoint.getEntityWorld().getEntitiesWithinAABB(Entity.class,
+				boundingBox, entity -> entity.isBurning()));
 	}
 	
 	@Override

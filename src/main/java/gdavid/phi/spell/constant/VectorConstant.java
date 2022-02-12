@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
-
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.Spell;
@@ -42,8 +41,9 @@ public class VectorConstant extends SpellPiece {
 			boolean selected = true;
 			try {
 				Class<?> clazz = Class.forName("vazkii.psi.client.gui.GuiProgrammer");
-				selected = clazz.isInstance(Minecraft.getInstance().currentScreen) &&
-						clazz.getField("selectedX").getInt(null) == x && clazz.getField("selectedY").getInt(null) == y;
+				selected = clazz.isInstance(Minecraft.getInstance().currentScreen)
+						&& clazz.getField("selectedX").getInt(null) == x
+						&& clazz.getField("selectedY").getInt(null) == y;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -121,13 +121,11 @@ public class VectorConstant extends SpellPiece {
 	
 	@Override
 	public Object evaluate() {
-		for (int i = 0; i < 3; i++) if (components[i].length() > 5) components[i] = "0";
+		for (int i = 0; i < 3; i++)
+			if (components[i].length() > 5) components[i] = "0";
 		try {
-			return new Vector3(
-				Double.parseDouble(components[0]),
-				Double.parseDouble(components[1]),
-				Double.parseDouble(components[2])
-			);
+			return new Vector3(Double.parseDouble(components[0]), Double.parseDouble(components[1]),
+					Double.parseDouble(components[2]));
 		} catch (NumberFormatException e) {
 			return Vector3.zero;
 		}

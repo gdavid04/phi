@@ -1,10 +1,9 @@
 package gdavid.phi.spell.trick.blink;
 
-import java.util.EnumSet;
-
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
+import java.util.EnumSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.ServerPlayNetHandler;

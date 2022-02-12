@@ -1,14 +1,11 @@
 package gdavid.phi.spell.connector;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.util.IWarpRedirector;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -21,6 +18,7 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.ClientPsiAPI;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -37,8 +35,7 @@ import vazkii.psi.api.spell.param.ParamAny;
 
 public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	
-	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
-			"spell/connector_bridge_lines");
+	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId, "spell/connector_bridge_lines");
 	
 	ParamAny direction;
 	
@@ -92,7 +89,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 			}
 		}
 	}
-
+	
 	@OnlyIn(Dist.CLIENT)
 	static RenderType lineLayer;
 	
@@ -100,22 +97,25 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, Side side) {
 		if (!side.isEnabled()) return;
 		GlStateManager.enableBlend();
-		GlStateManager.glBlendFuncSeparate(SourceFactor.SRC_ALPHA.param, DestFactor.ONE_MINUS_SRC_ALPHA.param, SourceFactor.ZERO.param, SourceFactor.ONE.param);
+		GlStateManager.glBlendFuncSeparate(SourceFactor.SRC_ALPHA.param, DestFactor.ONE_MINUS_SRC_ALPHA.param,
+				SourceFactor.ZERO.param, SourceFactor.ONE.param);
 		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
 		if (lineLayer == null) {
 			RenderType.State glState = RenderType.State.getBuilder()
 					.texture(new RenderState.TextureState(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, false, false))
-					.lightmap(new RenderState.LightmapState(true))
-					.cull(new RenderState.CullState(false))
+					.lightmap(new RenderState.LightmapState(true)).cull(new RenderState.CullState(false))
 					.writeMask(new RenderState.WriteMaskState(true, false))
 					.transparency(new RenderState.TransparencyState("translucent_transparency", () -> {
 						RenderSystem.enableBlend();
-						RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+						RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+								GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+								GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 					}, () -> {
 						RenderSystem.disableBlend();
 						RenderSystem.defaultBlendFunc();
 					})).build(false);
-			lineLayer = RenderType.makeType(lineTexture.toString(), DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 64, glState);
+			lineLayer = RenderType.makeType(lineTexture.toString(), DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP,
+					GL11.GL_QUADS, 64, glState);
 		}
 		IVertexBuilder buffer = material.getBuffer(buffers, get -> lineLayer);
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
