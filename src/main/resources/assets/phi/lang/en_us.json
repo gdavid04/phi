@@ -69,6 +69,8 @@
 
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
+	"phi.spellpiece.selector_nearby_burning": "Selector: Nearby Burning",
+	"phi.spellpiece.selector_nearby_burning.desc": "Selects burning entities near the given position.",
 
 	"phi.spellpiece.selector_saved_vector_component": "Selector: Saved Vector Component",
 	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",

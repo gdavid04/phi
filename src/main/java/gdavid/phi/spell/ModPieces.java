@@ -45,6 +45,7 @@ import gdavid.phi.spell.operator.vector.raycast.FocusedBlockOperator;
 import gdavid.phi.spell.operator.vector.raycast.OffsetRaycastOperator;
 import gdavid.phi.spell.operator.vector.raycast.PreciseRaycastOperator;
 import gdavid.phi.spell.selector.CasterSpeechSelector;
+import gdavid.phi.spell.selector.NearbyBurningSelector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
@@ -105,6 +106,7 @@ public class ModPieces {
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
+		register("selector_nearby_burning", NearbyBurningSelector.class, "entities_intro", false);
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
