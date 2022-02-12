@@ -9,6 +9,7 @@ import gdavid.phi.entity.render.MarkerRenderer;
 import gdavid.phi.entity.render.PsiProjectileRenderer;
 import gdavid.phi.entity.render.PsionWaveRenderer;
 import gdavid.phi.spell.connector.BidirectionalConnector;
+import gdavid.phi.spell.connector.BridgeConnector;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.text.SplitTextAtOperator;
 import gdavid.phi.spell.operator.text.SplitTextOperator;
@@ -51,6 +52,8 @@ public class Client {
 				SplitTextAtOperator.lineTexture);
 		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "connector_bidirectional_lines"),
 				BidirectionalConnector.lineTexture);
+		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "connector_bridge_lines"),
+				BridgeConnector.lineTexture);
 	}
 	
 }
