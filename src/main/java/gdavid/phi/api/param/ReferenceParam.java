@@ -1,10 +1,10 @@
-package gdavid.phi.spell.param;
+package gdavid.phi.api.param;
 
 import vazkii.psi.api.spell.param.ParamAny;
 
 /**
  * A parameter used for referencing other pieces. Execution order between the
- * piece and the parameter is undefined.
+ * piece and the parameter is undefined and the parameter is not guaranteed to execute at all.
  */
 public class ReferenceParam extends ParamAny {
 	

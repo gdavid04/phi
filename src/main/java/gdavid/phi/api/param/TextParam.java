@@ -1,4 +1,4 @@
-package gdavid.phi.spell.param;
+package gdavid.phi.api.param;
 
 import vazkii.psi.api.spell.param.ParamSpecific;
 

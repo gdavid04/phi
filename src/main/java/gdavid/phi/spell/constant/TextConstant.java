@@ -1,8 +1,9 @@
 package gdavid.phi.spell.constant;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
+import gdavid.phi.api.param.TextParam;
 import gdavid.phi.spell.Param;
-import gdavid.phi.spell.param.TextParam;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

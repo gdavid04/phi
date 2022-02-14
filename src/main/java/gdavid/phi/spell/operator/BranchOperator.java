@@ -1,8 +1,8 @@
 package gdavid.phi.spell.operator;
 
+import gdavid.phi.api.util.EvalHelper;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
-import gdavid.phi.util.EvalHelper;
 import gdavid.phi.util.TypeHelper;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;

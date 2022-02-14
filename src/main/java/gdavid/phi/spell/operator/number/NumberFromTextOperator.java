@@ -1,8 +1,8 @@
 package gdavid.phi.spell.operator.number;
 
+import gdavid.phi.api.param.TextParam;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
-import gdavid.phi.spell.param.TextParam;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;

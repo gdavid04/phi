@@ -1,7 +1,7 @@
 package gdavid.phi.spell.operator.text;
 
+import gdavid.phi.api.param.TextParam;
 import gdavid.phi.spell.Param;
-import gdavid.phi.spell.param.TextParam;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;

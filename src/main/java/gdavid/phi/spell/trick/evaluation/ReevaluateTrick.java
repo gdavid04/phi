@@ -1,9 +1,9 @@
 package gdavid.phi.spell.trick.evaluation;
 
+import gdavid.phi.api.param.ReferenceParam;
+import gdavid.phi.api.util.EvalHelper;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
-import gdavid.phi.spell.param.ReferenceParam;
-import gdavid.phi.util.EvalHelper;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
