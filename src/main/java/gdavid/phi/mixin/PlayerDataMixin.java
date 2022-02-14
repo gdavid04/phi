@@ -3,16 +3,16 @@ package gdavid.phi.mixin;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import java.lang.ref.WeakReference;
 import net.minecraft.entity.player.PlayerEntity;
+import vazkii.psi.common.core.handler.PlayerDataHandler.PlayerData;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Pseudo
-@Mixin(targets = "vazkii.psi.common.core.handler.PlayerDataHandler$PlayerData", remap = false)
+@Mixin(value = PlayerData.class, remap = false)
 public class PlayerDataMixin {
 	
 	@Final

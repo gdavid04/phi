@@ -13,6 +13,7 @@ import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellPiece;
+import vazkii.psi.client.gui.GuiProgrammer;
 
 public class VectorConstant extends SpellPiece {
 	
@@ -39,14 +40,8 @@ public class VectorConstant extends SpellPiece {
 		ms.scale(0.5f, 0.5f, 1);
 		for (int i = 0; i < 3; i++) {
 			boolean selected = true;
-			try {
-				Class<?> clazz = Class.forName("vazkii.psi.client.gui.GuiProgrammer");
-				selected = clazz.isInstance(Minecraft.getInstance().currentScreen)
-						&& clazz.getField("selectedX").getInt(null) == x
-						&& clazz.getField("selectedY").getInt(null) == y;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			selected = Minecraft.getInstance().currentScreen instanceof GuiProgrammer
+					&& GuiProgrammer.selectedX == x && GuiProgrammer.selectedY == y;
 			if (components[i].length() > 5) components[i] = "0";
 			int color = (selected && selectedComponent == i) ? 0xffffff : 0x808080 | 0xff << ((2 - i) * 8);
 			font.renderString(components[i], 0, 0, color, false, ms.getLast().getMatrix(), buffers, false, 0, light);

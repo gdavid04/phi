@@ -32,6 +32,7 @@ import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamAny;
+import vazkii.psi.common.spell.other.PieceConnector;
 
 public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	
@@ -62,9 +63,9 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	public SpellPiece redirect(Side side) {
 		if (paramSides.get(direction) != Side.OFF) side = paramSides.get(direction);
 		try {
-			Class<?> clazz = Class.forName("vazkii.psi.common.spell.other.PieceConnector");
-			SpellPiece connector = (SpellPiece) clazz.getConstructor(Spell.class).newInstance(spell);
-			connector.paramSides.put((SpellParam<?>) clazz.getField("target").get(connector), side);
+			SpellPiece connector = new PieceConnector(spell);
+			// tfw connector.target doesn't compile
+			connector.paramSides.put((SpellParam<?>) PieceConnector.class.getField("target").get(connector), side);
 			connector.x = x + side.offx;
 			connector.y = y + side.offy;
 			return connector;

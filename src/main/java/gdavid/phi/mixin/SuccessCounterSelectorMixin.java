@@ -2,14 +2,13 @@ package gdavid.phi.mixin;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vazkii.psi.api.spell.SpellContext;
+import vazkii.psi.common.spell.selector.entity.PieceSelectorSuccessCounter;
 
-@Pseudo
-@Mixin(targets = "vazkii.psi.common.spell.selector.entity.PieceSelectorSuccessCounter", remap = false)
+@Mixin(value = PieceSelectorSuccessCounter.class, remap = false)
 public class SuccessCounterSelectorMixin {
 	
 	@Inject(method = "execute", at = @At("HEAD"), cancellable = true)

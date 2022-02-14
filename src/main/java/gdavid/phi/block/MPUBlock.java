@@ -9,7 +9,6 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -28,6 +27,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.spell.ISpellAcceptor;
 import vazkii.psi.api.spell.Spell;
+import vazkii.psi.common.item.ItemCAD;
+import vazkii.psi.common.item.ItemSpellDrive;
 
 public class MPUBlock extends HorizontalBlock {
 	
@@ -51,25 +52,10 @@ public class MPUBlock extends HorizontalBlock {
 			Hand hand, BlockRayTraceResult rayTraceResult) {
 		ItemStack item = player.getHeldItem(hand);
 		TileEntity tile = world.getTileEntity(pos);
-		if (!(tile instanceof MPUTile)) return ActionResultType.PASS;
-		Class<?> spellDrive = null;
-		try {
-			spellDrive = Class.forName("vazkii.psi.common.item.ItemSpellDrive");
-			if (!(boolean) Class.forName("vazkii.psi.common.item.ItemCAD").getMethod("isTruePlayer", Entity.class)
-					.invoke(null, player)) {
-				return ActionResultType.PASS;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Spell spell = null;
-		if (spellDrive != null && spellDrive.isInstance(item.getItem())) {
-			try {
-				spell = (Spell) spellDrive.getMethod("getSpell", ItemStack.class).invoke(item.getItem(), item);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ActionResultType.PASS;
-			}
+		if (!(tile instanceof MPUTile) || !ItemCAD.isTruePlayer(player)) return ActionResultType.PASS;
+		Spell spell;
+		if (item.getItem() instanceof ItemSpellDrive) {
+			spell = ItemSpellDrive.getSpell(item);
 		} else {
 			if (!ISpellAcceptor.isAcceptor(item)) return ActionResultType.PASS;
 			ISpellAcceptor acceptor = ISpellAcceptor.acceptor(item);

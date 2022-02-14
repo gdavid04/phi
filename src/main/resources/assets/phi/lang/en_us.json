@@ -29,7 +29,9 @@
 	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
+	"phi.spellerror.mpu": "ERROR: This trick can't be used in a Magic Processing Unit",
 	"phi.spellerror.not_number": "ERROR: The provided text doesn't represent a number",
+	"phi.spellerror.nested_loop": "ERROR: Looping constructs can't be nested",
 
 	"phi.cadstat.overflow_damage": "Overflow Damage",
 

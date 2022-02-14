@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -24,6 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.ICADColorizer;
+import vazkii.psi.client.gui.GuiProgrammer;
 
 @OnlyIn(Dist.CLIENT)
 public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
@@ -73,8 +73,7 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 	public void drawSpell(MPUTile mpu, MatrixStack ms, IRenderTypeBuffer buf, int light) {
 		Minecraft mc = Minecraft.getInstance();
 		try {
-			IVertexBuilder buffer = buf.getBuffer(
-					(RenderType) Class.forName("vazkii.psi.client.gui.GuiProgrammer").getField("LAYER").get(null));
+			IVertexBuilder buffer = buf.getBuffer(GuiProgrammer.LAYER);
 			Matrix4f mat = ms.getLast().getMatrix();
 			buffer.pos(mat, -7, h - 7, -0.01f).color(255, 255, 255, 128).tex(0, h / 256f).lightmap(light).endVertex();
 			buffer.pos(mat, w - 7, h - 7, -0.01f).color(255, 255, 255, 128).tex(w / 256f, h / 256f).lightmap(light)

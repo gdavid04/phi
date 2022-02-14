@@ -9,7 +9,6 @@ import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.lang.ref.WeakReference;
-import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -37,6 +36,9 @@ import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
+import vazkii.psi.common.core.handler.PlayerDataHandler;
+import vazkii.psi.common.spell.trick.PieceTrickParticleTrail;
+import vazkii.psi.common.spell.trick.PieceTrickPlaySound;
 
 public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
@@ -106,7 +108,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void tick() {
 		if (world.isRemote) {
 			if (psi < prevPsi) prevPsi = Math.max(psi, prevPsi - 25);
@@ -122,15 +123,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			castDelay--;
 			return;
 		}
-		boolean recast = context == null || context.get() == null;
-		if (!recast) {
-			try {
-				recast = !((Set<SpellContext>) Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler")
-						.getField("delayedContexts").get(null)).contains(context.get());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		boolean recast = context == null || context.get() == null
+				|| !PlayerDataHandler.delayedContexts.contains(context.get());
 		if (recast) {
 			if (world.isBlockPowered(getPos())) return;
 			SpellContext ctx = new SpellContext().setPlayer(caster).setSpell(spell);
@@ -164,10 +158,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 					SpellMetadata meta = new SpellMetadata();
 					piece.addToMetadata(meta);
 					if (meta.getStat(EnumSpellStat.PROJECTION) != 0) {
-						String name = piece.getClass().getName();
-						if (!name.equals("vazkii.psi.common.spell.trick.PieceTrickParticleTrail")
-								&& !name.equals("vazkii.psi.common.spell.trick.PieceTrickPlaySound")
-								&& !(piece instanceof MoveMarkerTrick) && !(piece instanceof ReevaluateTrick))
+						if (!(piece instanceof PieceTrickParticleTrail
+								|| piece instanceof PieceTrickPlaySound
+								|| piece instanceof MoveMarkerTrick
+								|| piece instanceof ReevaluateTrick))
 							return true;
 					}
 				} catch (SpellCompilationException e) {

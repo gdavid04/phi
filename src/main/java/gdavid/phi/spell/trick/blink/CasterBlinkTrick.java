@@ -1,7 +1,6 @@
 package gdavid.phi.spell.trick.blink;
 
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -14,6 +13,8 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
+import vazkii.psi.common.network.MessageRegister;
+import vazkii.psi.common.network.message.MessageBlink;
 
 public class CasterBlinkTrick extends PieceTrick {
 	
@@ -46,12 +47,8 @@ public class CasterBlinkTrick extends PieceTrick {
 				context.caster.getPosZ() + directionVal.z);
 		if (context.caster instanceof ServerPlayerEntity) {
 			try {
-				Object message = Class.forName("vazkii.psi.common.network.message.MessageBlink")
-						.getConstructor(double.class, double.class, double.class)
-						.newInstance(directionVal.x, directionVal.y, directionVal.z);
-				Class.forName("vazkii.psi.common.network.MessageRegister")
-						.getMethod("sendToPlayer", Object.class, PlayerEntity.class)
-						.invoke(null, message, context.caster);
+				Object message = new MessageBlink(directionVal.x, directionVal.y, directionVal.z);
+				MessageRegister.sendToPlayer(message, context.caster);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

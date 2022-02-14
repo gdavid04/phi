@@ -2,7 +2,6 @@ package gdavid.phi.mixin;
 
 import java.util.EnumSet;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -11,9 +10,9 @@ import gdavid.phi.api.param.ReferenceParam;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellPiece;
+import vazkii.psi.common.spell.SpellCompiler;
 
-@Pseudo
-@Mixin(targets = "vazkii.psi.common.spell.SpellCompiler", remap = false)
+@Mixin(value = SpellCompiler.class, remap = false)
 public class SpellCompilerMixin {
 	
 	@Inject(method = "checkSideDisabled", at = @At("RETURN"), cancellable = true)

@@ -8,6 +8,7 @@ import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
 import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.constant.VectorConstant;
+import gdavid.phi.spell.form.CircleForm;
 import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.HashOperator;
 import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
@@ -106,6 +107,8 @@ public class ModPieces {
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
+
+		register("form_circle", CircleForm.class, Groups.psionManipulation, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		register("selector_nearby_burning", NearbyBurningSelector.class, "entities_intro", false);
