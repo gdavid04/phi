@@ -23,6 +23,18 @@ public class ParamHelper {
 		return res;
 	}
 	
+	public static int positiveInt(SpellPiece piece, SpellParam<Number> param) throws SpellCompilationException {
+		double res = piece.getNonNullParamEvaluation(param).doubleValue();
+		if (res <= 0 || res != (int) res) Errors.compile(SpellCompilationException.NON_POSITIVE_INTEGER, piece.x, piece.y);
+		return (int) res;
+	}
+	
+	public static int positiveInt(SpellPiece piece, SpellParam<Number> param, int def) throws SpellCompilationException {
+		double res = piece.getParamEvaluationeOrDefault(param, def).doubleValue();
+		if (res <= 0 || res != (int) res) Errors.compile(SpellCompilationException.NON_POSITIVE_INTEGER, piece.x, piece.y);
+		return (int) res;
+	}
+	
 	public static Vector3 nonNull(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
 			throws SpellRuntimeException {
 		Vector3 res = piece.getNonnullParamValue(context, param);

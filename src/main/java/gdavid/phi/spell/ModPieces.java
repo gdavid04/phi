@@ -55,6 +55,7 @@ import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
+import gdavid.phi.spell.trick.SleepWhileTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkPositionTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
@@ -107,7 +108,9 @@ public class ModPieces {
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
-
+		
+		register("trick_sleep_while", SleepWhileTrick.class, Groups.dataFlow, false);
+		
 		register("form_circle", CircleForm.class, Groups.psionManipulation, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);

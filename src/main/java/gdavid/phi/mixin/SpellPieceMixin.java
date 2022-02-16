@@ -35,9 +35,7 @@ public class SpellPieceMixin {
 			throws SpellRuntimeException {
 		Object res = callback.getReturnValue();
 		SpellParam.Side side = paramSides.get(param);
-		if (!side.isEnabled()) {
-			return;
-		}
+		if (!side.isEnabled()) return;
 		if (res instanceof ISidedResult) {
 			try {
 				SpellPiece[] piece = { (SpellPiece) (Object) this };

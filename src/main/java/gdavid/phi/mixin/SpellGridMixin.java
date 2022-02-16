@@ -22,7 +22,8 @@ public abstract class SpellGridMixin {
 	protected abstract SpellPiece getPieceAtSide(Multimap<SpellPiece, Side> traversed, int x, int y, Side side)
 			throws SpellCompilationException;
 	
-	@Redirect(method = "getPieceAtSideWithRedirections(IILvazkii/psi/api/spell/SpellParam$Side;Lvazkii/psi/api/spell/SpellGrid$SpellPieceConsumer;)Lvazkii/psi/api/spell/SpellPiece;", at = @At(value = "INVOKE", target = "vazkii/psi/api/spell/SpellGrid.getPieceAtSide(Lcom/google/common/collect/Multimap;IILvazkii/psi/api/spell/SpellParam$Side;)Lvazkii/psi/api/spell/SpellPiece;", remap = false))
+	@Redirect(method = "getPieceAtSideWithRedirections(IILvazkii/psi/api/spell/SpellParam$Side;Lvazkii/psi/api/spell/SpellGrid$SpellPieceConsumer;)Lvazkii/psi/api/spell/SpellPiece;",
+			at = @At(value = "INVOKE", target = "vazkii/psi/api/spell/SpellGrid.getPieceAtSide(Lcom/google/common/collect/Multimap;IILvazkii/psi/api/spell/SpellParam$Side;)Lvazkii/psi/api/spell/SpellPiece;", remap = false))
 	private SpellPiece advancedRedirects(SpellGrid grid, Multimap<SpellPiece, Side> traversed, int x, int y, Side side,
 			int ox, int oy, Side oside, SpellPieceConsumer walker) throws SpellCompilationException {
 		SpellPiece piece = ((SpellGridMixin) (Object) grid).getPieceAtSide(traversed, x, y, side);

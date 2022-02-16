@@ -2,7 +2,7 @@ package gdavid.phi.api.util;
 
 import java.util.Stack;
 
-import gdavid.phi.api.CustomForkData;
+import gdavid.phi.api.ICustomForkData;
 import vazkii.psi.api.spell.CompiledSpell.Action;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellGrid;
@@ -26,11 +26,11 @@ public class ContextHelper {
 		context.shiftTargetSlot = original.shiftTargetSlot;
 		context.customTargetSlot = original.customTargetSlot;
 		context.customData.putAll(original.customData);
-		context.customData.replaceAll((k, v) -> (v instanceof CustomForkData) ? ((CustomForkData) v).fork() : v);
+		context.customData.replaceAll((k, v) -> (v instanceof ICustomForkData) ? ((ICustomForkData) v).fork() : v);
 		for (int x = 0; x < SpellGrid.GRID_SIZE; x++) {
 			for (int y = 0; y < SpellGrid.GRID_SIZE; y++) {
 				Object o = original.evaluatedObjects[x][y];
-				context.evaluatedObjects[x][y] = (o instanceof CustomForkData) ? ((CustomForkData) o).fork() : o;
+				context.evaluatedObjects[x][y] = (o instanceof ICustomForkData) ? ((ICustomForkData) o).fork() : o;
 			}
 		}
 		// assume no Action implements CustomForkData for now
