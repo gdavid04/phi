@@ -38,20 +38,40 @@ public interface ICustomCompile {
 	
 	public interface ICompilerCallback {
 		
+		/**
+		 * Compiles another piece.
+		 */
 		public default void build(SpellPiece piece) throws SpellCompilationException {
 			withVisited(piece, null);
 		}
 		
+		/**
+		 * Null safe version of {@link #build(SpellPiece)}.
+		 */
 		public default void buildOptional(SpellPiece piece) throws SpellCompilationException {
 			if (piece != null) build(piece);
 		}
 		
+		/**
+		 * Compiles another piece.
+		 * @param addToVisited additional pieces that trigger the infinite loop compiler error when used by the target piece
+		 */
 		public void withVisited(SpellPiece piece, Set<SpellPiece> addToVisited) throws SpellCompilationException;
 		
+		/**
+		 * Null safe version of {@link #withVisited(SpellPiece, Set)}.
+		 * @param addToVisited additional pieces that trigger the infinite loop compiler error when used by the target piece
+		 */
 		public default void optionalWithVisited(SpellPiece piece, Set<SpellPiece> addToVisited) throws SpellCompilationException {
 			if (piece != null) withVisited(piece, addToVisited);
 		}
 		
+		/**
+		 * Use for getting params. Performs the same checks as the compiler does by default.
+		 * @return the piece the param is connected to. You should {@link #build(SpellPiece)}
+		 * (or {@link #buildOptional(SpellPiece)} for optional parameters) this before you add
+		 * any action that uses the value of the parameter.
+		 */
 		public SpellPiece param(SpellParam<?> param, EnumSet<Side> usedSides) throws SpellCompilationException;
 		
 	}

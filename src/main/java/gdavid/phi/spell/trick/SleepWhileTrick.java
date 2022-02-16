@@ -57,17 +57,11 @@ public class SleepWhileTrick extends PieceTrick implements ICustomCompile {
 	@Override
 	public void compile(CompiledSpell compiled, ICompilerCallback cb) throws SpellCompilationException {
 		if (compiled.actionMap.containsKey(this)) {
-			Action a = compiled.actionMap.get(this);
-			compiled.actions.remove(a);
-			compiled.actions.add(a);
 			compiled.actions.remove(captureActions.get(compiled).get(this));
 		} else {
-			Action a = compiled.new Action(this);
-			compiled.actions.add(a);
-			compiled.actionMap.put(this, a);
 			captureActions.computeIfAbsent(compiled, cspell -> new HashMap<>()).put(this, new CaptureAction(compiled));
-			((SpellPiece) this).addToMetadata(compiled.metadata);
 		}
+		ICustomCompile.super.compile(compiled, cb);
 		ListIterator<Action> endIter = compiled.actions.listIterator(compiled.actions.size() - 1); // I hate the iterators in Java
 		EnumSet<Side> usedSides = EnumSet.noneOf(Side.class);
 		cb.build(cb.param(condition, usedSides));
