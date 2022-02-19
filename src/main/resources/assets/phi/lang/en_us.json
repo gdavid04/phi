@@ -36,6 +36,8 @@
 	"psi.datatype.object": "Any",
 	"psi.datatype.string": "Text",
 
+	"phi.spell": "Spell",
+
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
 	"phi.spellpiece.trick_psi_transfer": "Trick: Psi Transfer",
@@ -204,6 +206,13 @@
 
 	"item.phi.blood_converter": "Blood Converter",
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
+
+	"item.phi.relic": "Relic",
+	"item.phi.relic.desc": "A piece of ancient technology. Capable of storing and activating spells",
+	"item.phi.relic.regen_lock": "Psi regeneration cooldown",
+	"item.phi.relic.tricks": "Attunement",
+	"item.phi.relic.stat_error": "Spell stats exceed safe operation range. Aborting cast.",
+	"item.phi.relic.trick_error": "The relic is incompatible with your spell.",
 
 	"block.phi.mpu": "Magic Processing Unit",
 	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal",

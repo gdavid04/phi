@@ -71,7 +71,7 @@ dependencies {
 	minecraft group: 'net.minecraftforge', name: 'forge', version: "1.16.5-36.2.20"
 	annotationProcessor 'org.spongepowered:mixin:0.8:processor'
 
-	compileOnly fg.deobf("vazkii.psi:Psi:${psi_version}:api")
+	compileOnly fg.deobf("vazkii.psi:Psi:${psi_version}")
 	runtimeOnly fg.deobf("vazkii.psi:Psi:${psi_version}")
 
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")

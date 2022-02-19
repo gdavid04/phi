@@ -22,9 +22,10 @@ public class ModItems {
 				
 				new SmartSpellMagazineItem("smart_spell_magazine", 3, 9, 2),
 				new CompoundSpellMagazineItem("compound_spell_magazine", 3, 9, 2),
-				// TODO compound magazine (casts all 3 spells simultaneously)
 				
 				new BloodConverterItem("blood_converter", 0.5f),
+				
+				new RelicItem("relic"),
 				
 				MPUCAD.instance);
 	}
