@@ -1,11 +1,13 @@
 package gdavid.phi.block.tile;
 
 import com.mojang.authlib.GameProfile;
+
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
+import gdavid.phi.util.ICableConnected;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.lang.ref.WeakReference;
@@ -23,6 +25,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -38,7 +41,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity {
+public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected {
 	
 	public static TileEntityType<MPUTile> type;
 	
@@ -175,6 +178,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public Connection getController(Direction side) {
+		return null;
+	}
+	
+	@Override
+	public boolean isAcceptor(Direction side) {
+		return true;
 	}
 	
 	@Override

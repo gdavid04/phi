@@ -3,8 +3,11 @@ package gdavid.phi.spell.selector.mpu;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.block.tile.VSUTile;
 import gdavid.phi.spell.Errors;
+import gdavid.phi.util.ICableConnected;
+import gdavid.phi.util.ICableConnected.Connection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -40,7 +43,12 @@ public class ReadVectorStorageSelector extends PieceSelector {
 		Vector3 dir = getNonnullParamValue(context, direction);
 		Direction d = Direction.getFacingFromVector(dir.x, dir.y, dir.z);
 		if (!(context.caster instanceof MPUCaster)) Errors.noMpu.runtime();
-		TileEntity tile = context.caster.world.getTileEntity(context.caster.getPosition().add(d.getDirectionVec()));
+		BlockPos pos = context.caster.getPosition().add(d.getDirectionVec());
+		TileEntity cable = context.caster.world.getTileEntity(pos);
+		if (!(cable instanceof ICableConnected)) Errors.runtime(SpellRuntimeException.NULL_TARGET);
+		Connection connection = ((ICableConnected) cable).getController(d.getOpposite());
+		if (connection == null) Errors.runtime(SpellRuntimeException.NULL_TARGET);
+		TileEntity tile = context.caster.world.getTileEntity(connection.pos);
 		if (!(tile instanceof VSUTile)) Errors.runtime(SpellRuntimeException.NULL_TARGET);
 		return ((VSUTile) tile).getVector();
 	}

@@ -1,15 +1,17 @@
 package gdavid.phi.block.tile;
 
+import gdavid.phi.util.ICableConnected;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.Constants;
 import vazkii.psi.api.internal.Vector3;
 
-public class VSUTile extends TileEntity {
+public class VSUTile extends TileEntity implements ICableConnected {
 	
 	public static TileEntityType<VSUTile> type;
 	
@@ -28,6 +30,16 @@ public class VSUTile extends TileEntity {
 	public void setVector(Vector3 value) {
 		vector = value;
 		markDirty();
+	}
+	
+	@Override
+	public Connection getController(Direction side) {
+		return new Connection(pos, null, 0);
+	}
+	
+	@Override
+	public boolean isAcceptor(Direction side) {
+		return false;
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package gdavid.phi.block;
 
+import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.VSUTile;
 import net.minecraft.block.Block;
@@ -19,10 +20,11 @@ public class ModBlocks {
 	public static final Block shadow = new ShadowBlock();
 	public static final Block mpu = new MPUBlock();
 	public static final Block vsu = new VSUBlock();
+	public static final Block cable = new CableBlock();
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu);
+		event.getRegistry().registerAll(shadow, mpu, vsu, cable);
 	}
 	
 	@SubscribeEvent
@@ -31,7 +33,9 @@ public class ModBlocks {
 				new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
 						.setRegistryName(mpu.getRegistryName()),
 				new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(vsu.getRegistryName()));
+						.setRegistryName(vsu.getRegistryName()),
+				new BlockItem(cable, new Item.Properties().group(ItemGroup.MISC))
+						.setRegistryName(cable.getRegistryName()));
 	}
 	
 	@SubscribeEvent
@@ -41,7 +45,9 @@ public class ModBlocks {
 				MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu).build(null)
 						.setRegistryName(mpu.getRegistryName()),
 				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
-						.setRegistryName(vsu.getRegistryName()));
+						.setRegistryName(vsu.getRegistryName()),
+				CableTile.type = (TileEntityType<CableTile>) TileEntityType.Builder.create(CableTile::new, cable).build(null)
+						.setRegistryName(cable.getRegistryName()));
 	}
 	
 }
