@@ -7,7 +7,6 @@ import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
-import gdavid.phi.util.ICableConnected;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.lang.ref.WeakReference;
@@ -41,7 +40,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected {
+public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public static TileEntityType<MPUTile> type;
 	
@@ -181,16 +180,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 	}
 	
 	@Override
-	public Connection getController(Direction side) {
-		return null;
-	}
-	
-	@Override
-	public boolean isAcceptor(Direction side) {
-		return true;
-	}
-	
-	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		super.read(state, nbt);
 		read(nbt);
@@ -304,6 +293,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 		
 		public void setTime(int time) {
 			MPUTile.this.setTime(time);
+		}
+		
+		public BlockPos getConnected(Direction side) {
+			// TODO connections
+			return null;
 		}
 		
 		public int getSuccessCount() {

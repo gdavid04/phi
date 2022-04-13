@@ -1,0 +1,14 @@
+{
+	"multipart": [
+		{ "apply": { "model": "phi:block/cable_center" } },
+		{ "when": { "online": "true" }, "apply": { "model": "phi:block/cable_center_light" } },
+		{ "when": { "north": "offline|online" }, "apply": { "model": "phi:block/cable_side", "y": 0 } },
+		{ "when": { "north": "online" }, "apply": { "model": "phi:block/cable_side_light", "y": 0 } },
+		{ "when": { "south": "offline|online" }, "apply": { "model": "phi:block/cable_side", "y": 180 } },
+		{ "when": { "south": "online" }, "apply": { "model": "phi:block/cable_side_light", "y": 180 } },
+		{ "when": { "west": "offline|online" }, "apply": { "model": "phi:block/cable_side", "y": 270 } },
+		{ "when": { "west": "online" }, "apply": { "model": "phi:block/cable_side_light", "y": 270 } },
+		{ "when": { "east": "offline|online" }, "apply": { "model": "phi:block/cable_side", "y": 90 } },
+		{ "when": { "east": "online" }, "apply": { "model": "phi:block/cable_side_light", "y": 90 } }
+	]
+}

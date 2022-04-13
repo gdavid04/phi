@@ -1,13 +1,16 @@
 package gdavid.phi.block.tile;
 
-import java.util.Objects;
+import javax.annotation.Nullable;
 
+import gdavid.phi.block.CableBlock;
+import gdavid.phi.block.CableBlock.ConnectionState;
 import gdavid.phi.util.ICableConnected;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 
 public class CableTile extends TileEntity implements ICableConnected {
 	
@@ -15,51 +18,61 @@ public class CableTile extends TileEntity implements ICableConnected {
 	
 	public static final String tagConnection = "connection";
 	
-	public Connection connection = null;
+	public @Nullable BlockPos connected = null;
 	
 	public CableTile() {
 		super(type);
 	}
 	
-	public void updateConnection() {
-		Connection best = null;
-		for (Direction dir : Direction.Plane.HORIZONTAL) {
-			TileEntity tile = world.getTileEntity(pos.offset(dir));
-			if (tile instanceof ICableConnected) {
-				Connection connection = ((ICableConnected) tile).getController(dir.getOpposite());
-				if (connection == null || connection.side == dir.getOpposite()) continue;
-				if (best == null || connection.distance + 1 < best.distance) {
-					best = new Connection(connection.pos, dir, connection.distance + 1);
-					if (best.distance == 0) break;
+	@Override
+	public boolean connectsInDirection(Direction dir) {
+		return Direction.Plane.HORIZONTAL.test(dir);
+	}
+	
+	@Override
+	public boolean connect(Direction side) {
+		TileEntity tile = world.getTileEntity(pos.offset(side));
+		if (tile instanceof ICableConnected) {
+			ICableConnected con = (ICableConnected) tile;
+			@Nullable BlockPos oc = con.getConnected(side.getOpposite());
+			boolean did = connected != null && oc == null;
+			if (connected == null && oc != null) {
+				if (did = con.connect(side.getOpposite())) {
+					connected = oc;
+					markDirty();
 				}
 			}
+			if (did) {
+				world.setBlockState(pos, ((CableBlock) getBlockState().getBlock())
+						.adjustConnections(getBlockState()
+						.with(CableBlock.sides.get(side), ConnectionState.online)
+						.with(CableBlock.online, connected != null), world, pos));
+			}
+			return did;
 		}
-		if (!Objects.equals(connection, best)) {
-			connection = best;
-			markDirty();
-		}
-	}
-	
-	@Override
-	public Connection getController(Direction side) {
-		return Direction.Plane.HORIZONTAL.test(side) ? connection : null;
-	}
-	
-	@Override
-	public boolean isAcceptor(Direction side) {
 		return false;
+	}
+	
+	@Override
+	public void disconnect(Direction side) {
+	}
+	
+	@Override
+	public @Nullable BlockPos getConnected(Direction dir) {
+		return Direction.Plane.HORIZONTAL.test(dir) ? connected : null;
 	}
 	
 	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		super.read(state, nbt);
-		connection = Connection.read(nbt.getCompound(tagConnection));
+		connected = nbt.contains(tagConnection) ? BlockPos.fromLong(nbt.getLong(tagConnection)) : null;
 	}
 	
 	@Override
 	public CompoundNBT write(CompoundNBT nbt) {
 		nbt = super.write(nbt);
-		nbt.put(tagConnection, Connection.write(connection));
+		if (connected != null) nbt.putLong(tagConnection, connected.toLong());
+		else nbt.remove(tagConnection);
 		return nbt;
 	}
 	

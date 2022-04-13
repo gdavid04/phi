@@ -8,6 +8,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 import vazkii.psi.api.internal.Vector3;
 
@@ -33,16 +34,6 @@ public class VSUTile extends TileEntity implements ICableConnected {
 	}
 	
 	@Override
-	public Connection getController(Direction side) {
-		return new Connection(pos, null, 0);
-	}
-	
-	@Override
-	public boolean isAcceptor(Direction side) {
-		return false;
-	}
-	
-	@Override
 	public void read(BlockState state, CompoundNBT nbt) {
 		super.read(state, nbt);
 		ListNBT list = nbt.getList(tagVector, Constants.NBT.TAG_DOUBLE);
@@ -58,6 +49,25 @@ public class VSUTile extends TileEntity implements ICableConnected {
 		list.add(DoubleNBT.valueOf(vector.z));
 		nbt.put(tagVector, list);
 		return nbt;
+	}
+	
+	@Override
+	public boolean connectsInDirection(Direction dir) {
+		return true;
+	}
+	
+	@Override
+	public boolean connect(Direction dir) {
+		return true;
+	}
+	
+	@Override
+	public void disconnect(Direction dir) {
+	}
+	
+	@Override
+	public BlockPos getConnected(Direction dir) {
+		return pos;
 	}
 	
 }
