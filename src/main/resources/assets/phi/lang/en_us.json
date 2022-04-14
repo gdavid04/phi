@@ -26,7 +26,6 @@
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
 	"phi.spellerror.ed": "?",
-	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
 	"phi.spellerror.not_number": "ERROR: The provided text doesn't represent a number",
@@ -159,6 +158,8 @@
 	"phi.spellpiece.operator_split_text_at.desc": "Splits a text at the first occurence of the given part of said text",
 	"phi.spellpiece.operator_number_from_text": "Operator: Number From Text",
 	"phi.spellpiece.operator_number_from_text.desc": "Gets the numeric value of a textual number representation",
+	"phi.spellpiece.operator_select_text": "Operator: Select Text",
+	"phi.spellpiece.operator_select_text.desc": "Selects which text to output based on a condition",
 
 	"phi.spellpiece.operator_hash": "Operator: Hash",
 	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
