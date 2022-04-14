@@ -16,6 +16,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.CooldownTracker;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -116,7 +117,7 @@ public class RelicItem extends Item {
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack item = player.getHeldItem(hand);
 		CompoundNBT nbt = item.getOrCreateTag();
-		// TODO reprogram
+		// TODO reprogram, check tricks when programmed
 		// relics can cast regardless of overflow
 		if (!ItemCAD.isTruePlayer(player)) return ActionResult.resultFail(item);
 		CooldownTracker cooldown = player.getCooldownTracker();
@@ -136,6 +137,7 @@ public class RelicItem extends Item {
 		}
 		SpellContext ctx = new SpellContext().setPlayer(player).setSpell(spell);
 		ctx.castFrom = hand;
+		ctx.tool = item;
 		if (!ctx.isValid()) return ActionResult.resultFail(item);
 		for (EnumSpellStat stat : EnumSpellStat.values()) {
 			if (stat.getTarget() == null || stat == EnumSpellStat.PROJECTION) continue;
@@ -158,6 +160,11 @@ public class RelicItem extends Item {
 		}
 		if (!world.isRemote) ctx.cspell.safeExecute(ctx);
 		return ActionResult.resultSuccess(item);
+	}
+	
+	@Override
+	public boolean isDamageable(DamageSource damageSource) {
+		return false;
 	}
 	
 }
