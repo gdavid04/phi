@@ -49,6 +49,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
 	public static final String tagMessage = "message";
+	public static final String tagNearbySpeech = "nearby_speech";
 	public static final String tagComparatorSignal = "comparator_signal";
 	public static final String tagSuccessCount = "success_count";
 	public static final String tagCad = "cad";
@@ -56,6 +57,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public Spell spell;
 	public int psi;
 	public ITextComponent message;
+	public String nearbySpeech = "";
 	public int comparatorSignal;
 	public int successCount;
 	
@@ -103,6 +105,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public void waveImpact(Float frequency, float focus) {
 		addPsi(-Math.round(frequency * focus * 4));
 		castDelay = Math.round(frequency * focus * 4);
+	}
+	
+	public void setNearbySpeech(String to) {
+		nearbySpeech = to;
+		markDirty();
 	}
 	
 	@Override
@@ -189,6 +196,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		psi = nbt.getInt(tagPsi);
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
 		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
+		nearbySpeech = nbt.getString(tagNearbySpeech);
 		comparatorSignal = nbt.getInt(tagComparatorSignal);
 		successCount = nbt.getInt(tagSuccessCount);
 	}
@@ -202,6 +210,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		nbt.putInt(tagPsi, psi);
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
 		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
+		nbt.putString(tagNearbySpeech, nearbySpeech);
 		nbt.putInt(tagComparatorSignal, comparatorSignal);
 		nbt.putInt(tagSuccessCount, successCount);
 		return nbt;
@@ -295,6 +304,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public int getSuccessCount() {
 			return successCount;
+		}
+		
+		public String getNearbySpeech() {
+			return nearbySpeech;
 		}
 		
 		public void fail() {

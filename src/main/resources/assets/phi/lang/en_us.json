@@ -83,6 +83,8 @@
 	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
 	"phi.spellpiece.selector_caster_speech": "Selector: Caster Speech",
 	"phi.spellpiece.selector_caster_speech.desc": "Gets the last chat message said by the caster",
+	"phi.spellpiece.selector_nearby_speech": "Selector: Nearby Speech",
+	"phi.spellpiece.selector_nearby_speech.desc": "Gets the last chat message said within the range of the MPU",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",

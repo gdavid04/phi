@@ -49,6 +49,7 @@ import gdavid.phi.spell.selector.NearbyBurningSelector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
+import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
@@ -115,6 +116,7 @@ public class ModPieces {
 		
 		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
 		register("selector_caster_speech", CasterSpeechSelector.class, Groups.text, false);
+		register("selector_nearby_speech", NearbySpeechSelector.class, Groups.text, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
