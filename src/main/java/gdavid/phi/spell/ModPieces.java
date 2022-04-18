@@ -51,6 +51,7 @@ import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
 import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
+import gdavid.phi.spell.trick.AccelerationTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
@@ -99,6 +100,7 @@ public class ModPieces {
 		register("trick_caster_blink", CasterBlinkTrick.class, "movement", false);
 		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
 		register("trick_swap_blink_position", SwapBlinkPositionTrick.class, "movement", false);
+		register("trick_acceleration", AccelerationTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
