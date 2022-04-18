@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gdavid.phi.Phi;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -40,18 +44,18 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	
 	@Override
 	public void tick(Entity entity) {
-		if (entity.world.isRemote) return;
 		Vector3 acc = getAcceleration();
-		entity.addVelocity(acc.x, acc.y, acc.z);
-		if (Math.abs(acc.y) > 0.0001) {
-			if (entity.getMotion().getY() >= 0) {
-				entity.fallDistance = 0;
-			} else if (acc.y > 0) {
-				double invTermVel = 25 / 98.0;
-				double y = entity.getMotion().getY() * invTermVel + 1;
-				if (y > 0) entity.fallDistance = (float) Math.min(entity.fallDistance, Math.max(0, (-(49 / invTermVel) + (((49 * y) - (Math.log(y) / Math.log(4 * invTermVel))) / invTermVel))));
+		if (!entity.world.isRemote) {
+			entity.addVelocity(acc.x, acc.y, acc.z);
+			if (Math.abs(acc.y) > 0.0001) {
+				if (entity.getMotion().getY() >= 0) entity.fallDistance = 0;
+				else if (acc.y > 0) {
+					double invTermVel = 25 / 98.0;
+					double y = entity.getMotion().getY() * invTermVel + 1;
+					if (y > 0) entity.fallDistance = (float) Math.min(entity.fallDistance, Math.max(0, (-(49 / invTermVel) + (((49 * y) - (Math.log(y) / Math.log(4 * invTermVel))) / invTermVel))));
+				}
 			}
-		}
+		} else if (entity instanceof PlayerEntity) entity.addVelocity(acc.x, acc.y, acc.z);
 		for (int i = accelerations.size() - 1; i >= 0; i--) {
 			if (--accelerations.get(i).duration <= 0) accelerations.remove(i);
 		}
@@ -67,6 +71,16 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		if (event.phase != Phase.START || !(event.world instanceof ServerWorld)) return;
 		((ServerWorld) event.world).getEntities().forEach(entity -> {
 			entity.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.tick(entity));
+		});
+	}
+	
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	@SuppressWarnings("resource")
+	public static void onClientTick(TickEvent.ClientTickEvent event) {
+		if (event.phase != Phase.START || Minecraft.getInstance().player == null) return;
+		Minecraft.getInstance().player.getCapability(ModCapabilities.acceleration).ifPresent(cap -> {
+			cap.tick(Minecraft.getInstance().player);
 		});
 	}
 	
