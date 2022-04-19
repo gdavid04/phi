@@ -34,6 +34,11 @@
 
 	"psi.datatype.object": "Any",
 	"psi.datatype.string": "Text",
+	
+	"phi.redstone_mode.always": "\u00a7cRedstone Mode\u00a7f: Always active, ignore redstone signal",
+	"phi.redstone_mode.enable": "\u00a7cRedstone Mode\u00a7f: Enable with redstone signal",
+	"phi.redstone_mode.disable": "\u00a7cRedstone Mode\u00a7f: Disable with redstone signal",
+	"phi.redstone_mode.pulse": "\u00a7cRedstone Mode\u00a7f: Activate on redstone pulse",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
@@ -211,7 +216,7 @@
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
 	"block.phi.mpu": "Magic Processing Unit",
-	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal",
+	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",
 	"block.phi.vsu": "Vector Storage Unit",
 	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines"
 }
