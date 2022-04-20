@@ -6,6 +6,7 @@ import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
+import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.lang.ref.WeakReference;
@@ -49,15 +50,20 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
 	public static final String tagMessage = "message";
+	public static final String tagNearbySpeech = "nearby_speech";
 	public static final String tagComparatorSignal = "comparator_signal";
 	public static final String tagSuccessCount = "success_count";
+	public static final String tagRedstoneMode = "redstoneMode";
 	public static final String tagCad = "cad";
 	
 	public Spell spell;
 	public int psi;
 	public ITextComponent message;
+	public String nearbySpeech = "";
 	public int comparatorSignal;
 	public int successCount;
+	public RedstoneMode redstoneMode = RedstoneMode.always;
+	public boolean prevRedstoneSignal, redstoneSignal;
 	
 	public MPUCaster caster;
 	public ItemStack cad = new ItemStack(MPUCAD.instance);
@@ -105,6 +111,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		castDelay = Math.round(frequency * focus * 4);
 	}
 	
+	public void setNearbySpeech(String to) {
+		nearbySpeech = to;
+		markDirty();
+	}
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public void tick() {
@@ -115,6 +126,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		}
 		// TODO save CAD data changes when not casting
 		MPUCAD.instance.incrementTime(cad);
+		prevRedstoneSignal = redstoneSignal;
+		redstoneSignal = world.isBlockPowered(getPos());
 		if (spell == null) return;
 		if (caster == null) caster = new MPUCaster();
 		caster.fix();
@@ -122,6 +135,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			castDelay--;
 			return;
 		}
+		if (!redstoneMode.isActive(prevRedstoneSignal, redstoneSignal)) return;
 		boolean recast = context == null || context.get() == null;
 		if (!recast) {
 			try {
@@ -132,7 +146,6 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			}
 		}
 		if (recast) {
-			if (world.isBlockPowered(getPos())) return;
 			SpellContext ctx = new SpellContext().setPlayer(caster).setSpell(spell);
 			context = new WeakReference<>(ctx);
 			if (!ctx.isValid()) return;
@@ -189,8 +202,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		psi = nbt.getInt(tagPsi);
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
 		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
+		nearbySpeech = nbt.getString(tagNearbySpeech);
 		comparatorSignal = nbt.getInt(tagComparatorSignal);
 		successCount = nbt.getInt(tagSuccessCount);
+		redstoneMode = RedstoneMode.values()[nbt.getInt(tagRedstoneMode)];
 	}
 	
 	@Override
@@ -202,8 +217,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		nbt.putInt(tagPsi, psi);
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
 		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
+		nbt.putString(tagNearbySpeech, nearbySpeech);
 		nbt.putInt(tagComparatorSignal, comparatorSignal);
 		nbt.putInt(tagSuccessCount, successCount);
+		nbt.putInt(tagRedstoneMode, redstoneMode.ordinal());
 		return nbt;
 	}
 	
@@ -295,6 +312,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public int getSuccessCount() {
 			return successCount;
+		}
+		
+		public String getNearbySpeech() {
+			return nearbySpeech;
 		}
 		
 		public void fail() {

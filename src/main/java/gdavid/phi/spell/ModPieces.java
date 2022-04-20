@@ -8,7 +8,6 @@ import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
 import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.constant.VectorConstant;
-import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.HashOperator;
 import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
 import gdavid.phi.spell.operator.entity.EntityFootPositionOperator;
@@ -28,6 +27,7 @@ import gdavid.phi.spell.operator.text.AsTextOperator;
 import gdavid.phi.spell.operator.text.CharacterCodeAtOperator;
 import gdavid.phi.spell.operator.text.CharacterFromCodeOperator;
 import gdavid.phi.spell.operator.text.LowerCaseOperator;
+import gdavid.phi.spell.operator.text.SelectTextOperator;
 import gdavid.phi.spell.operator.text.SplitTextAtOperator;
 import gdavid.phi.spell.operator.text.SplitTextOperator;
 import gdavid.phi.spell.operator.text.TextLengthOperator;
@@ -49,7 +49,9 @@ import gdavid.phi.spell.selector.NearbyBurningSelector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
+import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
+import gdavid.phi.spell.trick.AccelerationTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
@@ -98,6 +100,7 @@ public class ModPieces {
 		register("trick_caster_blink", CasterBlinkTrick.class, "movement", false);
 		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
 		register("trick_swap_blink_position", SwapBlinkPositionTrick.class, "movement", false);
+		register("trick_acceleration", AccelerationTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
@@ -115,6 +118,7 @@ public class ModPieces {
 		
 		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
 		register("selector_caster_speech", CasterSpeechSelector.class, Groups.text, false);
+		register("selector_nearby_speech", NearbySpeechSelector.class, Groups.text, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
@@ -156,10 +160,9 @@ public class ModPieces {
 		register("operator_split_text", SplitTextOperator.class, Groups.text, false);
 		register("operator_split_text_at", SplitTextAtOperator.class, Groups.text, false);
 		register("operator_number_from_text", NumberFromTextOperator.class, Groups.text, false);
+		register("operator_select_text", SelectTextOperator.class, Groups.text, false);
 		
 		register("operator_hash", HashOperator.class, Groups.dataFlow, false);
-		
-		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
 		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, false);

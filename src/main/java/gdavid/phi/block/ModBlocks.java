@@ -1,5 +1,6 @@
 package gdavid.phi.block;
 
+import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.VSUTile;
 import net.minecraft.block.Block;
@@ -8,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Rarity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.village.PointOfInterestType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -19,6 +21,8 @@ public class ModBlocks {
 	public static final Block shadow = new ShadowBlock();
 	public static final Block mpu = new MPUBlock();
 	public static final Block vsu = new VSUBlock();
+	
+	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu", PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
@@ -42,6 +46,11 @@ public class ModBlocks {
 						.setRegistryName(mpu.getRegistryName()),
 				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
 						.setRegistryName(vsu.getRegistryName()));
+	}
+	
+	@SubscribeEvent
+	public static void initPOIs(RegistryEvent.Register<PointOfInterestType> event) {
+		event.getRegistry().registerAll(mpuPOI);
 	}
 	
 }
