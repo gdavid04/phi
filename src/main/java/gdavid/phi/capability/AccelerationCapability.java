@@ -7,8 +7,10 @@ import gdavid.phi.Phi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,6 +22,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.psi.api.internal.Vector3;
 
 @EventBusSubscriber
@@ -54,6 +57,9 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 					double y = entity.getMotion().getY() * invTermVel + 1;
 					if (y > 0) entity.fallDistance = (float) Math.min(entity.fallDistance, Math.max(0, (-(49 / invTermVel) + (((49 * y) - (Math.log(y) / Math.log(4 * invTermVel))) / invTermVel))));
 				}
+			}
+			if (acc.y > 0 && entity instanceof ServerPlayerEntity) {
+				ObfuscationReflectionHelper.setPrivateValue(ServerPlayNetHandler.class, ((ServerPlayerEntity) entity).connection, false, "field_184344_B"); // floating
 			}
 		} else if (entity instanceof PlayerEntity) entity.addVelocity(acc.x, acc.y, acc.z);
 		for (int i = accelerations.size() - 1; i >= 0; i--) {
