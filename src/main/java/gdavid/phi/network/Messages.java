@@ -25,6 +25,7 @@ public class Messages {
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {
 		register(AccelerationMessage.class);
+		register(ProgramTransferMessage.class);
 	}
 	
 	static int id = 0;

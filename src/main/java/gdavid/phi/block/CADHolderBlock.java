@@ -50,7 +50,7 @@ public class CADHolderBlock extends HorizontalBlock {
 		CADHolderTile holder = (CADHolderTile) tile;
 		if (holder.hasItem() == item.isEmpty() && !world.isRemote) {
 			if (holder.hasItem()) {
-				player.setHeldItem(hand, holder.getItem());
+				player.setHeldItem(hand, holder.item);
 				holder.removeItem();
 			} else {
 				holder.setItem(item);
