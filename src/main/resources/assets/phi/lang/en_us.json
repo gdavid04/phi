@@ -218,5 +218,7 @@
 	"block.phi.mpu": "Magic Processing Unit",
 	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",
 	"block.phi.vsu": "Vector Storage Unit",
-	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines"
+	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines",
+	"block.phi.cad_holder": "CAD Holder",
+	"block.phi.cad_holder.desc": "\u00a7aCAD Holder\u00a77: A block that can hold a CAD or Spell Magazine whose contents can be accessed and modified by adjacent machines"
 }

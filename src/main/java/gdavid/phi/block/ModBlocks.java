@@ -1,6 +1,7 @@
 package gdavid.phi.block;
 
 import gdavid.phi.Phi;
+import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.VSUTile;
 import net.minecraft.block.Block;
@@ -21,12 +22,13 @@ public class ModBlocks {
 	public static final Block shadow = new ShadowBlock();
 	public static final Block mpu = new MPUBlock();
 	public static final Block vsu = new VSUBlock();
+	public static final Block cadHolder = new CADHolderBlock();
 	
 	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu", PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu);
+		event.getRegistry().registerAll(shadow, mpu, vsu, cadHolder);
 	}
 	
 	@SubscribeEvent
@@ -35,7 +37,9 @@ public class ModBlocks {
 				new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
 						.setRegistryName(mpu.getRegistryName()),
 				new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(vsu.getRegistryName()));
+						.setRegistryName(vsu.getRegistryName()),
+				new BlockItem(cadHolder, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
+						.setRegistryName(cadHolder.getRegistryName()));
 	}
 	
 	@SubscribeEvent
@@ -45,7 +49,9 @@ public class ModBlocks {
 				MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu).build(null)
 						.setRegistryName(mpu.getRegistryName()),
 				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
-						.setRegistryName(vsu.getRegistryName()));
+						.setRegistryName(vsu.getRegistryName()),
+				CADHolderTile.type = (TileEntityType<CADHolderTile>) TileEntityType.Builder.create(CADHolderTile::new, cadHolder).build(null)
+						.setRegistryName(cadHolder.getRegistryName()));
 	}
 	
 	@SubscribeEvent

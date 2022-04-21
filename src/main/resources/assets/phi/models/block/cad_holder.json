@@ -1,0 +1,7 @@
+{
+	"parent": "psi:block/cad_assembler",
+	"textures": {
+		"0": "phi:block/cad_holder_top",
+		"particle": "phi:block/cad_holder_top"
+	}
+}

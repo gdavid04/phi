@@ -1,6 +1,8 @@
 package gdavid.phi;
 
+import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.block.tile.render.CADHolderTileRenderer;
 import gdavid.phi.block.tile.render.MPUTileRenderer;
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.entity.PsiProjectileEntity;
@@ -38,6 +40,7 @@ public class Client {
 		RenderingRegistry.registerEntityRenderingHandler(MarkerEntity.type, MarkerRenderer::new);
 		
 		ClientRegistry.bindTileEntityRenderer(MPUTile.type, MPUTileRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(CADHolderTile.type, CADHolderTileRenderer::new);
 	}
 	
 	@SubscribeEvent
