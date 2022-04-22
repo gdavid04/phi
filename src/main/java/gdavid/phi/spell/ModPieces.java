@@ -50,6 +50,7 @@ import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
 import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
+import gdavid.phi.spell.selector.mpu.ReadTextStorageSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
 import gdavid.phi.spell.trick.AccelerationTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
@@ -66,6 +67,7 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import gdavid.phi.spell.trick.mpu.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.mpu.SetTimeTrick;
+import gdavid.phi.spell.trick.mpu.WriteTextStorageTrick;
 import gdavid.phi.spell.trick.mpu.WriteVectorStorageTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -107,6 +109,7 @@ public class ModPieces {
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
+		register("trick_write_text_storage", WriteTextStorageTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
 		
@@ -115,6 +118,7 @@ public class ModPieces {
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
+		register("selector_read_text_storage", ReadTextStorageSelector.class, Groups.dataFlow, false);
 		
 		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
 		register("selector_caster_speech", CasterSpeechSelector.class, Groups.text, false);
