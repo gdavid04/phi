@@ -7,6 +7,8 @@ import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
+import gdavid.phi.util.CableNetwork;
+import gdavid.phi.util.CableNetwork.ICableConnected;
 import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -41,7 +43,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity {
+public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected {
 	
 	public static TileEntityType<MPUTile> type;
 	
@@ -240,6 +242,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
 		read(packet.getNbtCompound());
 	}
+
+	@Override
+	public boolean isController() {
+		return false;
+	}
 	
 	public class MPUCaster extends FakePlayer {
 		
@@ -313,8 +320,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		}
 		
 		public BlockPos getConnected(Direction side) {
-			// TODO connections
-			return null;
+			return CableNetwork.getController(world, pos.offset(side));
 		}
 		
 		public int getSuccessCount() {

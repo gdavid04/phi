@@ -27,6 +27,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class CADHolderBlock extends HorizontalBlock {
 	
+	// TODO cable compat
+	
 	public static final String id = "cad_holder";
 	
 	public CADHolderBlock() {

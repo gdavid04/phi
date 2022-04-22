@@ -19,6 +19,16 @@ import net.minecraft.world.World;
 
 public class CableNetwork {
 	
+	public static @Nullable BlockPos getController(World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof CableTile) {
+			return ((CableTile) tile).connected;
+		} else if (tile instanceof ICableConnected) {
+			if (((ICableConnected) tile).isController()) return pos;
+		}
+		return null;
+	}
+	
 	public static void rebuild(World world, BlockPos pos) {
 		if (world.getTileEntity(pos) instanceof CableTile) {
 			rebuildInternal(world, pos);
@@ -53,11 +63,13 @@ public class CableNetwork {
 				}
 			} else if (tile instanceof ICableConnected) {
 				matched.add(cur);
-				if (controller == null) { 
-					controller = cur;
-				} else {
-					valid = false;
-					controller = null;
+				if (((ICableConnected) tile).isController()) {
+					if (controller == null) { 
+						controller = cur;
+					} else {
+						valid = false;
+						controller = null;
+					}
 				}
 			}
 		}
@@ -75,6 +87,9 @@ public class CableNetwork {
 	}
 	
 	public interface ICableConnected {
+		
+		boolean isController();
+		
 	}
 	
 }
