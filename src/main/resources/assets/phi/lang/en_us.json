@@ -22,6 +22,8 @@
 	"phi.spellparam.after": "After",
 	"phi.spellparam.at": "At",
 	"phi.spellparam.default": "Default",
+	"phi.spellparam.color": "Color",
+	"phi.spellparam.size": "Size",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
@@ -29,6 +31,7 @@
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
 	"phi.spellerror.not_number": "ERROR: The provided text doesn't represent a number",
+	"phi.spellerror.no_visor": "ERROR: This trick can only be used in a Psionic Visor",
 
 	"phi.cadstat.overflow_damage": "Overflow Damage",
 
@@ -214,6 +217,9 @@
 
 	"item.phi.blood_converter": "Blood Converter",
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
+
+	"item.phi.psionic_visor": "Psionic Visor",
+	"item.phi.psionic_visor.desc": "\u00a7aPsionic Visor\u00a77: Can be programmed to display information on your HUD. Equipped with an experimental low-latency processor. Due to the nature of its processor, some pieces are not available",
 
 	"block.phi.mpu": "Magic Processing Unit",
 	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",

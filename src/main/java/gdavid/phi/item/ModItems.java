@@ -26,6 +26,8 @@ public class ModItems {
 				
 				new BloodConverterItem("blood_converter", 0.5f),
 				
+				new VisorItem("psionic_visor"),
+				
 				MPUCAD.instance);
 	}
 	

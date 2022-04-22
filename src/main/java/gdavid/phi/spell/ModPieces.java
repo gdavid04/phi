@@ -61,6 +61,7 @@ import gdavid.phi.spell.trick.blink.SwapBlinkPositionTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
 import gdavid.phi.spell.trick.evaluation.EarlyEvaluateTrick;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
+import gdavid.phi.spell.trick.hud.HUDLineTrick;
 import gdavid.phi.spell.trick.marker.ConjureMarkerTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
@@ -109,6 +110,8 @@ public class ModPieces {
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
+
+		register("trick_hud_line", HUDLineTrick.class, Groups.opticalMagic, false);
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		register("selector_nearby_burning", NearbyBurningSelector.class, "entities_intro", false);

@@ -7,7 +7,7 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 
 public enum Errors {
 	
-	range, minWave, errored("ed"), invalidTarget, noMpu, notNumber;
+	range, minWave, errored("ed"), invalidTarget, noMpu, notNumber, noVisor;
 	
 	public static final String prefix = Phi.modId + ".spellerror.";
 	
