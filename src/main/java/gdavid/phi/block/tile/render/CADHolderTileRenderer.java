@@ -1,10 +1,15 @@
 package gdavid.phi.block.tile.render;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.block.tile.CADHolderTile;
+import gdavid.phi.block.tile.CADHolderTile.ScanType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -22,6 +27,7 @@ public class CADHolderTileRenderer extends TileEntityRenderer<CADHolderTile> {
 	}
 	
 	@Override
+	@SuppressWarnings("resource")
 	public void render(CADHolderTile holder, float partialTicks, MatrixStack ms, IRenderTypeBuffer buf, int worldLight,
 			int overlay) {
 		ms.push();
@@ -29,9 +35,30 @@ public class CADHolderTileRenderer extends TileEntityRenderer<CADHolderTile> {
 		ms.rotate(Vector3f.ZP.rotationDegrees(180));
 		ms.rotate(Vector3f.YP.rotationDegrees(holder.getBlockState().get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle()));
 		ms.rotate(Vector3f.XP.rotationDegrees(90));
-		ms.scale(0.6f, 0.6f, 0.6f);
 		if (holder.hasItem()) {
+			ms.push();
+			ms.scale(0.6f, 0.6f, 0.6f);
 			Minecraft.getInstance().getItemRenderer().renderItem(holder.item, TransformType.FIXED, worldLight, OverlayTexture.NO_OVERLAY, ms, buf);
+			ms.pop();
+		}
+		if (holder.scan != ScanType.none) {
+			float progress = (System.currentTimeMillis() - holder.scanTime) / 2000f;
+			if (progress >= 1) {
+				holder.scan = ScanType.none;
+			} else {
+				ms.push();
+				ms.rotate(Vector3f.XP.rotationDegrees(180));
+				ms.translate(-0.5f, -0.5f, 0.06f);
+				ms.scale(1 / 64f, 1 / 64f, 1);
+				RenderSystem.enableBlend();
+				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				RenderSystem.color4f(1, 1, 1, 1 - Math.abs(2 * progress - 1));
+				Minecraft.getInstance().textureManager.bindTexture(holder.scan.texture);
+				AbstractGui.blit(ms, 0, 0, 0, 0, 64, 64, 64, 64);
+				RenderSystem.color4f(1, 1, 1, 1);
+				RenderSystem.disableBlend();
+				ms.pop();
+			}
 		}
 		ms.pop();
 	}

@@ -1,5 +1,8 @@
 package gdavid.phi.block.tile;
 
+import gdavid.phi.Phi;
+import gdavid.phi.network.CADScanMessage;
+import gdavid.phi.network.Messages;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -8,6 +11,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.ISocketable;
 import vazkii.psi.api.spell.ISpellAcceptor;
@@ -21,6 +27,9 @@ public class CADHolderTile extends TileEntity {
 	public static final String tagItem = "item";
 	
 	public ItemStack item = ItemStack.EMPTY;
+	
+	public ScanType scan = ScanType.none;
+	public long scanTime;
 	
 	public CADHolderTile() {
 		super(type);
@@ -41,6 +50,7 @@ public class CADHolderTile extends TileEntity {
 	}
 	
 	public Spell getSpell() {
+		setScanType(ScanType.scan);
 		if (item.getItem() instanceof ItemSpellDrive) return ItemSpellDrive.getSpell(item);
 		ISpellAcceptor acceptor = item.getCapability(PsiAPI.SPELL_ACCEPTOR_CAPABILITY).orElse(null);
 		Spell spell = acceptor == null ? null : acceptor.getSpell();
@@ -55,6 +65,7 @@ public class CADHolderTile extends TileEntity {
 	}
 	
 	public void setSpell(PlayerEntity player, Spell spell) {
+		setScanType(ScanType.reprogram);
 		if (item.getItem() instanceof ItemSpellDrive) {
 			ItemSpellDrive.setSpell(item, spell);
 			markDirty();
@@ -64,6 +75,21 @@ public class CADHolderTile extends TileEntity {
 			acceptor.setSpell(player, spell);
 			markDirty();
 		});
+	}
+	
+	public void setScanType(ScanType type) {
+		if (world.isRemote) {
+			if (scan.ordinal() > type.ordinal()) return;
+			if (scan == ScanType.none) {
+				scanTime = System.currentTimeMillis();
+			} else if (System.currentTimeMillis() > scanTime + 1000) {
+				scanTime = 2 * System.currentTimeMillis() - scanTime - 2000;
+			}
+			scan = type;
+		} else {
+			CADScanMessage message = new CADScanMessage(pos, type);
+			Messages.channel.send(PacketDistributor.NEAR.with(TargetPoint.p(pos.getX(), pos.getY(), pos.getZ(), 64, world.getDimensionKey())), message);
+		}
 	}
 	
 	@Override
@@ -96,6 +122,19 @@ public class CADHolderTile extends TileEntity {
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
 		read(packet.getNbtCompound());
+	}
+	
+	public enum ScanType {
+		
+		none(null), scan(new ResourceLocation(Phi.modId, "textures/block/cad_holder_scan.png")),
+		reprogram(new ResourceLocation(Phi.modId, "textures/block/cad_holder_reprogram.png"));
+		
+		public final ResourceLocation texture;
+		
+		ScanType(ResourceLocation texture) {
+			this.texture = texture;
+		}
+		
 	}
 	
 }
