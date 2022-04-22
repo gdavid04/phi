@@ -1,5 +1,6 @@
 package gdavid.phi.block;
 
+import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.MPUTile;
@@ -23,12 +24,13 @@ public class ModBlocks {
 	public static final Block mpu = new MPUBlock();
 	public static final Block vsu = new VSUBlock();
 	public static final Block cadHolder = new CADHolderBlock();
+	public static final Block cable = new CableBlock();
 	
 	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu", PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu, cadHolder);
+		event.getRegistry().registerAll(shadow, mpu, vsu, cadHolder, cable);
 	}
 	
 	@SubscribeEvent
@@ -39,7 +41,9 @@ public class ModBlocks {
 				new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
 						.setRegistryName(vsu.getRegistryName()),
 				new BlockItem(cadHolder, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(cadHolder.getRegistryName()));
+						.setRegistryName(cadHolder.getRegistryName()),
+				new BlockItem(cable, new Item.Properties().group(ItemGroup.MISC))
+						.setRegistryName(cable.getRegistryName()));
 	}
 	
 	@SubscribeEvent
@@ -51,7 +55,9 @@ public class ModBlocks {
 				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
 						.setRegistryName(vsu.getRegistryName()),
 				CADHolderTile.type = (TileEntityType<CADHolderTile>) TileEntityType.Builder.create(CADHolderTile::new, cadHolder).build(null)
-						.setRegistryName(cadHolder.getRegistryName()));
+						.setRegistryName(cadHolder.getRegistryName()),
+				CableTile.type = (TileEntityType<CableTile>) TileEntityType.Builder.create(CableTile::new, cable).build(null)
+						.setRegistryName(cable.getRegistryName()));
 	}
 	
 	@SubscribeEvent

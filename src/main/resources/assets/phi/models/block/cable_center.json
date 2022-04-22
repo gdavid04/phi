@@ -1,0 +1,22 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"particle": "phi:block/cable",
+		"texture": "phi:block/cable"
+	},
+	"elements": [
+		{
+			"from": [4.5, 0, 4.5],
+			"to": [11.5, 3, 11.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [5, 12, 12, 15], "texture": "#texture"},
+				"east": {"uv": [5, 12, 12, 15], "texture": "#texture"},
+				"south": {"uv": [5, 12, 12, 15], "texture": "#texture"},
+				"west": {"uv": [5, 12, 12, 15], "texture": "#texture"},
+				"up": {"uv": [0, 5, 7, 12], "texture": "#texture"},
+				"down": {"uv": [7, 5, 14, 12], "texture": "#texture"}
+			}
+		}
+	]
+}

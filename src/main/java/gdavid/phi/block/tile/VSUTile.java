@@ -1,5 +1,6 @@
 package gdavid.phi.block.tile;
 
+import gdavid.phi.util.CableNetwork.ICableConnected;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
@@ -9,7 +10,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.util.Constants;
 import vazkii.psi.api.internal.Vector3;
 
-public class VSUTile extends TileEntity {
+public class VSUTile extends TileEntity implements ICableConnected {
 	
 	public static TileEntityType<VSUTile> type;
 	
@@ -46,6 +47,11 @@ public class VSUTile extends TileEntity {
 		list.add(DoubleNBT.valueOf(vector.z));
 		nbt.put(tagVector, list);
 		return nbt;
+	}
+
+	@Override
+	public boolean isController() {
+		return true;
 	}
 	
 }

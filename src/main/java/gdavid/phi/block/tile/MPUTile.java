@@ -1,11 +1,14 @@
 package gdavid.phi.block.tile;
 
 import com.mojang.authlib.GameProfile;
+
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
+import gdavid.phi.util.CableNetwork;
+import gdavid.phi.util.CableNetwork.ICableConnected;
 import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -24,6 +27,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
@@ -39,7 +43,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity {
+public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected {
 	
 	public static TileEntityType<MPUTile> type;
 	
@@ -238,6 +242,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
 		read(packet.getNbtCompound());
 	}
+
+	@Override
+	public boolean isController() {
+		return false;
+	}
 	
 	public class MPUCaster extends FakePlayer {
 		
@@ -308,6 +317,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public void setTime(int time) {
 			MPUTile.this.setTime(time);
+		}
+		
+		public BlockPos getConnected(Direction side) {
+			return CableNetwork.getController(world, pos.offset(side));
 		}
 		
 		public int getSuccessCount() {

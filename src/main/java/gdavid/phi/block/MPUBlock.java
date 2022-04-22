@@ -2,8 +2,8 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.util.CableNetwork;
 import gdavid.phi.util.RedstoneMode;
-
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -98,6 +98,18 @@ public class MPUBlock extends HorizontalBlock {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+	}
+	
+	@Override
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+		if (!world.isRemote) CableNetwork.rebuild(world, pos);
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
+		super.onReplaced(state, world, pos, newState, flag);
+		if (!world.isRemote) CableNetwork.rebuild(world, pos);
 	}
 	
 	@Override

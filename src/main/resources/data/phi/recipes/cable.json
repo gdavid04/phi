@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IDI",
+		"III"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"D": { "tag": "psi:psidust" }
+	},
+	"result": {
+		"item": "phi:cable",
+		"count": 8
+	}
+}
