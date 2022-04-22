@@ -2,7 +2,7 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CableTile;
-import gdavid.phi.util.ICableConnected;
+import gdavid.phi.util.CableNetwork;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +16,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -39,11 +37,11 @@ public class CableBlock extends Block {
 	public static final String id = "cable";
 	
 	public static final BooleanProperty online = BooleanProperty.create("online");
-	public static final Map<Direction, EnumProperty<ConnectionState>> sides = new HashMap<>();
+	public static final Map<Direction, BooleanProperty> sides = new HashMap<>();
 	
 	static {
 		for (Direction dir : Direction.Plane.HORIZONTAL) {
-			sides.put(dir, EnumProperty.create(dir.getString(), ConnectionState.class));
+			sides.put(dir, BooleanProperty.create(dir.getString()));
 		}
 	}
 	
@@ -54,8 +52,8 @@ public class CableBlock extends Block {
 				.sound(SoundType.WOOD).doesNotBlockMovement());
 		setRegistryName(id);
 		BlockState state = getStateContainer().getBaseState().with(online, false);
-		for (EnumProperty<ConnectionState> side : sides.values()) {
-			state = state.with(side, ConnectionState.none);
+		for (BooleanProperty side : sides.values()) {
+			state = state.with(side, false);
 		}
 		setDefaultState(state);
 	}
@@ -77,7 +75,7 @@ public class CableBlock extends Block {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(online);
-		for (EnumProperty<ConnectionState> side : sides.values()) builder.add(side);
+		for (BooleanProperty side : sides.values()) builder.add(side);
 	}
 	
 	@Override
@@ -85,57 +83,22 @@ public class CableBlock extends Block {
 		return hasEnoughSolidSide(world, pos.down(), Direction.UP);
 	}
 	
-	public BlockState adjustConnections(BlockState state, IWorld world, BlockPos pos) {
-		for (Direction dir : Direction.Plane.HORIZONTAL) {
-			state = adjustConnection(state, dir, world, pos);
-		}
-		return state;
-	}
-	
-	public BlockState adjustConnection(BlockState state, Direction dir, IWorld world, BlockPos pos) {
-		if (!Direction.Plane.HORIZONTAL.test(dir)) return state;
-		BlockPos opos = pos.offset(dir);
-		TileEntity otile = world.getTileEntity(opos);
-		if (state.get(sides.get(dir)) == ConnectionState.none) {
-			if (otile instanceof ICableConnected && ((ICableConnected) otile)
-					.connectsInDirection(dir.getOpposite())) {
-				state = connect(pos, state, world, dir);
-			}
-		} else if (!(otile instanceof ICableConnected) || !((ICableConnected) otile)
-				.connectsInDirection(dir.getOpposite())) {
-			state = disconnect(pos, state, world, dir);
-		}
-		return state;
-	}
-	
-	public BlockState connect(BlockPos pos, BlockState state, IWorld world, Direction dir) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof CableTile) {
-			if (((CableTile) tile).connect(dir)) state = world.getBlockState(pos);
-			else state = state.with(sides.get(dir), ConnectionState.offline);
-		}
-		return state;
-	}
-	
-	public BlockState disconnect(BlockPos pos, BlockState state, IWorld world, Direction dir) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof CableTile) {
-			((CableTile) tile).disconnect(dir);
-			state = state.with(online, ((CableTile) tile).connected != null);
-		}
-		state = state.with(sides.get(dir), ConnectionState.none);
-		return state;
-	}
-	
 	@Override
 	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos) {
 		if (facing == Direction.DOWN && !isValidPosition(state, world, pos)) return Blocks.AIR.getDefaultState();
-		return world.isRemote() ? state : adjustConnection(state, facing, world, pos);
+		return state;
 	}
 	
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
-		if (!world.isRemote) world.setBlockState(pos, adjustConnections(state, world, pos));
+		if (!world.isRemote && oldState.getBlock() != this) CableNetwork.rebuild(world, pos);
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
+		super.onReplaced(state, world, pos, newState, flag);
+		if (!world.isRemote && newState.getBlock() != this) CableNetwork.rebuild(world, pos);
 	}
 	
 	@Override
@@ -146,17 +109,6 @@ public class CableBlock extends Block {
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
-	}
-	
-	public enum ConnectionState implements IStringSerializable {
-		
-		none, offline, online;
-		
-		@Override
-		public String getString() {
-			return name();
-		}
-		
 	}
 	
 }

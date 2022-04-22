@@ -2,6 +2,7 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.VSUTile;
+import gdavid.phi.util.CableNetwork;
 
 import java.util.List;
 import net.minecraft.block.Block;
@@ -51,6 +52,18 @@ public class VSUBlock extends Block {
 			((VSUTile) tile).setVector(((ItemVectorRuler) item.getItem()).getVector(item));
 		}
 		return ActionResultType.SUCCESS;
+	}
+	
+	@Override
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+		if (!world.isRemote) CableNetwork.rebuild(world, pos);
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
+		super.onReplaced(state, world, pos, newState, flag);
+		if (!world.isRemote) CableNetwork.rebuild(world, pos);
 	}
 	
 	@Override
