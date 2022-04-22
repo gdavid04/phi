@@ -2,7 +2,7 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
-
+import gdavid.phi.util.RedstoneMode;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -53,6 +54,11 @@ public class MPUBlock extends HorizontalBlock {
 		ItemStack item = player.getHeldItem(hand);
 		TileEntity tile = world.getTileEntity(pos);
 		if (!(tile instanceof MPUTile)) return ActionResultType.PASS;
+		if (item.getItem() == Items.REDSTONE_TORCH) {
+			((MPUTile) tile).redstoneMode = RedstoneMode.values()[(((MPUTile) tile).redstoneMode.ordinal() + 1) % RedstoneMode.values().length];
+			player.sendStatusMessage(new TranslationTextComponent(Phi.modId + ".redstone_mode." + ((MPUTile) tile).redstoneMode), true);
+			return ActionResultType.SUCCESS;
+		}
 		Class<?> spellDrive = null;
 		try {
 			spellDrive = Class.forName("vazkii.psi.common.item.ItemSpellDrive");

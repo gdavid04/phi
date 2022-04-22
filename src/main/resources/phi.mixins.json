@@ -10,7 +10,8 @@
 		"CasterEnergySelectorMixin",
 		"SuccessCounterSelectorMixin",
 		"CompiledSpellMixin",
-		"SpellGridMixin"
+		"SpellGridMixin",
+		"ProgrammerGuiMixin"
 	],
 	"minVersion": "0.8"
 }

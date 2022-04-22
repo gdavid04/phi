@@ -26,7 +26,6 @@
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
 	"phi.spellerror.ed": "?",
-	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
 	"phi.spellerror.not_number": "ERROR: The provided text doesn't represent a number",
@@ -35,6 +34,11 @@
 
 	"psi.datatype.object": "Any",
 	"psi.datatype.string": "Text",
+	
+	"phi.redstone_mode.always": "\u00a7cRedstone Mode\u00a7f: Always active, ignore redstone signal",
+	"phi.redstone_mode.enable": "\u00a7cRedstone Mode\u00a7f: Enable with redstone signal",
+	"phi.redstone_mode.disable": "\u00a7cRedstone Mode\u00a7f: Disable with redstone signal",
+	"phi.redstone_mode.pulse": "\u00a7cRedstone Mode\u00a7f: Activate on redstone pulse",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
@@ -54,6 +58,8 @@
 	"phi.spellpiece.trick_swap_blink.desc": "Targets switch place. Targets caster by default",
 	"phi.spellpiece.trick_swap_blink_position": "Trick: Swap Blink (Position Only)",
 	"phi.spellpiece.trick_swap_blink_position.desc": "Targets switch place, but not look direction. Targets caster by default",
+	"phi.spellpiece.trick_acceleration": "Trick: Acceleration",
+	"phi.spellpiece.trick_acceleration.desc": "Constantly accelerates the target in the given direction for the specified time",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates the target piece early if condition is within (-1, 1) exclusive",
@@ -83,6 +89,8 @@
 	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
 	"phi.spellpiece.selector_caster_speech": "Selector: Caster Speech",
 	"phi.spellpiece.selector_caster_speech.desc": "Gets the last chat message said by the caster",
+	"phi.spellpiece.selector_nearby_speech": "Selector: Nearby Speech",
+	"phi.spellpiece.selector_nearby_speech.desc": "Gets the last chat message said within the range of the MPU",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
@@ -157,6 +165,8 @@
 	"phi.spellpiece.operator_split_text_at.desc": "Splits a text at the first occurence of the given part of said text",
 	"phi.spellpiece.operator_number_from_text": "Operator: Number From Text",
 	"phi.spellpiece.operator_number_from_text.desc": "Gets the numeric value of a textual number representation",
+	"phi.spellpiece.operator_select_text": "Operator: Select Text",
+	"phi.spellpiece.operator_select_text.desc": "Selects which text to output based on a condition",
 
 	"phi.spellpiece.operator_hash": "Operator: Hash",
 	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
@@ -180,7 +190,7 @@
 	"phi.spellpiece.constant_vector": "Constant: Vector",
 	"phi.spellpiece.constant_vector.desc": "Select, press X, Y or Z and type to set coordinate",
 
-	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
+	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD",
 
 	"item.phi.basic_spell_magazine": "Basic Spell Magazine",
 	"item.phi.basic_spell_magazine.desc": "A cheap Spell Magazine",
@@ -206,7 +216,9 @@
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
 	"block.phi.mpu": "Magic Processing Unit",
-	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal",
+	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",
 	"block.phi.vsu": "Vector Storage Unit",
-	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines"
+	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines",
+	"block.phi.cad_holder": "CAD Holder",
+	"block.phi.cad_holder.desc": "\u00a7aCAD Holder\u00a77: A block that can hold a CAD or Spell Magazine whose contents can be accessed and modified by adjacent machines"
 }

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.util.RedstoneMode;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -48,6 +49,10 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		ms.push();
 		ms.translate(w + 3, (h - bh) / 2f, 0);
 		drawPsiBar(mpu, ms, buf, light);
+		ms.pop();
+		ms.push();
+		ms.translate(-7, -26, 0);
+		drawRedstoneMode(mpu, ms, buf, light);
 		ms.pop();
 		if (mpu.message != null) {
 			ms.push();
@@ -93,7 +98,7 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		}
 	}
 	
-	@SuppressWarnings({ "deprecation", "resource" })
+	@SuppressWarnings({ "resource" })
 	public void drawPsiBar(MPUTile mpu, MatrixStack ms, IRenderTypeBuffer buf, int light) {
 		Minecraft.getInstance().textureManager.bindTexture(psiBarTexture);
 		ms.push();
@@ -130,6 +135,22 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		builder.pos(mat, 6, 20 + (1 - percent2) * 106, 0).color(r, g, b, 128).tex(34 / 64f, (1 - percent2) * 106 / 256f)
 				.lightmap(light).endVertex();
 		Tessellator.getInstance().draw();
+		RenderSystem.enableCull();
+		RenderSystem.disableBlend();
+	}
+	
+	@SuppressWarnings({ "resource" })
+	public void drawRedstoneMode(MPUTile mpu, MatrixStack ms, IRenderTypeBuffer buf, int light) {
+		Minecraft.getInstance().textureManager.bindTexture(RedstoneMode.texture);
+		RenderSystem.disableCull();
+		RenderSystem.enableDepthTest();
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		RenderSystem.color4f(1, 1, 1, 0.5f);
+		AbstractGui.blit(ms, 0, 0, 0, 0, 16 * mpu.redstoneMode.ordinal(), 16, 64, 32);
+		AbstractGui.blit(ms, 16 * mpu.redstoneMode.ordinal(), 0, 16 * mpu.redstoneMode.ordinal(), 16, 16, 16, 64, 32);
+		AbstractGui.blit(ms, 16 * (mpu.redstoneMode.ordinal() + 1), 0, 16 * (mpu.redstoneMode.ordinal() + 1), 0, 64 - 16 * (mpu.redstoneMode.ordinal() + 1), 16, 64, 32);
+		RenderSystem.color4f(1, 1, 1, 1);
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();
 	}
