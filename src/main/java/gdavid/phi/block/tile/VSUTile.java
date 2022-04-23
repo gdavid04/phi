@@ -1,6 +1,6 @@
 package gdavid.phi.block.tile;
 
-import gdavid.phi.util.CableNetwork.ICableConnected;
+import gdavid.phi.cable.ICableConnected;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;

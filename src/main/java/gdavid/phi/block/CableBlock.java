@@ -2,7 +2,7 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CableTile;
-import gdavid.phi.util.CableNetwork;
+import gdavid.phi.cable.CableNetwork;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +16,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -37,11 +39,11 @@ public class CableBlock extends Block {
 	public static final String id = "cable";
 	
 	public static final BooleanProperty online = BooleanProperty.create("online");
-	public static final Map<Direction, BooleanProperty> sides = new HashMap<>();
+	public static final Map<Direction, EnumProperty<CableSide>> sides = new HashMap<>();
 	
 	static {
 		for (Direction dir : Direction.Plane.HORIZONTAL) {
-			sides.put(dir, BooleanProperty.create(dir.getString()));
+			sides.put(dir, EnumProperty.create(dir.getString(), CableSide.class));
 		}
 	}
 	
@@ -52,8 +54,8 @@ public class CableBlock extends Block {
 				.sound(SoundType.WOOD).doesNotBlockMovement());
 		setRegistryName(id);
 		BlockState state = getStateContainer().getBaseState().with(online, false);
-		for (BooleanProperty side : sides.values()) {
-			state = state.with(side, false);
+		for (EnumProperty<CableSide> side : sides.values()) {
+			state = state.with(side, CableSide.none);
 		}
 		setDefaultState(state);
 	}
@@ -75,7 +77,7 @@ public class CableBlock extends Block {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(online);
-		for (BooleanProperty side : sides.values()) builder.add(side);
+		for (EnumProperty<CableSide> side : sides.values()) builder.add(side);
 	}
 	
 	@Override
@@ -109,6 +111,17 @@ public class CableBlock extends Block {
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
+	}
+	
+	public enum CableSide implements IStringSerializable {
+		
+		none, side, up;
+		
+		@Override
+		public String getString() {
+			return name();
+		}
+		
 	}
 	
 }
