@@ -320,7 +320,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 		}
 		
 		public BlockPos getConnected(Direction side) {
-			return CableNetwork.getController(world, pos.offset(side));
+			return CableNetwork.getController(world, pos, side);
 		}
 		
 		public int getSuccessCount() {

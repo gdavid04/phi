@@ -14,12 +14,23 @@ import net.minecraft.world.World;
 
 public class CableNetwork {
 	
-	public static @Nullable BlockPos getController(World world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
+	public static @Nullable BlockPos getController(World world, BlockPos pos, Direction side) {
+		return getControllerInternal(world, pos, side, true);
+	}
+	
+	public static @Nullable BlockPos getControllerInternal(World world, BlockPos pos, Direction side, boolean stepDown) {
+		BlockPos opos = pos.offset(side);
+		TileEntity tile = world.getTileEntity(opos);
 		if (tile instanceof ICableSegment) {
-			return ((ICableSegment) tile).getConnection();
-		} else if (tile instanceof ICableConnected) {
-			if (((ICableConnected) tile).isController()) return pos;
+			if (((ICableSegment) tile).canConnect(side.getOpposite())) {
+				return ((ICableSegment) tile).getConnection();
+			}
+		} else if (stepDown) {
+			if (tile instanceof ICableConnected) {
+				if (((ICableConnected) tile).isController()) return opos;
+			} else if (side.getAxis() != Axis.Y) {
+				return getControllerInternal(world, pos.offset(Direction.DOWN), side, false);
+			}
 		}
 		return null;
 	}
