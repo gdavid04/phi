@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import gdavid.phi.block.MPUBlock;
+import gdavid.phi.block.CADHolderBlock;
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.CADHolderTile.ScanType;
 import net.minecraft.client.Minecraft;
@@ -33,7 +33,7 @@ public class CADHolderTileRenderer extends TileEntityRenderer<CADHolderTile> {
 		ms.push();
 		ms.translate(0.5f, 1.05f, 0.5f);
 		ms.rotate(Vector3f.ZP.rotationDegrees(180));
-		ms.rotate(Vector3f.YP.rotationDegrees(holder.getBlockState().get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle()));
+		ms.rotate(Vector3f.YP.rotationDegrees(holder.getBlockState().get(CADHolderBlock.HORIZONTAL_FACING).getHorizontalAngle()));
 		ms.rotate(Vector3f.XP.rotationDegrees(90));
 		if (holder.hasItem()) {
 			ms.push();

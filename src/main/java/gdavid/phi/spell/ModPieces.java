@@ -67,6 +67,7 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import gdavid.phi.spell.trick.mpu.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.mpu.SetTimeTrick;
+import gdavid.phi.spell.trick.mpu.WriteTextDisplayTrick;
 import gdavid.phi.spell.trick.mpu.WriteTextStorageTrick;
 import gdavid.phi.spell.trick.mpu.WriteVectorStorageTrick;
 import net.minecraft.item.Item;
@@ -110,6 +111,7 @@ public class ModPieces {
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
 		register("trick_write_text_storage", WriteTextStorageTrick.class, Groups.dataFlow, false);
+		register("trick_write_text_display", WriteTextDisplayTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
 		

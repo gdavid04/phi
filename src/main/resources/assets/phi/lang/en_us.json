@@ -22,6 +22,7 @@
 	"phi.spellparam.after": "After",
 	"phi.spellparam.at": "At",
 	"phi.spellparam.default": "Default",
+	"phi.spellparam.line": "Line",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
@@ -72,6 +73,8 @@
 	"phi.spellpiece.trick_write_vector_storage.desc": "Writes a vector to a connected Vector Storage Unit. Requires a Magic Processing Unit",
 	"phi.spellpiece.trick_write_text_storage": "Trick: Write Text Storage",
 	"phi.spellpiece.trick_write_text_storage.desc": "Writes text to a connected Text Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_text_display": "Trick: Write Text Display",
+	"phi.spellpiece.trick_write_text_display.desc": "Writes text to a connected Text Display. Overwrites the given line or appends to the bottom of the screen. Requires a Magic Processing Unit",
 	"phi.spellpiece.trick_set_comparator_output": "Trick: Set Comparator Output",
 	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
 	"phi.spellpiece.trick_set_time": "Trick: Set Time",
@@ -227,6 +230,8 @@
 	"block.phi.textsu.desc": "\u00a7aText Storage Unit\u00a77: A block that stores text that can be accessed and modified by adjacent machines or via data cables. Can store up to 256 characters",
 	"block.phi.cad_holder": "CAD Holder",
 	"block.phi.cad_holder.desc": "\u00a7aCAD Holder\u00a77: A block that can hold a CAD or Spell Magazine whose contents can be accessed and modified by adjacent machines",
+	"block.phi.text_display": "Text Display",
+	"block.phi.text_display.desc": "\u00a7aText Display\u00a77: A block that displays text and can be written to by adjacent machines or via data cables",
 	"block.phi.cable": "Data Cable",
 	"block.phi.cable.desc": "\u00a7aData Cable\u00a77: Connects machines"
 }
