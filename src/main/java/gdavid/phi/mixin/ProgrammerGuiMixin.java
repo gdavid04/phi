@@ -29,7 +29,7 @@ public class ProgrammerGuiMixin extends Screen {
 		super(p_i51108_1_);
 	}
 	
-	@Inject(method = "init", at = @At("RETURN"))
+	@Inject(method = "init", at = @At("RETURN"), remap = true)
 	private void init(CallbackInfo callback) {
 		if (programmer == null) return;
 		GuiProgrammer self = (GuiProgrammer) (Object) this;
