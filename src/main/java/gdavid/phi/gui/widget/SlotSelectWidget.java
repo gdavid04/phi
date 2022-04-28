@@ -98,7 +98,7 @@ public class SlotSelectWidget extends Widget {
 	}
 	
 	void select(int slot) {
-		Messages.channel.sendToServer(new ProgramTransferSlotMessage(holder.getPos(), slot));
+		Messages.channel.sendToServer(new ProgramTransferSlotMessage(holder.getPosition(), slot));
 	}
 	
 	void drawButton(int mx, int my, MatrixStack ms, int x, int y, int id) {

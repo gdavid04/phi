@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import vazkii.psi.api.spell.Spell;
 
 public class SpellStorageTile extends TileEntity implements IProgramTransferTarget {
@@ -28,6 +29,11 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 	
 	public SpellStorageTile() {
 		super(type);
+	}
+	
+	@Override
+	public BlockPos getPosition() {
+		return pos;
 	}
 	
 	@Override

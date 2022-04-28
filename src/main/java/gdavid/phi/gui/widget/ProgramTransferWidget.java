@@ -61,7 +61,7 @@ public class ProgramTransferWidget extends Widget {
 		if (clickButton(x, y, 0, 0)) {
 			Messages.channel.sendToServer(new ProgramTransferMessage(parent.programmer.getPos(), dir));
 		} else if (clickButton(x, y, 19, 0)) {
-			Messages.channel.sendToServer(new ProgramTransferMessage(holder.getPos(), dir.getOpposite()));
+			Messages.channel.sendToServer(new ProgramTransferMessage(holder.getPosition(), dir.getOpposite()));
 		} else if (holder.hasSlots() && clickButton(x, y, 38, 0)) {
 			select.show();
 		}

@@ -14,6 +14,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.PacketDistributor.TargetPoint;
 import vazkii.psi.api.PsiAPI;
@@ -49,6 +50,11 @@ public class CADHolderTile extends TileEntity implements IProgramTransferTarget 
 	
 	public void removeItem() {
 		setItem(ItemStack.EMPTY);
+	}
+	
+	@Override
+	public BlockPos getPosition() {
+		return pos;
 	}
 	
 	@Override

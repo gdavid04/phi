@@ -83,6 +83,11 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 	}
 	
 	@Override
+	public BlockPos getPosition() {
+		return pos;
+	}
+	
+	@Override
 	public Spell getSpell() {
 		return spell;
 	}

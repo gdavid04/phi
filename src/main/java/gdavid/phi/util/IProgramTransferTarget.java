@@ -8,7 +8,7 @@ import vazkii.psi.api.spell.Spell;
 
 public interface IProgramTransferTarget {
 	
-	BlockPos getPos();
+	BlockPos getPosition();
 	
 	Spell getSpell();
 	
