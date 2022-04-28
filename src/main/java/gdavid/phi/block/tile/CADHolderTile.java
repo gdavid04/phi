@@ -51,6 +51,7 @@ public class CADHolderTile extends TileEntity implements IProgramTransferTarget 
 		setItem(ItemStack.EMPTY);
 	}
 	
+	@Override
 	public Spell getSpell() {
 		setScanType(ScanType.scan);
 		if (item.getItem() instanceof ItemSpellDrive) return ItemSpellDrive.getSpell(item);
@@ -66,6 +67,7 @@ public class CADHolderTile extends TileEntity implements IProgramTransferTarget 
 		return spell;
 	}
 	
+	@Override
 	public void setSpell(PlayerEntity player, Spell spell) {
 		setScanType(ScanType.reprogram);
 		if (item.getItem() instanceof ItemSpellDrive) {

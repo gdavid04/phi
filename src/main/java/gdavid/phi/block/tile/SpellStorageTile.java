@@ -30,10 +30,12 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 		super(type);
 	}
 	
+	@Override
 	public Spell getSpell() {
 		return spells[selectedSlot];
 	}
 	
+	@Override
 	public void setSpell(PlayerEntity player, Spell spell) {
 		spells[selectedSlot] = spell;
 		markDirty();
