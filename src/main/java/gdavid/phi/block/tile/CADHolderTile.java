@@ -1,8 +1,11 @@
 package gdavid.phi.block.tile;
 
+import java.util.List;
+
 import gdavid.phi.Phi;
 import gdavid.phi.network.CADScanMessage;
 import gdavid.phi.network.Messages;
+import gdavid.phi.util.IProgramTransferTarget;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,7 +23,7 @@ import vazkii.psi.api.spell.ISpellAcceptor;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.common.item.ItemSpellDrive;
 
-public class CADHolderTile extends TileEntity {
+public class CADHolderTile extends TileEntity implements IProgramTransferTarget {
 	
 	public static TileEntityType<CADHolderTile> type;
 	
@@ -73,6 +76,33 @@ public class CADHolderTile extends TileEntity {
 		}
 		item.getCapability(PsiAPI.SPELL_ACCEPTOR_CAPABILITY).ifPresent(acceptor -> {
 			acceptor.setSpell(player, spell);
+			markDirty();
+		});
+	}
+	
+	@Override
+	public boolean hasSlots() {
+		return item.getCapability(PsiAPI.SOCKETABLE_CAPABILITY).isPresent();
+	}
+	
+	@Override
+	public List<Integer> getSlots() {
+		ISocketable socketable = item.getCapability(PsiAPI.SOCKETABLE_CAPABILITY).orElse(null);
+		if (socketable == null) return null;
+		return socketable.getRadialMenuSlots();
+	}
+	
+	@Override
+	public List<ResourceLocation> getSlotIcons() {
+		ISocketable socketable = item.getCapability(PsiAPI.SOCKETABLE_CAPABILITY).orElse(null);
+		if (socketable == null) return null;
+		return socketable.getRadialMenuIcons();
+	}
+	
+	@Override
+	public void selectSlot(int id) {
+		item.getCapability(PsiAPI.SOCKETABLE_CAPABILITY).ifPresent(socketable -> {
+			socketable.setSelectedSlot(id);
 			markDirty();
 		});
 	}

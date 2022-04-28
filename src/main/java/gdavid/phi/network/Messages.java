@@ -26,6 +26,7 @@ public class Messages {
 	public static void init(FMLCommonSetupEvent event) {
 		register(AccelerationMessage.class);
 		register(ProgramTransferMessage.class);
+		register(ProgramTransferSlotMessage.class);
 		register(CADScanMessage.class);
 	}
 	

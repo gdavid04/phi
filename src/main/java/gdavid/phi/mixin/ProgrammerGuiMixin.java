@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.gui.widget.ProgramTransferWidget;
+import gdavid.phi.util.IProgramTransferTarget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -38,12 +38,16 @@ public class ProgrammerGuiMixin extends Screen {
 		BlockPos pos = programmer.getPos();
 		Direction dir = programmer.getBlockState().get(BlockProgrammer.HORIZONTAL_FACING);
 		TileEntity left = world.getTileEntity(pos.offset(dir.rotateY()));
-		if (left instanceof CADHolderTile) {
-			addButton(new ProgramTransferWidget(self, (CADHolderTile) left, false, dir.rotateY()));
+		if (left instanceof IProgramTransferTarget) {
+			ProgramTransferWidget transfer = new ProgramTransferWidget(self, (IProgramTransferTarget) left, false, dir.rotateY());
+			addButton(transfer);
+			addButton(transfer.select);
 		}
 		TileEntity right = world.getTileEntity(pos.offset(dir.rotateYCCW()));
-		if (right instanceof CADHolderTile) {
-			addButton(new ProgramTransferWidget(self, (CADHolderTile) right, true, dir.rotateYCCW()));
+		if (right instanceof IProgramTransferTarget) {
+			ProgramTransferWidget transfer = new ProgramTransferWidget(self, (IProgramTransferTarget) right, true, dir.rotateYCCW());
+			addButton(transfer);
+			addButton(transfer.select);
 		}
 	}
 	

@@ -2,7 +2,7 @@ package gdavid.phi.network;
 
 import java.util.function.Supplier;
 
-import gdavid.phi.block.tile.CADHolderTile;
+import gdavid.phi.util.IProgramTransferTarget;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -43,15 +43,15 @@ public class ProgramTransferMessage implements Message {
 			Spell spell;
 			if (a instanceof TileProgrammer) {
 				spell = ((TileProgrammer) a).spell.copy();
-			} else if (a instanceof CADHolderTile) {
-				spell = ((CADHolderTile) a).getSpell();
+			} else if (a instanceof IProgramTransferTarget) {
+				spell = ((IProgramTransferTarget) a).getSpell();
 			} else return;
 			if (b instanceof TileProgrammer) {
 				((TileProgrammer) b).spell = spell;
 				((TileProgrammer) b).onSpellChanged();
 				VanillaPacketDispatcher.dispatchTEToNearbyPlayers(b);
-			} else if (b instanceof CADHolderTile) {
-				((CADHolderTile) b).setSpell(player, spell);
+			} else if (b instanceof IProgramTransferTarget) {
+				((IProgramTransferTarget) b).setSpell(player, spell);
 			}
 		});
 		return true;

@@ -9,6 +9,7 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import gdavid.phi.cable.CableNetwork;
 import gdavid.phi.cable.ICableConnected;
+import gdavid.phi.util.IProgramTransferTarget;
 import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -43,7 +45,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected {
+public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected, IProgramTransferTarget {
 	
 	public static TileEntityType<MPUTile> type;
 	
@@ -79,6 +81,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 	
 	public MPUTile() {
 		super(type);
+	}
+	
+	@Override
+	public Spell getSpell() {
+		return spell;
+	}
+	
+	@Override
+	public void setSpell(PlayerEntity player, Spell spell) {
+		setSpell(spell);
 	}
 	
 	public void setSpell(Spell to) {
