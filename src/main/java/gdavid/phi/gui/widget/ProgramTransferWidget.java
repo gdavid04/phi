@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.client.gui.GuiProgrammer;
@@ -37,10 +38,22 @@ public class ProgramTransferWidget extends Widget {
 	@Override
 	@SuppressWarnings("resource")
 	public void renderButton(MatrixStack ms, int mouseX, int mouseY, float partial) {
+		if (parent.takingScreenshot) return;
 		parent.getMinecraft().textureManager.bindTexture(texture);
 		drawButton(mouseX, mouseY, ms, 0, 0, 0);
+		if (clickButton(mouseX, mouseY, 0, 0)) {
+			parent.tooltip.add(new TranslationTextComponent(Phi.modId + ".program_transfer.write"));
+		}
 		drawButton(mouseX, mouseY, ms, 19, 0, 1);
-		if (holder.hasSlots()) drawButton(mouseX, mouseY, ms, 38, 0, 2, select.active);
+		if (clickButton(mouseX, mouseY, 19, 0)) {
+			parent.tooltip.add(new TranslationTextComponent(Phi.modId + ".program_transfer.read"));
+		}
+		if (holder.hasSlots()) {
+			drawButton(mouseX, mouseY, ms, 38, 0, 2, select.active);
+			if (clickButton(mouseX, mouseY, 38, 0)) {
+				parent.tooltip.add(new TranslationTextComponent(Phi.modId + ".program_transfer.select_slot"));
+			}
+		}
 	}
 	
 	@Override

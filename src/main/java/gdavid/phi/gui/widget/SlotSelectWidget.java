@@ -44,6 +44,7 @@ public class SlotSelectWidget extends Widget {
 	@Override
 	@SuppressWarnings("resource")
 	public void renderButton(MatrixStack ms, int mouseX, int mouseY, float partial) {
+		if (parent.takingScreenshot) return;
 		List<Integer> slots = holder.getSlots();
 		List<ResourceLocation> icons = holder.getSlotIcons();
 		if (slots.stream().max(Integer::compare).get() >= 12 || slots.stream().min(Integer::compare).get() < 0) {
