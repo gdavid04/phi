@@ -2,6 +2,7 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CADHolderTile;
+
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,6 +10,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -60,6 +62,21 @@ public class CADHolderBlock extends HorizontalBlock {
 			}
 		}
 		return ActionResultType.SUCCESS;
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
+		if (!world.isRemote && newState.getBlock() != this) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof CADHolderTile) {
+				CADHolderTile holder = (CADHolderTile) tile;
+				if (holder.hasItem()) {
+					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), holder.item));
+				}
+			}
+		}
+		super.onReplaced(state, world, pos, newState, flag);
 	}
 	
 	@Override
