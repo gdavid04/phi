@@ -1,11 +1,10 @@
 package gdavid.phi.block.tile;
 
+import gdavid.phi.Phi;
+import gdavid.phi.util.IProgramTransferTarget;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import gdavid.phi.Phi;
-import gdavid.phi.util.IProgramTransferTarget;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -53,7 +52,8 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 	@Override
 	public List<ResourceLocation> getSlotIcons() {
 		return Stream.iterate(0, x -> x + 1).limit(slots)
-				.map(x -> new ResourceLocation(Phi.modId, "textures/gui/signs/spell_storage_" + x + ".png")).collect(Collectors.toList());
+				.map(x -> new ResourceLocation(Phi.modId, "textures/gui/signs/spell_storage_" + x + ".png"))
+				.collect(Collectors.toList());
 	}
 	
 	@Override

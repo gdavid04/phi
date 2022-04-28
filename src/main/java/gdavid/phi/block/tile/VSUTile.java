@@ -48,7 +48,7 @@ public class VSUTile extends TileEntity implements ICableConnected {
 		nbt.put(tagVector, list);
 		return nbt;
 	}
-
+	
 	@Override
 	public boolean isController() {
 		return true;

@@ -42,10 +42,11 @@ public class NearbySpeechSelector extends PieceSelector {
 		if (!(player.world instanceof ServerWorld)) return;
 		BlockPos pos = player.getPosition();
 		PointOfInterestManager poiManager = ((ServerWorld) player.world).getPointOfInterestManager();
-		poiManager.func_219146_b(type -> type == ModBlocks.mpuPOI, pos, (int) SpellContext.MAX_DISTANCE, Status.ANY).forEach(poi -> {
-			TileEntity tile = player.world.getTileEntity(poi.getPos());
-			if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getMessage());
-		});
+		poiManager.func_219146_b(type -> type == ModBlocks.mpuPOI, pos, (int) SpellContext.MAX_DISTANCE, Status.ANY)
+				.forEach(poi -> {
+					TileEntity tile = player.world.getTileEntity(poi.getPos());
+					if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getMessage());
+				});
 	}
 	
 }

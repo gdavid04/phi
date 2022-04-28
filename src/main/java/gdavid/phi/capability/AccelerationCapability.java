@@ -1,9 +1,8 @@
 package gdavid.phi.capability;
 
+import gdavid.phi.Phi;
 import java.util.ArrayList;
 import java.util.List;
-
-import gdavid.phi.Phi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,7 +35,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	@Override
 	public Vector3 getAcceleration() {
 		Vector3 res = new Vector3();
-		for (Acceleration a : accelerations) res.add(a.value);
+		for (Acceleration a : accelerations)
+			res.add(a.value);
 		return res;
 	}
 	
@@ -55,11 +55,14 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 				else if (acc.y > 0) {
 					double invTermVel = 25 / 98.0;
 					double y = entity.getMotion().getY() * invTermVel + 1;
-					if (y > 0) entity.fallDistance = (float) Math.min(entity.fallDistance, Math.max(0, (-(49 / invTermVel) + (((49 * y) - (Math.log(y) / Math.log(4 * invTermVel))) / invTermVel))));
+					if (y > 0)
+						entity.fallDistance = (float) Math.min(entity.fallDistance, Math.max(0, (-(49 / invTermVel)
+								+ (((49 * y) - (Math.log(y) / Math.log(4 * invTermVel))) / invTermVel))));
 				}
 			}
 			if (acc.y > 0 && entity instanceof ServerPlayerEntity) {
-				ObfuscationReflectionHelper.setPrivateValue(ServerPlayNetHandler.class, ((ServerPlayerEntity) entity).connection, false, "field_184344_B"); // floating
+				ObfuscationReflectionHelper.setPrivateValue(ServerPlayNetHandler.class,
+						((ServerPlayerEntity) entity).connection, false, "field_184344_B"); // floating
 			}
 		} else if (entity instanceof PlayerEntity) entity.addVelocity(acc.x, acc.y, acc.z);
 		for (int i = accelerations.size() - 1; i >= 0; i--) {
@@ -69,7 +72,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	
 	@SubscribeEvent
 	public static void attach(AttachCapabilitiesEvent<Entity> event) {
-		event.addCapability(new ResourceLocation(Phi.modId, "acceleration"), new ModCapabilities.Provider<>(ModCapabilities.acceleration, new AccelerationCapability()));
+		event.addCapability(new ResourceLocation(Phi.modId, "acceleration"),
+				new ModCapabilities.Provider<>(ModCapabilities.acceleration, new AccelerationCapability()));
 	}
 	
 	@SubscribeEvent
@@ -112,8 +116,9 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		accelerations = new ArrayList<>();
 		for (int i = 0; i < acc.size(); i++) {
 			CompoundNBT elem = acc.getCompound(i);
-			accelerations.add(new Acceleration(new Vector3(elem.getDouble("x"),
-					elem.getDouble("y"), elem.getDouble("z")), elem.getInt(tagDuration)));
+			accelerations
+					.add(new Acceleration(new Vector3(elem.getDouble("x"), elem.getDouble("y"), elem.getDouble("z")),
+							elem.getInt(tagDuration)));
 		}
 	}
 	

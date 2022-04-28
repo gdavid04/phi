@@ -44,7 +44,7 @@ public class TextSUTile extends TileEntity implements ICableConnected {
 		nbt.putString(tagText, text);
 		return nbt;
 	}
-
+	
 	@Override
 	public boolean isController() {
 		return true;

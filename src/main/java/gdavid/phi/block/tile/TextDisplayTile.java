@@ -52,7 +52,8 @@ public class TextDisplayTile extends TileEntity implements ICableConnected {
 	
 	public void setLine(String line, int index) {
 		if (index < 1 || index > lines) return;
-		while (index > text.size()) text.add("");
+		while (index > text.size())
+			text.add("");
 		do {
 			String prefix;
 			int eol = line.indexOf('\n');

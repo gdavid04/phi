@@ -21,7 +21,8 @@ public class ModCapabilities {
 	
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {
-		CapabilityManager.INSTANCE.register(IAccelerationCapability.class, new Storage<>(), AccelerationCapability::new);
+		CapabilityManager.INSTANCE.register(IAccelerationCapability.class, new Storage<>(),
+				AccelerationCapability::new);
 	}
 	
 	public static class Provider<T> implements ICapabilityProvider {

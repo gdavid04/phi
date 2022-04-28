@@ -1,10 +1,9 @@
 package gdavid.phi.block;
 
-import java.util.List;
-
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.TextSUTile;
 import gdavid.phi.cable.CableNetwork;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;

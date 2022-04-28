@@ -1,7 +1,6 @@
 package gdavid.phi.util;
 
 import java.util.List;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;

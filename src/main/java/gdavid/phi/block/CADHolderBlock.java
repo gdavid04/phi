@@ -2,7 +2,6 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CADHolderTile;
-
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

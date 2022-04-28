@@ -1,7 +1,6 @@
 package gdavid.phi.gui.widget;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
 import gdavid.phi.network.ProgramTransferMessage;
@@ -27,7 +26,8 @@ public class ProgramTransferWidget extends Widget {
 	public final SlotSelectWidget select;
 	
 	public ProgramTransferWidget(GuiProgrammer parent, IProgramTransferTarget holder, boolean side, Direction dir) {
-		super(parent.left + (side ? parent.xSize - 54 : 0), parent.top + parent.ySize + 12, 54, 16, StringTextComponent.EMPTY);
+		super(parent.left + (side ? parent.xSize - 54 : 0), parent.top + parent.ySize + 12, 54, 16,
+				StringTextComponent.EMPTY);
 		this.parent = parent;
 		this.holder = holder;
 		this.dir = dir;

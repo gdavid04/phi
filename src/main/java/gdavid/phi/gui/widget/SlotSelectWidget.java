@@ -1,22 +1,19 @@
 package gdavid.phi.gui.widget;
 
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Streams;
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
 import gdavid.phi.network.ProgramTransferSlotMessage;
 import gdavid.phi.util.IProgramTransferTarget;
+import java.util.List;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.tuple.Pair;
 import vazkii.psi.client.gui.GuiProgrammer;
 
 @OnlyIn(Dist.CLIENT)
@@ -32,8 +29,10 @@ public class SlotSelectWidget extends Widget {
 	final IProgramTransferTarget holder;
 	final Direction dir;
 	
-	public SlotSelectWidget(GuiProgrammer parent, ProgramTransferWidget transfer, IProgramTransferTarget holder, boolean side, Direction dir) {
-		super(parent.left + (side ? parent.xSize - 92 : 0), parent.top + parent.ySize - 26, 92, 92, StringTextComponent.EMPTY);
+	public SlotSelectWidget(GuiProgrammer parent, ProgramTransferWidget transfer, IProgramTransferTarget holder,
+			boolean side, Direction dir) {
+		super(parent.left + (side ? parent.xSize - 92 : 0), parent.top + parent.ySize - 26, 92, 92,
+				StringTextComponent.EMPTY);
 		this.parent = parent;
 		this.transfer = transfer;
 		this.holder = holder;

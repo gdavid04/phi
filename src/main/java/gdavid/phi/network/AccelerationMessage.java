@@ -1,8 +1,7 @@
 package gdavid.phi.network;
 
-import java.util.function.Supplier;
-
 import gdavid.phi.capability.ModCapabilities;
+import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;

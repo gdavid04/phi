@@ -1,14 +1,13 @@
 package gdavid.phi.block.tile;
 
 import com.mojang.authlib.GameProfile;
-
 import gdavid.phi.block.MPUBlock;
+import gdavid.phi.cable.CableNetwork;
+import gdavid.phi.cable.ICableConnected;
 import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
-import gdavid.phi.cable.CableNetwork;
-import gdavid.phi.cable.ICableConnected;
 import gdavid.phi.util.IProgramTransferTarget;
 import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
@@ -254,7 +253,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
 		read(packet.getNbtCompound());
 	}
-
+	
 	@Override
 	public boolean isController() {
 		return false;

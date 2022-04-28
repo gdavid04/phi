@@ -23,11 +23,12 @@ public class TextDisplayTileRenderer extends TileEntityRenderer<TextDisplayTile>
 	
 	@Override
 	@SuppressWarnings("resource")
-	public void render(TextDisplayTile display, float partialTicks, MatrixStack ms, IRenderTypeBuffer buf, int worldLight,
-			int overlay) {
+	public void render(TextDisplayTile display, float partialTicks, MatrixStack ms, IRenderTypeBuffer buf,
+			int worldLight, int overlay) {
 		ms.push();
 		ms.translate(0.5f, 0.5f, 0.5f);
-		ms.rotate(Vector3f.YN.rotationDegrees(display.getBlockState().get(TextDisplayBlock.HORIZONTAL_FACING).getHorizontalAngle()));
+		ms.rotate(Vector3f.YN
+				.rotationDegrees(display.getBlockState().get(TextDisplayBlock.HORIZONTAL_FACING).getHorizontalAngle()));
 		ms.translate(0, 0, 0.505f);
 		ms.scale(1 / 256f, -1 / 256f, 1);
 		ms.translate(-80, -80, 0);

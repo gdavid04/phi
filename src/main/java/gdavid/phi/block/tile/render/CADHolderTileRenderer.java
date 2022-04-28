@@ -1,10 +1,7 @@
 package gdavid.phi.block.tile.render;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import gdavid.phi.block.CADHolderBlock;
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.CADHolderTile.ScanType;
@@ -18,6 +15,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class CADHolderTileRenderer extends TileEntityRenderer<CADHolderTile> {
@@ -33,12 +31,14 @@ public class CADHolderTileRenderer extends TileEntityRenderer<CADHolderTile> {
 		ms.push();
 		ms.translate(0.5f, 1.05f, 0.5f);
 		ms.rotate(Vector3f.ZP.rotationDegrees(180));
-		ms.rotate(Vector3f.YP.rotationDegrees(holder.getBlockState().get(CADHolderBlock.HORIZONTAL_FACING).getHorizontalAngle()));
+		ms.rotate(Vector3f.YP
+				.rotationDegrees(holder.getBlockState().get(CADHolderBlock.HORIZONTAL_FACING).getHorizontalAngle()));
 		ms.rotate(Vector3f.XP.rotationDegrees(90));
 		if (holder.hasItem()) {
 			ms.push();
 			ms.scale(0.6f, 0.6f, 0.6f);
-			Minecraft.getInstance().getItemRenderer().renderItem(holder.item, TransformType.FIXED, worldLight, OverlayTexture.NO_OVERLAY, ms, buf);
+			Minecraft.getInstance().getItemRenderer().renderItem(holder.item, TransformType.FIXED, worldLight,
+					OverlayTexture.NO_OVERLAY, ms, buf);
 			ms.pop();
 		}
 		if (holder.scan != ScanType.none) {

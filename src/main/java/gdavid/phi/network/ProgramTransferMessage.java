@@ -1,8 +1,7 @@
 package gdavid.phi.network;
 
-import java.util.function.Supplier;
-
 import gdavid.phi.util.IProgramTransferTarget;
+import java.util.function.Supplier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;

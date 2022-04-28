@@ -1,11 +1,10 @@
 package gdavid.phi.block.tile;
 
-import java.util.List;
-
 import gdavid.phi.Phi;
 import gdavid.phi.network.CADScanMessage;
 import gdavid.phi.network.Messages;
 import gdavid.phi.util.IProgramTransferTarget;
+import java.util.List;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -118,7 +117,8 @@ public class CADHolderTile extends TileEntity implements IProgramTransferTarget 
 			scan = type;
 		} else {
 			CADScanMessage message = new CADScanMessage(pos, type);
-			Messages.channel.send(PacketDistributor.NEAR.with(TargetPoint.p(pos.getX(), pos.getY(), pos.getZ(), 64, world.getDimensionKey())), message);
+			Messages.channel.send(PacketDistributor.NEAR
+					.with(TargetPoint.p(pos.getX(), pos.getY(), pos.getZ(), 64, world.getDimensionKey())), message);
 		}
 	}
 	

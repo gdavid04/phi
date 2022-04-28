@@ -52,14 +52,19 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		drawLine(ms, buffers, light, paramSides.get(a), false, ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
-		drawLine(ms, buffers, light, paramSides.get(a), true, ParamHelper.connectorColor(this, paramSides.get(b), SpellParam.PURPLE));
-		drawLine(ms, buffers, light, paramSides.get(b), false, ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
-		drawLine(ms, buffers, light, paramSides.get(b), true, ParamHelper.connectorColor(this, paramSides.get(b), SpellParam.PURPLE));
+		drawLine(ms, buffers, light, paramSides.get(a), false,
+				ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(a), true,
+				ParamHelper.connectorColor(this, paramSides.get(b), SpellParam.PURPLE));
+		drawLine(ms, buffers, light, paramSides.get(b), false,
+				ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(b), true,
+				ParamHelper.connectorColor(this, paramSides.get(b), SpellParam.PURPLE));
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which, int color) {
+	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which,
+			int color) {
 		if (!side.isEnabled()) {
 			return;
 		}

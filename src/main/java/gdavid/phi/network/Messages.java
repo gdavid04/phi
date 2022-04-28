@@ -1,8 +1,7 @@
 package gdavid.phi.network;
 
-import java.util.function.Function;
-
 import gdavid.phi.Phi;
+import java.util.function.Function;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -19,8 +18,8 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 public class Messages {
 	
 	static final String version = "1";
-	public static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
-			new ResourceLocation(Phi.modId, "main"), () -> version, version::equals, version::equals);
+	public static final SimpleChannel channel = NetworkRegistry
+			.newSimpleChannel(new ResourceLocation(Phi.modId, "main"), () -> version, version::equals, version::equals);
 	
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {
@@ -31,10 +30,10 @@ public class Messages {
 	}
 	
 	static int id = 0;
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	static void register(Class<? extends Message> clazz) {
-		channel.messageBuilder(clazz, id++)
-				.encoder(Message::encode).consumer(Message::receive)
+		channel.messageBuilder(clazz, id++).encoder(Message::encode).consumer(Message::receive)
 				.decoder((Function) buf -> {
 					try {
 						return clazz.getConstructor(PacketBuffer.class).newInstance(buf);

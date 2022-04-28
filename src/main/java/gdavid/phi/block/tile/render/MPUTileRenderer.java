@@ -149,7 +149,8 @@ public class MPUTileRenderer extends TileEntityRenderer<MPUTile> {
 		RenderSystem.color4f(1, 1, 1, 0.5f);
 		AbstractGui.blit(ms, 0, 0, 0, 0, 16 * mpu.redstoneMode.ordinal(), 16, 64, 32);
 		AbstractGui.blit(ms, 16 * mpu.redstoneMode.ordinal(), 0, 16 * mpu.redstoneMode.ordinal(), 16, 16, 16, 64, 32);
-		AbstractGui.blit(ms, 16 * (mpu.redstoneMode.ordinal() + 1), 0, 16 * (mpu.redstoneMode.ordinal() + 1), 0, 64 - 16 * (mpu.redstoneMode.ordinal() + 1), 16, 64, 32);
+		AbstractGui.blit(ms, 16 * (mpu.redstoneMode.ordinal() + 1), 0, 16 * (mpu.redstoneMode.ordinal() + 1), 0,
+				64 - 16 * (mpu.redstoneMode.ordinal() + 1), 16, 64, 32);
 		RenderSystem.color4f(1, 1, 1, 1);
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();

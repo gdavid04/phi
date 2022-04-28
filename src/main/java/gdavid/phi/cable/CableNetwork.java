@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 import javax.annotation.Nullable;
-
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
@@ -18,7 +17,8 @@ public class CableNetwork {
 		return getControllerInternal(world, pos, side, true);
 	}
 	
-	public static @Nullable BlockPos getControllerInternal(World world, BlockPos pos, Direction side, boolean stepDown) {
+	public static @Nullable BlockPos getControllerInternal(World world, BlockPos pos, Direction side,
+			boolean stepDown) {
 		BlockPos opos = pos.offset(side);
 		TileEntity tile = world.getTileEntity(opos);
 		if (tile instanceof ICableSegment) {
@@ -52,7 +52,8 @@ public class CableNetwork {
 	static void rebuildInternal(World world, BlockPos pos) {
 		HashSet<BlockPos> matched = new HashSet<>();
 		List<ICableSegment> cables = new ArrayList<>();
-		@Nullable BlockPos controller = null;
+		@Nullable
+		BlockPos controller = null;
 		boolean valid = true;
 		Stack<TileEntity> s = new Stack<>();
 		tryAdd(s, matched, world, pos);
@@ -65,7 +66,7 @@ public class CableNetwork {
 				}
 			} else if (tile instanceof ICableConnected) {
 				if (((ICableConnected) tile).isController()) {
-					if (controller == null && valid) { 
+					if (controller == null && valid) {
 						controller = tile.getPos();
 					} else {
 						valid = false;

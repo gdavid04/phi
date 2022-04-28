@@ -1,9 +1,8 @@
 package gdavid.phi.network;
 
-import java.util.function.Supplier;
-
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.CADHolderTile.ScanType;
+import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;

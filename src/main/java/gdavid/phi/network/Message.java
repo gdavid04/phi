@@ -1,7 +1,6 @@
 package gdavid.phi.network;
 
 import java.util.function.Supplier;
-
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 

@@ -56,18 +56,24 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		drawLine(ms, buffers, light, paramSides.get(from), false, ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
-		drawLine(ms, buffers, light, paramSides.get(bidir), false, ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
-		drawLine(ms, buffers, light, paramSides.get(bidir), true, ParamHelper.connectorColor(this, paramSides.get(bidir), SpellParam.PURPLE));
-		drawLine(ms, buffers, light, paramSides.get(to), true, ParamHelper.connectorColor(this, paramSides.get(bidir), SpellParam.PURPLE));
+		drawLine(ms, buffers, light, paramSides.get(from), false,
+				ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(bidir), false,
+				ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(bidir), true,
+				ParamHelper.connectorColor(this, paramSides.get(bidir), SpellParam.PURPLE));
+		drawLine(ms, buffers, light, paramSides.get(to), true,
+				ParamHelper.connectorColor(this, paramSides.get(bidir), SpellParam.PURPLE));
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which, int color) {
+	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which,
+			int color) {
 		if (!side.isEnabled()) {
 			return;
 		}
-		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, BidirectionalConnector.lineTexture);
+		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS,
+				BidirectionalConnector.lineTexture);
 		IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.25f : 0;

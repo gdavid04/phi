@@ -1,15 +1,13 @@
 package gdavid.phi.block.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import gdavid.phi.block.CableBlock;
 import gdavid.phi.block.CableBlock.CableSide;
 import gdavid.phi.cable.ICableConnected;
 import gdavid.phi.cable.ICableSegment;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -44,8 +42,8 @@ public class CableTile extends TileEntity implements ICableSegment {
 		for (Direction dir : Plane.HORIZONTAL) {
 			CableSide side = CableSide.none;
 			if (connected.test(pos.offset(dir).offset(Direction.UP))) side = CableSide.up;
-			else if (connected.test(pos.offset(dir))
-					|| connected.test(pos.offset(dir).offset(Direction.DOWN))) side = CableSide.side;
+			else if (connected.test(pos.offset(dir)) || connected.test(pos.offset(dir).offset(Direction.DOWN)))
+				side = CableSide.side;
 			state = state.with(CableBlock.sides.get(dir), side);
 		}
 		world.setBlockState(pos, state);
@@ -63,8 +61,8 @@ public class CableTile extends TileEntity implements ICableSegment {
 	
 	void tryAddNeighbour(List<BlockPos> to, BlockPos pos, Direction side, boolean stepUp) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof ICableConnected || (tile instanceof ICableSegment &&
-				((ICableSegment) tile).canConnect(side))) {
+		if (tile instanceof ICableConnected
+				|| (tile instanceof ICableSegment && ((ICableSegment) tile).canConnect(side))) {
 			to.add(pos);
 		} else if (stepUp) {
 			tryAddNeighbour(to, pos.offset(Direction.UP), side, false);

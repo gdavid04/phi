@@ -56,8 +56,10 @@ public class MPUBlock extends HorizontalBlock {
 		TileEntity tile = world.getTileEntity(pos);
 		if (!(tile instanceof MPUTile)) return ActionResultType.PASS;
 		if (item.getItem() == Items.REDSTONE_TORCH) {
-			((MPUTile) tile).redstoneMode = RedstoneMode.values()[(((MPUTile) tile).redstoneMode.ordinal() + 1) % RedstoneMode.values().length];
-			player.sendStatusMessage(new TranslationTextComponent(Phi.modId + ".redstone_mode." + ((MPUTile) tile).redstoneMode), true);
+			((MPUTile) tile).redstoneMode = RedstoneMode.values()[(((MPUTile) tile).redstoneMode.ordinal() + 1)
+					% RedstoneMode.values().length];
+			player.sendStatusMessage(
+					new TranslationTextComponent(Phi.modId + ".redstone_mode." + ((MPUTile) tile).redstoneMode), true);
 			return ActionResultType.SUCCESS;
 		}
 		Class<?> spellDrive = null;

@@ -1,8 +1,8 @@
 package gdavid.phi.block;
 
-import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CADHolderTile;
+import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.SpellStorageTile;
 import gdavid.phi.block.tile.TextDisplayTile;
@@ -32,7 +32,8 @@ public class ModBlocks {
 	public static final Block textDisplay = new TextDisplayBlock();
 	public static final Block cable = new CableBlock();
 	
-	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu", PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
+	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu",
+			PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
@@ -66,16 +67,18 @@ public class ModBlocks {
 						.setRegistryName(mpu.getRegistryName()),
 				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
 						.setRegistryName(vsu.getRegistryName()),
-				TextSUTile.type = (TileEntityType<TextSUTile>) TileEntityType.Builder.create(TextSUTile::new, textsu).build(null)
-						.setRegistryName(textsu.getRegistryName()),
-				CADHolderTile.type = (TileEntityType<CADHolderTile>) TileEntityType.Builder.create(CADHolderTile::new, cadHolder).build(null)
-						.setRegistryName(cadHolder.getRegistryName()),
-				SpellStorageTile.type = (TileEntityType<SpellStorageTile>) TileEntityType.Builder.create(SpellStorageTile::new, spellStorage).build(null)
+				TextSUTile.type = (TileEntityType<TextSUTile>) TileEntityType.Builder.create(TextSUTile::new, textsu)
+						.build(null).setRegistryName(textsu.getRegistryName()),
+				CADHolderTile.type = (TileEntityType<CADHolderTile>) TileEntityType.Builder
+						.create(CADHolderTile::new, cadHolder).build(null).setRegistryName(cadHolder.getRegistryName()),
+				SpellStorageTile.type = (TileEntityType<SpellStorageTile>) TileEntityType.Builder
+						.create(SpellStorageTile::new, spellStorage).build(null)
 						.setRegistryName(spellStorage.getRegistryName()),
-				TextDisplayTile.type = (TileEntityType<TextDisplayTile>) TileEntityType.Builder.create(TextDisplayTile::new, textDisplay).build(null)
+				TextDisplayTile.type = (TileEntityType<TextDisplayTile>) TileEntityType.Builder
+						.create(TextDisplayTile::new, textDisplay).build(null)
 						.setRegistryName(textDisplay.getRegistryName()),
-				CableTile.type = (TileEntityType<CableTile>) TileEntityType.Builder.create(CableTile::new, cable).build(null)
-						.setRegistryName(cable.getRegistryName()));
+				CableTile.type = (TileEntityType<CableTile>) TileEntityType.Builder.create(CableTile::new, cable)
+						.build(null).setRegistryName(cable.getRegistryName()));
 	}
 	
 	@SubscribeEvent

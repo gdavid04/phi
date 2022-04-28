@@ -4,7 +4,7 @@ import gdavid.phi.Phi;
 import net.minecraft.util.ResourceLocation;
 
 public enum RedstoneMode {
-		
+	
 	always, enable, disable, pulse;
 	
 	public static final ResourceLocation texture = new ResourceLocation(Phi.modId, "textures/gui/redstone_mode.png");

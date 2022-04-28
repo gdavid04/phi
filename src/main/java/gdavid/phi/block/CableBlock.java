@@ -3,11 +3,9 @@ package gdavid.phi.block;
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.cable.CableNetwork;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -50,8 +48,8 @@ public class CableBlock extends Block {
 	static final VoxelShape shape = VoxelShapes.create(0, 0, 0, 1, 0.125f, 1);
 	
 	public CableBlock() {
-		super(Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance()
-				.sound(SoundType.WOOD).doesNotBlockMovement());
+		super(Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().sound(SoundType.WOOD)
+				.doesNotBlockMovement());
 		setRegistryName(id);
 		BlockState state = getStateContainer().getBaseState().with(online, false);
 		for (EnumProperty<CableSide> side : sides.values()) {
@@ -77,7 +75,8 @@ public class CableBlock extends Block {
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(online);
-		for (EnumProperty<CableSide> side : sides.values()) builder.add(side);
+		for (EnumProperty<CableSide> side : sides.values())
+			builder.add(side);
 	}
 	
 	@Override
@@ -86,7 +85,8 @@ public class CableBlock extends Block {
 	}
 	
 	@Override
-	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos) {
+	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world,
+			BlockPos pos, BlockPos facingPos) {
 		if (facing == Direction.DOWN && !isValidPosition(state, world, pos)) return Blocks.AIR.getDefaultState();
 		return state;
 	}
