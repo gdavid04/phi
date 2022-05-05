@@ -61,6 +61,10 @@
 	"phi.spellpiece.trick_swap_blink_position.desc": "Targets switch place, but not look direction. Targets caster by default",
 	"phi.spellpiece.trick_acceleration": "Trick: Acceleration",
 	"phi.spellpiece.trick_acceleration.desc": "Constantly accelerates the target in the given direction for the specified time",
+	"phi.spellpiece.trick_mass_acceleration": "Trick: Mass Acceleration",
+	"phi.spellpiece.trick_mass_acceleration.desc": "Constantly accelerates the targets in the given direction for the specified time",
+	"phi.spellpiece.trick_gravity": "Trick: Gravity",
+	"phi.spellpiece.trick_gravity.desc": "Constantly accelerates the targets towards the given point for the specified time",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates the target piece early if condition is within (-1, 1) exclusive",

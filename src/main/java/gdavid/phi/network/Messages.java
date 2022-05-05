@@ -27,6 +27,7 @@ public class Messages {
 		register(ProgramTransferMessage.class);
 		register(ProgramTransferSlotMessage.class);
 		register(CADScanMessage.class);
+		register(GravityMessage.class);
 	}
 	
 	static int id = 0;
