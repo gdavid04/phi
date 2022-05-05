@@ -13,6 +13,9 @@ import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
 import gdavid.phi.spell.operator.entity.EntityFootPositionOperator;
 import gdavid.phi.spell.operator.entity.EntityNameOperator;
 import gdavid.phi.spell.operator.entity.EntitySneakStatusOperator;
+import gdavid.phi.spell.operator.error.ErrorCatcherOperator;
+import gdavid.phi.spell.operator.error.ErrorStatusOperator;
+import gdavid.phi.spell.operator.error.PropagateErrorOperator;
 import gdavid.phi.spell.operator.number.DifferenceOperator;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.number.ExtractDigitOperator;
@@ -169,6 +172,10 @@ public class ModPieces {
 		register("operator_select_text", SelectTextOperator.class, Groups.text, false);
 		
 		register("operator_hash", HashOperator.class, Groups.dataFlow, false);
+		
+		register("operator_error_catcher", ErrorCatcherOperator.class, Groups.dataFlow, false);
+		register("operator_propagate_error", PropagateErrorOperator.class, Groups.dataFlow, false);
+		register("operator_error_status", ErrorStatusOperator.class, Groups.dataFlow, false);
 		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, false);

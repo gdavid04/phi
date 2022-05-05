@@ -7,7 +7,7 @@ import vazkii.psi.api.PsiAPI;
 public enum Param {
 	
 	speed("_speed"), frequency, from, to, fromTo, toFrom, condition, positive, negative, div, mod, digit, target1,
-	target2, pre("prefix"), text, text1, text2, text3, text4, before, after, at, def("default"), line;
+	target2, pre("prefix"), text, text1, text2, text3, text4, before, after, at, def("default"), line, fallback("_fallback");
 	
 	public static final String prefix = Phi.modId + ".spellparam.";
 	public static final String psiPrefix = PsiAPI.MOD_ID + ".spellparam.";

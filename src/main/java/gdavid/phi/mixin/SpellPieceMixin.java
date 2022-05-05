@@ -1,5 +1,7 @@
 package gdavid.phi.mixin;
 
+import gdavid.phi.spell.error.PropagatingSpellRuntimeException;
+import gdavid.phi.spell.param.ErrorParam;
 import gdavid.phi.util.ISidedResult;
 import java.util.Map;
 import org.spongepowered.asm.mixin.Final;
@@ -33,6 +35,9 @@ public class SpellPieceMixin {
 	private void getRawParamValue(SpellContext context, SpellParam<?> param, CallbackInfoReturnable<Object> callback)
 			throws SpellRuntimeException {
 		Object res = callback.getReturnValue();
+		if (res instanceof PropagatingSpellRuntimeException && !(param instanceof ErrorParam)) {
+			((PropagatingSpellRuntimeException) res).rethrow(((SpellPiece) (Object) this).getPieceType().isTrick());
+		}
 		SpellParam.Side side = paramSides.get(param);
 		if (!side.isEnabled()) {
 			return;

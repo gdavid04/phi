@@ -177,9 +177,13 @@
 
 	"phi.spellpiece.operator_hash": "Operator: Hash",
 	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
-
-	"phi.spellpiece.operator_branch": "Operator: Branch",
-	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
+	
+	"phi.spellpiece.operator_error_catcher": "Operator: Handle Error",
+	"phi.spellpiece.operator_error_catcher.desc": "Replaces errors with the fallback value and outputs the result. Inline version of the Error Catcher. Multiple copies of the operator can be used on the same target as it doesn't replace its original value",
+	"phi.spellpiece.operator_propagate_error": "Operator: Propagate Error",
+	"phi.spellpiece.operator_propagate_error.desc": "Makes errors passed through it propagate until they are handled by Operator: Handle Error or an Error Catcher",
+	"phi.spellpiece.operator_error_status": "Operator: Error Status",
+	"phi.spellpiece.operator_error_status.desc": "Tests whether its input errored (1 if yes, 0 if no)",
 
 	"phi.spellpiece.connector_clockwise": "Clockwise Connector",
 	"phi.spellpiece.connector_clockwise.desc": "Redirects inputs to outputs next to them clockwise",
