@@ -62,6 +62,7 @@ import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
+import gdavid.phi.spell.trick.blink.BlinkEidosReversalTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkPositionTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
@@ -108,6 +109,7 @@ public class ModPieces {
 		register("trick_caster_blink", CasterBlinkTrick.class, "movement", false);
 		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
 		register("trick_swap_blink_position", SwapBlinkPositionTrick.class, "movement", false);
+		register("trick_blink_eidos_reversal", BlinkEidosReversalTrick.class, "movement", false);
 		register("trick_acceleration", AccelerationTrick.class, "movement", false);
 		register("trick_mass_acceleration", MassAccelerationTrick.class, "movement", false);
 		register("trick_gravity", GravityTrick.class, "movement", false);
