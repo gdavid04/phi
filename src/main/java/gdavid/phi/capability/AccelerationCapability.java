@@ -104,7 +104,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("resource")
 	public static void onClientTick(TickEvent.ClientTickEvent event) {
-		if (event.phase != Phase.START || Minecraft.getInstance().player == null) return;
+		if (event.phase != Phase.START || Minecraft.getInstance().player == null
+				|| Minecraft.getInstance().isGamePaused()) return;
 		Minecraft.getInstance().player.getCapability(ModCapabilities.acceleration).ifPresent(cap -> {
 			cap.tick(Minecraft.getInstance().player);
 		});
