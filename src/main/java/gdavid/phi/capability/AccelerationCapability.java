@@ -33,7 +33,7 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	static final String tagDuration = "duration";
 	
 	List<Acceleration> accelerations = new ArrayList<>();
-	List<Gravity> gravities = new ArrayList<>();
+	List<AccelerationTowardsPoint> accelerationsTowardsPoint = new ArrayList<>();
 	
 	@Override
 	public Vector3 getAcceleration(Entity entity) {
@@ -41,7 +41,7 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		for (Acceleration a : accelerations) {
 			res.add(a.value);
 		}
-		for (Gravity g : gravities) {
+		for (AccelerationTowardsPoint g : accelerationsTowardsPoint) {
 			Vector3 diff = g.center.copy().sub(Vector3.fromEntity(entity));
 			double mag = diff.mag();
 			res.add(diff.normalize().multiply(Math.min(g.power, mag)));
@@ -55,8 +55,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	}
 	
 	@Override
-	public void addGravity(Vector3 center, double power, int duration) {
-		gravities.add(new Gravity(center, power, duration));
+	public void addAccelerationTowardsPoint(Vector3 center, double power, int duration) {
+		accelerationsTowardsPoint.add(new AccelerationTowardsPoint(center, power, duration));
 	}
 	
 	@Override
@@ -81,8 +81,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		} else if (entity instanceof PlayerEntity) entity.addVelocity(acc.x, acc.y, acc.z);
 		for (int i = accelerations.size() - 1; i >= 0; i--) {
 			if (--accelerations.get(i).duration <= 0) accelerations.remove(i);
-		}for (int i = gravities.size() - 1; i >= 0; i--) {
-			if (--gravities.get(i).duration <= 0) gravities.remove(i);
+		}for (int i = accelerationsTowardsPoint.size() - 1; i >= 0; i--) {
+			if (--accelerationsTowardsPoint.get(i).duration <= 0) accelerationsTowardsPoint.remove(i);
 		}
 	}
 	
@@ -125,7 +125,7 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		}
 		nbt.put(tagAccelerations, acc);
 		ListNBT grav = new ListNBT();
-		for (Gravity g : gravities) {
+		for (AccelerationTowardsPoint g : accelerationsTowardsPoint) {
 			CompoundNBT elem = new CompoundNBT();
 			elem.putDouble("x", g.center.x);
 			elem.putDouble("y", g.center.y);
@@ -149,11 +149,11 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 							elem.getInt(tagDuration)));
 		}
 		ListNBT grav = nbt.getList(tagGravities, Constants.NBT.TAG_COMPOUND);
-		gravities = new ArrayList<>();
+		accelerationsTowardsPoint = new ArrayList<>();
 		for (int i = 0; i < grav.size(); i++) {
 			CompoundNBT elem = grav.getCompound(i);
-			gravities
-					.add(new Gravity(new Vector3(elem.getDouble("x"), elem.getDouble("y"), elem.getDouble("z")),
+			accelerationsTowardsPoint
+					.add(new AccelerationTowardsPoint(new Vector3(elem.getDouble("x"), elem.getDouble("y"), elem.getDouble("z")),
 							elem.getDouble(tagPower), elem.getInt(tagDuration)));
 		}
 	}
@@ -170,13 +170,13 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		
 	}
 	
-	static class Gravity {
+	static class AccelerationTowardsPoint {
 		
 		Vector3 center;
 		double power;
 		int duration;
 		
-		Gravity(Vector3 center, double power, int duration) {
+		AccelerationTowardsPoint(Vector3 center, double power, int duration) {
 			this.center = center;
 			this.power = power;
 			this.duration = duration;

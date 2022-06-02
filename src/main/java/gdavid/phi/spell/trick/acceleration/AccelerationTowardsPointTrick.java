@@ -21,13 +21,13 @@ import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
 import vazkii.psi.api.spell.wrapper.EntityListWrapper;
 
-public class GravityTrick extends PieceTrick {
+public class AccelerationTowardsPointTrick extends PieceTrick {
 	
 	SpellParam<EntityListWrapper> target;
 	SpellParam<Vector3> center;
 	SpellParam<Number> power, time;
 	
-	public GravityTrick(Spell spell) {
+	public AccelerationTowardsPointTrick(Spell spell) {
 		super(spell);
 	}
 	
@@ -62,7 +62,7 @@ public class GravityTrick extends PieceTrick {
 			if (!context.isInRadius(e)) {
 				Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 			}
-			e.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.addGravity(centerVal, powerVal, timeVal));
+			e.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.addAccelerationTowardsPoint(centerVal, powerVal, timeVal));
 			if (e instanceof PlayerEntity) {
 				Messages.send(new GravityMessage(centerVal, powerVal, timeVal), (PlayerEntity) e);
 			}

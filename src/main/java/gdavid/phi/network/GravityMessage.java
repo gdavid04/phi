@@ -44,7 +44,7 @@ public class GravityMessage implements Message {
 	public boolean receive(Supplier<Context> context) {
 		context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			Minecraft.getInstance().player.getCapability(ModCapabilities.acceleration).ifPresent(cap -> {
-				cap.addGravity(new Vector3(x, y, z), power, duration);
+				cap.addAccelerationTowardsPoint(new Vector3(x, y, z), power, duration);
 			});
 		}));
 		return true;

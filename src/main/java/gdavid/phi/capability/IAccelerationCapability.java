@@ -9,7 +9,7 @@ public interface IAccelerationCapability {
 	
 	void addAcceleration(Vector3 acceleration, int duration);
 	
-	void addGravity(Vector3 center, double power, int duration);
+	void addAccelerationTowardsPoint(Vector3 center, double power, int duration);
 	
 	void tick(Entity entity);
 	
