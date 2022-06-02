@@ -56,6 +56,7 @@ import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
 import gdavid.phi.spell.selector.mpu.ReadTextStorageSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
 import gdavid.phi.spell.trick.acceleration.AccelerationTrick;
+import gdavid.phi.spell.trick.acceleration.ElasticAnchorTrick;
 import gdavid.phi.spell.trick.acceleration.AccelerationTowardsPointTrick;
 import gdavid.phi.spell.trick.acceleration.MassAccelerationTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
@@ -113,6 +114,7 @@ public class ModPieces {
 		register("trick_acceleration", AccelerationTrick.class, "movement", false);
 		register("trick_mass_acceleration", MassAccelerationTrick.class, "movement", false);
 		register("trick_acceleration_towards_point", AccelerationTowardsPointTrick.class, "movement", false);
+		register("trick_elastic_anchor", ElasticAnchorTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
