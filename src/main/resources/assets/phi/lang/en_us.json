@@ -206,6 +206,8 @@
 
 	"phi.spellpiece.constant_text": "Constant: Text",
 	"phi.spellpiece.constant_text.desc": "Select and type to set value",
+	"phi.spellpiece.constant_character_code": "Constant: Character Code",
+	"phi.spellpiece.constant_character_code.desc": "Select and type to set value",
 	"phi.spellpiece.constant_vector": "Constant: Vector",
 	"phi.spellpiece.constant_vector.desc": "Select, press X, Y or Z and type to set coordinate",
 

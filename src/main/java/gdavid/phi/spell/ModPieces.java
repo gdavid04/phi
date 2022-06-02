@@ -6,6 +6,7 @@ import gdavid.phi.spell.connector.BridgeConnector;
 import gdavid.phi.spell.connector.ClockwiseConnector;
 import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
+import gdavid.phi.spell.constant.CharacterCodeConstant;
 import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.constant.VectorConstant;
 import gdavid.phi.spell.operator.HashOperator;
@@ -192,6 +193,7 @@ public class ModPieces {
 		register("connector_bridge", BridgeConnector.class, Groups.dataFlow, false);
 		
 		register("constant_text", TextConstant.class, Groups.text, true);
+		register("constant_character_code", CharacterCodeConstant.class, Groups.text, true);
 		register("constant_vector", VectorConstant.class, Groups.dataFlow, true);
 	}
 	
