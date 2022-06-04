@@ -58,7 +58,8 @@ public class ElasticAnchorTrick extends PieceTrick {
 			if (!context.isInRadius(e)) {
 				Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 			}
-			e.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.addAccelerationTowardsPoint(Vector3.fromEntity(e), powerVal, timeVal));
+			e.getCapability(ModCapabilities.acceleration)
+					.ifPresent(cap -> cap.addAccelerationTowardsPoint(Vector3.fromEntity(e), powerVal, timeVal));
 			if (e instanceof PlayerEntity) {
 				Messages.send(new GravityMessage(Vector3.fromEntity(e), powerVal, timeVal), (PlayerEntity) e);
 			}

@@ -10,7 +10,8 @@ public class PropagatingSpellRuntimeException extends SpellRuntimeException {
 	public final int x, y;
 	
 	/**
-	 * Whether to propagate the error or crash the spell when used in an input that doesn't accept errors
+	 * Whether to propagate the error or crash the spell when used in an input that
+	 * doesn't accept errors
 	 */
 	public final boolean propagate;
 	
@@ -28,7 +29,9 @@ public class PropagatingSpellRuntimeException extends SpellRuntimeException {
 	}
 	
 	/**
-	 * Crashes the spell with this error or propagates it if {@link #propagate} is set
+	 * Crashes the spell with this error or propagates it if {@link #propagate} is
+	 * set
+	 *
 	 * @param force whether to crash the spell even if the error could propagate
 	 */
 	public void rethrow(boolean force) throws SpellRuntimeException {

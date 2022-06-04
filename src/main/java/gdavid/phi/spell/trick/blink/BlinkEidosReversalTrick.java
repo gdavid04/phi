@@ -1,9 +1,8 @@
 package gdavid.phi.spell.trick.blink;
 
+import gdavid.phi.spell.Errors;
 import java.util.EnumSet;
 import java.util.Stack;
-
-import gdavid.phi.spell.Errors;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;

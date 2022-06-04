@@ -1,7 +1,6 @@
 package gdavid.phi.spell.param;
 
 import com.mojang.datafixers.util.Either;
-
 import gdavid.phi.spell.error.PropagatingSpellRuntimeException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellPiece;

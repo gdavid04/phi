@@ -185,7 +185,7 @@
 
 	"phi.spellpiece.operator_hash": "Operator: Hash",
 	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
-	
+
 	"phi.spellpiece.operator_error_catcher": "Operator: Handle Error",
 	"phi.spellpiece.operator_error_catcher.desc": "Replaces errors with the fallback value and outputs the result. Inline version of the Error Catcher. Multiple copies of the operator can be used on the same target as it doesn't replace its original value",
 	"phi.spellpiece.operator_propagate_error": "Operator: Propagate Error",

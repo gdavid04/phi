@@ -1,7 +1,5 @@
 package gdavid.phi.spell.operator.error;
 
-import java.util.function.Function;
-
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.spell.error.PropagatingSpellRuntimeException;
@@ -9,6 +7,7 @@ import gdavid.phi.spell.param.ErrorParam;
 import gdavid.phi.util.EvalHelper;
 import gdavid.phi.util.IModifierFlagProvider;
 import gdavid.phi.util.TypeHelper;
+import java.util.function.Function;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;

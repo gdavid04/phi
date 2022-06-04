@@ -81,7 +81,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		} else if (entity instanceof PlayerEntity) entity.addVelocity(acc.x, acc.y, acc.z);
 		for (int i = accelerations.size() - 1; i >= 0; i--) {
 			if (--accelerations.get(i).duration <= 0) accelerations.remove(i);
-		}for (int i = accelerationsTowardsPoint.size() - 1; i >= 0; i--) {
+		}
+		for (int i = accelerationsTowardsPoint.size() - 1; i >= 0; i--) {
 			if (--accelerationsTowardsPoint.get(i).duration <= 0) accelerationsTowardsPoint.remove(i);
 		}
 	}
@@ -105,7 +106,8 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	@SuppressWarnings("resource")
 	public static void onClientTick(TickEvent.ClientTickEvent event) {
 		if (event.phase != Phase.START || Minecraft.getInstance().player == null
-				|| Minecraft.getInstance().isGamePaused()) return;
+				|| Minecraft.getInstance().isGamePaused())
+			return;
 		Minecraft.getInstance().player.getCapability(ModCapabilities.acceleration).ifPresent(cap -> {
 			cap.tick(Minecraft.getInstance().player);
 		});
@@ -152,9 +154,9 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 		accelerationsTowardsPoint = new ArrayList<>();
 		for (int i = 0; i < grav.size(); i++) {
 			CompoundNBT elem = grav.getCompound(i);
-			accelerationsTowardsPoint
-					.add(new AccelerationTowardsPoint(new Vector3(elem.getDouble("x"), elem.getDouble("y"), elem.getDouble("z")),
-							elem.getDouble(tagPower), elem.getInt(tagDuration)));
+			accelerationsTowardsPoint.add(new AccelerationTowardsPoint(
+					new Vector3(elem.getDouble("x"), elem.getDouble("y"), elem.getDouble("z")),
+					elem.getDouble(tagPower), elem.getInt(tagDuration)));
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package gdavid.phi.spell.operator.error;
 
 import com.mojang.datafixers.util.Either;
-
 import gdavid.phi.spell.error.PropagatingSpellRuntimeException;
 import gdavid.phi.spell.param.ErrorParam;
 import gdavid.phi.util.EvalHelper;

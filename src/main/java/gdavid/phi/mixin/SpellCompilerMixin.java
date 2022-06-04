@@ -2,14 +2,12 @@ package gdavid.phi.mixin;
 
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.IModifierFlagProvider;
-
 import java.util.EnumSet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import vazkii.psi.api.spell.CompiledSpell;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -22,7 +20,8 @@ import vazkii.psi.api.spell.SpellPiece;
 public class SpellCompilerMixin {
 	
 	@Inject(method = "doCompile", at = @At("RETURN"))
-	private void doCompile(Spell spell, CallbackInfoReturnable<CompiledSpell> callback) throws SpellCompilationException {
+	private void doCompile(Spell spell, CallbackInfoReturnable<CompiledSpell> callback)
+			throws SpellCompilationException {
 		for (int x = 0; x < SpellGrid.GRID_SIZE; x++) {
 			for (int y = 0; y < SpellGrid.GRID_SIZE; y++) {
 				SpellPiece piece = spell.grid.gridData[x][y];

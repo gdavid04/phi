@@ -62,7 +62,8 @@ public class AccelerationTowardsPointTrick extends PieceTrick {
 			if (!context.isInRadius(e)) {
 				Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 			}
-			e.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.addAccelerationTowardsPoint(centerVal, powerVal, timeVal));
+			e.getCapability(ModCapabilities.acceleration)
+					.ifPresent(cap -> cap.addAccelerationTowardsPoint(centerVal, powerVal, timeVal));
 			if (e instanceof PlayerEntity) {
 				Messages.send(new GravityMessage(centerVal, powerVal, timeVal), (PlayerEntity) e);
 			}

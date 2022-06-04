@@ -2,14 +2,12 @@ package gdavid.phi.mixin;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.error.PropagatingSpellRuntimeException;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
 import vazkii.psi.api.internal.IPlayerData;
 import vazkii.psi.api.spell.CompiledSpell;
 import vazkii.psi.api.spell.CompiledSpell.Action;
@@ -49,11 +47,14 @@ public class CompiledSpellMixin {
 		} catch (SpellRuntimeException e) {
 			SpellPiece piece = action.piece;
 			boolean suppress = context.cspell.metadata.getFlag(PropagatingSpellRuntimeException.suppressFlag(piece));
-			PropagatingSpellRuntimeException pe = e instanceof PropagatingSpellRuntimeException ? (PropagatingSpellRuntimeException) e : null;
+			PropagatingSpellRuntimeException pe = e instanceof PropagatingSpellRuntimeException
+					? (PropagatingSpellRuntimeException) e
+					: null;
 			if (pe != null && pe.rethrown) throw e;
 			if (pe != null && (pe.propagate || suppress)) context.evaluatedObjects[piece.x][piece.y] = e;
-			else if (suppress) context.evaluatedObjects[piece.x][piece.y] =
-					new PropagatingSpellRuntimeException(e.getMessage(), piece.x, piece.y, false, false);
+			else if (suppress)
+				context.evaluatedObjects[piece.x][piece.y] = new PropagatingSpellRuntimeException(e.getMessage(),
+						piece.x, piece.y, false, false);
 			else throw e;
 		}
 	}
