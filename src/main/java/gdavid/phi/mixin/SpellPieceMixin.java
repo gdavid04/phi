@@ -9,6 +9,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import gdavid.phi.api.ISidedResult;
+import gdavid.phi.api.param.ErrorParam;
+import gdavid.phi.spell.error.PropagatingSpellRuntimeException;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
@@ -34,6 +36,9 @@ public class SpellPieceMixin {
 	private void getRawParamValue(SpellContext context, SpellParam<?> param, CallbackInfoReturnable<Object> callback)
 			throws SpellRuntimeException {
 		Object res = callback.getReturnValue();
+		if (res instanceof PropagatingSpellRuntimeException && !(param instanceof ErrorParam)) {
+			((PropagatingSpellRuntimeException) res).rethrow(((SpellPiece) (Object) this).getPieceType().isTrick());
+		}
 		SpellParam.Side side = paramSides.get(param);
 		if (!side.isEnabled()) return;
 		if (res instanceof ISidedResult) {

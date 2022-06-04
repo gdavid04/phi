@@ -3,6 +3,8 @@ package gdavid.phi.spell.connector;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.spell.Param;
+import gdavid.phi.util.ParamHelper;
+import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -54,52 +56,40 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		drawLine(ms, buffers, light, paramSides.get(from), true, false);
-		drawLine(ms, buffers, light, paramSides.get(bidir), true, true);
-		drawLine(ms, buffers, light, paramSides.get(to), false, true);
+		drawLine(ms, buffers, light, paramSides.get(from), false,
+				ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(bidir), false,
+				ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(bidir), true,
+				ParamHelper.connectorColor(this, paramSides.get(bidir), SpellParam.PURPLE));
+		drawLine(ms, buffers, light, paramSides.get(to), true,
+				ParamHelper.connectorColor(this, paramSides.get(bidir), SpellParam.PURPLE));
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean in,
-			boolean out) {
+	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which,
+			int color) {
 		if (!side.isEnabled()) {
 			return;
 		}
 		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS,
 				BidirectionalConnector.lineTexture);
 		IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
-		int minX = 0, minY = 0, maxX = 16, maxY = 16;
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
-		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
-		float maxU = minU + 0.5f, maxV = minV + 0.5f;
-		if (side == SpellParam.Side.LEFT || side == SpellParam.Side.RIGHT) {
-			if (!in) {
-				minY += 8;
-				minV += 0.25f;
-			}
-			if (!out) {
-				maxY -= 8;
-				maxV -= 0.25f;
-			}
-		} else if (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) {
-			if (!in) {
-				minX += 8;
-				minU += 0.25f;
-			}
-			if (!out) {
-				maxX -= 8;
-				maxU -= 0.25f;
-			}
-		}
-		int r = 255, g = 255, b = 255, a = 255;
+		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.25f : 0;
+		if (which) minV += 0.5f;
+		float maxU = minU + 0.5f, maxV = minV + 0.25f;
+		int r = RenderHelper.r(color);
+		int g = RenderHelper.g(color);
+		int b = RenderHelper.b(color);
 		Matrix4f mat = ms.getLast().getMatrix();
-		buffer.pos(mat, minX, maxY, 0).color(r, g, b, a);
+		buffer.pos(mat, 0, 16, 0).color(r, g, b, 255);
 		buffer.tex(minU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, maxX, maxY, 0).color(r, g, b, a);
+		buffer.pos(mat, 16, 16, 0).color(r, g, b, 255);
 		buffer.tex(maxU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, maxX, minY, 0).color(r, g, b, a);
+		buffer.pos(mat, 16, 0, 0).color(r, g, b, 255);
 		buffer.tex(maxU, minV).lightmap(light).endVertex();
-		buffer.pos(mat, minX, minY, 0).color(r, g, b, a);
+		buffer.pos(mat, 0, 0, 0).color(r, g, b, 255);
 		buffer.tex(minU, minV).lightmap(light).endVertex();
 	}
 	

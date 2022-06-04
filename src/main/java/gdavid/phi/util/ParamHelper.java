@@ -2,10 +2,13 @@ package gdavid.phi.util;
 
 import gdavid.phi.spell.Errors;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellCompilationException;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
@@ -52,6 +55,12 @@ public class ParamHelper {
 	public static BlockPos block(SpellPiece piece, SpellContext context, SpellParam<Vector3> param)
 			throws SpellRuntimeException {
 		return inRange(piece, context, param).toBlockPos();
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public static int connectorColor(SpellPiece piece, Side side, int def) {
+		// replaced by Psionic Utilities
+		return def;
 	}
 	
 }

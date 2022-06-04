@@ -1,5 +1,7 @@
 package gdavid.phi.mixin;
 
+import gdavid.phi.util.IModifierFlagProvider;
+
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -15,7 +17,9 @@ import gdavid.phi.api.param.ReferenceParam;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.CompilerCallback;
 import vazkii.psi.api.spell.CompiledSpell;
+import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
+import vazkii.psi.api.spell.SpellGrid;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
@@ -39,6 +43,18 @@ public abstract class SpellCompilerMixin {
 			callback.cancel();
 			if (!visited.add(piece)) Errors.compile(SpellCompilationException.INFINITE_LOOP, piece.x, piece.y);
 			((ICustomCompile) piece).compile(compiled, new CompilerCallback((SpellCompiler) (Object) this, piece, visited, this::checkSideDisabled));
+		}
+	}
+	
+	@Inject(method = "doCompile", at = @At("RETURN"))
+	private void doCompile(Spell spell, CallbackInfoReturnable<CompiledSpell> callback) throws SpellCompilationException {
+		for (int x = 0; x < SpellGrid.GRID_SIZE; x++) {
+			for (int y = 0; y < SpellGrid.GRID_SIZE; y++) {
+				SpellPiece piece = spell.grid.gridData[x][y];
+				if (piece instanceof IModifierFlagProvider) {
+					((IModifierFlagProvider) piece).addFlags(callback.getReturnValue().metadata);
+				}
+			}
 		}
 	}
 	

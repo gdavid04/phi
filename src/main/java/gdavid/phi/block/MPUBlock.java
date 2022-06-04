@@ -2,6 +2,8 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.cable.CableNetwork;
+import gdavid.phi.util.RedstoneMode;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,6 +14,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -53,6 +56,13 @@ public class MPUBlock extends HorizontalBlock {
 		ItemStack item = player.getHeldItem(hand);
 		TileEntity tile = world.getTileEntity(pos);
 		if (!(tile instanceof MPUTile) || !ItemCAD.isTruePlayer(player)) return ActionResultType.PASS;
+		if (item.getItem() == Items.REDSTONE_TORCH) {
+			((MPUTile) tile).redstoneMode = RedstoneMode.values()[(((MPUTile) tile).redstoneMode.ordinal() + 1)
+			                                                      % RedstoneMode.values().length];
+			player.sendStatusMessage(
+					new TranslationTextComponent(Phi.modId + ".redstone_mode." + ((MPUTile) tile).redstoneMode), true);
+			return ActionResultType.SUCCESS;
+		}
 		Spell spell;
 		if (item.getItem() instanceof ItemSpellDrive) {
 			spell = ItemSpellDrive.getSpell(item);
@@ -76,6 +86,18 @@ public class MPUBlock extends HorizontalBlock {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+	}
+	
+	@Override
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+		if (!world.isRemote) CableNetwork.rebuild(world, pos);
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation")
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
+		super.onReplaced(state, world, pos, newState, flag);
+		if (!world.isRemote) CableNetwork.rebuild(world, pos);
 	}
 	
 	@Override

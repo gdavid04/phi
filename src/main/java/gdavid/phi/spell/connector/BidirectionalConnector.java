@@ -4,6 +4,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
 import gdavid.phi.spell.Param;
+import gdavid.phi.util.ParamHelper;
+import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.ResourceLocation;
@@ -37,7 +39,7 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	@Override
 	public void initParams() {
 		addParam(a = new ParamAny(Param.fromTo.name, SpellParam.GRAY, false));
-		addParam(b = new ParamAny(Param.toFrom.name, SpellParam.GRAY, false));
+		addParam(b = new ParamAny(Param.toFrom.name, SpellParam.PURPLE, false));
 	}
 	
 	@Override
@@ -50,29 +52,39 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		drawLine(ms, buffers, light, paramSides.get(a));
-		drawLine(ms, buffers, light, paramSides.get(b));
+		drawLine(ms, buffers, light, paramSides.get(a), false,
+				ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(a), true,
+				ParamHelper.connectorColor(this, paramSides.get(b), SpellParam.PURPLE));
+		drawLine(ms, buffers, light, paramSides.get(b), false,
+				ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
+		drawLine(ms, buffers, light, paramSides.get(b), true,
+				ParamHelper.connectorColor(this, paramSides.get(b), SpellParam.PURPLE));
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side) {
+	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which,
+			int color) {
 		if (!side.isEnabled()) {
 			return;
 		}
 		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
 		IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
-		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
-		float maxU = minU + 0.5f, maxV = minV + 0.5f;
-		int r = 255, g = 255, b = 255, a = 255;
+		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.25f : 0;
+		if (which) minV += 0.5f;
+		float maxU = minU + 0.5f, maxV = minV + 0.25f;
+		int r = RenderHelper.r(color);
+		int g = RenderHelper.g(color);
+		int b = RenderHelper.b(color);
 		Matrix4f mat = ms.getLast().getMatrix();
-		buffer.pos(mat, 0, 16, 0).color(r, g, b, a);
+		buffer.pos(mat, 0, 16, 0).color(r, g, b, 255);
 		buffer.tex(minU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 16, 16, 0).color(r, g, b, a);
+		buffer.pos(mat, 16, 16, 0).color(r, g, b, 255);
 		buffer.tex(maxU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 16, 0, 0).color(r, g, b, a);
+		buffer.pos(mat, 16, 0, 0).color(r, g, b, 255);
 		buffer.tex(maxU, minV).lightmap(light).endVertex();
-		buffer.pos(mat, 0, 0, 0).color(r, g, b, a);
+		buffer.pos(mat, 0, 0, 0).color(r, g, b, 255);
 		buffer.tex(minU, minV).lightmap(light).endVertex();
 	}
 	

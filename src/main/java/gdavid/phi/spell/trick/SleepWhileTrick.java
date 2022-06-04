@@ -30,9 +30,9 @@ import vazkii.psi.api.spell.piece.PieceTrick;
 public class SleepWhileTrick extends PieceTrick implements ICustomCompile {
 	
 	public static final String duration = Phi.modId + ":trick_sleep_while.duration";
+	public static final String capturedStack = Phi.modId + ":trick_sleep_while.captured_stack";
 	
 	static final WeakHashMap<CompiledSpell, Map<SpellPiece, Action>> captureActions = new WeakHashMap<>();
-	static final WeakHashMap<SpellContext, Stack<Action>> capturedStacks = new WeakHashMap<>();
 	
 	SpellParam<Number> condition, maximum, frequency;
 	
@@ -83,17 +83,18 @@ public class SleepWhileTrick extends PieceTrick implements ICustomCompile {
 		int remaining = (int) context.customData.get(duration);
 		int delay = Math.min(getParamValueOrDefault(context, frequency, 1).intValue(), remaining);
 		if (remaining > 0 && Math.abs(getParamValue(context, condition).doubleValue()) < 1) {
-			context.actions = (Stack<Action>) capturedStacks.get(context).clone(); // reevaluate condition
+			context.actions = (Stack<Action>) ((Stack<Action>) context.customData.get(capturedStack)).clone(); // reevaluate condition
 			context.delay = delay;
 			context.customData.put(duration, remaining - delay);
+		} else {
+			context.customData.remove(capturedStack);
 		}
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void capture(SpellContext context) throws SpellRuntimeException {
 		// capture action only runs once and isn't captured
-		capturedStacks.put(context, (Stack<Action>) context.actions.clone());
+		context.customData.put(capturedStack, context.actions.clone());
 		// maximum and frequency are already evaluated here, so they can be safely accessed
 		context.customData.put(duration, getNonnullParamValue(context, maximum).intValue());
 	}

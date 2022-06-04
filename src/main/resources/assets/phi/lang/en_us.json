@@ -22,11 +22,11 @@
 	"phi.spellparam.after": "After",
 	"phi.spellparam.at": "At",
 	"phi.spellparam.default": "Default",
+	"phi.spellparam.line": "Line",
 
 	"phi.spellerror.range": "ERROR: The range of this trick is 32 blocks",
 	"phi.spellerror.min_wave": "ERROR: Psion wave parameters must be at least one",
 	"phi.spellerror.ed": "?",
-	"phi.spellerror.ambiguous": "ERROR: Ambiguous branching",
 	"phi.spellerror.invalid_target": "ERROR: Invalid target",
 	"phi.spellerror.no_mpu": "ERROR: This trick can only be used in a Magic Processing Unit",
 	"phi.spellerror.mpu": "ERROR: This trick can't be used in a Magic Processing Unit",
@@ -37,6 +37,11 @@
 
 	"psi.datatype.object": "Any",
 	"psi.datatype.string": "Text",
+
+	"phi.redstone_mode.always": "\u00a7cRedstone Mode\u00a7f: Always active, ignore redstone signal",
+	"phi.redstone_mode.enable": "\u00a7cRedstone Mode\u00a7f: Enable with redstone signal",
+	"phi.redstone_mode.disable": "\u00a7cRedstone Mode\u00a7f: Disable with redstone signal",
+	"phi.redstone_mode.pulse": "\u00a7cRedstone Mode\u00a7f: Activate on redstone pulse",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
@@ -56,6 +61,16 @@
 	"phi.spellpiece.trick_swap_blink.desc": "Targets switch place. Targets caster by default",
 	"phi.spellpiece.trick_swap_blink_position": "Trick: Swap Blink (Position Only)",
 	"phi.spellpiece.trick_swap_blink_position.desc": "Targets switch place, but not look direction. Targets caster by default",
+	"phi.spellpiece.trick_blink_eidos_reversal": "Trick: Blink Eidos Reversal",
+	"phi.spellpiece.trick_blink_eidos_reversal.desc": "Teleports the caster back in time",
+	"phi.spellpiece.trick_acceleration": "Trick: Acceleration",
+	"phi.spellpiece.trick_acceleration.desc": "Constantly accelerates the target in the given direction for the specified time",
+	"phi.spellpiece.trick_mass_acceleration": "Trick: Mass Acceleration",
+	"phi.spellpiece.trick_mass_acceleration.desc": "Constantly accelerates the targets in the given direction for the specified time",
+	"phi.spellpiece.trick_acceleration_towards_point": "Trick: Acceleration Towards Point",
+	"phi.spellpiece.trick_acceleration_towards_point.desc": "Constantly accelerates the targets towards the given point for the specified time",
+	"phi.spellpiece.trick_elastic_anchor": "Trick: Elastic Anchor",
+	"phi.spellpiece.trick_elastic_anchor.desc": "Pulls the targets towards their initial position when the trick was executed for the specified time",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates the target piece early if condition is within (-1, 1) exclusive",
@@ -63,9 +78,13 @@
 	"phi.spellpiece.trick_reevaluate.desc": "Reevaluates the target piece if condition is within (-1, 1) exclusive",
 
 	"phi.spellpiece.trick_save_vector_component": "Trick: Save Vector Component",
-	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3 rounded up, the component by the remainder of target / 3",
 	"phi.spellpiece.trick_write_vector_storage": "Trick: Write Vector Storage",
-	"phi.spellpiece.trick_write_vector_storage.desc": "Writes a vector to an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_vector_storage.desc": "Writes a vector to a connected Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_text_storage": "Trick: Write Text Storage",
+	"phi.spellpiece.trick_write_text_storage.desc": "Writes text to a connected Text Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_text_display": "Trick: Write Text Display",
+	"phi.spellpiece.trick_write_text_display.desc": "Writes text to a connected Text Display. Overwrites the given line or appends to the bottom of the screen. Requires a Magic Processing Unit",
 	"phi.spellpiece.trick_set_comparator_output": "Trick: Set Comparator Output",
 	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
 	"phi.spellpiece.trick_set_time": "Trick: Set Time",
@@ -77,14 +96,18 @@
 	"phi.spellpiece.selector_nearby_burning.desc": "Selects burning entities near the given position.",
 
 	"phi.spellpiece.selector_saved_vector_component": "Selector: Saved Vector Component",
-	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3 rounded up, the component by the remainder of target / 3",
 	"phi.spellpiece.selector_read_vector_storage": "Selector: Read Vector Storage",
-	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from a connected Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.selector_read_text_storage": "Selector: Read Text Storage",
+	"phi.spellpiece.selector_read_text_storage.desc": "Reads text from a connected Text Storage Unit. Requires a Magic Processing Unit",
 
 	"phi.spellpiece.selector_spell_name": "Selector: Spell Name",
 	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
 	"phi.spellpiece.selector_caster_speech": "Selector: Caster Speech",
 	"phi.spellpiece.selector_caster_speech.desc": "Gets the last chat message said by the caster",
+	"phi.spellpiece.selector_nearby_speech": "Selector: Nearby Speech",
+	"phi.spellpiece.selector_nearby_speech.desc": "Gets the last chat message said within the range of the MPU",
 
 	"phi.spellpiece.operator_to_degrees": "Operator: To Degrees",
 	"phi.spellpiece.operator_to_degrees.desc": "Converts radians to degrees",
@@ -159,12 +182,18 @@
 	"phi.spellpiece.operator_split_text_at.desc": "Splits a text at the first occurence of the given part of said text",
 	"phi.spellpiece.operator_number_from_text": "Operator: Number From Text",
 	"phi.spellpiece.operator_number_from_text.desc": "Gets the numeric value of a textual number representation",
+	"phi.spellpiece.operator_select_text": "Operator: Select Text",
+	"phi.spellpiece.operator_select_text.desc": "Selects which text to output based on a condition",
 
 	"phi.spellpiece.operator_hash": "Operator: Hash",
 	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
-
-	"phi.spellpiece.operator_branch": "Operator: Branch",
-	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
+	
+	"phi.spellpiece.operator_error_catcher": "Operator: Handle Error",
+	"phi.spellpiece.operator_error_catcher.desc": "Replaces errors with the fallback value and outputs the result. Inline version of the Error Catcher. Multiple copies of the operator can be used on the same target as it doesn't replace its original value",
+	"phi.spellpiece.operator_propagate_error": "Operator: Propagate Error",
+	"phi.spellpiece.operator_propagate_error.desc": "Makes errors passed through it propagate until they are handled by Operator: Handle Error or an Error Catcher",
+	"phi.spellpiece.operator_error_status": "Operator: Error Status",
+	"phi.spellpiece.operator_error_status.desc": "Tests whether its input errored (1 if yes, 0 if no)",
 
 	"phi.spellpiece.connector_clockwise": "Clockwise Connector",
 	"phi.spellpiece.connector_clockwise.desc": "Redirects inputs to outputs next to them clockwise",
@@ -179,10 +208,12 @@
 
 	"phi.spellpiece.constant_text": "Constant: Text",
 	"phi.spellpiece.constant_text.desc": "Select and type to set value",
+	"phi.spellpiece.constant_character_code": "Constant: Character Code",
+	"phi.spellpiece.constant_character_code.desc": "Select and type to set value",
 	"phi.spellpiece.constant_vector": "Constant: Vector",
 	"phi.spellpiece.constant_vector.desc": "Select, press X, Y or Z and type to set coordinate",
 
-	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD\nCompatible only with CADs that were assembled with the same magazine type",
+	"item.phi.spell_magazine.desc": "\u00a7aSpell Magazine\u00a77: A hot swappable alternative to CAD Sockets\nRight-click to swap the magazine with the one in your CAD",
 
 	"item.phi.basic_spell_magazine": "Basic Spell Magazine",
 	"item.phi.basic_spell_magazine.desc": "A cheap Spell Magazine",
@@ -208,7 +239,21 @@
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
 	"block.phi.mpu": "Magic Processing Unit",
-	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nDisable with redstone signal",
+	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",
 	"block.phi.vsu": "Vector Storage Unit",
-	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines"
+	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines or via data cables",
+	"block.phi.textsu": "Text Storage Unit",
+	"block.phi.textsu.desc": "\u00a7aText Storage Unit\u00a77: A block that stores text that can be accessed and modified by adjacent machines or via data cables. Can store up to 256 characters",
+	"block.phi.cad_holder": "CAD Holder",
+	"block.phi.cad_holder.desc": "\u00a7aCAD Holder\u00a77: A block that can hold a CAD or Spell Magazine whose contents can be accessed and modified by adjacent machines",
+	"block.phi.spell_storage": "Spell Storage",
+	"block.phi.spell_storage.desc": "\u00a7aSpell Storage\u00a77: A block that stores spells that can be accessed and modified by adjacent machines. Keeps contents when broken",
+	"block.phi.text_display": "Text Display",
+	"block.phi.text_display.desc": "\u00a7aText Display\u00a77: A block that displays text and can be written to by adjacent machines or via data cables",
+	"block.phi.cable": "Data Cable",
+	"block.phi.cable.desc": "\u00a7aData Cable\u00a77: Connects machines",
+
+	"phi.program_transfer.write": "\u00a7cWrite To Spell Container",
+	"phi.program_transfer.read": "\u00a79Read From Spell Container",
+	"phi.program_transfer.select_slot": "\u00a7aChange Selected Slot"
 }

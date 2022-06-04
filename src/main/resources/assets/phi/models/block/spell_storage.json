@@ -1,0 +1,8 @@
+{
+	"parent": "block/cube_bottom_top",
+	"textures": {
+		"top": "phi:block/spell_storage_top",
+		"bottom": "phi:block/machine_bottom",
+		"side": "phi:block/spell_storage_side"
+	}
+}

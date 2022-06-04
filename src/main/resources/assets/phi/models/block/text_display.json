@@ -1,0 +1,9 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"top": "phi:block/machine_side",
+		"bottom": "phi:block/machine_bottom",
+		"front": "phi:block/text_display",
+		"side": "phi:block/machine_side"
+	}
+}

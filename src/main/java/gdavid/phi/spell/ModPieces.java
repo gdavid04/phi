@@ -6,15 +6,18 @@ import gdavid.phi.spell.connector.BridgeConnector;
 import gdavid.phi.spell.connector.ClockwiseConnector;
 import gdavid.phi.spell.connector.CounterclockwiseConnector;
 import gdavid.phi.spell.connector.InOutConnector;
+import gdavid.phi.spell.constant.CharacterCodeConstant;
 import gdavid.phi.spell.constant.TextConstant;
 import gdavid.phi.spell.constant.VectorConstant;
 import gdavid.phi.spell.form.CircleForm;
-import gdavid.phi.spell.operator.BranchOperator;
 import gdavid.phi.spell.operator.HashOperator;
 import gdavid.phi.spell.operator.entity.EntityEyePositionOperator;
 import gdavid.phi.spell.operator.entity.EntityFootPositionOperator;
 import gdavid.phi.spell.operator.entity.EntityNameOperator;
 import gdavid.phi.spell.operator.entity.EntitySneakStatusOperator;
+import gdavid.phi.spell.operator.error.ErrorCatcherOperator;
+import gdavid.phi.spell.operator.error.ErrorStatusOperator;
+import gdavid.phi.spell.operator.error.PropagateErrorOperator;
 import gdavid.phi.spell.operator.number.DifferenceOperator;
 import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.number.ExtractDigitOperator;
@@ -29,6 +32,7 @@ import gdavid.phi.spell.operator.text.AsTextOperator;
 import gdavid.phi.spell.operator.text.CharacterCodeAtOperator;
 import gdavid.phi.spell.operator.text.CharacterFromCodeOperator;
 import gdavid.phi.spell.operator.text.LowerCaseOperator;
+import gdavid.phi.spell.operator.text.SelectTextOperator;
 import gdavid.phi.spell.operator.text.SplitTextAtOperator;
 import gdavid.phi.spell.operator.text.SplitTextOperator;
 import gdavid.phi.spell.operator.text.TextLengthOperator;
@@ -50,12 +54,19 @@ import gdavid.phi.spell.selector.NearbyBurningSelector;
 import gdavid.phi.spell.selector.NearbyMarkersSelector;
 import gdavid.phi.spell.selector.SavedVectorComponentSelector;
 import gdavid.phi.spell.selector.SpellNameSelector;
+import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
+import gdavid.phi.spell.selector.mpu.ReadTextStorageSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
+import gdavid.phi.spell.trick.acceleration.AccelerationTrick;
+import gdavid.phi.spell.trick.acceleration.ElasticAnchorTrick;
+import gdavid.phi.spell.trick.acceleration.AccelerationTowardsPointTrick;
+import gdavid.phi.spell.trick.acceleration.MassAccelerationTrick;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
 import gdavid.phi.spell.trick.ShadowTrick;
 import gdavid.phi.spell.trick.SleepWhileTrick;
+import gdavid.phi.spell.trick.blink.BlinkEidosReversalTrick;
 import gdavid.phi.spell.trick.blink.CasterBlinkTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkPositionTrick;
 import gdavid.phi.spell.trick.blink.SwapBlinkTrick;
@@ -66,6 +77,8 @@ import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import gdavid.phi.spell.trick.mpu.SetComparatorOutputTrick;
 import gdavid.phi.spell.trick.mpu.SetTimeTrick;
+import gdavid.phi.spell.trick.mpu.WriteTextDisplayTrick;
+import gdavid.phi.spell.trick.mpu.WriteTextStorageTrick;
 import gdavid.phi.spell.trick.mpu.WriteVectorStorageTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -100,12 +113,19 @@ public class ModPieces {
 		register("trick_caster_blink", CasterBlinkTrick.class, "movement", false);
 		register("trick_swap_blink", SwapBlinkTrick.class, "movement", false);
 		register("trick_swap_blink_position", SwapBlinkPositionTrick.class, "movement", false);
+		register("trick_blink_eidos_reversal", BlinkEidosReversalTrick.class, "movement", false);
+		register("trick_acceleration", AccelerationTrick.class, "movement", false);
+		register("trick_mass_acceleration", MassAccelerationTrick.class, "movement", false);
+		register("trick_acceleration_towards_point", AccelerationTowardsPointTrick.class, "movement", false);
+		register("trick_elastic_anchor", ElasticAnchorTrick.class, "movement", false);
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
+		register("trick_write_text_storage", WriteTextStorageTrick.class, Groups.dataFlow, false);
+		register("trick_write_text_display", WriteTextDisplayTrick.class, Groups.dataFlow, false);
 		register("trick_set_comparator_output", SetComparatorOutputTrick.class, Groups.dataFlow, false);
 		register("trick_set_time", SetTimeTrick.class, Groups.dataFlow, false);
 		
@@ -118,9 +138,11 @@ public class ModPieces {
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
+		register("selector_read_text_storage", ReadTextStorageSelector.class, Groups.dataFlow, false);
 		
 		register("selector_spell_name", SpellNameSelector.class, Groups.text, false);
 		register("selector_caster_speech", CasterSpeechSelector.class, Groups.text, false);
+		register("selector_nearby_speech", NearbySpeechSelector.class, Groups.text, false);
 		
 		register("operator_to_degrees", ToDegreesOperator.class, Groups.math, true);
 		register("operator_to_radians", ToRadiansOperator.class, Groups.math, false);
@@ -162,10 +184,13 @@ public class ModPieces {
 		register("operator_split_text", SplitTextOperator.class, Groups.text, false);
 		register("operator_split_text_at", SplitTextAtOperator.class, Groups.text, false);
 		register("operator_number_from_text", NumberFromTextOperator.class, Groups.text, false);
+		register("operator_select_text", SelectTextOperator.class, Groups.text, false);
 		
 		register("operator_hash", HashOperator.class, Groups.dataFlow, false);
 		
-		register("operator_branch", BranchOperator.class, Groups.dataFlow, false);
+		register("operator_error_catcher", ErrorCatcherOperator.class, Groups.dataFlow, false);
+		register("operator_propagate_error", PropagateErrorOperator.class, Groups.dataFlow, false);
+		register("operator_error_status", ErrorStatusOperator.class, Groups.dataFlow, false);
 		
 		register("connector_clockwise", ClockwiseConnector.class, Groups.dataFlow, false);
 		register("connector_counterclockwise", CounterclockwiseConnector.class, Groups.dataFlow, false);
@@ -174,6 +199,7 @@ public class ModPieces {
 		register("connector_bridge", BridgeConnector.class, Groups.dataFlow, false);
 		
 		register("constant_text", TextConstant.class, Groups.text, true);
+		register("constant_character_code", CharacterCodeConstant.class, Groups.text, true);
 		register("constant_vector", VectorConstant.class, Groups.dataFlow, true);
 	}
 	
