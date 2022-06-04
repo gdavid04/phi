@@ -3,6 +3,7 @@ package gdavid.phi.entity;
 import static net.minecraft.entity.EntityClassification.MISC;
 
 import gdavid.phi.Phi;
+import gdavid.phi.entity.form.CircleFormEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,7 +24,10 @@ public class ModEntities {
 						.size(0.4f, 0.4f).immuneToFire().build("").setRegistryName(Phi.modId, PsiProjectileEntity.id),
 				EntityType.Builder.create((EntityType.IFactory<MarkerEntity>) MarkerEntity::new, MISC)
 						.setTrackingRange(256).setUpdateInterval(10).size(1, 1).immuneToFire().build("")
-						.setRegistryName(Phi.modId, MarkerEntity.id));
+						.setRegistryName(Phi.modId, MarkerEntity.id),
+				EntityType.Builder.create((EntityType.IFactory<CircleFormEntity>) CircleFormEntity::new, MISC)
+						.setTrackingRange(256).setUpdateInterval(10).setShouldReceiveVelocityUpdates(false)
+						.size(3, 0.3f).immuneToFire().build("").setRegistryName(Phi.modId, CircleFormEntity.id));
 	}
 	
 }

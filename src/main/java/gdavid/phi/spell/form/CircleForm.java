@@ -1,11 +1,15 @@
 package gdavid.phi.spell.form;
 
 import gdavid.phi.Phi;
-import gdavid.phi.api.util.ContextHelper;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
+import gdavid.phi.entity.form.CircleFormEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import vazkii.psi.api.PsiAPI;
+import vazkii.psi.api.cad.EnumCADComponent;
+import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -24,7 +28,7 @@ public class CircleForm extends PieceTrick {
 	
 	public static final String loopingFlag = Phi.modId + ":looping";
 	
-	// SpellParam<Vector3> position;
+	SpellParam<Vector3> position;
 	
 	public CircleForm(Spell spell) {
 		super(spell);
@@ -32,7 +36,7 @@ public class CircleForm extends PieceTrick {
 	
 	@Override
 	public void initParams() {
-		// addParam(position = new ParamVector(SpellParam.GENERIC_NAME_POSITION, SpellParam.BLUE, false, false));
+		addParam(position = new ParamVector(SpellParam.GENERIC_NAME_POSITION, SpellParam.BLUE, false, false));
 	}
 	
 	@Override
@@ -40,8 +44,9 @@ public class CircleForm extends PieceTrick {
 		if (meta.getFlag(loopingFlag)) Errors.nestedLoop.compile();
 		meta.setFlag(loopingFlag, true);
 		meta.compoundStatMultiplier(EnumSpellStat.COST, 15);
-		meta.setStat(EnumSpellStat.COST, meta.getStat(EnumSpellStat.COST));
-		meta.setStatMultiplier(EnumSpellStat.COST, 1);
+		// TODO prevent hoisting
+		// meta.setStat(EnumSpellStat.COST, meta.getStat(EnumSpellStat.COST));
+		// meta.setStatMultiplier(EnumSpellStat.COST, 1);
 		super.addToMetadata(meta);
 	}
 	
@@ -55,14 +60,17 @@ public class CircleForm extends PieceTrick {
 			playerData.stopLoopcast();
 		}
 		if (context.focalPoint instanceof EntitySpellCircle) Errors.nestedLoop.runtime();
-		// Vector3 positionVal = ParamHelper.inRange(this, context, position);
-		for (int i = 1; i < 20; i++) {
-			SpellContext copy = ContextHelper.fork(context);
-			copy.loopcastIndex = i;
-			copy.delay = 5 * i;
-			PsiAPI.internalHandler.delayContext(copy);
+		Vector3 positionVal = ParamHelper.inRange(this, context, position);
+		if (context.focalPoint.getEntityWorld() instanceof ServerWorld) {
+			CircleFormEntity circle = new CircleFormEntity(context.focalPoint.getEntityWorld(), context);
+			ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
+			if (!cad.isEmpty()) {
+				circle.setColorizer(((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.DYE));
+			}
+			circle.setPositionAndRotation(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.rotationYaw, context.focalPoint.rotationPitch);
+			circle.getEntityWorld().addEntity(circle);
 		}
-		context.loopcastIndex = 0;
+		context.stopped = true;
 		return null;
 	}
 	

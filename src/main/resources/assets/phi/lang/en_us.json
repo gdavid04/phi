@@ -90,6 +90,12 @@
 	"phi.spellpiece.trick_set_time": "Trick: Set Time",
 	"phi.spellpiece.trick_set_time.desc": "Sets the internal time of a Magic Processing Unit",
 
+	"phi.spellpiece.trick_sleep_while": "Trick: Sleep While",
+	"phi.spellpiece.trick_sleep_while.desc": "Sleeps until either the duration expires or the condition is no longer within (-1, 1) exclusive. Frequency determines how often the condition is checked.",
+
+	"phi.spellpiece.form_circle": "Form: Circle",
+	"phi.spellpiece.form_circle.desc": "Turns the rest of the spell into a circle. Cannot be nested.",
+
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
 	"phi.spellpiece.selector_nearby_burning": "Selector: Nearby Burning",
