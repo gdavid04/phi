@@ -23,7 +23,10 @@ public class ModEntities {
 						.size(0.4f, 0.4f).immuneToFire().build("").setRegistryName(Phi.modId, PsiProjectileEntity.id),
 				EntityType.Builder.create((EntityType.IFactory<MarkerEntity>) MarkerEntity::new, MISC)
 						.setTrackingRange(256).setUpdateInterval(10).size(1, 1).immuneToFire().build("")
-						.setRegistryName(Phi.modId, MarkerEntity.id));
+						.setRegistryName(Phi.modId, MarkerEntity.id),
+				EntityType.Builder.create((EntityType.IFactory<SpiritEntity>) SpiritEntity::new, MISC)
+						.setTrackingRange(256).setUpdateInterval(10).size(0.8f, 0.8f).immuneToFire().build("")
+						.setRegistryName(Phi.modId, SpiritEntity.id));
 	}
 	
 }
