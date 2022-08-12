@@ -248,6 +248,9 @@
 	"item.phi.blood_converter": "Blood Converter",
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
+	"item.phi.spirit_summoning_talisman": "Spirit Summoning Talisman",
+	"item.phi.spirit_summoning_talisman.desc": "\u00a7aSpirit Summoning Talisman\u00a77: Right click to summon spirits. Spells can control summoned spirits regardless of distance.",
+
 	"block.phi.mpu": "Magic Processing Unit",
 	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",
 	"block.phi.vsu": "Vector Storage Unit",

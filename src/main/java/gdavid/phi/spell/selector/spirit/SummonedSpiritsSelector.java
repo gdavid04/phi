@@ -1,5 +1,12 @@
 package gdavid.phi.spell.selector.spirit;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import gdavid.phi.item.SpiritSummoningTalismanItem;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.server.ServerWorld;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -14,8 +21,14 @@ public class SummonedSpiritsSelector extends PieceSelector {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		// TODO
-		return EntityListWrapper.EMPTY;
+		if (!(context.caster.world instanceof ServerWorld)) return EntityListWrapper.EMPTY;
+		List<Entity> list = new ArrayList<>();
+		for (int i = 0; i < context.caster.inventory.getSizeInventory(); i++) {
+			ItemStack item = context.caster.inventory.getStackInSlot(i);
+			if (!(item.getItem() instanceof SpiritSummoningTalismanItem)) continue;
+			list.add(((SpiritSummoningTalismanItem) item.getItem()).getSpirit(item, (ServerWorld) context.caster.world));
+		}
+		return EntityListWrapper.make(list);
 	}
 	
 	@Override

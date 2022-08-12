@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IM",
+		"MI",
+		"IM"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"M": { "tag": "forge:ingots/psimetal" }
+	},
+	"result": {
+		"item": "phi:spirit_summoning_talisman"
+	}
+}
