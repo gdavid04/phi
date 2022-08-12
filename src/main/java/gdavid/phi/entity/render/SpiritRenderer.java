@@ -31,14 +31,15 @@ public class SpiritRenderer extends EntityRenderer<SpiritEntity> {
 			RenderType.State.getBuilder()
 					.texture(new RenderState.TextureState(new ResourceLocation(Phi.modId, "textures/entity/spirit.png"),
 							false, false))
-					.cull(new RenderState.CullState(false)).depthTest(new RenderState.DepthTestState("always", 519))
+					.cull(new RenderState.CullState(false))
 					.transparency(new RenderState.TransparencyState("lightning_transparency", () -> {
 						RenderSystem.enableBlend();
 						RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 					}, () -> {
 						RenderSystem.disableBlend();
 						RenderSystem.defaultBlendFunc();
-					})).lightmap(new RenderState.LightmapState(false)).build(true));
+					})).writeMask(new RenderState.WriteMaskState(true, false))
+					.lightmap(new RenderState.LightmapState(true)).build(true));
 	
 	public SpiritRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
