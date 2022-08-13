@@ -2,11 +2,14 @@ package gdavid.phi.spell.connector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+
+import gdavid.phi.Phi;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -27,6 +30,9 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamAny;
 
 public class InOutConnector extends SpellPiece implements IGenericRedirector {
+	
+	public static final ResourceLocation hintTexture = new ResourceLocation(Phi.modId,
+			"spell/connector_in_out_hint");
 	
 	public ParamAny from, bidir, to;
 	
@@ -56,6 +62,19 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+		if (!paramSides.get(bidir).isEnabled() && (!paramSides.get(from).isEnabled() || !paramSides.get(to).isEnabled())) {
+			RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, hintTexture);
+			IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
+			Matrix4f mat = ms.getLast().getMatrix();
+			buffer.pos(mat, 0, 16, 0).color(255, 255, 255, 255);
+			buffer.tex(0, 1).lightmap(light).endVertex();
+			buffer.pos(mat, 16, 16, 0).color(255, 255, 255, 255);
+			buffer.tex(1, 1).lightmap(light).endVertex();
+			buffer.pos(mat, 16, 0, 0).color(255, 255, 255, 255);
+			buffer.tex(1, 0).lightmap(light).endVertex();
+			buffer.pos(mat, 0, 0, 0).color(255, 255, 255, 255);
+			buffer.tex(0, 0).lightmap(light).endVertex();
+		}
 		drawLine(ms, buffers, light, paramSides.get(from), false,
 				ParamHelper.connectorColor(this, paramSides.get(from), SpellParam.GRAY));
 		drawLine(ms, buffers, light, paramSides.get(bidir), false,

@@ -29,6 +29,8 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	
 	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
 			"spell/connector_bidirectional_lines");
+	public static final ResourceLocation hintTexture = new ResourceLocation(Phi.modId,
+			"spell/connector_bidirectional_hint");
 	
 	ParamAny a, b;
 	
@@ -52,6 +54,19 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+		if (!paramSides.get(a).isEnabled() && !paramSides.get(b).isEnabled()) {
+			RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, hintTexture);
+			IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
+			Matrix4f mat = ms.getLast().getMatrix();
+			buffer.pos(mat, 0, 16, 0).color(255, 255, 255, 255);
+			buffer.tex(0, 1).lightmap(light).endVertex();
+			buffer.pos(mat, 16, 16, 0).color(255, 255, 255, 255);
+			buffer.tex(1, 1).lightmap(light).endVertex();
+			buffer.pos(mat, 16, 0, 0).color(255, 255, 255, 255);
+			buffer.tex(1, 0).lightmap(light).endVertex();
+			buffer.pos(mat, 0, 0, 0).color(255, 255, 255, 255);
+			buffer.tex(0, 0).lightmap(light).endVertex();
+		}
 		drawLine(ms, buffers, light, paramSides.get(a), false,
 				ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
 		drawLine(ms, buffers, light, paramSides.get(a), true,
