@@ -1,7 +1,6 @@
 package gdavid.phi.spell.trick.marker;
 
 import gdavid.phi.entity.MarkerEntity;
-import gdavid.phi.entity.SpiritEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
 import net.minecraft.entity.Entity;

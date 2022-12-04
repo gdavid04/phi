@@ -1,9 +1,8 @@
 package gdavid.phi.spell.selector.spirit;
 
+import gdavid.phi.item.SpiritSummoningTalismanItem;
 import java.util.ArrayList;
 import java.util.List;
-
-import gdavid.phi.item.SpiritSummoningTalismanItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
@@ -26,7 +25,8 @@ public class SummonedSpiritsSelector extends PieceSelector {
 		for (int i = 0; i < context.caster.inventory.getSizeInventory(); i++) {
 			ItemStack item = context.caster.inventory.getStackInSlot(i);
 			if (!(item.getItem() instanceof SpiritSummoningTalismanItem)) continue;
-			list.add(((SpiritSummoningTalismanItem) item.getItem()).getSpirit(item, (ServerWorld) context.caster.world));
+			list.add(
+					((SpiritSummoningTalismanItem) item.getItem()).getSpirit(item, (ServerWorld) context.caster.world));
 		}
 		return EntityListWrapper.make(list);
 	}

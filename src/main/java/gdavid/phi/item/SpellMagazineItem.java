@@ -42,7 +42,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public int bandwidth, sockets, vectors;
 	
 	public SpellMagazineItem(String id, int sockets, int bandwidth, int vectors) {
-		super(new Properties().maxStackSize(1).group(ItemGroup.MISC)); // TODO Phi creative tab
+		super(new Properties().maxStackSize(1).group(ItemGroup.MISC));
 		setRegistryName(id);
 		this.id = id;
 		this.bandwidth = bandwidth;

@@ -12,8 +12,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ShadowBlock extends AirBlock {
 	
-	// TODO allow waterlogging
-	
 	public static final String id = "shadow";
 	
 	public ShadowBlock() {

@@ -34,6 +34,8 @@ public class CADHolderTile extends TileEntity implements IProgramTransferTarget 
 	public ScanType scan = ScanType.none;
 	public long scanTime;
 	
+	// Consider adding per-side selected slots and adding magazine compat
+	
 	public CADHolderTile() {
 		super(type);
 	}

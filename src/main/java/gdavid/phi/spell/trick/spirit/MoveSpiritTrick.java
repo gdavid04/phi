@@ -47,8 +47,7 @@ public class MoveSpiritTrick extends PieceTrick {
 		Entity targetVal = context.focalPoint;
 		if (paramSides.get(target).isEnabled()) targetVal = getNonnullParamValue(context, target);
 		Vector3 position = ParamHelper.nonNull(this, context, direction).copy().normalize()
-				.multiply(getNonnullParamValue(context, distance).doubleValue())
-				.add(Vector3.fromEntity(targetVal));
+				.multiply(getNonnullParamValue(context, distance).doubleValue()).add(Vector3.fromEntity(targetVal));
 		if (!(targetVal instanceof SpiritEntity)
 				|| ((SpiritEntity) targetVal).getOwner() != context.caster.getUniqueID())
 			Errors.invalidTarget.runtime();

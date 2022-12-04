@@ -3,9 +3,7 @@ package gdavid.phi.item;
 import gdavid.phi.Phi;
 import gdavid.phi.entity.SpiritEntity;
 import gdavid.phi.util.RenderHelper;
-
 import java.util.List;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -37,7 +35,7 @@ public class SpiritSummoningTalismanItem extends Item {
 	static final String tagUuid = "uuid";
 	
 	public SpiritSummoningTalismanItem(String id) {
-		super(new Properties().maxStackSize(1).group(ItemGroup.MISC)); // TODO Phi creative tab
+		super(new Properties().maxStackSize(1).group(ItemGroup.MISC));
 		setRegistryName(id);
 		this.id = id;
 	}
@@ -106,7 +104,8 @@ public class SpiritSummoningTalismanItem extends Item {
 		}
 		if (!(world instanceof ServerWorld)) return;
 		SpiritEntity spirit = new SpiritEntity(world, player, (duration - 20) * 150);
-		Vector3d pos = player.getPositionVec().add(player.getLookVec().scale(1.5)).add(0, player.getEyeHeight() - 0.25, 0);
+		Vector3d pos = player.getPositionVec().add(player.getLookVec().scale(1.5)).add(0, player.getEyeHeight() - 0.25,
+				0);
 		spirit.setPosition(pos.x, pos.y, pos.z);
 		world.addEntity(spirit);
 		setSpirit(item, (ServerWorld) world, spirit);

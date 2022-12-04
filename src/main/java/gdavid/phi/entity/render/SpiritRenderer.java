@@ -6,7 +6,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import gdavid.phi.Phi;
 import gdavid.phi.entity.SpiritEntity;
-
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -62,9 +61,12 @@ public class SpiritRenderer extends EntityRenderer<SpiritEntity> {
 		ms.rotate(renderManager.getCameraOrientation());
 		ms.rotate(Vector3f.YP.rotationDegrees(180));
 		Matrix4f mat = ms.getLast().getMatrix();
-		buffer.pos(mat, -halfSize, +halfSize, 0).color(255, 255, 255, 255).tex(tx, 0.5f).lightmap(fullbright).endVertex();
-		buffer.pos(mat, +halfSize, +halfSize, 0).color(255, 255, 255, 255).tex(tx + 0.5f, 0.5f).lightmap(fullbright).endVertex();
-		buffer.pos(mat, +halfSize, -halfSize, 0).color(255, 255, 255, 255).tex(tx + 0.5f, 0).lightmap(fullbright).endVertex();
+		buffer.pos(mat, -halfSize, +halfSize, 0).color(255, 255, 255, 255).tex(tx, 0.5f).lightmap(fullbright)
+				.endVertex();
+		buffer.pos(mat, +halfSize, +halfSize, 0).color(255, 255, 255, 255).tex(tx + 0.5f, 0.5f).lightmap(fullbright)
+				.endVertex();
+		buffer.pos(mat, +halfSize, -halfSize, 0).color(255, 255, 255, 255).tex(tx + 0.5f, 0).lightmap(fullbright)
+				.endVertex();
 		buffer.pos(mat, -halfSize, -halfSize, 0).color(255, 255, 255, 255).tex(tx, 0).lightmap(fullbright).endVertex();
 		ms.pop();
 	}

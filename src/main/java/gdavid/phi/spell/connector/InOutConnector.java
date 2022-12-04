@@ -2,7 +2,6 @@ package gdavid.phi.spell.connector;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import gdavid.phi.Phi;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
@@ -31,8 +30,7 @@ import vazkii.psi.api.spell.param.ParamAny;
 
 public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	
-	public static final ResourceLocation hintTexture = new ResourceLocation(Phi.modId,
-			"spell/connector_in_out_hint");
+	public static final ResourceLocation hintTexture = new ResourceLocation(Phi.modId, "spell/connector_in_out_hint");
 	
 	public ParamAny from, bidir, to;
 	
@@ -62,7 +60,8 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		if (!paramSides.get(bidir).isEnabled() && (!paramSides.get(from).isEnabled() || !paramSides.get(to).isEnabled())) {
+		if (!paramSides.get(bidir).isEnabled()
+				&& (!paramSides.get(from).isEnabled() || !paramSides.get(to).isEnabled())) {
 			RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, hintTexture);
 			IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
 			Matrix4f mat = ms.getLast().getMatrix();

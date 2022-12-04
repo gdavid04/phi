@@ -69,7 +69,7 @@
 	"phi.spellpiece.trick_acceleration_towards_point.desc": "Constantly accelerates the targets towards the given point for the specified time",
 	"phi.spellpiece.trick_elastic_anchor": "Trick: Elastic Anchor",
 	"phi.spellpiece.trick_elastic_anchor.desc": "Pulls the targets towards their initial position when the trick was executed for the specified time",
-	
+
 	"phi.spellpiece.trick_move_spirit": "Trick: Move Spirit",
 	"phi.spellpiece.trick_move_spirit.desc": "Moves a spirit summoned by the caster. Not limited by range.",
 	"phi.spellpiece.trick_focus_spirit": "Trick: Focus Spirit",
@@ -99,7 +99,7 @@
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
 	"phi.spellpiece.selector_nearby_burning": "Selector: Nearby Burning",
 	"phi.spellpiece.selector_nearby_burning.desc": "Selects burning entities near the given position.",
-	
+
 	"phi.spellpiece.selector_nearby_spirits": "Selector: Nearby Spirits",
 	"phi.spellpiece.selector_nearby_spirits.desc": "Selects spirits near the given position.",
 	"phi.spellpiece.selector_summoned_spirits": "Selector: Summoned Spirits",

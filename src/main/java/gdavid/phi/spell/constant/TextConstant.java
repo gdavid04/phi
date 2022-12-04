@@ -36,8 +36,6 @@ public class TextConstant extends SpellPiece {
 		str = "";
 	}
 	
-	// TODO consider allowing 10 or 15 character long constants
-	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("resource")

@@ -24,6 +24,8 @@ public class TextDisplayTile extends TileEntity implements ICableConnected {
 	
 	public List<String> text = new ArrayList<>();
 	
+	// TODO formatting code support
+	
 	public TextDisplayTile() {
 		super(type);
 	}
