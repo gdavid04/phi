@@ -32,9 +32,11 @@ public class SpiritRenderer extends EntityRenderer<SpiritEntity> {
 					.texture(new RenderState.TextureState(new ResourceLocation(Phi.modId, "textures/entity/spirit.png"),
 							false, false))
 					.cull(new RenderState.CullState(false))
-					.transparency(new RenderState.TransparencyState("lightning_transparency", () -> {
+					.transparency(new RenderState.TransparencyState("translucent_transparency", () -> {
 						RenderSystem.enableBlend();
-						RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+						RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+								GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+								GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 					}, () -> {
 						RenderSystem.disableBlend();
 						RenderSystem.defaultBlendFunc();
