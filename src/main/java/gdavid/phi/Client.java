@@ -9,9 +9,11 @@ import gdavid.phi.block.tile.render.TextDisplayTileRenderer;
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.entity.PsiProjectileEntity;
 import gdavid.phi.entity.PsionWaveEntity;
+import gdavid.phi.entity.SpiritEntity;
 import gdavid.phi.entity.render.MarkerRenderer;
 import gdavid.phi.entity.render.PsiProjectileRenderer;
 import gdavid.phi.entity.render.PsionWaveRenderer;
+import gdavid.phi.entity.render.SpiritRenderer;
 import gdavid.phi.spell.connector.BidirectionalConnector;
 import gdavid.phi.spell.connector.BridgeConnector;
 import gdavid.phi.spell.connector.InOutConnector;
@@ -41,6 +43,7 @@ public class Client {
 		RenderingRegistry.registerEntityRenderingHandler(PsionWaveEntity.type, PsionWaveRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(PsiProjectileEntity.type, PsiProjectileRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(MarkerEntity.type, MarkerRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(SpiritEntity.type, SpiritRenderer::new);
 		
 		ClientRegistry.bindTileEntityRenderer(MPUTile.type, MPUTileRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(CADHolderTile.type, CADHolderTileRenderer::new);

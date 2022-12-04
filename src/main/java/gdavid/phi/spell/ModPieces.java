@@ -56,6 +56,8 @@ import gdavid.phi.spell.selector.SpellNameSelector;
 import gdavid.phi.spell.selector.mpu.NearbySpeechSelector;
 import gdavid.phi.spell.selector.mpu.ReadTextStorageSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
+import gdavid.phi.spell.selector.spirit.NearbySpiritsSelector;
+import gdavid.phi.spell.selector.spirit.SummonedSpiritsSelector;
 import gdavid.phi.spell.trick.PsionWaveTrick;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.spell.trick.ShadowSequenceTrick;
@@ -78,6 +80,9 @@ import gdavid.phi.spell.trick.mpu.SetTimeTrick;
 import gdavid.phi.spell.trick.mpu.WriteTextDisplayTrick;
 import gdavid.phi.spell.trick.mpu.WriteTextStorageTrick;
 import gdavid.phi.spell.trick.mpu.WriteVectorStorageTrick;
+import gdavid.phi.spell.trick.spirit.DefocusSpiritTrick;
+import gdavid.phi.spell.trick.spirit.FocusSpiritTrick;
+import gdavid.phi.spell.trick.spirit.MoveSpiritTrick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -117,6 +122,10 @@ public class ModPieces {
 		register("trick_acceleration_towards_point", AccelerationTowardsPointTrick.class, "movement", false);
 		register("trick_elastic_anchor", ElasticAnchorTrick.class, "movement", false);
 		
+		register("trick_move_spirit", MoveSpiritTrick.class, Groups.psionManipulation, false);
+		register("trick_focus_spirit", FocusSpiritTrick.class, Groups.psionManipulation, false);
+		register("trick_defocus_spirit", DefocusSpiritTrick.class, Groups.psionManipulation, false);
+		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
 		
@@ -129,6 +138,9 @@ public class ModPieces {
 		
 		register("selector_nearby_markers", NearbyMarkersSelector.class, Groups.opticalMagic, false);
 		register("selector_nearby_burning", NearbyBurningSelector.class, "entities_intro", false);
+		
+		register("selector_nearby_spirits", NearbySpiritsSelector.class, Groups.psionManipulation, false);
+		register("selector_summoned_spirits", SummonedSpiritsSelector.class, Groups.psionManipulation, false);
 		
 		register("selector_saved_vector_component", SavedVectorComponentSelector.class, Groups.dataFlow, false);
 		register("selector_read_vector_storage", ReadVectorStorageSelector.class, Groups.dataFlow, false);
