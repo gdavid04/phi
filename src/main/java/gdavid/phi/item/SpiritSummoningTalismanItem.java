@@ -55,6 +55,7 @@ public class SpiritSummoningTalismanItem extends Item {
 		return 20 * 7 + 1;
 	}
 	
+	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.BLOCK;
 	}
