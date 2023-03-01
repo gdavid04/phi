@@ -158,10 +158,14 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public void insertMag(ItemStack mag, ItemStack cad) {
 		if (!(cad.getItem() instanceof ICAD) || !ISocketable.isSocketable(cad)) return;
 		ICAD cadItem = (ICAD) cad.getItem();
+		ISocketable socket = ISocketable.socketable(cad);
+		// clear extra slots to prevent duping when swapping to a smaller magazine
+		for (int i = sockets; i < ISocketable.MAX_ASSEMBLER_SLOTS; i++) {
+			socket.setBulletInSocket(i, ItemStack.EMPTY);
+		}
 		// set component to change stats and allow safe writing of socket data to the
 		// CAD
 		cadItem.setCADComponent(cad, mag);
-		ISocketable socket = ISocketable.socketable(cad);
 		ISocketable contents = ISocketable.socketable(mag);
 		for (int i = 0; i < sockets; i++) {
 			socket.setBulletInSocket(i, contents.getBulletInSocket(i));
