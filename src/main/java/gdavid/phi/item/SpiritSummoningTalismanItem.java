@@ -23,6 +23,8 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.PsiAPI;
+import vazkii.psi.api.cad.EnumCADComponent;
+import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.cad.ICADColorizer;
 import vazkii.psi.common.Psi;
 import vazkii.psi.common.core.handler.PlayerDataHandler;
@@ -82,7 +84,11 @@ public class SpiritSummoningTalismanItem extends Item {
 		if (world.isRemote) {
 			Vector3d pos = player.getPositionVec().add(player.getLookVec().scale(1.5)).add(0, player.getEyeHeight(), 0);
 			ItemStack cad = PsiAPI.getPlayerCAD((PlayerEntity) player);
-			int color = cad == null ? ICADColorizer.DEFAULT_SPELL_COLOR : Psi.proxy.getColorForCAD(cad);
+			int color = ICADColorizer.DEFAULT_SPELL_COLOR;
+			if (!cad.isEmpty()) {
+				ItemStack colorizer = ((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.DYE);
+				color = RenderHelper.getColorForColorizer(colorizer);
+			}
 			int r = RenderHelper.r(color);
 			int g = RenderHelper.g(color);
 			int b = RenderHelper.b(color);
