@@ -2,9 +2,11 @@ package gdavid.phi;
 
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.block.tile.SpellDisplayTile;
 import gdavid.phi.block.tile.TextDisplayTile;
 import gdavid.phi.block.tile.render.CADHolderTileRenderer;
 import gdavid.phi.block.tile.render.MPUTileRenderer;
+import gdavid.phi.block.tile.render.SpellDisplayTileRenderer;
 import gdavid.phi.block.tile.render.TextDisplayTileRenderer;
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.entity.PsiProjectileEntity;
@@ -48,6 +50,7 @@ public class Client {
 		ClientRegistry.bindTileEntityRenderer(MPUTile.type, MPUTileRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(CADHolderTile.type, CADHolderTileRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TextDisplayTile.type, TextDisplayTileRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(SpellDisplayTile.type, SpellDisplayTileRenderer::new);
 	}
 	
 	@SubscribeEvent

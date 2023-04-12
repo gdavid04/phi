@@ -4,6 +4,7 @@ import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.block.tile.SpellDisplayTile;
 import gdavid.phi.block.tile.SpellStorageTile;
 import gdavid.phi.block.tile.TextDisplayTile;
 import gdavid.phi.block.tile.TextSUTile;
@@ -31,13 +32,14 @@ public class ModBlocks {
 	public static final Block spellStorage = new SpellStorageBlock();
 	public static final Block textDisplay = new TextDisplayBlock();
 	public static final Block cable = new CableBlock();
+	public static final Block spellDisplay = new SpellDisplayBlock();
 	
 	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu",
 			PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable);
+		event.getRegistry().registerAll(shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay);
 	}
 	
 	@SubscribeEvent
@@ -56,7 +58,9 @@ public class ModBlocks {
 				new BlockItem(textDisplay, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
 						.setRegistryName(textDisplay.getRegistryName()),
 				new BlockItem(cable, new Item.Properties().group(ItemGroup.MISC))
-						.setRegistryName(cable.getRegistryName()));
+						.setRegistryName(cable.getRegistryName()),
+				new BlockItem(spellDisplay, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
+						.setRegistryName(spellDisplay.getRegistryName()));
 	}
 	
 	@SubscribeEvent
@@ -78,7 +82,9 @@ public class ModBlocks {
 						.create(TextDisplayTile::new, textDisplay).build(null)
 						.setRegistryName(textDisplay.getRegistryName()),
 				CableTile.type = (TileEntityType<CableTile>) TileEntityType.Builder.create(CableTile::new, cable)
-						.build(null).setRegistryName(cable.getRegistryName()));
+						.build(null).setRegistryName(cable.getRegistryName()),
+				SpellDisplayTile.type = (TileEntityType<SpellDisplayTile>) TileEntityType.Builder.create(SpellDisplayTile::new, spellDisplay)
+						.build(null).setRegistryName(spellDisplay.getRegistryName()));
 	}
 	
 	@SubscribeEvent

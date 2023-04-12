@@ -41,7 +41,9 @@ public class ProgramTransferMessage implements Message {
 			TileEntity b = player.world.getTileEntity(pos.offset(dir));
 			Spell spell;
 			if (a instanceof TileProgrammer) {
-				spell = ((TileProgrammer) a).spell.copy();
+				Spell tmp = ((TileProgrammer) a).spell;
+				if (tmp != null) spell = tmp.copy();
+				else spell = null;
 			} else if (a instanceof IProgramTransferTarget) {
 				spell = ((IProgramTransferTarget) a).getSpell();
 			} else return;

@@ -265,6 +265,8 @@
 	"block.phi.text_display.desc": "\u00a7aText Display\u00a77: A block that displays text and can be written to by adjacent machines or via data cables",
 	"block.phi.cable": "Data Cable",
 	"block.phi.cable.desc": "\u00a7aData Cable\u00a77: Connects machines",
+	"block.phi.spell_display": "Spell Display",
+	"block.phi.spell_display.desc": "\u00a7aSpell Display\u00a77: A block that displays a spell\nRight click with a spell container to copy the spell\nChange spell with an adjacent spell programmer",
 
 	"phi.program_transfer.write": "\u00a7cWrite To Spell Container",
 	"phi.program_transfer.read": "\u00a79Read From Spell Container",
