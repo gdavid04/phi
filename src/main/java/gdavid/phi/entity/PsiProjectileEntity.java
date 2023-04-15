@@ -1,7 +1,7 @@
 package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
-import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.util.IPsiAcceptor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
@@ -133,8 +133,8 @@ public class PsiProjectileEntity extends ThrowableEntity {
 			}
 			if (hit.equals(dataManager.get(origin))) return;
 			TileEntity tile = world.getTileEntity(hit);
-			if (tile instanceof MPUTile) {
-				((MPUTile) tile).addPsi(dataManager.get(psi));
+			if (tile instanceof IPsiAcceptor) {
+				((IPsiAcceptor) tile).addPsi(dataManager.get(psi));
 			}
 		}
 		remove();

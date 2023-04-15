@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"facing=north": { "model": "phi:block/infusion_laser", "x": 90 },
+		"facing=south": { "model": "phi:block/infusion_laser", "x": 90, "y": 180 },
+		"facing=west": { "model": "phi:block/infusion_laser", "x": 90, "y": 270 },
+		"facing=east": { "model": "phi:block/infusion_laser", "x": 90, "y": 90 },
+		"facing=up": { "model": "phi:block/infusion_laser" },
+		"facing=down": { "model": "phi:block/infusion_laser", "x": 180 }
+	}
+}

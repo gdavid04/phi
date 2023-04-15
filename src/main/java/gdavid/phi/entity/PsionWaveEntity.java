@@ -1,9 +1,7 @@
 package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
-import gdavid.phi.block.tile.MPUTile;
-import java.util.Optional;
-import java.util.UUID;
+import gdavid.phi.util.IWaveImpacted;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,6 +25,9 @@ import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.internal.IPlayerData;
 import vazkii.psi.api.spell.ISpellImmune;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 	
@@ -171,8 +172,8 @@ public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 			remove();
 		} else if (result instanceof BlockRayTraceResult) {
 			TileEntity tile = world.getTileEntity(((BlockRayTraceResult) result).getPos());
-			if (tile instanceof MPUTile) {
-				((MPUTile) tile).waveImpact(dataManager.get(frequency), focus);
+			if (tile instanceof IWaveImpacted) {
+				((IWaveImpacted) tile).waveImpact(dataManager.get(frequency), focus);
 				remove();
 			}
 		}
