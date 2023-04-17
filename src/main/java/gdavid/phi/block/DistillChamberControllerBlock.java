@@ -1,7 +1,7 @@
 package gdavid.phi.block;
 
 import gdavid.phi.Phi;
-import gdavid.phi.block.tile.InfusionLaserTile;
+import gdavid.phi.block.tile.DistillChamberControllerTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
@@ -21,21 +21,22 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
-public class InfusionLaserBlock extends DirectionalBlock {
+public class DistillChamberControllerBlock extends DirectionalBlock {
 	
-	public static final String id = "infusion_laser";
+	public static final String id = "distill_chamber_controller";
 	
-	public InfusionLaserBlock() {
-		super(Properties.create(Material.IRON).hardnessAndResistance(5, 10).sound(SoundType.METAL).notSolid());
+	public DistillChamberControllerBlock() {
+		super(Properties.create(Material.IRON).hardnessAndResistance(5, 10).sound(SoundType.METAL));
 		setRegistryName(id);
 		setDefaultState(getStateContainer().getBaseState().with(FACING, Direction.NORTH));
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, IBlockReader world, List<ITextComponent> tooltip,
+	public void addInformation(
+			ItemStack stack, IBlockReader world, List<ITextComponent> tooltip,
 			ITooltipFlag advanced) {
-		tooltip.add(new TranslationTextComponent("block." + Phi.modId + "." + id + ".desc"));
+		tooltip.add(new TranslationTextComponent("block." + Phi.modId + ".vsu.desc"));
 	}
 	
 	@Override
@@ -50,7 +51,7 @@ public class InfusionLaserBlock extends DirectionalBlock {
 	
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new InfusionLaserTile();
+		return new DistillChamberControllerTile();
 	}
 	
 	@Override

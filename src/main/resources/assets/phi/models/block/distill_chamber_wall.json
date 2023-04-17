@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "phi:block/distill_chamber_wall"
+	}
+}
