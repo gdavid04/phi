@@ -109,7 +109,7 @@ public class SpellDisplayBlock extends DirectionalBlock {
 	
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return getDefaultState().with(FACING, context.getFace());
+		return getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
 	}
 	
 	@Override
