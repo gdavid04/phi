@@ -36,7 +36,7 @@ public class DistillChamberControllerBlock extends DirectionalBlock {
 	public void addInformation(
 			ItemStack stack, IBlockReader world, List<ITextComponent> tooltip,
 			ITooltipFlag advanced) {
-		tooltip.add(new TranslationTextComponent("block." + Phi.modId + ".vsu.desc"));
+		tooltip.add(new TranslationTextComponent("block." + Phi.modId + "." + id + ".desc"));
 	}
 	
 	@Override

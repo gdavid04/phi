@@ -5,6 +5,7 @@ import gdavid.phi.block.DistillChamberWallBlock;
 import gdavid.phi.entity.PsiProjectileEntity;
 import javafx.util.Pair;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -13,10 +14,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.util.Constants;
-import vazkii.psi.common.item.base.ModItems;
+import vazkii.psi.common.lib.ModTags;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,8 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 	public static final String tagItem = "item";
 	public static final String tagValue = "value";
 	public static final String tagPsi = "psi";
+	
+	private static final int storagePerBlock = 4;
 	
 	private List<Pair<ItemStack, Integer>> fuel = new ArrayList<>();
 	private int psi = 0;
@@ -50,6 +54,18 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 			world.addEntity(projectile);
 			psi = 0;
 			markDirty();
+		}
+		if (fuel.size() < size * storagePerBlock) {
+			ItemEntity item = getFuelItem();
+			System.out.println(item);
+			if (item != null) {
+				ItemStack stack = item.getItem();
+				ItemStack fuelStack = stack.split(1);
+				fuel.add(new Pair<>(fuelStack, getValue(fuelStack)));
+				if (stack.isEmpty()) item.remove();
+				else item.setItem(stack);
+				markDirty();
+			}
 		}
 	}
 	
@@ -74,8 +90,14 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 		if (changed) markDirty();
 	}
 	
+	private ItemEntity getFuelItem() {
+		AxisAlignedBB aabb = AxisAlignedBB.withSizeAtOrigin(1, 1, 1).offset(Vector3d.copyCentered(pos.offset(getBlockState().get(DistillChamberControllerBlock.FACING))));
+		List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, aabb);
+		return items.stream().filter(item -> item.getItem().getItem().isIn(ModTags.PSIDUST)).findAny().orElse(null);
+	}
+	
 	private int getValue(ItemStack stack) {
-		if (stack.getItem() == ModItems.psidust) return 625;
+		if (stack.getItem().isIn(ModTags.PSIDUST)) return 625;
 		return 0;
 	}
 	
@@ -93,13 +115,8 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 			if (edgePos == null) edgePos = pos.offset(side, i * side.getAxisDirection().getOffset());
 		}
 		int depth = findEdge(edgePos, dir); // determine depth at an edge
-		if (dir.getAxisDirection() == Direction.AxisDirection.POSITIVE) {
-			edges.put(dir, dir.getAxis().getCoordinate(pos.getX(), pos.getY(), pos.getZ()) + depth);
-			edges.put(dir.getOpposite(), dir.getAxis().getCoordinate(pos.getX(), pos.getY(), pos.getZ()));
-		} else {
-			edges.put(dir, dir.getAxis().getCoordinate(pos.getX(), pos.getY(), pos.getZ()));
-			edges.put(dir.getOpposite(), dir.getAxis().getCoordinate(pos.getX(), pos.getY(), pos.getZ()) - depth);
-		}
+		edges.put(dir, dir.getAxis().getCoordinate(pos.getX(), pos.getY(), pos.getZ()) + depth * dir.getAxisDirection().getOffset());
+		edges.put(dir.getOpposite(), dir.getAxis().getCoordinate(pos.getX(), pos.getY(), pos.getZ()));
 		int x1 = edges.get(Direction.getFacingFromAxis(Direction.AxisDirection.NEGATIVE, Axis.X));
 		int y1 = edges.get(Direction.getFacingFromAxis(Direction.AxisDirection.NEGATIVE, Axis.Y));
 		int z1 = edges.get(Direction.getFacingFromAxis(Direction.AxisDirection.NEGATIVE, Axis.Z));
