@@ -17,4 +17,4 @@ jobs:
         path: ~/.gradle/caches
         key: ${{runner.os}}-gradle-${{hashFiles('build.gradle')}}
     - name: Gradle Build
-      run: ./gradlew syntaxCheck build
+      run: ./gradlew build

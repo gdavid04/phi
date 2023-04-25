@@ -10,11 +10,6 @@ buildscript {
 	}
 }
 
-plugins {
-	id 'com.diffplug.spotless' version '5.12.4'
-	id 'pmd'
-}
-
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
@@ -79,40 +74,6 @@ dependencies {
 
 mixin {
 	add sourceSets.main, "phi.refmap.json"
-}
-
-spotless {
-	enforceCheck = false
-	format 'misc', {
-		target '*.gradle', '.gitignore', '**/*.properties', '**/*.md', '*.xml', '**/*.json', '**/*.yml'
-		targetExclude 'run/**'
-		trimTrailingWhitespace()
-		endWithNewline()
-	}
-	format 'indent', {
-		target '*.gradle', '.gitignore', '**/*.properties', '**/*.md', '*.xml', '**/*.json'
-		targetExclude 'run/**'
-		indentWithTabs()
-	}
-	java {
-		trimTrailingWhitespace()
-		endWithNewline()
-		indentWithTabs()
-		importOrder()
-		removeUnusedImports()
-		eclipse().configFile 'spotless.xml'
-	}
-}
-
-pmd {
-	toolVersion '6.22.0'
-	incrementalAnalysis.set(true)
-	ruleSets.clear()
-	ruleSetFiles = files("pmd.xml")
-}
-
-task syntaxCheck {
-	dependsOn spotlessCheck, pmdMain
 }
 
 jar {

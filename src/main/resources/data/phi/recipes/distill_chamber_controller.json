@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IHI",
+		"EGE",
+		"EWE"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"G": { "tag": "forge:gems/psigem" },
+		"E": { "item": "phi:psionic_dust" },
+		"H": { "item": "minecraft:hopper" },
+		"W": { "item": "phi:distill_chamber_wall" }
+	},
+	"result": {
+		"item": "phi:distill_chamber_controller"
+	}
+}

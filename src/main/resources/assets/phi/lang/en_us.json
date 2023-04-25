@@ -276,6 +276,9 @@
 	"block.phi.psimetal_crusher": "Psimetal Crusher",
 	"block.phi.psimetal_crusher.desc": "\u00a7aPsimetal Crusher\u00a77: A block that crushes psimetal into psidust\nPlace psimetal ingots under the crusher to crush them",
 	
+	"block.phi.psionic_dust_ore": "Psionic Dust Ore",
+	"item.phi.psionic_dust": "Psionic Dust",
+	
 	"phi.program_transfer.write": "\u00a7cWrite To Spell Container",
 	"phi.program_transfer.read": "\u00a79Read From Spell Container",
 	"phi.program_transfer.select_slot": "\u00a7aChange Selected Slot"

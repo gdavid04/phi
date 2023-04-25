@@ -1,6 +1,8 @@
 package gdavid.phi.item;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Rarity;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -26,6 +28,8 @@ public class ModItems {
 				new BloodConverterItem("blood_converter", 0.5f),
 				
 				new SpiritSummoningTalismanItem("spirit_summoning_talisman"),
+				
+				new Item(new Item.Properties().group(ItemGroup.MISC).rarity(Rarity.EPIC)).setRegistryName("psionic_dust"),
 				
 				MPUCAD.instance);
 	}

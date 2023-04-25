@@ -2,13 +2,14 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.*;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.village.PointOfInterestType;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -30,13 +31,15 @@ public class ModBlocks {
 	public static final Block distillChamberWall = new DistillChamberWallBlock();
 	public static final Block distillChamberController = new DistillChamberControllerBlock();
 	public static final Block psimetalCrusher = new PsimetalCrusherBlock();
+	public static final Block psionicDustOre = new Block(AbstractBlock.Properties.create(Material.ROCK, MaterialColor.SAND).setRequiresTool().harvestLevel(ItemTier.NETHERITE.getHarvestLevel()).harvestTool(
+			ToolType.PICKAXE).hardnessAndResistance(3.0F, 9.0F)).setRegistryName("psionic_dust_ore");
 	
 	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu",
 			PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay, infusionLaser, distillChamberWall, distillChamberController, psimetalCrusher);
+		event.getRegistry().registerAll(shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay, infusionLaser, distillChamberWall, distillChamberController, psimetalCrusher, psionicDustOre);
 	}
 	
 	@SubscribeEvent
@@ -65,7 +68,9 @@ public class ModBlocks {
 				new BlockItem(distillChamberController, new Item.Properties().rarity(Rarity.EPIC).group(ItemGroup.MISC))
 						.setRegistryName(distillChamberController.getRegistryName()),
 				new BlockItem(psimetalCrusher, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(psimetalCrusher.getRegistryName()));
+						.setRegistryName(psimetalCrusher.getRegistryName()),
+				new BlockItem(psionicDustOre, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS))
+						.setRegistryName(psionicDustOre.getRegistryName()));
 	}
 	
 	@SubscribeEvent
