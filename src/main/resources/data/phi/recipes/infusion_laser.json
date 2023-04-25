@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"EME",
+		"EGE",
+		"IEI"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"G": { "tag": "forge:gems/psigem" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"E": { "tag": "forge:ingots/ebony_psimetal" }
+	},
+	"result": {
+		"item": "phi:infusion_laser"
+	}
+}
