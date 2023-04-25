@@ -267,7 +267,15 @@
 	"block.phi.cable.desc": "\u00a7aData Cable\u00a77: Connects machines",
 	"block.phi.spell_display": "Spell Display",
 	"block.phi.spell_display.desc": "\u00a7aSpell Display\u00a77: A block that displays a spell\nRight click with a spell container to copy the spell\nChange spell with an adjacent spell programmer",
-
+	"block.phi.infusion_laser": "Psionic Infusion Laser",
+	"block.phi.infusion_laser.desc": "\u00a7aInfusion Laser\u00a77: A psionic laser that can be used to automate infusing items with psi\nFires automatically when sufficiently charged\nEquivalent to Trick: Infusion in terms of power",
+	"block.phi.distill_chamber_wall": "Psion Distillation Chamber Wall",
+	"block.phi.distill_chamber_wall.desc": "\u00a7aPsion Distillation Chamber Wall\u00a77: Walls of a psion distillation chamber\nBuild a 3x3x3-5x5x5 hollow cuboid from these with a Psion Distillation Chamber Controller on one side",
+	"block.phi.distill_chamber_controller": "Psion Distillation Chamber Controller",
+	"block.phi.distill_chamber_controller.desc": "\u00a7aPsion Distillation Chamber Controller\u00a77: A controller for a psion distillation chamber\nUse with Psion Distillation Chamber Walls to create a psion distillation chamber\nInpput psi infused items to extract psi",
+	"block.phi.psimetal_crusher": "Psimetal Crusher",
+	"block.phi.psimetal_crusher.desc": "\u00a7aPsimetal Crusher\u00a77: A block that crushes psimetal into psidust\nPlace psimetal ingots under the crusher to crush them",
+	
 	"phi.program_transfer.write": "\u00a7cWrite To Spell Container",
 	"phi.program_transfer.read": "\u00a79Read From Spell Container",
 	"phi.program_transfer.select_slot": "\u00a7aChange Selected Slot"

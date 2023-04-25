@@ -3,7 +3,7 @@ package gdavid.phi.block.tile.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import gdavid.phi.block.SpellDisplayBlock;
+import gdavid.phi.block.InfusionLaserBlock;
 import gdavid.phi.block.tile.SpellDisplayTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -34,7 +34,7 @@ public class SpellDisplayTileRenderer extends TileEntityRenderer<SpellDisplayTil
 			int overlay) {
 		ms.push();
 		ms.translate(0.5f, 0.5f, 0.5f);
-		Direction dir = tile.getBlockState().get(SpellDisplayBlock.FACING);
+		Direction dir = tile.getBlockState().get(InfusionLaserBlock.FACING);
 		if (dir.getAxis() == Axis.Y) {
 			Quaternion look = renderDispatcher.renderInfo.getRotation();
 			Quaternion faceCamera = new Quaternion(0, look.getY(), 0, look.getW());

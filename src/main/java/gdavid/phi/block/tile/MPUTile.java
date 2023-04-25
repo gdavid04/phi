@@ -9,6 +9,8 @@ import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
 import gdavid.phi.util.IProgramTransferTarget;
+import gdavid.phi.util.IPsiAcceptor;
+import gdavid.phi.util.IWaveImpacted;
 import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -44,7 +46,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected, IProgramTransferTarget {
+public class MPUTile extends TileEntity implements ITickableTileEntity, ICableConnected, IProgramTransferTarget, IWaveImpacted, IPsiAcceptor {
 	
 	public static TileEntityType<MPUTile> type;
 	
@@ -110,6 +112,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
 	}
 	
+	@Override
 	public void addPsi(int amount) {
 		if (amount == 0) return;
 		psi = Math.max(0, Math.min(getPsiCapacity(), psi + amount));
@@ -126,6 +129,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity, ICableCo
 		markDirty();
 	}
 	
+	@Override
 	public void waveImpact(Float frequency, float focus) {
 		addPsi(-Math.round(frequency * focus * 4));
 		castDelay = Math.round(frequency * focus * 4);

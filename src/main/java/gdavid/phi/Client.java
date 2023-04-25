@@ -1,13 +1,7 @@
 package gdavid.phi;
 
-import gdavid.phi.block.tile.CADHolderTile;
-import gdavid.phi.block.tile.MPUTile;
-import gdavid.phi.block.tile.SpellDisplayTile;
-import gdavid.phi.block.tile.TextDisplayTile;
-import gdavid.phi.block.tile.render.CADHolderTileRenderer;
-import gdavid.phi.block.tile.render.MPUTileRenderer;
-import gdavid.phi.block.tile.render.SpellDisplayTileRenderer;
-import gdavid.phi.block.tile.render.TextDisplayTileRenderer;
+import gdavid.phi.block.tile.*;
+import gdavid.phi.block.tile.render.*;
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.entity.PsiProjectileEntity;
 import gdavid.phi.entity.PsionWaveEntity;
@@ -27,6 +21,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -51,6 +47,7 @@ public class Client {
 		ClientRegistry.bindTileEntityRenderer(CADHolderTile.type, CADHolderTileRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TextDisplayTile.type, TextDisplayTileRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(SpellDisplayTile.type, SpellDisplayTileRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(PsimetalCrusherTile.type, PsimetalCrusherTileRenderer::new);
 	}
 	
 	@SubscribeEvent
@@ -71,6 +68,11 @@ public class Client {
 				BridgeConnector.lineTexture);
 		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "connector_in_out_hint"),
 				InOutConnector.hintTexture);
+	}
+	
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		ModelLoader.addSpecialModel(PsimetalCrusherTileRenderer.modelLoc);
 	}
 	
 }

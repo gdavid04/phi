@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"facing=north": { "model": "phi:block/distill_chamber_controller", "x": 90 },
+		"facing=south": { "model": "phi:block/distill_chamber_controller", "x": 90, "y": 180 },
+		"facing=west": { "model": "phi:block/distill_chamber_controller", "x": 90, "y": 270 },
+		"facing=east": { "model": "phi:block/distill_chamber_controller", "x": 90, "y": 90 },
+		"facing=up": { "model": "phi:block/distill_chamber_controller" },
+		"facing=down": { "model": "phi:block/distill_chamber_controller", "x": 180 }
+	}
+}
