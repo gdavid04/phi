@@ -3,7 +3,7 @@ package gdavid.phi.block.tile;
 import gdavid.phi.block.DistillChamberControllerBlock;
 import gdavid.phi.block.DistillChamberWallBlock;
 import gdavid.phi.entity.PsiProjectileEntity;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -61,7 +61,7 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 			if (item != null) {
 				ItemStack stack = item.getItem();
 				ItemStack fuelStack = stack.split(1);
-				fuel.add(new Pair<>(fuelStack, getValue(fuelStack)));
+				fuel.add(Pair.of(fuelStack, getValue(fuelStack)));
 				if (stack.isEmpty()) item.remove();
 				else item.setItem(stack);
 				markDirty();
@@ -76,12 +76,12 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 			ItemStack stack = fuel.get(i).getKey();
 			int value = fuel.get(i).getValue();
 			amount++;
-			if (value > 1) fuel.set(i, new Pair<>(stack, value - 1));
+			if (value > 1) fuel.set(i, Pair.of(stack, value - 1));
 			else {
 				if (stack.isEmpty()) fuel.remove(i--);
 				else {
 					stack.shrink(1);
-					fuel.set(i, new Pair<>(stack, getValue(stack)));
+					fuel.set(i, Pair.of(stack, getValue(stack)));
 				}
 			}
 			changed = true;
@@ -160,7 +160,7 @@ public class DistillChamberControllerTile extends TileEntity implements ITickabl
 		this.fuel.clear();
 		for (int i = 0; i < fuel.size(); i++) {
 			CompoundNBT item = fuel.getCompound(i);
-			this.fuel.add(new Pair<>(ItemStack.read(item.getCompound(tagItem)), item.getInt(tagValue)));
+			this.fuel.add(Pair.of(ItemStack.read(item.getCompound(tagItem)), item.getInt(tagValue)));
 		}
 		psi = nbt.getInt(tagPsi);
 	}
