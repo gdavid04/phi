@@ -10,6 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.vector.Vector3d;
+import vazkii.psi.api.cad.ICADColorizer;
+import vazkii.psi.common.Psi;
 import vazkii.psi.common.item.base.ModItems;
 import vazkii.psi.common.lib.ModTags;
 
@@ -47,9 +49,20 @@ public class PsimetalCrusherTile extends TileEntity implements ITickableTileEnti
 				if (item != null) {
 					ItemStack stack = item.getItem();
 					ItemStack from = stack.split(1);
+					world.addEntity(new ItemEntity(world, item.getPosX(), item.getPosY() + item.getHeight() / 2, item.getPosZ(), getResult(from)));
 					if (stack.isEmpty()) item.remove();
 					else item.setItem(stack);
-					world.addEntity(new ItemEntity(world, item.getPosX(), item.getPosY(), item.getPosZ(), getResult(from)));
+					int color = ICADColorizer.DEFAULT_SPELL_COLOR;
+					float r = ((color >> 16) & 0xFF) / 255f;
+					float g = ((color >> 8) & 0xFF) / 255f;
+					float b = (color & 0xFF) / 255f;
+					for (int i = 0; i < 10; i++) {
+						Psi.proxy.sparkleFX(
+							item.getPosX(), item.getPosY(), item.getPosZ(), r, g, b,
+								(float) world.rand.nextGaussian() * 0.05f, (float) world.rand.nextGaussian() * 0.05f, (float) world.rand.nextGaussian() * 0.05f,
+							3.5f, 15
+						);
+					}
 				}
 			}
 		} else if (getItemUnder() != null) {
