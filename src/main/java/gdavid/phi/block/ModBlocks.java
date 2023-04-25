@@ -29,13 +29,14 @@ public class ModBlocks {
 	public static final Block infusionLaser = new InfusionLaserBlock();
 	public static final Block distillChamberWall = new DistillChamberWallBlock();
 	public static final Block distillChamberController = new DistillChamberControllerBlock();
+	public static final Block psimetalCrusher = new PsimetalCrusherBlock();
 	
 	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu",
 			PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
 	
 	@SubscribeEvent
 	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay, infusionLaser, distillChamberWall, distillChamberController);
+		event.getRegistry().registerAll(shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay, infusionLaser, distillChamberWall, distillChamberController, psimetalCrusher);
 	}
 	
 	@SubscribeEvent
@@ -62,7 +63,9 @@ public class ModBlocks {
 				new BlockItem(distillChamberWall, new Item.Properties().rarity(Rarity.EPIC).group(ItemGroup.MISC))
 						.setRegistryName(distillChamberWall.getRegistryName()),
 				new BlockItem(distillChamberController, new Item.Properties().rarity(Rarity.EPIC).group(ItemGroup.MISC))
-						.setRegistryName(distillChamberController.getRegistryName()));
+						.setRegistryName(distillChamberController.getRegistryName()),
+				new BlockItem(psimetalCrusher, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
+						.setRegistryName(psimetalCrusher.getRegistryName()));
 	}
 	
 	@SubscribeEvent
@@ -90,7 +93,9 @@ public class ModBlocks {
 				InfusionLaserTile.type = (TileEntityType<InfusionLaserTile>) TileEntityType.Builder.create(InfusionLaserTile::new, infusionLaser)
 						.build(null).setRegistryName(infusionLaser.getRegistryName()),
 				DistillChamberControllerTile.type = (TileEntityType<DistillChamberControllerTile>) TileEntityType.Builder.create(DistillChamberControllerTile::new, distillChamberController)
-						.build(null).setRegistryName(distillChamberController.getRegistryName()));
+						.build(null).setRegistryName(distillChamberController.getRegistryName()),
+				PsimetalCrusherTile.type = (TileEntityType<PsimetalCrusherTile>) TileEntityType.Builder.create(PsimetalCrusherTile::new, psimetalCrusher)
+						.build(null).setRegistryName(psimetalCrusher.getRegistryName()));
 	}
 	
 	@SubscribeEvent
