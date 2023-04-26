@@ -1,0 +1,13 @@
+{
+	"type": "psi:trick_crafting",
+	"input": {
+		"item": "minecraft:netherite_scrap"
+	},
+	"output": {
+		"item": "phi:psionized_netherite_plate"
+	},
+	"cad": {
+		"item": "psi:cad_assembly_psimetal"
+	},
+	"trick": "psi:trick_greater_infusion"
+}

@@ -30,6 +30,7 @@ public class ModItems {
 				new SpiritSummoningTalismanItem("spirit_summoning_talisman"),
 				
 				new Item(new Item.Properties().group(ItemGroup.MISC).rarity(Rarity.EPIC)).setRegistryName("psionic_dust"),
+				new Item(new Item.Properties().group(ItemGroup.MISC).rarity(Rarity.RARE)).setRegistryName("psionized_netherite_plate"),
 				
 				MPUCAD.instance);
 	}

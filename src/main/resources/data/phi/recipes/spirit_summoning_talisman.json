@@ -1,13 +1,13 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		"IM",
-		"MI",
-		"IM"
+		"NM",
+		"MN",
+		"NM"
 	],
 	"key": {
-		"I": { "tag": "forge:ingots/iron" },
-		"M": { "tag": "forge:ingots/psimetal" }
+		"M": { "tag": "forge:ingots/psimetal" },
+		"N": { "item": "phi:psionized_netherite_plate" }
 	},
 	"result": {
 		"item": "phi:spirit_summoning_talisman"
