@@ -94,6 +94,9 @@
 	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
 	"phi.spellpiece.trick_set_time": "Trick: Set Time",
 	"phi.spellpiece.trick_set_time.desc": "Sets the internal time of a Magic Processing Unit",
+	
+	"phi.spellpiece.trick_spin_item_chamber": "Trick: Spin Item Chamber",
+	"phi.spellpiece.trick_spin_item_chamber.desc": "Spins the chamber of an item. Negative slot numbers select equipment slots. Selects the next or previous bullet depending on the sign of direction or the given slot number.",
 
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",

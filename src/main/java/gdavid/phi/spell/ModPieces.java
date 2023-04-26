@@ -58,10 +58,7 @@ import gdavid.phi.spell.selector.mpu.ReadTextStorageSelector;
 import gdavid.phi.spell.selector.mpu.ReadVectorStorageSelector;
 import gdavid.phi.spell.selector.spirit.NearbySpiritsSelector;
 import gdavid.phi.spell.selector.spirit.SummonedSpiritsSelector;
-import gdavid.phi.spell.trick.PsionWaveTrick;
-import gdavid.phi.spell.trick.SaveVectorComponentTrick;
-import gdavid.phi.spell.trick.ShadowSequenceTrick;
-import gdavid.phi.spell.trick.ShadowTrick;
+import gdavid.phi.spell.trick.*;
 import gdavid.phi.spell.trick.acceleration.AccelerationTowardsPointTrick;
 import gdavid.phi.spell.trick.acceleration.AccelerationTrick;
 import gdavid.phi.spell.trick.acceleration.ElasticAnchorTrick;
@@ -128,6 +125,8 @@ public class ModPieces {
 		
 		register("trick_early_evaluate", EarlyEvaluateTrick.class, Groups.dataFlow, true);
 		register("trick_reevaluate", ReevaluateTrick.class, Groups.dataFlow, true);
+		
+		register("trick_spin_item_chamber", SpinItemChamberTrick.class, "misc_tricks", false);
 		
 		register("trick_save_vector_component", SaveVectorComponentTrick.class, Groups.dataFlow, false);
 		register("trick_write_vector_storage", WriteVectorStorageTrick.class, Groups.dataFlow, false);
