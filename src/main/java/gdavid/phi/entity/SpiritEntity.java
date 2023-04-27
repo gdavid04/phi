@@ -13,7 +13,9 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
+import vazkii.psi.api.cad.ICADColorizer;
 import vazkii.psi.api.spell.ISpellImmune;
+import vazkii.psi.common.Psi;
 
 public class SpiritEntity extends Entity implements ISpellImmune {
 	
@@ -66,6 +68,20 @@ public class SpiritEntity extends Entity implements ISpellImmune {
 	@Override
 	public void tick() {
 		super.tick();
+		if (world.isRemote && rand.nextFloat() < 0.1f) {
+			int color = ICADColorizer.DEFAULT_SPELL_COLOR;
+			float r = ((color >> 16) & 0xFF) / 255f;
+			float g = ((color >> 8) & 0xFF) / 255f;
+			float b = (color & 0xFF) / 255f;
+			Psi.proxy.wispFX(
+				world,
+				getPosX(), getPosY() + getHeight() / 2, getPosZ(),
+				r, g, b,
+				0.1f + rand.nextFloat() * 0.05f,
+				(float) rand.nextGaussian() * 0.0025f, (float) (rand.nextGaussian() * 0.0025f - 0.005f), (float) rand.nextGaussian() * 0.0025f,
+				2
+			);
+		}
 		if (!world.isRemote && time-- < 0) remove();
 	}
 	
