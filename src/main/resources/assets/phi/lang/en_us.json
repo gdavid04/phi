@@ -69,7 +69,9 @@
 	"phi.spellpiece.trick_acceleration_towards_point.desc": "Constantly accelerates the targets towards the given point for the specified time",
 	"phi.spellpiece.trick_elastic_anchor": "Trick: Elastic Anchor",
 	"phi.spellpiece.trick_elastic_anchor.desc": "Pulls the targets towards their initial position when the trick was executed for the specified time",
-
+	"phi.spellpiece.trick_place_dropped_block": "Trick: Place Dropped Block",
+	"phi.spellpiece.trick_place_dropped_block.desc": "Places a block from a dropped item",
+	
 	"phi.spellpiece.trick_move_spirit": "Trick: Move Spirit",
 	"phi.spellpiece.trick_move_spirit.desc": "Moves a spirit summoned by the caster. Not limited by range.",
 	"phi.spellpiece.trick_focus_spirit": "Trick: Focus Spirit",
