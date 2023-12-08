@@ -1,5 +1,6 @@
 package gdavid.phi.spell.selector;
 
+import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -9,6 +10,11 @@ public class SpellNameSelector extends PieceSelector {
 	
 	public SpellNameSelector(Spell spell) {
 		super(spell);
+	}
+	
+	@Override
+	public EnumPieceType getPieceType() {
+		return EnumPieceType.CONSTANT;
 	}
 	
 	@Override
