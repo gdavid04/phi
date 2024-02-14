@@ -7,11 +7,16 @@ import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.ISidedResult;
+import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
@@ -25,6 +30,11 @@ import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceOperator;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DivModOperator extends PieceOperator {
 	
@@ -41,8 +51,14 @@ public class DivModOperator extends PieceOperator {
 	public void initParams() {
 		addParam(a = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER1, SpellParam.RED, false, false));
 		addParam(b = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER2, SpellParam.GREEN, false, false));
-		addParam(div = new ReferenceParam(Param.div.name, SpellParam.RED, true, ArrowType.NONE));
-		addParam(mod = new ReferenceParam(Param.mod.name, SpellParam.GREEN, true, ArrowType.NONE));
+		addParam(div = new ReferenceParam(Param.div.name, SpellParam.RED, true, true, ArrowType.NONE));
+		addParam(mod = new ReferenceParam(Param.mod.name, SpellParam.GREEN, true, true, ArrowType.NONE));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
+		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	
 	@Override
