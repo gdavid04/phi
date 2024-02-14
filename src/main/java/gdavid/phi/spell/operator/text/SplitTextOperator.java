@@ -8,11 +8,16 @@ import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.spell.param.TextParam;
 import gdavid.phi.util.ISidedResult;
+import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
@@ -26,6 +31,8 @@ import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceOperator;
+
+import java.util.List;
 
 public class SplitTextOperator extends PieceOperator {
 	
@@ -44,8 +51,14 @@ public class SplitTextOperator extends PieceOperator {
 	public void initParams() {
 		addParam(text = new TextParam(Param.text.name, SpellParam.GRAY, false, false));
 		addParam(position = new ParamNumber(SpellParam.GENERIC_NAME_POSITION, SpellParam.BLUE, false, false));
-		addParam(before = new ReferenceParam(Param.before.name, SpellParam.RED, true, ArrowType.NONE));
-		addParam(after = new ReferenceParam(Param.after.name, SpellParam.GREEN, true, ArrowType.NONE));
+		addParam(before = new ReferenceParam(Param.before.name, SpellParam.RED, true, true, ArrowType.NONE));
+		addParam(after = new ReferenceParam(Param.after.name, SpellParam.GREEN, true, true, ArrowType.NONE));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
+		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	
 	@Override

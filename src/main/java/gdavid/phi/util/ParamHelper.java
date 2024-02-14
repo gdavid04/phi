@@ -64,11 +64,11 @@ public class ParamHelper {
 	@OnlyIn(Dist.CLIENT)
 	public static void outputTooltip(SpellPiece piece, Consumer<List<ITextComponent>> superFn, List<ITextComponent> tooltip) {
 		Map<SpellParam<?>, Side> paramSidesTmp = new HashMap<>(piece.paramSides);
-		piece.paramSides.entrySet().removeIf(e -> e instanceof ReferenceParam && ((ReferenceParam) e).isOutput);
+		piece.paramSides.keySet().removeIf(e -> e instanceof ReferenceParam && ((ReferenceParam) e).isOutput);
 		superFn.accept(tooltip);
 		piece.paramSides.putAll(paramSidesTmp);
 		for (SpellParam<?> param : piece.paramSides.keySet()) {
-			if (param instanceof ReferenceParam) {
+			if (param instanceof ReferenceParam && ((ReferenceParam) param).isOutput) {
 				ITextComponent name = new TranslationTextComponent(param.name).mergeStyle(TextFormatting.YELLOW);
 				ITextComponent type = new StringTextComponent(" [").append(param.getRequiredTypeString()).appendString("]").mergeStyle(TextFormatting.YELLOW);
 				tooltip.add((new StringTextComponent(param.canDisable ? "[Output] " : " Output  ")).append(name).append(type));

@@ -51,8 +51,14 @@ public class DivModOperator extends PieceOperator {
 	public void initParams() {
 		addParam(a = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER1, SpellParam.RED, false, false));
 		addParam(b = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER2, SpellParam.GREEN, false, false));
-		addParam(div = new ReferenceParam(Param.div.name, SpellParam.RED, true, ArrowType.NONE));
-		addParam(mod = new ReferenceParam(Param.mod.name, SpellParam.GREEN, true, ArrowType.NONE));
+		addParam(div = new ReferenceParam(Param.div.name, SpellParam.RED, true, true, ArrowType.NONE));
+		addParam(mod = new ReferenceParam(Param.mod.name, SpellParam.GREEN, true, true, ArrowType.NONE));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
+		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	
 	@Override
@@ -84,12 +90,6 @@ public class DivModOperator extends PieceOperator {
 		buffer.tex(maxU, minV).lightmap(light).endVertex();
 		buffer.pos(mat, 0, 0, 0).color(r, g, b, a);
 		buffer.tex(minU, minV).lightmap(light).endVertex();
-	}
-	
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
-		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	
 	@Override

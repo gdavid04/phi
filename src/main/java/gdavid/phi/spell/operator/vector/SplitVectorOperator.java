@@ -6,11 +6,16 @@ import gdavid.phi.Phi;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.ISidedResult;
+import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
@@ -28,6 +33,8 @@ import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamVector;
 
+import java.util.List;
+
 public class SplitVectorOperator extends SpellPiece {
 	
 	public static final ResourceLocation lineTexture = new ResourceLocation(Phi.modId,
@@ -43,9 +50,15 @@ public class SplitVectorOperator extends SpellPiece {
 	@Override
 	public void initParams() {
 		addParam(vector = new ParamVector(SpellParam.GENERIC_NAME_VECTOR, SpellParam.GRAY, false, false));
-		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true, ArrowType.NONE));
-		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true, ArrowType.NONE));
-		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true, ArrowType.NONE));
+		addParam(outX = new ReferenceParam(SpellParam.GENERIC_NAME_X, SpellParam.RED, true, true, ArrowType.NONE));
+		addParam(outY = new ReferenceParam(SpellParam.GENERIC_NAME_Y, SpellParam.GREEN, true, true, ArrowType.NONE));
+		addParam(outZ = new ReferenceParam(SpellParam.GENERIC_NAME_Z, SpellParam.BLUE, true, true, ArrowType.NONE));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
+		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	
 	@Override
