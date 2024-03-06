@@ -3,18 +3,19 @@ package gdavid.phi.block.tile;
 import gdavid.phi.block.InfusionLaserBlock;
 import gdavid.phi.util.IPsiAcceptor;
 import gdavid.phi.util.IWaveImpacted;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
+import net.minecraftforge.network.PacketDistributor;
 import vazkii.psi.api.cad.ICADColorizer;
 import vazkii.psi.api.recipe.ITrickRecipe;
 import vazkii.psi.api.spell.piece.PieceCraftingTrick;
@@ -26,17 +27,17 @@ import vazkii.psi.common.spell.trick.infusion.PieceTrickInfusion;
 import java.util.List;
 import java.util.Optional;
 
-public class InfusionLaserTile extends TileEntity implements IWaveImpacted, IPsiAcceptor {
+public class InfusionLaserTile extends BlockEntity implements IWaveImpacted, IPsiAcceptor {
 	
-	public static TileEntityType<InfusionLaserTile> type;
+	public static BlockEntityType<InfusionLaserTile> type;
 	
 	public static final String tagPsi = "psi";
 	public static final String tagCad = "cad";
 	
 	public int psi;
 	
-	public InfusionLaserTile() {
-		super(type);
+	public InfusionLaserTile(BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class InfusionLaserTile extends TileEntity implements IWaveImpacted, IPsi
 			infuse();
 			psi -= capacity;
 		}
-		markDirty();
+		setChanged();
 	}
 	
 	public int getPsiCapacity() {
@@ -57,31 +58,31 @@ public class InfusionLaserTile extends TileEntity implements IWaveImpacted, IPsi
 	
 	public void infuse() {
 		// Emulate CAD crafting but limited to 1 item per cast
-		if (world.isRemote) return;
-		Direction dir = getBlockState().get(InfusionLaserBlock.FACING);
-		Vector3d focus = Vector3d.copyCentered(pos.offset(dir));
-		List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, AxisAlignedBB.withSizeAtOrigin(1, 1, 1).offset(focus));
+		if (level.isClientSide) return;
+		Direction dir = getBlockState().getValue(InfusionLaserBlock.FACING);
+		Vec3 focus = Vec3.atCenterOf(worldPosition.relative(dir));
+		List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, AABB.ofSize(focus, 1, 1, 1));
 		RecipeWrapper wrapper = new RecipeWrapper(new ItemStackHandler(1));
 		PieceCraftingTrick piece = new PieceTrickInfusion(null);
 		for (ItemEntity item : items) {
 			ItemStack stack = item.getItem();
-			wrapper.setInventorySlotContents(0, stack);
-			Optional<ITrickRecipe> recipe = world.getRecipeManager().getRecipe(ModCraftingRecipes.TRICK_RECIPE_TYPE, wrapper, world)
+			wrapper.setItem(0, stack);
+			Optional<ITrickRecipe> recipe = level.getRecipeManager().getRecipeFor(ModCraftingRecipes.TRICK_RECIPE_TYPE, wrapper, level)
 					.filter(r -> r.getPiece() == null || r.getPiece().canCraft(piece));
 			if (recipe.isPresent()) {
 				MessageRegister.HANDLER.send(PacketDistributor.TRACKING_ENTITY.with(() -> item), new MessageVisualEffect(
-						ICADColorizer.DEFAULT_SPELL_COLOR, item.getPosX(), item.getPosY(), item.getPosZ(),
-						item.getWidth(), item.getHeight(), item.getYOffset(), MessageVisualEffect.TYPE_CRAFT
+						ICADColorizer.DEFAULT_SPELL_COLOR, item.getX(), item.getY(), item.getZ(),
+						item.getBbWidth(), item.getBbHeight(), item.getMyRidingOffset(), MessageVisualEffect.TYPE_CRAFT
 				));
 				stack.shrink(1);
-				if (stack.isEmpty()) item.remove();
+				if (stack.isEmpty()) item.discard();
 				else item.setItem(stack);
-				ItemStack result = recipe.get().getRecipeOutput().copy();
-				world.addEntity(new ItemEntity(world, item.getPosX(), item.getPosY(), item.getPosZ(), result));
+				ItemStack result = recipe.get().getResultItem().copy();
+				level.addFreshEntity(new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result));
 				return;
 			}
 		}
-		MessageRegister.HANDLER.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(pos)), new MessageVisualEffect(
+		MessageRegister.HANDLER.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new MessageVisualEffect(
 				ICADColorizer.DEFAULT_SPELL_COLOR, focus.x, focus.y, focus.z,
 				0.25f, 0.25f, 0, MessageVisualEffect.TYPE_CRAFT
 		));
@@ -93,18 +94,14 @@ public class InfusionLaserTile extends TileEntity implements IWaveImpacted, IPsi
 	}
 	
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		read(nbt);
-	}
-	
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		psi = nbt.getInt(tagPsi);
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		nbt = super.write(nbt);
+	public CompoundTag serializeNBT() {
+		var nbt = super.serializeNBT();
 		nbt.putInt(tagPsi, psi);
 		return nbt;
 	}

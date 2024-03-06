@@ -1,7 +1,7 @@
 package gdavid.phi.util;
 
 import gdavid.phi.Phi;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public enum RedstoneMode {
 	

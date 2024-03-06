@@ -8,24 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import javax.annotation.Nullable;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Direction.Plane;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Plane;
+import net.minecraft.core.BlockPos;
 
-public class CableTile extends TileEntity implements ICableSegment {
+public class CableTile extends BlockEntity implements ICableSegment {
 	
-	public static TileEntityType<CableTile> type;
+	public static BlockEntityType<CableTile> type;
 	
 	public static final String tagConnection = "connection";
 	
 	public @Nullable BlockPos connected = null;
 	
-	public CableTile() {
-		super(type);
+	public CableTile(BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 	
 	@Override
@@ -36,37 +36,37 @@ public class CableTile extends TileEntity implements ICableSegment {
 	@Override
 	public void setConnection(@Nullable BlockPos connection, Predicate<BlockPos> connected) {
 		this.connected = connection;
-		markDirty();
+		setChanged();
 		BlockState state = getBlockState();
-		state = state.with(CableBlock.online, connection != null);
+		state = state.setValue(CableBlock.online, connection != null);
 		for (Direction dir : Plane.HORIZONTAL) {
 			CableSide side = CableSide.none;
-			if (connected.test(pos.offset(dir).offset(Direction.UP))) side = CableSide.up;
-			else if (connected.test(pos.offset(dir)) || connected.test(pos.offset(dir).offset(Direction.DOWN)))
+			if (connected.test(worldPosition.relative(dir).relative(Direction.UP))) side = CableSide.up;
+			else if (connected.test(worldPosition.relative(dir)) || connected.test(worldPosition.relative(dir).relative(Direction.DOWN)))
 				side = CableSide.side;
-			state = state.with(CableBlock.sides.get(dir), side);
+			state = state.setValue(CableBlock.sides.get(dir), side);
 		}
-		world.setBlockState(pos, state);
+		level.setBlockAndUpdate(worldPosition, state);
 	}
 	
 	@Override
 	public Iterable<BlockPos> getNeighbours() {
 		List<BlockPos> res = new ArrayList<>();
 		for (Direction dir : Plane.HORIZONTAL) {
-			tryAddNeighbour(res, pos.offset(dir), dir.getOpposite(), true);
+			tryAddNeighbour(res, worldPosition.relative(dir), dir.getOpposite(), true);
 		}
-		tryAddNeighbour(res, pos.offset(Direction.DOWN), Direction.UP, false);
+		tryAddNeighbour(res, worldPosition.relative(Direction.DOWN), Direction.UP, false);
 		return res;
 	}
 	
 	void tryAddNeighbour(List<BlockPos> to, BlockPos pos, Direction side, boolean stepUp) {
-		TileEntity tile = world.getTileEntity(pos);
+		BlockEntity tile = level.getBlockEntity(pos);
 		if (tile instanceof ICableConnected
 				|| (tile instanceof ICableSegment && ((ICableSegment) tile).canConnect(side))) {
 			to.add(pos);
 		} else if (stepUp) {
-			tryAddNeighbour(to, pos.offset(Direction.UP), side, false);
-			tryAddNeighbour(to, pos.offset(Direction.DOWN), side, false);
+			tryAddNeighbour(to, pos.relative(Direction.UP), side, false);
+			tryAddNeighbour(to, pos.relative(Direction.DOWN), side, false);
 		}
 	}
 	
@@ -76,15 +76,15 @@ public class CableTile extends TileEntity implements ICableSegment {
 	}
 	
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		connected = nbt.contains(tagConnection) ? BlockPos.fromLong(nbt.getLong(tagConnection)) : null;
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
+		connected = nbt.contains(tagConnection) ? BlockPos.of(nbt.getLong(tagConnection)) : null;
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		nbt = super.write(nbt);
-		if (connected != null) nbt.putLong(tagConnection, connected.toLong());
+	public CompoundTag serializeNBT() {
+		var nbt = super.serializeNBT();
+		if (connected != null) nbt.putLong(tagConnection, connected.asLong());
 		else nbt.remove(tagConnection);
 		return nbt;
 	}

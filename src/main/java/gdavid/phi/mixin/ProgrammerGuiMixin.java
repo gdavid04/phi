@@ -2,12 +2,12 @@ package gdavid.phi.mixin;
 
 import gdavid.phi.gui.widget.ProgramTransferWidget;
 import gdavid.phi.util.IProgramTransferTarget;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,7 +25,7 @@ public class ProgrammerGuiMixin extends Screen {
 	@Final
 	public TileProgrammer programmer;
 	
-	private ProgrammerGuiMixin(ITextComponent p_i51108_1_) {
+	private ProgrammerGuiMixin(Component p_i51108_1_) {
 		super(p_i51108_1_);
 	}
 	
@@ -33,22 +33,22 @@ public class ProgrammerGuiMixin extends Screen {
 	private void init(CallbackInfo callback) {
 		if (programmer == null) return;
 		GuiProgrammer self = (GuiProgrammer) (Object) this;
-		World world = programmer.getWorld();
-		BlockPos pos = programmer.getPos();
-		Direction dir = programmer.getBlockState().get(BlockProgrammer.HORIZONTAL_FACING);
-		TileEntity left = world.getTileEntity(pos.offset(dir.rotateY()));
+		Level world = programmer.getLevel();
+		BlockPos pos = programmer.getBlockPos();
+		Direction dir = programmer.getBlockState().getValue(BlockProgrammer.FACING);
+		BlockEntity left = world.getBlockEntity(pos.relative(dir.getClockWise()));
 		if (left instanceof IProgramTransferTarget) {
 			ProgramTransferWidget transfer = new ProgramTransferWidget(self, (IProgramTransferTarget) left, false,
-					dir.rotateY());
-			addButton(transfer);
-			addButton(transfer.select);
+					dir.getClockWise());
+			addWidget(transfer);
+			addWidget(transfer.select);
 		}
-		TileEntity right = world.getTileEntity(pos.offset(dir.rotateYCCW()));
+		BlockEntity right = world.getBlockEntity(pos.relative(dir.getCounterClockWise()));
 		if (right instanceof IProgramTransferTarget) {
 			ProgramTransferWidget transfer = new ProgramTransferWidget(self, (IProgramTransferTarget) right, true,
-					dir.rotateYCCW());
-			addButton(transfer);
-			addButton(transfer.select);
+					dir.getCounterClockWise());
+			addWidget(transfer);
+			addWidget(transfer.select);
 		}
 	}
 	

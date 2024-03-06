@@ -2,6 +2,8 @@ package gdavid.phi.spell.param;
 
 import vazkii.psi.api.spell.param.ParamAny;
 
+import vazkii.psi.api.spell.SpellParam.ArrowType;
+
 /**
  * A parameter used for referencing other pieces. Execution order between the
  * piece and the parameter is undefined.

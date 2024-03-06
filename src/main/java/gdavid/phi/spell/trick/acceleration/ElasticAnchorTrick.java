@@ -5,8 +5,8 @@ import gdavid.phi.network.GravityMessage;
 import gdavid.phi.network.Messages;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -60,8 +60,8 @@ public class ElasticAnchorTrick extends PieceTrick {
 			}
 			e.getCapability(ModCapabilities.acceleration)
 					.ifPresent(cap -> cap.addAccelerationTowardsPoint(Vector3.fromEntity(e), powerVal, timeVal));
-			if (e instanceof PlayerEntity) {
-				Messages.send(new GravityMessage(Vector3.fromEntity(e), powerVal, timeVal), (PlayerEntity) e);
+			if (e instanceof Player) {
+				Messages.send(new GravityMessage(Vector3.fromEntity(e), powerVal, timeVal), (Player) e);
 			}
 		}
 		return null;

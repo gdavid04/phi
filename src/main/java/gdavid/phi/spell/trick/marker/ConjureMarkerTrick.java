@@ -3,8 +3,8 @@ package gdavid.phi.spell.trick.marker;
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -49,14 +49,14 @@ public class ConjureMarkerTrick extends PieceTrick {
 		Vector3 positionVal = ParamHelper.nonNull(this, context, position);
 		int timeVal = getNonnullParamValue(context, time).intValue();
 		if (timeVal < 1) Errors.runtime(SpellRuntimeException.NON_POSITIVE_VALUE);
-		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getPosX(),
-				context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
+		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getX(),
+				context.focalPoint.getY(), context.focalPoint.getZ()) > SpellContext.MAX_DISTANCE * 2) {
 			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
-		World world = context.focalPoint.getEntityWorld();
+		Level world = context.focalPoint.getCommandSenderWorld();
 		MarkerEntity marker = new MarkerEntity(world, context.caster, timeVal);
-		marker.setPosition(positionVal.x, positionVal.y, positionVal.z);
-		world.addEntity(marker);
+		marker.setPos(positionVal.x, positionVal.y, positionVal.z);
+		world.addFreshEntity(marker);
 		return marker;
 	}
 	

@@ -1,7 +1,7 @@
 package gdavid.phi.spell.selector;
 
 import java.util.WeakHashMap;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -13,7 +13,7 @@ import vazkii.psi.api.spell.piece.PieceSelector;
 @EventBusSubscriber
 public class CasterSpeechSelector extends PieceSelector {
 	
-	private static WeakHashMap<PlayerEntity, String> lastSaid = new WeakHashMap<>();
+	private static WeakHashMap<Player, String> lastSaid = new WeakHashMap<>();
 	
 	public CasterSpeechSelector(Spell spell) {
 		super(spell);
@@ -31,7 +31,7 @@ public class CasterSpeechSelector extends PieceSelector {
 	
 	@SubscribeEvent
 	public static void speech(ServerChatEvent event) {
-		lastSaid.put(event.getPlayer(), event.getMessage());
+		lastSaid.put(event.getPlayer(), event.getRawText());
 	}
 	
 }

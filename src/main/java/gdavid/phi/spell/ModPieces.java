@@ -80,12 +80,12 @@ import gdavid.phi.spell.trick.mpu.WriteVectorStorageTrick;
 import gdavid.phi.spell.trick.spirit.DefocusSpiritTrick;
 import gdavid.phi.spell.trick.spirit.FocusSpiritTrick;
 import gdavid.phi.spell.trick.spirit.MoveSpiritTrick;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.registries.RegisterEvent;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.common.lib.LibPieceGroups;
@@ -104,7 +104,7 @@ public class ModPieces {
 	}
 	
 	@SubscribeEvent
-	public static void init(RegistryEvent.Register<Item> event) {
+	public static void init(RegisterEvent event) {
 		register("trick_psion_wave", PsionWaveTrick.class, Groups.psionManipulation, true);
 		register("trick_psi_transfer", PsiTransferTrick.class, Groups.psionManipulation);
 		register("trick_shadow", ShadowTrick.class, Groups.opticalMagic, true);

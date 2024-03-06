@@ -6,6 +6,8 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.param.ParamAny;
 
+import vazkii.psi.api.spell.SpellParam.ArrowType;
+
 /**
  * A spell parameter that accepts {@link PropagatingSpellRuntimeException}s
  */

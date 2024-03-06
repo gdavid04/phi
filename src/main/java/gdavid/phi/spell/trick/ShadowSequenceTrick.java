@@ -3,9 +3,10 @@ package gdavid.phi.spell.trick;
 import gdavid.phi.block.ModBlocks;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.ticks.ScheduledTick;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -54,18 +55,18 @@ public class ShadowSequenceTrick extends PieceTrick {
 		int timeVal = getNonnullParamValue(context, time).intValue();
 		int max = getNonnullParamValue(context, maxBlocks).intValue();
 		Vector3 to = ParamHelper.nonNull(this, context, target).copy().normalize().multiply(max);
-		World world = context.focalPoint.getEntityWorld();
+		Level world = context.focalPoint.getCommandSenderWorld();
 		for (BlockPos at : MathHelper.getBlocksAlongRay(pos.toVec3D(), pos.copy().add(to).toVec3D(), max)) {
 			if (!context.isInRadius(Vector3.fromBlockPos(at))) {
 				Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 			}
-			if (!world.isBlockLoaded(at) || !world.isBlockModifiable(context.caster, at)) {
+			if (!world.hasChunkAt(at) || !world.mayInteract(context.caster, at)) {
 				continue;
 			}
 			BlockState block = world.getBlockState(at);
-			if (block.isAir(world, at) || block.getMaterial().isReplaceable()) {
-				if (world.setBlockState(at, ModBlocks.shadow.getDefaultState())) {
-					world.getPendingBlockTicks().scheduleTick(at, ModBlocks.shadow, timeVal);
+			if (block.isAir() || block.getMaterial().isReplaceable()) {
+				if (world.setBlockAndUpdate(at, ModBlocks.shadow.defaultBlockState())) {
+					world.getBlockTicks().schedule(new ScheduledTick<>(ModBlocks.shadow, at, timeVal, 0));
 				}
 			}
 		}

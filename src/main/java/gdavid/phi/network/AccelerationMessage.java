@@ -1,13 +1,14 @@
 package gdavid.phi.network;
 
 import gdavid.phi.capability.ModCapabilities;
-import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.network.NetworkEvent.Context;
 import vazkii.psi.api.internal.Vector3;
+
+import java.util.function.Supplier;
 
 public class AccelerationMessage implements Message {
 	
@@ -21,7 +22,7 @@ public class AccelerationMessage implements Message {
 		this.duration = duration;
 	}
 	
-	public AccelerationMessage(PacketBuffer buf) {
+	public AccelerationMessage(FriendlyByteBuf buf) {
 		x = buf.readDouble();
 		y = buf.readDouble();
 		z = buf.readDouble();
@@ -29,7 +30,7 @@ public class AccelerationMessage implements Message {
 	}
 	
 	@Override
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeDouble(x);
 		buf.writeDouble(y);
 		buf.writeDouble(z);
@@ -37,7 +38,6 @@ public class AccelerationMessage implements Message {
 	}
 	
 	@Override
-	@SuppressWarnings("resource")
 	public boolean receive(Supplier<Context> context) {
 		context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			Minecraft.getInstance().player.getCapability(ModCapabilities.acceleration).ifPresent(cap -> {

@@ -3,20 +3,22 @@ package gdavid.phi.block.tile;
 import gdavid.phi.cable.ICableConnected;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.common.util.Constants;
 
-public class TextDisplayTile extends TileEntity implements ICableConnected {
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
+
+public class TextDisplayTile extends BlockEntity implements ICableConnected {
 	
-	public static TileEntityType<TextDisplayTile> type;
+	public static BlockEntityType<TextDisplayTile> type;
 	
 	public static final String tagText = "text";
 	
@@ -26,8 +28,8 @@ public class TextDisplayTile extends TileEntity implements ICableConnected {
 	
 	// TODO formatting code support
 	
-	public TextDisplayTile() {
-		super(type);
+	public TextDisplayTile(BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 	
 	public void appendLine(String line) {
@@ -48,8 +50,8 @@ public class TextDisplayTile extends TileEntity implements ICableConnected {
 			text.add(prefix.substring(prefix.length() / columns * columns));
 			if (text.size() > lines) text.remove(0);
 		} while (!line.isEmpty());
-		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
 	}
 	
 	public void setLine(String line, int index) {
@@ -75,47 +77,43 @@ public class TextDisplayTile extends TileEntity implements ICableConnected {
 			text.set(index++ - 1, prefix.substring(prefix.length() / columns * columns));
 			if (index > lines) return;
 		} while (!line.isEmpty());
-		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
 	}
 	
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		read(nbt);
-	}
-	
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		text = new ArrayList<>();
-		for (INBT line : nbt.getList(tagText, Constants.NBT.TAG_STRING)) {
-			text.add(line.getString());
+		for (Tag line : nbt.getList(tagText, CompoundTag.TAG_STRING)) {
+			text.add(line.getAsString());
 		}
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		nbt = super.write(nbt);
-		ListNBT list = new ListNBT();
+	public CompoundTag serializeNBT() {
+		var nbt = super.serializeNBT();
+		var list = new ListTag();
 		for (String line : text) {
-			list.add(StringNBT.valueOf(line));
+			list.add(StringTag.valueOf(line));
 		}
 		nbt.put(tagText, list);
 		return nbt;
 	}
 	
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(getPos(), 0, write(new CompoundNBT()));
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
 	}
 	
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return write(new CompoundNBT());
+	public CompoundTag getUpdateTag() {
+		return serializeNBT();
 	}
 	
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-		read(packet.getNbtCompound());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+		load(packet.getTag());
 	}
 	
 	@Override

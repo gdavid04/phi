@@ -3,11 +3,11 @@ package gdavid.phi.spell.trick.blink;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.ServerPlayNetHandler;
-import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -53,24 +53,24 @@ public class SwapBlinkTrick extends PieceTrick {
 		if (!context.isInRadius(e1) || !context.isInRadius(e2)) {
 			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
-		Vector3d offset = e2.getPositionVec().subtract(e1.getPositionVec());
-		if (offset.lengthSquared() > distanceVal * distanceVal) return null;
-		Vector3d pos1 = e1.getPositionVec();
-		Vector2f rot1 = e1.getPitchYaw();
-		float rotyh1 = e1.getRotationYawHead();
-		e1.setPositionAndRotation(e2.getPosX(), e2.getPosY(), e2.getPosZ(), e2.rotationYaw, e2.rotationPitch);
-		e1.setRotationYawHead(e2.getRotationYawHead());
-		if (e1 instanceof ServerPlayerEntity) {
-			ServerPlayNetHandler c = ((ServerPlayerEntity) e1).connection;
-			c.setPlayerLocation(e2.getPosX(), e2.getPosY(), e2.getPosZ(), e2.rotationYaw, e2.rotationPitch);
-			c.captureCurrentPosition();
+		Vec3 offset = e2.position().subtract(e1.position());
+		if (offset.lengthSqr() > distanceVal * distanceVal) return null;
+		Vec3 pos1 = e1.position();
+		Vec2 rot1 = e1.getRotationVector();
+		float rotyh1 = e1.getYHeadRot();
+		e1.absMoveTo(e2.getX(), e2.getY(), e2.getZ(), e2.getYRot(), e2.getXRot());
+		e1.setYHeadRot(e2.getYHeadRot());
+		if (e1 instanceof ServerPlayer) {
+			ServerGamePacketListenerImpl c = ((ServerPlayer) e1).connection;
+			c.teleport(e2.getX(), e2.getY(), e2.getZ(), e2.getYRot(), e2.getXRot());
+			c.resetPosition();
 		}
-		e2.setPositionAndRotation(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
-		e2.setRotationYawHead(rotyh1);
-		if (e2 instanceof ServerPlayerEntity) {
-			ServerPlayNetHandler c = ((ServerPlayerEntity) e2).connection;
-			c.setPlayerLocation(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
-			c.captureCurrentPosition();
+		e2.absMoveTo(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
+		e2.setYHeadRot(rotyh1);
+		if (e2 instanceof ServerPlayer) {
+			ServerGamePacketListenerImpl c = ((ServerPlayer) e2).connection;
+			c.teleport(pos1.x, pos1.y, pos1.z, rot1.y, rot1.x);
+			c.resetPosition();
 		}
 		return null;
 	}

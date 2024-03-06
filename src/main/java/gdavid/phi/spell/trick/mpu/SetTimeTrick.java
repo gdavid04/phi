@@ -4,9 +4,9 @@ import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -47,11 +47,11 @@ public class SetTimeTrick extends PieceTrick {
 		int time = getNonnullParamValue(context, num).intValue();
 		if (paramSides.get(target).isEnabled()) {
 			BlockPos pos = ParamHelper.block(this, context, target);
-			World world = context.focalPoint.getEntityWorld();
-			if (!world.isBlockLoaded(pos) || !world.isBlockModifiable(context.caster, pos)) {
+			Level world = context.focalPoint.getCommandSenderWorld();
+			if (!world.hasChunkAt(pos) || !world.mayInteract(context.caster, pos)) {
 				return null;
 			}
-			TileEntity tile = world.getTileEntity(pos);
+			BlockEntity tile = world.getBlockEntity(pos);
 			if (tile instanceof MPUTile) {
 				((MPUTile) tile).setTime(time);
 			}

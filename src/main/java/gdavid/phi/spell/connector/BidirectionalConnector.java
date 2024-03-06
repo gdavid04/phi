@@ -1,15 +1,15 @@
 package gdavid.phi.spell.connector;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import gdavid.phi.Phi;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
@@ -53,19 +53,19 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
 		if (!paramSides.get(a).isEnabled() && !paramSides.get(b).isEnabled()) {
-			RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, hintTexture);
-			IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
-			Matrix4f mat = ms.getLast().getMatrix();
-			buffer.pos(mat, 0, 16, 0).color(255, 255, 255, 255);
-			buffer.tex(0, 1).lightmap(light).endVertex();
-			buffer.pos(mat, 16, 16, 0).color(255, 255, 255, 255);
-			buffer.tex(1, 1).lightmap(light).endVertex();
-			buffer.pos(mat, 16, 0, 0).color(255, 255, 255, 255);
-			buffer.tex(1, 0).lightmap(light).endVertex();
-			buffer.pos(mat, 0, 0, 0).color(255, 255, 255, 255);
-			buffer.tex(0, 0).lightmap(light).endVertex();
+			Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, hintTexture);
+			VertexConsumer buffer = material.buffer(buffers, get -> SpellPiece.getLayer());
+			Matrix4f mat = ms.last().pose();
+			buffer.vertex(mat, 0, 16, 0).color(255, 255, 255, 255);
+			buffer.uv(0, 1).uv2(light).endVertex();
+			buffer.vertex(mat, 16, 16, 0).color(255, 255, 255, 255);
+			buffer.uv(1, 1).uv2(light).endVertex();
+			buffer.vertex(mat, 16, 0, 0).color(255, 255, 255, 255);
+			buffer.uv(1, 0).uv2(light).endVertex();
+			buffer.vertex(mat, 0, 0, 0).color(255, 255, 255, 255);
+			buffer.uv(0, 0).uv2(light).endVertex();
 		}
 		drawLine(ms, buffers, light, paramSides.get(a), false,
 				ParamHelper.connectorColor(this, paramSides.get(a), SpellParam.GRAY));
@@ -78,13 +78,13 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, SpellParam.Side side, boolean which,
+	public void drawLine(PoseStack ms, MultiBufferSource buffers, int light, SpellParam.Side side, boolean which,
 			int color) {
 		if (!side.isEnabled()) {
 			return;
 		}
-		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
-		IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
+		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
+		VertexConsumer buffer = material.buffer(buffers, get -> SpellPiece.getLayer());
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.25f : 0;
 		if (which) minV += 0.5f;
@@ -92,15 +92,15 @@ public class BidirectionalConnector extends SpellPiece implements IGenericRedire
 		int r = RenderHelper.r(color);
 		int g = RenderHelper.g(color);
 		int b = RenderHelper.b(color);
-		Matrix4f mat = ms.getLast().getMatrix();
-		buffer.pos(mat, 0, 16, 0).color(r, g, b, 255);
-		buffer.tex(minU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 16, 16, 0).color(r, g, b, 255);
-		buffer.tex(maxU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 16, 0, 0).color(r, g, b, 255);
-		buffer.tex(maxU, minV).lightmap(light).endVertex();
-		buffer.pos(mat, 0, 0, 0).color(r, g, b, 255);
-		buffer.tex(minU, minV).lightmap(light).endVertex();
+		Matrix4f mat = ms.last().pose();
+		buffer.vertex(mat, 0, 16, 0).color(r, g, b, 255);
+		buffer.uv(minU, maxV).uv2(light).endVertex();
+		buffer.vertex(mat, 16, 16, 0).color(r, g, b, 255);
+		buffer.uv(maxU, maxV).uv2(light).endVertex();
+		buffer.vertex(mat, 16, 0, 0).color(r, g, b, 255);
+		buffer.uv(maxU, minV).uv2(light).endVertex();
+		buffer.vertex(mat, 0, 0, 0).color(r, g, b, 255);
+		buffer.uv(minU, minV).uv2(light).endVertex();
 	}
 	
 	@Override

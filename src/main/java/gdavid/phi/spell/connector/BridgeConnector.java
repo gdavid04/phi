@@ -1,21 +1,22 @@
 package gdavid.phi.spell.connector;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import gdavid.phi.Phi;
 import gdavid.phi.util.IWarpRedirector;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.resources.model.Material;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -32,6 +33,8 @@ import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamAny;
+
+import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
 
 public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	
@@ -76,7 +79,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	public void drawParams(PoseStack ms, MultiBufferSource buffers, int light) {
 		super.drawParams(ms, buffers, light);
 		// TODO draw on top of other pieces
 		if (paramSides.get(direction).isEnabled()) {
@@ -94,18 +97,18 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	static RenderType lineLayer;
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, Side side) {
+	public void drawLine(PoseStack ms, MultiBufferSource buffers, int light, Side side) {
 		if (!side.isEnabled()) return;
-		GlStateManager.enableBlend();
-		GlStateManager.glBlendFuncSeparate(SourceFactor.SRC_ALPHA.param, DestFactor.ONE_MINUS_SRC_ALPHA.param,
-				SourceFactor.ZERO.param, SourceFactor.ONE.param);
-		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
+		GlStateManager._enableBlend();
+		GlStateManager.glBlendFuncSeparate(SourceFactor.SRC_ALPHA.value, DestFactor.ONE_MINUS_SRC_ALPHA.value,
+				SourceFactor.ZERO.value, SourceFactor.ONE.value);
+		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
 		if (lineLayer == null) {
-			RenderType.State glState = RenderType.State.getBuilder()
-					.texture(new RenderState.TextureState(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, false, false))
-					.lightmap(new RenderState.LightmapState(true)).cull(new RenderState.CullState(false))
-					.writeMask(new RenderState.WriteMaskState(true, false))
-					.transparency(new RenderState.TransparencyState("translucent_transparency", () -> {
+			RenderType.CompositeState glState = RenderType.CompositeState.builder()
+					.setTextureState(new RenderStateShard.TextureStateShard(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, false, false))
+					.setLightmapState(new RenderStateShard.LightmapStateShard(true)).setCullState(new RenderStateShard.CullStateShard(false))
+					.setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
+					.setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {
 						RenderSystem.enableBlend();
 						RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
 								GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -113,26 +116,26 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 					}, () -> {
 						RenderSystem.disableBlend();
 						RenderSystem.defaultBlendFunc();
-					})).build(false);
-			lineLayer = RenderType.makeType(lineTexture.toString(), DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP,
-					GL11.GL_QUADS, 64, glState);
+					})).createCompositeState(false);
+			lineLayer = RenderType.create(lineTexture.toString(), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+					QUADS, 64, false, false, glState);
 		}
-		IVertexBuilder buffer = material.getBuffer(buffers, get -> lineLayer);
+		VertexConsumer buffer = material.buffer(buffers, get -> lineLayer);
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float maxU = minU + 0.5f, maxV = minV + 0.5f;
 		int r = 255, g = 255, b = 255, a = 255;
-		Matrix4f mat = ms.getLast().getMatrix();
+		Matrix4f mat = ms.last().pose();
 		mat.translate(new Vector3f(side.offx * 18, side.offy * 18, 0));
-		buffer.pos(mat, -8, 24, 0).color(r, g, b, a);
-		buffer.tex(minU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 24, 24, 0).color(r, g, b, a);
-		buffer.tex(maxU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 24, -8, 0).color(r, g, b, a);
-		buffer.tex(maxU, minV).lightmap(light).endVertex();
-		buffer.pos(mat, -8, -8, 0).color(r, g, b, a);
-		buffer.tex(minU, minV).lightmap(light).endVertex();
-		GlStateManager.disableBlend();
+		buffer.vertex(mat, -8, 24, 0).color(r, g, b, a);
+		buffer.uv(minU, maxV).uv2(light).endVertex();
+		buffer.vertex(mat, 24, 24, 0).color(r, g, b, a);
+		buffer.uv(maxU, maxV).uv2(light).endVertex();
+		buffer.vertex(mat, 24, -8, 0).color(r, g, b, a);
+		buffer.uv(maxU, minV).uv2(light).endVertex();
+		buffer.vertex(mat, -8, -8, 0).color(r, g, b, a);
+		buffer.uv(minU, minV).uv2(light).endVertex();
+		GlStateManager._disableBlend();
 	}
 	
 	@Override

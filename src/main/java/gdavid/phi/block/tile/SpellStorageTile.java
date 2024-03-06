@@ -5,18 +5,18 @@ import gdavid.phi.util.IProgramTransferTarget;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
 import vazkii.psi.api.spell.Spell;
 
-public class SpellStorageTile extends TileEntity implements IProgramTransferTarget {
+public class SpellStorageTile extends BlockEntity implements IProgramTransferTarget {
 	
-	public static TileEntityType<SpellStorageTile> type;
+	public static BlockEntityType<SpellStorageTile> type;
 	
 	public static final String tagSpell = "spell_";
 	public static final String tagSelectedSlot = "selected_slot";
@@ -27,13 +27,13 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 	
 	public int selectedSlot = 0;
 	
-	public SpellStorageTile() {
-		super(type);
+	public SpellStorageTile(BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 	
 	@Override
 	public BlockPos getPosition() {
-		return pos;
+		return worldPosition;
 	}
 	
 	@Override
@@ -42,9 +42,9 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 	}
 	
 	@Override
-	public void setSpell(PlayerEntity player, Spell spell) {
+	public void setSpell(Player player, Spell spell) {
 		spells[selectedSlot] = spell;
-		markDirty();
+		setChanged();
 	}
 	
 	@Override
@@ -68,16 +68,12 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 	public void selectSlot(int id) {
 		if (id < 0 || id >= slots) return;
 		selectedSlot = id;
-		markDirty();
+		setChanged();
 	}
 	
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		read(nbt);
-	}
-	
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		for (int i = 0; i < slots; i++) {
 			spells[i] = Spell.createFromNBT(nbt.getCompound(tagSpell + i));
 		}
@@ -85,10 +81,10 @@ public class SpellStorageTile extends TileEntity implements IProgramTransferTarg
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		nbt = super.write(nbt);
+	public CompoundTag serializeNBT() {
+		var nbt = super.serializeNBT();
 		for (int i = 0; i < slots; i++) {
-			CompoundNBT spellNbt = new CompoundNBT();
+			CompoundTag spellNbt = new CompoundTag();
 			if (spells[i] != null) spells[i].writeToNBT(spellNbt);
 			nbt.put(tagSpell + i, spellNbt);
 		}

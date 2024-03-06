@@ -1,12 +1,12 @@
 package gdavid.phi.block;
 
-import java.util.Random;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,28 +15,27 @@ public class ShadowBlock extends AirBlock {
 	public static final String id = "shadow";
 	
 	public ShadowBlock() {
-		super(Properties.create(Material.AIR).notSolid().noDrops());
-		setRegistryName(id);
+		super(Properties.of(Material.AIR).noOcclusion().noLootTable());
 	}
 	
 	@Override
-	public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+	public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
 		return false;
 	}
 	
 	@Override
-	public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 8;
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
+	public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
 		return 0.6f;
 	}
 	
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
 		world.removeBlock(pos, false);
 	}
 	

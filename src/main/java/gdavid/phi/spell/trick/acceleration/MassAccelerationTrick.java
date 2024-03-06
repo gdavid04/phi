@@ -5,8 +5,8 @@ import gdavid.phi.network.AccelerationMessage;
 import gdavid.phi.network.Messages;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -63,8 +63,8 @@ public class MassAccelerationTrick extends PieceTrick {
 				Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 			}
 			e.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.addAcceleration(accel, timeVal));
-			if (e instanceof PlayerEntity) {
-				Messages.send(new AccelerationMessage(accel, timeVal), (PlayerEntity) e);
+			if (e instanceof Player) {
+				Messages.send(new AccelerationMessage(accel, timeVal), (Player) e);
 			}
 		}
 		return null;

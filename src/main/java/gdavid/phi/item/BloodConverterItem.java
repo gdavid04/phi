@@ -2,16 +2,14 @@ package gdavid.phi.item;
 
 import gdavid.phi.Phi;
 import java.util.List;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -23,6 +21,8 @@ import vazkii.psi.api.cad.EnumCADStat;
 import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.cad.ICADComponent;
 
+import net.minecraft.world.item.Item.Properties;
+
 @EventBusSubscriber
 public class BloodConverterItem extends Item implements ICADComponent {
 	
@@ -31,8 +31,7 @@ public class BloodConverterItem extends Item implements ICADComponent {
 	public float damageMultiplier;
 	
 	public BloodConverterItem(String id, float damageMultiplier) {
-		super(new Properties().maxStackSize(1).group(ItemGroup.MISC)); // TODO Phi creative tab
-		setRegistryName(id);
+		super(new Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)); // TODO Phi creative tab
 		this.id = id;
 		this.damageMultiplier = damageMultiplier;
 	}
@@ -49,19 +48,19 @@ public class BloodConverterItem extends Item implements ICADComponent {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack item, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
-		tooltip.add(new TranslationTextComponent("item." + Phi.modId + "." + id + ".desc"));
-		tooltip.add(new StringTextComponent(" ")
-				.append(new TranslationTextComponent(Phi.modId + ".cadstat.overflow_damage")
-						.mergeStyle(TextFormatting.AQUA))
-				.appendString(": ").append(new TranslationTextComponent("-" + 100 * (1 - damageMultiplier) + "%")
-						.mergeStyle(TextFormatting.GREEN)));
+	public void appendHoverText(ItemStack item, Level world, List<Component> tooltip, TooltipFlag advanced) {
+		tooltip.add(Component.translatable("item." + Phi.modId + "." + id + ".desc"));
+		tooltip.add(Component.literal(" ")
+				.append(Component.translatable(Phi.modId + ".cadstat.overflow_damage")
+						.withStyle(ChatFormatting.AQUA))
+				.append(": ").append(Component.translatable("-" + 100 * (1 - damageMultiplier) + "%")
+						.withStyle(ChatFormatting.GREEN)));
 	}
 	
 	@SubscribeEvent
 	public static void overflowDamage(LivingHurtEvent event) {
-		if (!event.getSource().getDamageType().equals("psi-overload")) return;
-		ItemStack item = PsiAPI.getPlayerCAD((PlayerEntity) event.getEntity());
+		if (!event.getSource().getMsgId().equals("psi-overload")) return;
+		ItemStack item = PsiAPI.getPlayerCAD((Player) event.getEntity());
 		ICAD cad = (ICAD) item.getItem();
 		Item battery = cad.getComponentInSlot(item, EnumCADComponent.BATTERY).getItem();
 		if (battery instanceof BloodConverterItem) {

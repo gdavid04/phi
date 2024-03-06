@@ -1,12 +1,13 @@
 package gdavid.phi.network;
 
 import gdavid.phi.util.IProgramTransferTarget;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.network.NetworkEvent.Context;
+
 import java.util.function.Supplier;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class ProgramTransferSlotMessage implements Message {
 	
@@ -18,13 +19,13 @@ public class ProgramTransferSlotMessage implements Message {
 		this.slot = slot;
 	}
 	
-	public ProgramTransferSlotMessage(PacketBuffer buf) {
+	public ProgramTransferSlotMessage(FriendlyByteBuf buf) {
 		pos = buf.readBlockPos();
 		slot = buf.readInt();
 	}
 	
 	@Override
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeBlockPos(pos);
 		buf.writeInt(slot);
 	}
@@ -32,8 +33,8 @@ public class ProgramTransferSlotMessage implements Message {
 	@Override
 	public boolean receive(Supplier<Context> context) {
 		context.get().enqueueWork(() -> {
-			PlayerEntity player = context.get().getSender();
-			TileEntity tile = player.world.getTileEntity(pos);
+			Player player = context.get().getSender();
+			BlockEntity tile = player.level.getBlockEntity(pos);
 			if (tile instanceof IProgramTransferTarget) {
 				((IProgramTransferTarget) tile).selectSlot(slot);
 			}

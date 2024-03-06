@@ -3,9 +3,9 @@ package gdavid.phi.spell.trick.blink;
 import gdavid.phi.spell.Errors;
 import java.util.EnumSet;
 import java.util.Stack;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.ServerPlayNetHandler;
-import net.minecraft.network.play.server.SPlayerPositionLookPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -50,12 +50,12 @@ public class BlinkEidosReversalTrick extends PieceTrick {
 		if (eidosLog.size() == 0) return null;
 		eidosLog.subList(Math.max(eidosLog.size() - timeVal + 1, 1), eidosLog.size()).clear();
 		Vector3 pos = eidosLog.pop();
-		context.caster.setPosition(pos.x, pos.y, pos.z);
-		if (context.caster instanceof ServerPlayerEntity) {
-			ServerPlayNetHandler c = ((ServerPlayerEntity) context.caster).connection;
-			c.setPlayerLocation(pos.x, pos.y, pos.z, context.caster.rotationYaw, context.caster.rotationPitch,
-					EnumSet.of(SPlayerPositionLookPacket.Flags.X_ROT, SPlayerPositionLookPacket.Flags.Y_ROT));
-			c.captureCurrentPosition();
+		context.caster.setPos(pos.x, pos.y, pos.z);
+		if (context.caster instanceof ServerPlayer) {
+			ServerGamePacketListenerImpl c = ((ServerPlayer) context.caster).connection;
+			c.teleport(pos.x, pos.y, pos.z, context.caster.getYRot(), context.caster.getXRot(),
+					EnumSet.of(ClientboundPlayerPositionPacket.RelativeArgument.X_ROT, ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT));
+			c.resetPosition();
 		}
 		return null;
 	}

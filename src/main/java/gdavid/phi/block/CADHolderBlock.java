@@ -3,99 +3,95 @@ package gdavid.phi.block;
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CADHolderTile;
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class CADHolderBlock extends HorizontalBlock {
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
+public class CADHolderBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	
 	// TODO cable compat
 	
 	public static final String id = "cad_holder";
 	
 	public CADHolderBlock() {
-		super(Properties.create(Material.IRON).hardnessAndResistance(5, 10).sound(SoundType.METAL).notSolid());
-		setRegistryName(id);
+		super(Properties.of(Material.METAL).strength(5, 10).sound(SoundType.METAL).noOcclusion());
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, IBlockReader world, List<ITextComponent> tooltip,
-			ITooltipFlag advanced) {
-		tooltip.add(new TranslationTextComponent("block." + Phi.modId + ".cad_holder.desc"));
+	public void appendHoverText(ItemStack stack, BlockGetter world, List<Component> tooltip,
+			TooltipFlag advanced) {
+		tooltip.add(Component.translatable("block." + Phi.modId + ".cad_holder.desc"));
 	}
 	
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
-			Hand hand, BlockRayTraceResult rayTraceResult) {
-		ItemStack item = player.getHeldItem(hand);
-		TileEntity tile = world.getTileEntity(pos);
-		if (!(tile instanceof CADHolderTile)) return ActionResultType.PASS;
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player,
+			InteractionHand hand, BlockHitResult rayTraceResult) {
+		ItemStack item = player.getItemInHand(hand);
+		BlockEntity tile = world.getBlockEntity(pos);
+		if (!(tile instanceof CADHolderTile)) return InteractionResult.PASS;
 		CADHolderTile holder = (CADHolderTile) tile;
-		if (holder.hasItem() == item.isEmpty() && !world.isRemote) {
+		if (holder.hasItem() == item.isEmpty() && !world.isClientSide) {
 			if (holder.hasItem()) {
-				player.setHeldItem(hand, holder.item);
+				player.setItemInHand(hand, holder.item);
 				holder.removeItem();
 			} else {
 				holder.setItem(item);
-				player.setHeldItem(hand, ItemStack.EMPTY);
+				player.setItemInHand(hand, ItemStack.EMPTY);
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 	
 	@Override
 	@SuppressWarnings("deprecation")
-	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
-		if (!world.isRemote && newState.getBlock() != this) {
-			TileEntity tile = world.getTileEntity(pos);
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean flag) {
+		if (!world.isClientSide && newState.getBlock() != this) {
+			BlockEntity tile = world.getBlockEntity(pos);
 			if (tile instanceof CADHolderTile) {
 				CADHolderTile holder = (CADHolderTile) tile;
 				if (holder.hasItem()) {
-					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), holder.item));
+					world.addFreshEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), holder.item));
 				}
 			}
 		}
-		super.onReplaced(state, world, pos, newState, flag);
+		super.onRemove(state, world, pos, newState, flag);
 	}
 	
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 	
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 	
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new CADHolderTile();
-	}
-	
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new CADHolderTile(pos, state);
 	}
 	
 }

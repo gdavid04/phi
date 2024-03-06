@@ -1,10 +1,10 @@
 package gdavid.phi.spell.constant;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.spell.EnumPieceType;
@@ -32,19 +32,19 @@ public class CharacterCodeConstant extends SpellPiece {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("resource")
-	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		FontRenderer font = Minecraft.getInstance().fontRenderer;
-		ms.push();
+	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
+		Font font = Minecraft.getInstance().font;
+		ms.pushPose();
 		String rstr = "§8" + String.valueOf(ch);
-		ms.translate(8 - font.getStringWidth(rstr) / 2f, 2, 0);
-		font.renderString(rstr, 0, 0, 0xffffff, false, ms.getLast().getMatrix(), buffers, false, 0, light);
-		ms.pop();
-		ms.push();
+		ms.translate(8 - font.width(rstr) / 2f, 2, 0);
+		font.drawInBatch(rstr, 0, 0, 0xffffff, false, ms.last().pose(), buffers, false, 0, light);
+		ms.popPose();
+		ms.pushPose();
 		rstr = Integer.toString(ch);
-		ms.translate(8 - font.getStringWidth(rstr) / 4f, 10, 0);
+		ms.translate(8 - font.width(rstr) / 4f, 10, 0);
 		ms.scale(0.5f, 0.5f, 1);
-		font.renderString(rstr, 0, 0, 0xffffff, false, ms.getLast().getMatrix(), buffers, false, 0, light);
-		ms.pop();
+		font.drawInBatch(rstr, 0, 0, 0xffffff, false, ms.last().pose(), buffers, false, 0, light);
+		ms.popPose();
 	}
 	
 	@Override
@@ -69,13 +69,13 @@ public class CharacterCodeConstant extends SpellPiece {
 	}
 	
 	@Override
-	public void writeToNBT(CompoundNBT nbt) {
+	public void writeToNBT(CompoundTag nbt) {
 		super.writeToNBT(nbt);
 		nbt.putString(tagValue, String.valueOf(ch));
 	}
 	
 	@Override
-	public void readFromNBT(CompoundNBT nbt) {
+	public void readFromNBT(CompoundTag nbt) {
 		super.readFromNBT(nbt);
 		String str = nbt.getString(tagValue);
 		if (str.length() != 1) ch = '\0';

@@ -3,15 +3,15 @@ package gdavid.phi.entity;
 import gdavid.phi.Phi;
 import java.util.Optional;
 import java.util.UUID;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.cad.ICADColorizer;
 import vazkii.psi.api.spell.ISpellImmune;
@@ -21,77 +21,77 @@ public class SpiritEntity extends Entity implements ISpellImmune {
 	
 	public static final String id = "spirit";
 	
-	@ObjectHolder(Phi.modId + ":" + id)
+	@ObjectHolder(registryName = "entity_type", value = Phi.modId + ":" + id)
 	public static EntityType<SpiritEntity> type;
 	
 	static final String tagOwner = "owner";
 	static final String tagTime = "time";
 	
-	public static final DataParameter<Optional<UUID>> owner = EntityDataManager.createKey(SpiritEntity.class,
-			DataSerializers.OPTIONAL_UNIQUE_ID);
+	public static final EntityDataAccessor<Optional<UUID>> owner = SynchedEntityData.defineId(SpiritEntity.class,
+			EntityDataSerializers.OPTIONAL_UUID);
 	
 	int time;
 	
-	public SpiritEntity(EntityType<SpiritEntity> type, World world) {
+	public SpiritEntity(EntityType<SpiritEntity> type, Level world) {
 		super(type, world);
 	}
 	
-	public SpiritEntity(World world, Entity ownerEntity, int time) {
+	public SpiritEntity(Level world, Entity ownerEntity, int time) {
 		super(type, world);
 		if (owner != null) {
-			dataManager.set(owner, Optional.of(ownerEntity.getUniqueID()));
+			entityData.set(owner, Optional.of(ownerEntity.getUUID()));
 		}
 		this.time = time;
 	}
 	
 	public UUID getOwner() {
-		return dataManager.get(owner).get();
+		return entityData.get(owner).get();
 	}
 	
 	@Override
-	protected void registerData() {
-		dataManager.register(owner, Optional.of(new UUID(0, 0)));
+	protected void defineSynchedData() {
+		entityData.define(owner, Optional.of(new UUID(0, 0)));
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT nbt) {
-		nbt.putUniqueId(tagOwner, getOwner());
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		nbt.putUUID(tagOwner, getOwner());
 		nbt.putInt(tagTime, time);
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT nbt) {
-		dataManager.set(owner, Optional.of(nbt.getUniqueId(tagOwner)));
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		entityData.set(owner, Optional.of(nbt.getUUID(tagOwner)));
 		time = nbt.getInt(tagTime);
 	}
 	
 	@Override
 	public void tick() {
 		super.tick();
-		if (world.isRemote && rand.nextFloat() < 0.1f) {
+		if (level.isClientSide && random.nextFloat() < 0.1f) {
 			int color = ICADColorizer.DEFAULT_SPELL_COLOR;
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = (color & 0xFF) / 255f;
 			Psi.proxy.wispFX(
-				world,
-				getPosX(), getPosY() + getHeight() / 2, getPosZ(),
+				level,
+				getX(), getY() + getBbHeight() / 2, getZ(),
 				r, g, b,
-				0.1f + rand.nextFloat() * 0.05f,
-				(float) rand.nextGaussian() * 0.0025f, (float) (rand.nextGaussian() * 0.0025f - 0.005f), (float) rand.nextGaussian() * 0.0025f,
+				0.1f + random.nextFloat() * 0.05f,
+				(float) random.nextGaussian() * 0.0025f, (float) (random.nextGaussian() * 0.0025f - 0.005f), (float) random.nextGaussian() * 0.0025f,
 				2
 			);
 		}
-		if (!world.isRemote && time-- < 0) remove();
+		if (!level.isClientSide && time-- < 0) discard();
 	}
 	
 	@Override
-	public boolean doesEntityNotTriggerPressurePlate() {
+	public boolean isIgnoringBlockTriggers() {
 		return true;
 	}
 	
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

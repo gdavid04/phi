@@ -1,25 +1,28 @@
 package gdavid.phi.spell.trick;
 
 import gdavid.phi.spell.Errors;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
-import net.minecraftforge.event.world.BlockEvent.EntityPlaceEvent;
+import net.minecraftforge.event.level.BlockEvent.EntityPlaceEvent;
 import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.param.ParamEntity;
 import vazkii.psi.api.spell.piece.PieceTrick;
+
+import static net.minecraft.world.entity.Entity.RemovalReason.DISCARDED;
 
 public class PlaceDroppedBlockTrick extends PieceTrick {
 	
@@ -45,24 +48,24 @@ public class PlaceDroppedBlockTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Entity targetVal = getNonnullParamValue(context, target);
 		if (!(targetVal instanceof ItemEntity)) Errors.invalidTarget.runtime();
-		BlockPos pos = targetVal.getPosition();
-		if (!(context.focalPoint.world.isBlockLoaded(pos) && context.focalPoint.world.isBlockModifiable(context.caster, pos))) return null;
-		BlockState state = context.focalPoint.world.getBlockState(pos);
-		EntityPlaceEvent event = new EntityPlaceEvent(BlockSnapshot.create(context.focalPoint.world.getDimensionKey(), context.focalPoint.world, pos), context.focalPoint.world.getBlockState(pos.up()), context.caster);
+		BlockPos pos = targetVal.blockPosition();
+		if (!(context.focalPoint.level.hasChunkAt(pos) && context.focalPoint.level.mayInteract(context.caster, pos))) return null;
+		BlockState state = context.focalPoint.level.getBlockState(pos);
+		EntityPlaceEvent event = new EntityPlaceEvent(BlockSnapshot.create(context.focalPoint.level.dimension(), context.focalPoint.level, pos), context.focalPoint.level.getBlockState(pos.above()), context.caster);
 		MinecraftForge.EVENT_BUS.post(event);
-		if (!(state.isAir(context.focalPoint.world, pos) || state.getMaterial().isReplaceable()) || event.isCanceled()) return null;
+		if (!(state.isAir() || state.getMaterial().isReplaceable()) || event.isCanceled()) return null;
 		ItemEntity item = (ItemEntity) targetVal;
 		ItemStack stack = item.getItem().copy();
 		if (!(stack.getItem() instanceof BlockItem)) return null;
 		ItemStack placed = stack.split(1);
 		BlockItem blockItem = (BlockItem) placed.getItem();
-		BlockRayTraceResult hit = new BlockRayTraceResult(Vector3d.ZERO, Direction.UP, pos, false);
-		BlockItemUseContext ctx = new BlockItemUseContext(context.focalPoint.world, context.caster, Hand.MAIN_HAND, placed, hit);
-		ActionResultType result = blockItem.tryPlace(ctx);
-		if (result == ActionResultType.FAIL) return null;
-		if (stack.isEmpty()) item.remove();
+		BlockHitResult hit = new BlockHitResult(Vec3.ZERO, Direction.UP, pos, false);
+		BlockPlaceContext ctx = new BlockPlaceContext(context.focalPoint.level, context.caster, InteractionHand.MAIN_HAND, placed, hit);
+		InteractionResult result = blockItem.place(ctx);
+		if (result == InteractionResult.FAIL) return null;
+		if (stack.isEmpty()) item.discard();
 		else item.setItem(stack);
-		context.focalPoint.world.playEvent(2001, pos, Block.getStateId(context.focalPoint.world.getBlockState(pos)));
+		context.focalPoint.level.levelEvent(2001, pos, Block.getId(context.focalPoint.level.getBlockState(pos)));
 		return null;
 	}
 	

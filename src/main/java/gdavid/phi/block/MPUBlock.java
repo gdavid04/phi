@@ -2,72 +2,76 @@ package gdavid.phi.block;
 
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile;
+import gdavid.phi.block.tile.PsimetalCrusherTile;
 import gdavid.phi.cable.CableNetwork;
 import gdavid.phi.util.RedstoneMode;
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.spell.ISpellAcceptor;
 import vazkii.psi.api.spell.Spell;
 
-public class MPUBlock extends HorizontalBlock {
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
+public class MPUBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	
 	public static final String id = "mpu";
 	
 	public MPUBlock() {
-		super(Properties.create(Material.IRON).hardnessAndResistance(5, 10).sound(SoundType.METAL).notSolid());
-		setRegistryName(id);
-		setDefaultState(getStateContainer().getBaseState().with(HORIZONTAL_FACING, Direction.NORTH));
+		super(Properties.of(Material.METAL).strength(5, 10).sound(SoundType.METAL).noOcclusion());
+		registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, IBlockReader world, List<ITextComponent> tooltip,
-			ITooltipFlag advanced) {
-		tooltip.add(new TranslationTextComponent("block." + Phi.modId + ".mpu.desc"));
+	public void appendHoverText(ItemStack stack, BlockGetter world, List<Component> tooltip,
+			TooltipFlag advanced) {
+		tooltip.add(Component.translatable("block." + Phi.modId + ".mpu.desc"));
 	}
 	
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
-			Hand hand, BlockRayTraceResult rayTraceResult) {
-		ItemStack item = player.getHeldItem(hand);
-		TileEntity tile = world.getTileEntity(pos);
-		if (!(tile instanceof MPUTile)) return ActionResultType.PASS;
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player,
+			InteractionHand hand, BlockHitResult rayTraceResult) {
+		ItemStack item = player.getItemInHand(hand);
+		BlockEntity tile = world.getBlockEntity(pos);
+		if (!(tile instanceof MPUTile)) return InteractionResult.PASS;
 		if (item.getItem() == Items.REDSTONE_TORCH) {
 			((MPUTile) tile).redstoneMode = RedstoneMode.values()[(((MPUTile) tile).redstoneMode.ordinal() + 1)
 					% RedstoneMode.values().length];
-			player.sendStatusMessage(
-					new TranslationTextComponent(Phi.modId + ".redstone_mode." + ((MPUTile) tile).redstoneMode), true);
-			return ActionResultType.SUCCESS;
+			player.displayClientMessage(
+					Component.translatable(Phi.modId + ".redstone_mode." + ((MPUTile) tile).redstoneMode), true);
+			return InteractionResult.SUCCESS;
 		}
 		Class<?> spellDrive = null;
 		try {
 			spellDrive = Class.forName("vazkii.psi.common.item.ItemSpellDrive");
 			if (!(boolean) Class.forName("vazkii.psi.common.item.ItemCAD").getMethod("isTruePlayer", Entity.class)
 					.invoke(null, player)) {
-				return ActionResultType.PASS;
+				return InteractionResult.PASS;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,61 +82,61 @@ public class MPUBlock extends HorizontalBlock {
 				spell = (Spell) spellDrive.getMethod("getSpell", ItemStack.class).invoke(item.getItem(), item);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return ActionResultType.PASS;
+				return InteractionResult.PASS;
 			}
 		} else {
-			if (!ISpellAcceptor.isAcceptor(item)) return ActionResultType.PASS;
+			if (!ISpellAcceptor.isAcceptor(item)) return InteractionResult.PASS;
 			ISpellAcceptor acceptor = ISpellAcceptor.acceptor(item);
-			if (!acceptor.containsSpell()) return ActionResultType.PASS;
+			if (!acceptor.containsSpell()) return InteractionResult.PASS;
 			spell = acceptor.getSpell();
 		}
-		if (!world.isRemote && spell != null) {
+		if (!world.isClientSide && spell != null) {
 			((MPUTile) tile).setSpell(spell);
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 	
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
 	}
 	
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 	
 	@Override
-	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
-		if (!world.isRemote) CableNetwork.rebuild(world, pos);
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
+		if (!world.isClientSide) CableNetwork.rebuild(world, pos);
 	}
 	
 	@Override
 	@SuppressWarnings("deprecation")
-	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean flag) {
-		super.onReplaced(state, world, pos, newState, flag);
-		if (!world.isRemote) CableNetwork.rebuild(world, pos);
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean flag) {
+		super.onRemove(state, world, pos, newState, flag);
+		if (!world.isClientSide) CableNetwork.rebuild(world, pos);
 	}
 	
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new MPUTile();
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new MPUTile(pos, state);
 	}
 	
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+		return type != MPUTile.type ? null : (level, pos, state1, tile) -> ((MPUTile) tile).tick();
 	}
 	
 	@Override
-	public int getComparatorInputOverride(BlockState state, World world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
+	public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+		BlockEntity tile = world.getBlockEntity(pos);
 		if (!(tile instanceof MPUTile)) return 0;
 		return ((MPUTile) tile).comparatorSignal;
 	}
 	
 	@Override
-	public boolean hasComparatorInputOverride(BlockState state) {
+	public boolean hasAnalogOutputSignal(BlockState state) {
 		return true;
 	}
 	

@@ -1,9 +1,9 @@
 package gdavid.phi.spell.trick;
 
 import gdavid.phi.spell.Errors;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.cad.ISocketable;
 import vazkii.psi.api.spell.*;
@@ -67,16 +67,16 @@ public class SpinItemChamberTrick extends PieceTrick {
 	}
 	
 	private ItemStack getItemInSlot(SpellContext context, int slot) throws SpellRuntimeException {
-		if (slot > 0) return context.caster.inventory.getStackInSlot(slot % 36);
-		if (-slot < EquipmentSlotType.values().length) return context.caster.getItemStackFromSlot(EquipmentSlotType.values()[-slot]);
+		if (slot > 0) return context.caster.getInventory().getItem(slot % 36);
+		if (-slot < EquipmentSlot.values().length) return context.caster.getItemBySlot(EquipmentSlot.values()[-slot]);
 		Errors.invalidTarget.runtime();
 		return ItemStack.EMPTY;
 	}
 	
-	private boolean isSlot(SpellContext context, int slot, Hand hand) {
-		return (-slot == EquipmentSlotType.MAINHAND.getIndex() && hand == Hand.MAIN_HAND)
-			|| (-slot == EquipmentSlotType.OFFHAND.getIndex() && hand == Hand.OFF_HAND)
-			|| (slot > 0 && slot % 36 == context.caster.inventory.currentItem - 1);
+	private boolean isSlot(SpellContext context, int slot, InteractionHand hand) {
+		return (-slot == EquipmentSlot.MAINHAND.getIndex() && hand == InteractionHand.MAIN_HAND)
+			|| (-slot == EquipmentSlot.OFFHAND.getIndex() && hand == InteractionHand.OFF_HAND)
+			|| (slot > 0 && slot % 36 == context.caster.getInventory().selected - 1);
 	}
 	
 }

@@ -5,9 +5,9 @@ import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.ItemStack;
+import com.mojang.math.Vector3f;
+import net.minecraft.server.level.ServerLevel;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.EnumCADComponent;
 import vazkii.psi.api.cad.ICAD;
@@ -66,19 +66,19 @@ public class PsionWaveTrick extends PieceTrick {
 			return null;
 		}
 		distanceVal = Math.max(1, distanceVal);
-		if (context.focalPoint.getEntityWorld() instanceof ServerWorld) {
-			PsionWaveEntity wave = new PsionWaveEntity(context.focalPoint.getEntityWorld(),
+		if (context.focalPoint.getCommandSenderWorld() instanceof ServerLevel) {
+			PsionWaveEntity wave = new PsionWaveEntity(context.focalPoint.getCommandSenderWorld(),
 					new Vector3f((float) directionVal.x, (float) directionVal.y, (float) directionVal.z), speedVal,
 					frequencyVal, distanceVal);
 			ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
 			if (!cad.isEmpty()) {
 				wave.setColorizer(((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.DYE));
 			}
-			wave.setPosition(context.focalPoint.getPosX(), context.focalPoint.getPosY()
+			wave.setPos(context.focalPoint.getX(), context.focalPoint.getY()
 					+ context.focalPoint.getEyeHeight() - (context.focalPoint instanceof MPUCaster ? 0 : 0.5),
-					context.focalPoint.getPosZ());
-			wave.setShooter(context.focalPoint);
-			wave.getEntityWorld().addEntity(wave);
+					context.focalPoint.getZ());
+			wave.setOwner(context.focalPoint);
+			wave.getCommandSenderWorld().addFreshEntity(wave);
 		}
 		context.delay = 5;
 		return null;

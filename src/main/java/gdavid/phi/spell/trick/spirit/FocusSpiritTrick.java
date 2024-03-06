@@ -3,7 +3,7 @@ package gdavid.phi.spell.trick.spirit;
 import gdavid.phi.Phi;
 import gdavid.phi.entity.SpiritEntity;
 import gdavid.phi.spell.Errors;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -39,7 +39,7 @@ public class FocusSpiritTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Entity targetVal = getNonnullParamValue(context, target);
 		if (!(targetVal instanceof SpiritEntity)
-				|| ((SpiritEntity) targetVal).getOwner() != context.caster.getUniqueID())
+				|| ((SpiritEntity) targetVal).getOwner() != context.caster.getUUID())
 			Errors.invalidTarget.runtime();
 		context.customData.computeIfAbsent(originalFocus, k -> context.focalPoint);
 		context.focalPoint = targetVal;

@@ -3,10 +3,10 @@ package gdavid.phi.item;
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.capability.MPUCADData;
 import gdavid.phi.spell.Errors;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.EnumCADComponent;
@@ -18,15 +18,17 @@ import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.piece.PieceCraftingTrick;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class MPUCAD extends Item implements ICAD {
 	
+	public static final String id = MPUBlock.id + ".cad";
 	public static final MPUCAD instance = new MPUCAD();
 	
 	public static int savedVectors = 1;
 	
 	private MPUCAD() {
 		super(new Properties());
-		setRegistryName(MPUBlock.id + ".cad");
 	}
 	
 	public ICADData getData(ItemStack stack) {
@@ -34,7 +36,7 @@ public class MPUCAD extends Item implements ICAD {
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
 		MPUCADData data = new MPUCADData(stack);
 		if (nbt != null) {
 			data.deserializeNBT(nbt);
@@ -115,7 +117,7 @@ public class MPUCAD extends Item implements ICAD {
 	}
 	
 	@Override
-	public boolean craft(ItemStack cad, PlayerEntity entity, PieceCraftingTrick trick) {
+	public boolean craft(ItemStack cad, Player entity, PieceCraftingTrick trick) {
 		// MPUs can't craft
 		return false;
 	}

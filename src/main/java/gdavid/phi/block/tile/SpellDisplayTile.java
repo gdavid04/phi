@@ -3,31 +3,32 @@ package gdavid.phi.block.tile;
 import java.util.UUID;
 
 import gdavid.phi.util.IProgramTransferTarget;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import vazkii.psi.api.spell.Spell;
 
-public class SpellDisplayTile extends TileEntity implements IProgramTransferTarget {
+public class SpellDisplayTile extends BlockEntity implements IProgramTransferTarget {
 	
-	public static TileEntityType<SpellDisplayTile> type;
+	public static BlockEntityType<SpellDisplayTile> type;
 	
 	public static final String tagSpell = "spell";
 	
 	public Spell spell;
 	
-	public SpellDisplayTile() {
-		super(type);
+	public SpellDisplayTile(BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
 	public BlockPos getPosition() {
-		return pos;
+		return worldPosition;
 	}
 	
 	@Override
@@ -36,7 +37,7 @@ public class SpellDisplayTile extends TileEntity implements IProgramTransferTarg
 	}
 	
 	@Override
-	public void setSpell(PlayerEntity player, Spell spell) {
+	public void setSpell(Player player, Spell spell) {
 		setSpell(spell);
 	}
 	
@@ -47,43 +48,39 @@ public class SpellDisplayTile extends TileEntity implements IProgramTransferTarg
 			spell = to.copy();
 			spell.uuid = UUID.randomUUID();
 		}
-		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
 	}
 	
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		read(nbt);
-	}
-	
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
 		else spell.readFromNBT(nbt.getCompound(tagSpell));
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		nbt = super.write(nbt);
-		CompoundNBT spellNbt = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		var nbt = super.serializeNBT();
+		CompoundTag spellNbt = new CompoundTag();
 		if (spell != null) spell.writeToNBT(spellNbt);
 		nbt.put(tagSpell, spellNbt);
 		return nbt;
 	}
 	
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(getPos(), 0, write(new CompoundNBT()));
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
 	}
 	
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return write(new CompoundNBT());
+	public CompoundTag getUpdateTag() {
+		return serializeNBT();
 	}
 	
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-		read(packet.getNbtCompound());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+		load(packet.getTag());
 	}
 	
 }

@@ -2,7 +2,8 @@ package gdavid.phi.spell.selector;
 
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.spell.Errors;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
@@ -32,20 +33,19 @@ public class NearbyMarkersSelector extends PieceSelector {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 positionVal = getParamValueOrDefault(context, position,
-				Vector3.fromVec3d(context.focalPoint.getPositionVec()));
+				Vector3.fromVec3d(context.focalPoint.position()));
 		double radiusVal = getParamValueOrDefault(context, radius, SpellContext.MAX_DISTANCE * 2).doubleValue();
 		if (radiusVal <= 0) Errors.runtime(SpellRuntimeException.NON_POSITIVE_VALUE);
-		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getPosX(),
-				context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
+		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getX(),
+				context.focalPoint.getY(), context.focalPoint.getZ()) > SpellContext.MAX_DISTANCE * 2) {
 			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
-		AxisAlignedBB boundingBox = AxisAlignedBB.withSizeAtOrigin(radiusVal, radiusVal, radiusVal)
-				.offset(positionVal.toVec3D());
+		AABB boundingBox = AABB.ofSize(positionVal.toVec3D(), radiusVal, radiusVal, radiusVal);
 		boundingBox = boundingBox
-				.intersect(AxisAlignedBB.withSizeAtOrigin(SpellContext.MAX_DISTANCE * 2, SpellContext.MAX_DISTANCE * 2,
-						SpellContext.MAX_DISTANCE * 2).offset(context.focalPoint.getPositionVec()));
+				.intersect(AABB.ofSize(context.focalPoint.position(),
+						SpellContext.MAX_DISTANCE * 2, SpellContext.MAX_DISTANCE * 2, SpellContext.MAX_DISTANCE * 2));
 		return EntityListWrapper
-				.make(context.focalPoint.getEntityWorld().getEntitiesWithinAABB(MarkerEntity.class, boundingBox));
+				.make(context.focalPoint.getCommandSenderWorld().getEntitiesOfClass(Entity.class, boundingBox, e -> e instanceof MarkerEntity));
 	}
 	
 	@Override

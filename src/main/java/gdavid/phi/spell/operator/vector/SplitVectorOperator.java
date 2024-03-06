@@ -1,21 +1,18 @@
 package gdavid.phi.spell.operator.vector;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import gdavid.phi.Phi;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.param.ReferenceParam;
 import gdavid.phi.util.ISidedResult;
 import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Matrix4f;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
@@ -57,7 +54,7 @@ public class SplitVectorOperator extends SpellPiece {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
+	public void addToTooltipAfterShift(List<Component> tooltip) {
 		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	
@@ -73,7 +70,7 @@ public class SplitVectorOperator extends SpellPiece {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
 		drawLine(ms, buffers, light, 0xffffffff, paramSides.get(vector));
 		drawLine(ms, buffers, light, outX.color, paramSides.get(outX));
 		drawLine(ms, buffers, light, outY.color, paramSides.get(outY));
@@ -81,25 +78,25 @@ public class SplitVectorOperator extends SpellPiece {
 	}
 	
 	@OnlyIn(Dist.CLIENT)
-	public void drawLine(MatrixStack ms, IRenderTypeBuffer buffers, int light, int color, SpellParam.Side side) {
+	public void drawLine(PoseStack ms, MultiBufferSource buffers, int light, int color, SpellParam.Side side) {
 		if (!side.isEnabled()) {
 			return;
 		}
-		RenderMaterial material = new RenderMaterial(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
-		IVertexBuilder buffer = material.getBuffer(buffers, get -> SpellPiece.getLayer());
+		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
+		VertexConsumer buffer = material.buffer(buffers, get -> SpellPiece.getLayer());
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float maxU = minU + 0.5f, maxV = minV + 0.5f;
 		int r = RenderHelper.r(color), g = RenderHelper.g(color), b = RenderHelper.b(color), a = 255;
-		Matrix4f mat = ms.getLast().getMatrix();
-		buffer.pos(mat, 0, 16, 0).color(r, g, b, a);
-		buffer.tex(minU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 16, 16, 0).color(r, g, b, a);
-		buffer.tex(maxU, maxV).lightmap(light).endVertex();
-		buffer.pos(mat, 16, 0, 0).color(r, g, b, a);
-		buffer.tex(maxU, minV).lightmap(light).endVertex();
-		buffer.pos(mat, 0, 0, 0).color(r, g, b, a);
-		buffer.tex(minU, minV).lightmap(light).endVertex();
+		Matrix4f mat = ms.last().pose();
+		buffer.vertex(mat, 0, 16, 0).color(r, g, b, a);
+		buffer.uv(minU, maxV).uv2(light).endVertex();
+		buffer.vertex(mat, 16, 16, 0).color(r, g, b, a);
+		buffer.uv(maxU, maxV).uv2(light).endVertex();
+		buffer.vertex(mat, 16, 0, 0).color(r, g, b, a);
+		buffer.uv(maxU, minV).uv2(light).endVertex();
+		buffer.vertex(mat, 0, 0, 0).color(r, g, b, a);
+		buffer.uv(minU, minV).uv2(light).endVertex();
 	}
 	
 	@Override

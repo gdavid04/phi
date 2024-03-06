@@ -1,12 +1,12 @@
 package gdavid.phi.spell.constant;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.TextParam;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
@@ -39,16 +39,16 @@ public class TextConstant extends SpellPiece {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("resource")
-	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
 		if (str.length() > 5) str = str.substring(0, 5);
-		FontRenderer font = Minecraft.getInstance().fontRenderer;
+		Font font = Minecraft.getInstance().font;
 		String rstr = str.replaceAll(" ", "§8_§r");
 		if (rstr.length() == 0) rstr = "§8Text";
-		ms.push();
-		ms.translate(8 - font.getStringWidth(rstr) / 4f, 4, 0);
+		ms.pushPose();
+		ms.translate(8 - font.width(rstr) / 4f, 4, 0);
 		ms.scale(0.5f, 0.5f, 1);
-		font.renderString(rstr, 0, 0, 0xffffff, false, ms.getLast().getMatrix(), buffers, false, 0, light);
-		ms.pop();
+		font.drawInBatch(rstr, 0, 0, 0xffffff, false, ms.last().pose(), buffers, false, 0, light);
+		ms.popPose();
 	}
 	
 	@Override
@@ -91,13 +91,13 @@ public class TextConstant extends SpellPiece {
 	}
 	
 	@Override
-	public void writeToNBT(CompoundNBT nbt) {
+	public void writeToNBT(CompoundTag nbt) {
 		super.writeToNBT(nbt);
 		nbt.putString(tagValue, str);
 	}
 	
 	@Override
-	public void readFromNBT(CompoundNBT nbt) {
+	public void readFromNBT(CompoundTag nbt) {
 		super.readFromNBT(nbt);
 		str = nbt.getString(tagValue);
 	}

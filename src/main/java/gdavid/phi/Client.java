@@ -17,19 +17,15 @@ import gdavid.phi.spell.operator.number.DivModOperator;
 import gdavid.phi.spell.operator.text.SplitTextAtOperator;
 import gdavid.phi.spell.operator.text.SplitTextOperator;
 import gdavid.phi.spell.operator.vector.SplitVectorOperator;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.RegisterEvent;
 import vazkii.psi.api.ClientPsiAPI;
 
 @OnlyIn(Dist.CLIENT)
@@ -37,21 +33,21 @@ import vazkii.psi.api.ClientPsiAPI;
 public class Client {
 	
 	@SubscribeEvent
-	public static void clientSetup(FMLClientSetupEvent event) {
-		RenderingRegistry.registerEntityRenderingHandler(PsionWaveEntity.type, PsionWaveRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(PsiProjectileEntity.type, PsiProjectileRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(MarkerEntity.type, MarkerRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(SpiritEntity.type, SpiritRenderer::new);
+	public static void clientSetup(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerEntityRenderer(PsionWaveEntity.type, PsionWaveRenderer::new);
+		event.registerEntityRenderer(PsiProjectileEntity.type, PsiProjectileRenderer::new);
+		event.registerEntityRenderer(MarkerEntity.type, MarkerRenderer::new);
+		event.registerEntityRenderer(SpiritEntity.type, SpiritRenderer::new);
 		
-		ClientRegistry.bindTileEntityRenderer(MPUTile.type, MPUTileRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(CADHolderTile.type, CADHolderTileRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(TextDisplayTile.type, TextDisplayTileRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(SpellDisplayTile.type, SpellDisplayTileRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(PsimetalCrusherTile.type, PsimetalCrusherTileRenderer::new);
+		event.registerBlockEntityRenderer(MPUTile.type, MPUTileRenderer::new);
+		event.registerBlockEntityRenderer(CADHolderTile.type, CADHolderTileRenderer::new);
+		event.registerBlockEntityRenderer(TextDisplayTile.type, TextDisplayTileRenderer::new);
+		event.registerBlockEntityRenderer(SpellDisplayTile.type, SpellDisplayTileRenderer::new);
+		event.registerBlockEntityRenderer(PsimetalCrusherTile.type, PsimetalCrusherTileRenderer::new);
 	}
 	
 	@SubscribeEvent
-	public static void init(RegistryEvent.Register<Item> event) {
+	public static void init(RegisterEvent event) {
 		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "operator_div_mod_lines"),
 				DivModOperator.lineTexture);
 		ClientPsiAPI.registerPieceTexture(new ResourceLocation(Phi.modId, "operator_split_vector_lines"),
@@ -71,8 +67,8 @@ public class Client {
 	}
 	
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event) {
-		ModelLoader.addSpecialModel(PsimetalCrusherTileRenderer.modelLoc);
+	public static void registerModels(ModelEvent.RegisterAdditional event) {
+		event.register(PsimetalCrusherTileRenderer.modelLoc);
 	}
 	
 }

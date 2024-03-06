@@ -2,17 +2,17 @@ package gdavid.phi.network;
 
 import gdavid.phi.Phi;
 import java.util.function.Function;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 @EventBusSubscriber(bus = Bus.MOD)
 public class Messages {
@@ -37,15 +37,15 @@ public class Messages {
 		channel.messageBuilder(clazz, id++).encoder(Message::encode).consumer(Message::receive)
 				.decoder((Function) buf -> {
 					try {
-						return clazz.getConstructor(PacketBuffer.class).newInstance(buf);
+						return clazz.getConstructor(FriendlyByteBuf.class).newInstance(buf);
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
 				}).add();
 	}
 	
-	public static void send(Message message, PlayerEntity player) {
-		channel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), message);
+	public static void send(Message message, Player player) {
+		channel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player), message);
 	}
 	
 }

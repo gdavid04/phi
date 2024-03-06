@@ -1,34 +1,34 @@
 package gdavid.phi.block;
 
 import gdavid.phi.Phi;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class DistillChamberWallBlock extends Block {
 	
 	public static final String id = "distill_chamber_wall";
 	
 	public DistillChamberWallBlock() {
-		super(Properties.create(Material.IRON).hardnessAndResistance(5, 10).sound(SoundType.METAL));
-		setRegistryName(id);
+		super(Properties.of(Material.METAL).strength(5, 10).sound(SoundType.METAL));
 	}
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(
-			ItemStack stack, IBlockReader world, List<ITextComponent> tooltip,
-			ITooltipFlag advanced) {
-		tooltip.add(new TranslationTextComponent("block." + Phi.modId + "." + id + ".desc"));
+	public void appendHoverText(
+			ItemStack stack, BlockGetter world, List<Component> tooltip,
+			TooltipFlag advanced) {
+		tooltip.add(Component.translatable("block." + Phi.modId + "." + id + ".desc"));
 	}
 	
 }

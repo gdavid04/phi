@@ -1,7 +1,7 @@
 package gdavid.phi.spell.connector;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.spell.EnumPieceType;
@@ -41,7 +41,7 @@ public class ClockwiseConnector extends SpellPiece implements IGenericRedirector
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void drawParams(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
+	public void drawParams(PoseStack ms, MultiBufferSource buffers, int light) {
 		// TODO fix this when there's an API that doesn't require a registered
 		// SpellParam
 		/*

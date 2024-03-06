@@ -3,19 +3,17 @@ package gdavid.phi.item;
 import gdavid.phi.Phi;
 import gdavid.phi.capability.MagazineSocketable;
 import java.util.List;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -31,6 +29,8 @@ import vazkii.psi.api.cad.ISocketable;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
+import net.minecraft.world.item.Item.Properties;
+
 @EventBusSubscriber
 public class SpellMagazineItem extends Item implements ICADComponent {
 	
@@ -42,8 +42,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public int bandwidth, sockets, vectors;
 	
 	public SpellMagazineItem(String id, int sockets, int bandwidth, int vectors) {
-		super(new Properties().maxStackSize(1).group(ItemGroup.MISC));
-		setRegistryName(id);
+		super(new Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC));
 		this.id = id;
 		this.bandwidth = bandwidth;
 		this.sockets = sockets;
@@ -65,40 +64,40 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack item, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
+	public void appendHoverText(ItemStack item, Level world, List<Component> tooltip, TooltipFlag advanced) {
 		ISocketable socket = ISocketable.socketable(item);
-		tooltip.add(new TranslationTextComponent("item." + Phi.modId + "." + id + ".desc"));
-		tooltip.add(new TranslationTextComponent("item." + Phi.modId + ".spell_magazine.desc"));
-		tooltip.add(new StringTextComponent(" ")
-				.append(new TranslationTextComponent(EnumCADStat.BANDWIDTH.getName()).mergeStyle(TextFormatting.AQUA))
-				.appendString(": " + bandwidth));
-		tooltip.add(new StringTextComponent(" ")
-				.append(new TranslationTextComponent(EnumCADStat.SOCKETS.getName()).mergeStyle(TextFormatting.AQUA))
-				.appendString(": " + sockets));
+		tooltip.add(Component.translatable("item." + Phi.modId + "." + id + ".desc"));
+		tooltip.add(Component.translatable("item." + Phi.modId + ".spell_magazine.desc"));
+		tooltip.add(Component.literal(" ")
+				.append(Component.translatable(EnumCADStat.BANDWIDTH.getName()).withStyle(ChatFormatting.AQUA))
+				.append(": " + bandwidth));
+		tooltip.add(Component.literal(" ")
+				.append(Component.translatable(EnumCADStat.SOCKETS.getName()).withStyle(ChatFormatting.AQUA))
+				.append(": " + sockets));
 		for (int i = 0; i < sockets; i++) {
 			ItemStack bullet = socket.getBulletInSocket(i);
-			if (bullet.isEmpty()) tooltip.add(new StringTextComponent(" - [Empty]").mergeStyle(TextFormatting.GRAY));
-			else tooltip.add(new StringTextComponent(" - ").mergeStyle(TextFormatting.GRAY)
-					.append(socket.getBulletInSocket(i).getDisplayName()));
+			if (bullet.isEmpty()) tooltip.add(Component.literal(" - [Empty]").withStyle(ChatFormatting.GRAY));
+			else tooltip.add(Component.literal(" - ").withStyle(ChatFormatting.GRAY)
+					.append(socket.getBulletInSocket(i).getHoverName()));
 		}
-		tooltip.add(new StringTextComponent(" ").append(
-				new TranslationTextComponent(EnumCADStat.SAVED_VECTORS.getName()).mergeStyle(TextFormatting.AQUA))
-				.appendString(": " + vectors));
+		tooltip.add(Component.literal(" ").append(
+				Component.translatable(EnumCADStat.SAVED_VECTORS.getName()).withStyle(ChatFormatting.AQUA))
+				.append(": " + vectors));
 		for (int i = 0; i < vectors; i++) {
 			Vector3 vector = getStoredVector(item, i);
 			if (vector.isZero()) continue;
-			tooltip.add(new StringTextComponent(" " + (i + 1) + ": [").mergeStyle(TextFormatting.GRAY)
-					.append(new StringTextComponent(Double.toString(vector.x)).mergeStyle(TextFormatting.RED))
-					.append(new StringTextComponent(", ").mergeStyle(TextFormatting.GRAY))
-					.append(new StringTextComponent(Double.toString(vector.y)).mergeStyle(TextFormatting.GREEN))
-					.append(new StringTextComponent(", ").mergeStyle(TextFormatting.GRAY))
-					.append(new StringTextComponent(Double.toString(vector.z)).mergeStyle(TextFormatting.BLUE))
-					.append(new StringTextComponent("]").mergeStyle(TextFormatting.GRAY)));
+			tooltip.add(Component.literal(" " + (i + 1) + ": [").withStyle(ChatFormatting.GRAY)
+					.append(Component.literal(Double.toString(vector.x)).withStyle(ChatFormatting.RED))
+					.append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
+					.append(Component.literal(Double.toString(vector.y)).withStyle(ChatFormatting.GREEN))
+					.append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
+					.append(Component.literal(Double.toString(vector.z)).withStyle(ChatFormatting.BLUE))
+					.append(Component.literal("]").withStyle(ChatFormatting.GRAY)));
 		}
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack item, CompoundNBT nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack item, CompoundTag nbt) {
 		return new MagazineSocketable(item, sockets);
 	}
 	
@@ -112,15 +111,15 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		ItemStack item = player.getHeldItem(hand);
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+		ItemStack item = player.getItemInHand(hand);
 		ItemStack cad = PsiAPI.getPlayerCAD(player);
 		ItemStack old = ejectMag(cad);
-		if (old.isEmpty()) return ActionResult.resultFail(item);
-		if (!world.isRemote) {
+		if (old.isEmpty()) return InteractionResultHolder.fail(item);
+		if (!world.isClientSide) {
 			insertMag(item, cad);
 		}
-		return ActionResult.resultConsume(old);
+		return InteractionResultHolder.consume(old);
 	}
 	
 	/**
@@ -183,17 +182,17 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	}
 	
 	public void stripCadData(ItemStack item) {
-		item.removeChildTag(tagVector);
-		item.removeChildTag(tagSlot);
+		item.removeTagKey(tagVector);
+		item.removeTagKey(tagSlot);
 	}
 	
 	public Vector3 getStoredVector(ItemStack item, int slot) {
-		CompoundNBT nbt = item.getOrCreateChildTag(tagVector);
+		CompoundTag nbt = item.getOrCreateTagElement(tagVector);
 		return new Vector3(nbt.getDouble(slot + "_x"), nbt.getDouble(slot + "_y"), nbt.getDouble(slot + "_z"));
 	}
 	
 	public void setStoredVector(ItemStack item, int slot, Vector3 vec) {
-		CompoundNBT nbt = item.getOrCreateChildTag(tagVector);
+		CompoundTag nbt = item.getOrCreateTagElement(tagVector);
 		nbt.putDouble(slot + "_x", vec.x);
 		nbt.putDouble(slot + "_y", vec.y);
 		nbt.putDouble(slot + "_z", vec.z);

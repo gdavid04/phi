@@ -1,8 +1,8 @@
 package gdavid.phi.spell.selector;
 
 import gdavid.phi.spell.Errors;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
@@ -32,20 +32,18 @@ public class NearbyBurningSelector extends PieceSelector {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 positionVal = getParamValueOrDefault(context, position,
-				Vector3.fromVec3d(context.focalPoint.getPositionVec()));
+				Vector3.fromVec3d(context.focalPoint.position()));
 		double radiusVal = getParamValueOrDefault(context, radius, SpellContext.MAX_DISTANCE).doubleValue();
 		if (radiusVal <= 0) Errors.runtime(SpellRuntimeException.NON_POSITIVE_VALUE);
-		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getPosX(),
-				context.focalPoint.getPosY(), context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE) {
+		if (MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z, context.focalPoint.getX(),
+				context.focalPoint.getY(), context.focalPoint.getZ()) > SpellContext.MAX_DISTANCE) {
 			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
-		AxisAlignedBB boundingBox = AxisAlignedBB.withSizeAtOrigin(radiusVal, radiusVal, radiusVal)
-				.offset(positionVal.toVec3D());
-		boundingBox = boundingBox.intersect(AxisAlignedBB
-				.withSizeAtOrigin(SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE)
-				.offset(context.focalPoint.getPositionVec()));
-		return EntityListWrapper.make(context.focalPoint.getEntityWorld().getEntitiesWithinAABB(Entity.class,
-				boundingBox, entity -> entity.isBurning()));
+		AABB boundingBox = AABB.ofSize(positionVal.toVec3D(), radiusVal, radiusVal, radiusVal);
+		boundingBox = boundingBox.intersect(AABB.ofSize(context.focalPoint.position(),
+				SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE, SpellContext.MAX_DISTANCE));
+		return EntityListWrapper.make(context.focalPoint.getCommandSenderWorld().getEntitiesOfClass(Entity.class,
+				boundingBox, Entity::isOnFire));
 	}
 	
 	@Override

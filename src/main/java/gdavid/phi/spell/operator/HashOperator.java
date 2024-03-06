@@ -1,7 +1,7 @@
 package gdavid.phi.spell.operator;
 
 import gdavid.phi.spell.Errors;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
@@ -32,7 +32,7 @@ public class HashOperator extends PieceOperator {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Object val = getRawParamValue(context, value);
 		if (val == null) Errors.runtime(SpellRuntimeException.NULL_TARGET);
-		if (val instanceof Entity) return ((Entity) val).getUniqueID().hashCode();
+		if (val instanceof Entity) return ((Entity) val).getUUID().hashCode();
 		// String, Number and Vector3 implement hashCode properly
 		// TODO EntityListWrapper support
 		return val.hashCode();

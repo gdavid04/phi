@@ -1,9 +1,9 @@
 package gdavid.phi.util;
 
 import java.util.List;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
 import vazkii.psi.api.spell.Spell;
 
 public interface IProgramTransferTarget {
@@ -12,7 +12,7 @@ public interface IProgramTransferTarget {
 	
 	Spell getSpell();
 	
-	void setSpell(PlayerEntity player, Spell spell);
+	void setSpell(Player player, Spell spell);
 	
 	default boolean hasSlots() {
 		return false;

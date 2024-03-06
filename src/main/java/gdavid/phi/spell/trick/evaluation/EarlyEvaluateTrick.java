@@ -15,10 +15,7 @@ import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceTrick;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -41,7 +38,7 @@ public class EarlyEvaluateTrick extends PieceTrick {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addToTooltipAfterShift(List<ITextComponent> tooltip) {
+	public void addToTooltipAfterShift(List<Component> tooltip) {
 		ParamHelper.outputTooltip(this, super::addToTooltipAfterShift, tooltip);
 	}
 	

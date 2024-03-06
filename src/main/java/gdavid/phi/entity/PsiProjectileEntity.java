@@ -2,30 +2,31 @@ package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
 import gdavid.phi.util.IPsiAcceptor;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.PsiAPI;
+import vazkii.psi.common.block.base.ModBlocks;
 
-public class PsiProjectileEntity extends ThrowableEntity {
+public class PsiProjectileEntity extends ThrowableProjectile {
 	
 	public static final String id = "psi_projectile";
 	
-	@ObjectHolder(Phi.modId + ":" + id)
+	@ObjectHolder(registryName = "entity_type", value = Phi.modId + ":" + id)
 	public static EntityType<PsiProjectileEntity> type;
 	
 	static final String tagColorizer = "colorizer";
@@ -36,122 +37,119 @@ public class PsiProjectileEntity extends ThrowableEntity {
 	static final String tagTime = "time";
 	static final String tagPsi = "psi";
 	
-	public static final DataParameter<ItemStack> colorizer = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.ITEMSTACK);
-	public static final DataParameter<Float> directionX = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> directionY = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> directionZ = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<BlockPos> origin = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.BLOCK_POS);
-	public static final DataParameter<Integer> time = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.VARINT);
-	public static final DataParameter<Integer> psi = EntityDataManager.createKey(PsiProjectileEntity.class,
-			DataSerializers.VARINT);
+	public static final EntityDataAccessor<ItemStack> colorizer = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.ITEM_STACK);
+	public static final EntityDataAccessor<Float> directionX = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> directionY = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> directionZ = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<BlockPos> origin = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.BLOCK_POS);
+	public static final EntityDataAccessor<Integer> time = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> psi = SynchedEntityData.defineId(PsiProjectileEntity.class,
+			EntityDataSerializers.INT);
 	
-	public PsiProjectileEntity(EntityType<PsiProjectileEntity> type, World world) {
+	public PsiProjectileEntity(EntityType<PsiProjectileEntity> type, Level world) {
 		super(type, world);
 	}
 	
-	public PsiProjectileEntity(World world, Vector3d direction, int psi) {
+	public PsiProjectileEntity(Level world, Vec3 direction, int psi) {
 		super(type, world);
-		dataManager.set(directionX, (float) direction.getX());
-		dataManager.set(directionY, (float) direction.getY());
-		dataManager.set(directionZ, (float) direction.getZ());
-		dataManager.set(PsiProjectileEntity.psi, psi);
+		entityData.set(directionX, (float) direction.x());
+		entityData.set(directionY, (float) direction.y());
+		entityData.set(directionZ, (float) direction.z());
+		entityData.set(PsiProjectileEntity.psi, psi);
 	}
 	
 	public void setColorizer(ItemStack stack) {
-		dataManager.set(colorizer, stack);
+		entityData.set(colorizer, stack);
 	}
 	
 	public void setOrigin() {
-		dataManager.set(origin, getPosition());
+		entityData.set(origin, blockPosition());
 	}
 	
 	@Override
-	protected void registerData() {
-		dataManager.register(colorizer, ItemStack.EMPTY);
-		dataManager.register(directionX, 0f);
-		dataManager.register(directionY, 0f);
-		dataManager.register(directionZ, 0f);
-		dataManager.register(origin, BlockPos.ZERO);
-		dataManager.register(time, 0);
-		dataManager.register(psi, 0);
+	protected void defineSynchedData() {
+		entityData.define(colorizer, ItemStack.EMPTY);
+		entityData.define(directionX, 0f);
+		entityData.define(directionY, 0f);
+		entityData.define(directionZ, 0f);
+		entityData.define(origin, BlockPos.ZERO);
+		entityData.define(time, 0);
+		entityData.define(psi, 0);
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT nbt) {
-		super.writeAdditional(nbt);
-		ItemStack colorizerItem = dataManager.get(colorizer);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
+		ItemStack colorizerItem = entityData.get(colorizer);
 		if (!colorizerItem.isEmpty()) {
-			nbt.put(tagColorizer, colorizerItem.write(new CompoundNBT()));
+			nbt.put(tagColorizer, colorizerItem.save(new CompoundTag()));
 		}
-		nbt.putFloat(tagDirectionX, dataManager.get(directionX));
-		nbt.putFloat(tagDirectionY, dataManager.get(directionY));
-		nbt.putFloat(tagDirectionZ, dataManager.get(directionZ));
-		BlockPos originPos = dataManager.get(origin);
+		nbt.putFloat(tagDirectionX, entityData.get(directionX));
+		nbt.putFloat(tagDirectionY, entityData.get(directionY));
+		nbt.putFloat(tagDirectionZ, entityData.get(directionZ));
+		BlockPos originPos = entityData.get(origin);
 		nbt.putInt(tagOrigin + "_x", originPos.getX());
 		nbt.putInt(tagOrigin + "_y", originPos.getY());
 		nbt.putInt(tagOrigin + "_z", originPos.getZ());
-		nbt.putFloat(tagTime, dataManager.get(time));
-		nbt.putFloat(tagPsi, dataManager.get(psi));
+		nbt.putFloat(tagTime, entityData.get(time));
+		nbt.putFloat(tagPsi, entityData.get(psi));
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT nbt) {
-		super.readAdditional(nbt);
-		dataManager.set(colorizer, ItemStack.read(nbt.getCompound(tagColorizer)));
-		dataManager.set(directionX, nbt.getFloat(tagDirectionX));
-		dataManager.set(directionY, nbt.getFloat(tagDirectionY));
-		dataManager.set(directionZ, nbt.getFloat(tagDirectionZ));
-		dataManager.set(origin,
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		entityData.set(colorizer, ItemStack.of(nbt.getCompound(tagColorizer)));
+		entityData.set(directionX, nbt.getFloat(tagDirectionX));
+		entityData.set(directionY, nbt.getFloat(tagDirectionY));
+		entityData.set(directionZ, nbt.getFloat(tagDirectionZ));
+		entityData.set(origin,
 				new BlockPos(nbt.getInt(tagOrigin + "_x"), nbt.getInt(tagOrigin + "_y"), nbt.getInt(tagOrigin + "_z")));
-		dataManager.set(time, nbt.getInt(tagTime));
-		dataManager.set(psi, nbt.getInt(tagPsi));
+		entityData.set(time, nbt.getInt(tagTime));
+		entityData.set(psi, nbt.getInt(tagPsi));
 	}
 	
 	@Override
 	public void tick() {
-		setMotion(dataManager.get(directionX) * 12 / 40, dataManager.get(directionY) * 12 / 40,
-				dataManager.get(directionZ) * 12 / 40);
+		setDeltaMovement(entityData.get(directionX) * 12 / 40, entityData.get(directionY) * 12 / 40,
+				entityData.get(directionZ) * 12 / 40);
 		super.tick();
-		if (ticksExisted > 240) remove();
-		dataManager.set(time, ticksExisted);
+		if (tickCount > 240) discard();
+		entityData.set(time, tickCount);
 	}
 	
 	@Override
-	protected void onImpact(RayTraceResult result) {
-		if (world.isRemote) return;
-		if (result instanceof BlockRayTraceResult) {
-			BlockPos hit = ((BlockRayTraceResult) result).getPos();
-			if (world.getBlockState(hit).getBlock().getRegistryName()
-					.equals(new ResourceLocation(PsiAPI.MOD_ID, "conjured"))) {
-				return;
-			}
-			if (hit.equals(dataManager.get(origin))) return;
-			TileEntity tile = world.getTileEntity(hit);
+	protected void onHit(HitResult result) {
+		if (level.isClientSide) return;
+		if (result instanceof BlockHitResult) {
+			BlockPos hit = ((BlockHitResult) result).getBlockPos();
+			if (level.getBlockState(hit).is(ModBlocks.conjured)) return;
+			if (hit.equals(entityData.get(origin))) return;
+			BlockEntity tile = level.getBlockEntity(hit);
 			if (tile instanceof IPsiAcceptor) {
-				((IPsiAcceptor) tile).addPsi(dataManager.get(psi));
+				((IPsiAcceptor) tile).addPsi(entityData.get(psi));
 			}
 		}
-		remove();
+		discard();
 	}
 	
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0;
 	}
 	
 	@Override
-	public boolean doesEntityNotTriggerPressurePlate() {
+	public boolean isIgnoringBlockTriggers() {
 		return true;
 	}
 	
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

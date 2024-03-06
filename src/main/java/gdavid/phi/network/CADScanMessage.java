@@ -4,12 +4,12 @@ import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.CADHolderTile.ScanType;
 import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.network.NetworkEvent.Context;
 
 public class CADScanMessage implements Message {
 	
@@ -21,22 +21,21 @@ public class CADScanMessage implements Message {
 		this.type = type;
 	}
 	
-	public CADScanMessage(PacketBuffer buf) {
+	public CADScanMessage(FriendlyByteBuf buf) {
 		pos = buf.readBlockPos();
-		type = buf.readEnumValue(ScanType.class);
+		type = buf.readEnum(ScanType.class);
 	}
 	
 	@Override
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeBlockPos(pos);
-		buf.writeEnumValue(type);
+		buf.writeEnum(type);
 	}
 	
 	@Override
-	@SuppressWarnings("resource")
 	public boolean receive(Supplier<Context> context) {
 		context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			TileEntity tile = Minecraft.getInstance().world.getTileEntity(pos);
+			BlockEntity tile = Minecraft.getInstance().level.getBlockEntity(pos);
 			if (!(tile instanceof CADHolderTile)) return;
 			((CADHolderTile) tile).setScanType(type);
 		}));

@@ -1,23 +1,24 @@
 package gdavid.phi.gui.widget;
 
 import com.google.common.collect.Streams;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
 import gdavid.phi.network.ProgramTransferSlotMessage;
 import gdavid.phi.util.IProgramTransferTarget;
 import java.util.List;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.psi.client.gui.GuiProgrammer;
 
 @OnlyIn(Dist.CLIENT)
-public class SlotSelectWidget extends Widget {
+public class SlotSelectWidget extends AbstractWidget {
 	
 	static final ResourceLocation texture = new ResourceLocation(Phi.modId, "textures/gui/program_transfer.png");
 	
@@ -31,8 +32,7 @@ public class SlotSelectWidget extends Widget {
 	
 	public SlotSelectWidget(GuiProgrammer parent, ProgramTransferWidget transfer, IProgramTransferTarget holder,
 			boolean side, Direction dir) {
-		super(parent.left + (side ? parent.xSize - 92 : 0), parent.top + parent.ySize - 26, 92, 92,
-				StringTextComponent.EMPTY);
+		super(parent.left + (side ? parent.xSize - 92 : 0), parent.top + parent.ySize - 26, 92, 92, Component.empty());
 		this.parent = parent;
 		this.transfer = transfer;
 		this.holder = holder;
@@ -41,8 +41,7 @@ public class SlotSelectWidget extends Widget {
 	}
 	
 	@Override
-	@SuppressWarnings("resource")
-	public void renderButton(MatrixStack ms, int mouseX, int mouseY, float partial) {
+	public void renderButton(PoseStack ms, int mouseX, int mouseY, float partial) {
 		if (parent.takingScreenshot) return;
 		List<Integer> slots = holder.getSlots();
 		List<ResourceLocation> icons = holder.getSlotIcons();
@@ -50,9 +49,9 @@ public class SlotSelectWidget extends Widget {
 			int i = 0;
 			for (ResourceLocation icon : icons) {
 				int x = 19 * (i % 5), y = 19 * (i / 5);
-				parent.getMinecraft().textureManager.bindTexture(texture);
+				parent.getMinecraft().textureManager.bindForSetup(texture);
 				drawButton(mouseX, mouseY, ms, x, y, 3);
-				parent.getMinecraft().textureManager.bindTexture(icon);
+				parent.getMinecraft().textureManager.bindForSetup(icon);
 				blit(ms, this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
 				i++;
 			}
@@ -60,9 +59,9 @@ public class SlotSelectWidget extends Widget {
 			Streams.zip(slots.stream(), icons.stream(), Pair::of).forEach(elem -> {
 				int i = elem.getLeft();
 				int x = px[i] + 46, y = py[i] + 46;
-				parent.getMinecraft().textureManager.bindTexture(texture);
+				parent.getMinecraft().textureManager.bindForSetup(texture);
 				drawButton(mouseX, mouseY, ms, x, y, 3);
-				parent.getMinecraft().textureManager.bindTexture(elem.getRight());
+				parent.getMinecraft().textureManager.bindForSetup(elem.getRight());
 				blit(ms, this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
 			});
 		}
@@ -101,7 +100,7 @@ public class SlotSelectWidget extends Widget {
 		Messages.channel.sendToServer(new ProgramTransferSlotMessage(holder.getPosition(), slot));
 	}
 	
-	void drawButton(int mx, int my, MatrixStack ms, int x, int y, int id) {
+	void drawButton(int mx, int my, PoseStack ms, int x, int y, int id) {
 		blit(ms, this.x + x, this.y + y, 16 * id, highlight(mx, my, x, y, 16, 16), 16, 16, 64, 32);
 	}
 	
@@ -116,5 +115,8 @@ public class SlotSelectWidget extends Widget {
 	boolean checkMouse(double mx, double my, int x, int y, int w, int h) {
 		return mx >= this.x + x && mx < this.x + x + w && my >= this.y + y && my < this.y + y + h;
 	}
+	
+	@Override
+	public void updateNarration(NarrationElementOutput p_169152_) {}
 	
 }

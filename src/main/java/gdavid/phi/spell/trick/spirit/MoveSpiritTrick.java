@@ -3,7 +3,7 @@ package gdavid.phi.spell.trick.spirit;
 import gdavid.phi.entity.SpiritEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -49,9 +49,9 @@ public class MoveSpiritTrick extends PieceTrick {
 		Vector3 position = ParamHelper.nonNull(this, context, direction).copy().normalize()
 				.multiply(getNonnullParamValue(context, distance).doubleValue()).add(Vector3.fromEntity(targetVal));
 		if (!(targetVal instanceof SpiritEntity)
-				|| ((SpiritEntity) targetVal).getOwner() != context.caster.getUniqueID())
+				|| ((SpiritEntity) targetVal).getOwner() != context.caster.getUUID())
 			Errors.invalidTarget.runtime();
-		targetVal.setPosition(position.x, position.y, position.z);
+		targetVal.setPos(position.x, position.y, position.z);
 		return null;
 	}
 	

@@ -1,16 +1,13 @@
 package gdavid.phi.world;
 
 import gdavid.phi.block.ModBlocks;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.placement.NoPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -23,10 +20,10 @@ public class ModWorld {
 	@SubscribeEvent
 	public static void registerFeatures(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
-			psionicDustOre = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, "psionic_dust_ore",
-					Feature.ORE.withConfiguration(new OreFeatureConfig(new BlockMatchRuleTest(Blocks.END_STONE), ModBlocks.psionicDustOre.getDefaultState(), 10))
-							.withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(10, 20, 128)))
-							.withPlacement(Placement.field_242903_g.configure(NoPlacementConfig.NO_PLACEMENT_CONFIG)).func_242731_b(5));
+			psionicDustOre = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, "psionic_dust_ore",
+					Feature.ORE.configured(new OreConfiguration(new BlockMatchTest(Blocks.END_STONE), ModBlocks.psionicDustOre.defaultBlockState(), 10))
+							.decorated(FeatureDecorator.RANGE.configured(new RangeDecoratorConfiguration(10, 20, 128)))
+							.decorated(FeatureDecorator.SQUARE.configured(NoneDecoratorConfiguration.NONE)).count(5));
 		});
 	}
 	

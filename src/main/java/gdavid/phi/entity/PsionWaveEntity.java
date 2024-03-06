@@ -2,25 +2,25 @@ package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
 import gdavid.phi.util.IWaveImpacted;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import com.mojang.math.Vector3f;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.internal.IPlayerData;
@@ -29,11 +29,11 @@ import vazkii.psi.api.spell.ISpellImmune;
 import java.util.Optional;
 import java.util.UUID;
 
-public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
+public class PsionWaveEntity extends ThrowableProjectile implements ISpellImmune {
 	
 	public static final String id = "psion_wave";
 	
-	@ObjectHolder(Phi.modId + ":" + id)
+	@ObjectHolder(registryName = "entity_type", value = Phi.modId + ":" + id)
 	public static EntityType<PsionWaveEntity> type;
 	
 	static final String tagColorizer = "colorizer";
@@ -46,151 +46,151 @@ public class PsionWaveEntity extends ThrowableEntity implements ISpellImmune {
 	static final String tagDistance = "distance";
 	static final String tagTraveled = "traveled";
 	
-	public static final DataParameter<ItemStack> colorizer = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.ITEMSTACK);
-	public static final DataParameter<Optional<UUID>> shooter = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.OPTIONAL_UNIQUE_ID);
-	public static final DataParameter<Float> directionX = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> directionY = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> directionZ = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> speed = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> frequency = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> distance = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
-	public static final DataParameter<Float> traveled = EntityDataManager.createKey(PsionWaveEntity.class,
-			DataSerializers.FLOAT);
+	public static final EntityDataAccessor<ItemStack> colorizer = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.ITEM_STACK);
+	public static final EntityDataAccessor<Optional<UUID>> shooter = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.OPTIONAL_UUID);
+	public static final EntityDataAccessor<Float> directionX = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> directionY = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> directionZ = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> speed = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> frequency = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> distance = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> traveled = SynchedEntityData.defineId(PsionWaveEntity.class,
+			EntityDataSerializers.FLOAT);
 	
-	public PsionWaveEntity(EntityType<PsionWaveEntity> type, World world) {
+	public PsionWaveEntity(EntityType<PsionWaveEntity> type, Level world) {
 		super(type, world);
 	}
 	
-	public PsionWaveEntity(World world, Vector3f direction, float speed, float frequency, float distance) {
+	public PsionWaveEntity(Level world, Vector3f direction, float speed, float frequency, float distance) {
 		super(type, world);
-		dataManager.set(directionX, direction.getX());
-		dataManager.set(directionY, direction.getY());
-		dataManager.set(directionZ, direction.getZ());
-		dataManager.set(PsionWaveEntity.speed, speed);
-		dataManager.set(PsionWaveEntity.frequency, frequency);
-		dataManager.set(PsionWaveEntity.distance, distance);
+		entityData.set(directionX, direction.x());
+		entityData.set(directionY, direction.y());
+		entityData.set(directionZ, direction.z());
+		entityData.set(PsionWaveEntity.speed, speed);
+		entityData.set(PsionWaveEntity.frequency, frequency);
+		entityData.set(PsionWaveEntity.distance, distance);
 	}
 	
 	@Override
-	public void setShooter(Entity entity) {
-		super.setShooter(entity);
-		dataManager.set(shooter, Optional.of(entity.getUniqueID()));
+	public void setOwner(Entity entity) {
+		super.setOwner(entity);
+		entityData.set(shooter, Optional.of(entity.getUUID()));
 	}
 	
 	public void setColorizer(ItemStack stack) {
-		dataManager.set(colorizer, stack);
+		entityData.set(colorizer, stack);
 	}
 	
 	@Override
-	protected void registerData() {
-		dataManager.register(colorizer, ItemStack.EMPTY);
-		dataManager.register(shooter, Optional.of(new UUID(0, 0)));
-		dataManager.register(directionX, 0f);
-		dataManager.register(directionY, 0f);
-		dataManager.register(directionZ, 0f);
-		dataManager.register(speed, 1f);
-		dataManager.register(frequency, 0f);
-		dataManager.register(distance, 0f);
-		dataManager.register(traveled, 0f);
+	protected void defineSynchedData() {
+		entityData.define(colorizer, ItemStack.EMPTY);
+		entityData.define(shooter, Optional.of(new UUID(0, 0)));
+		entityData.define(directionX, 0f);
+		entityData.define(directionY, 0f);
+		entityData.define(directionZ, 0f);
+		entityData.define(speed, 1f);
+		entityData.define(frequency, 0f);
+		entityData.define(distance, 0f);
+		entityData.define(traveled, 0f);
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT nbt) {
-		super.writeAdditional(nbt);
-		ItemStack colorizerItem = dataManager.get(colorizer);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
+		ItemStack colorizerItem = entityData.get(colorizer);
 		if (!colorizerItem.isEmpty()) {
-			nbt.put(tagColorizer, colorizerItem.write(new CompoundNBT()));
+			nbt.put(tagColorizer, colorizerItem.save(new CompoundTag()));
 		}
-		nbt.putUniqueId(tagShooter, dataManager.get(shooter).get());
-		nbt.putFloat(tagDirectionX, dataManager.get(directionX));
-		nbt.putFloat(tagDirectionY, dataManager.get(directionY));
-		nbt.putFloat(tagDirectionZ, dataManager.get(directionZ));
-		nbt.putFloat(tagSpeed, dataManager.get(speed));
-		nbt.putFloat(tagFrequency, dataManager.get(frequency));
-		nbt.putFloat(tagDistance, dataManager.get(distance));
-		nbt.putFloat(tagTraveled, dataManager.get(traveled));
+		nbt.putUUID(tagShooter, entityData.get(shooter).get());
+		nbt.putFloat(tagDirectionX, entityData.get(directionX));
+		nbt.putFloat(tagDirectionY, entityData.get(directionY));
+		nbt.putFloat(tagDirectionZ, entityData.get(directionZ));
+		nbt.putFloat(tagSpeed, entityData.get(speed));
+		nbt.putFloat(tagFrequency, entityData.get(frequency));
+		nbt.putFloat(tagDistance, entityData.get(distance));
+		nbt.putFloat(tagTraveled, entityData.get(traveled));
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT nbt) {
-		super.readAdditional(nbt);
-		dataManager.set(colorizer, ItemStack.read(nbt.getCompound(tagColorizer)));
-		dataManager.set(shooter, Optional.of(nbt.getUniqueId(tagShooter)));
-		dataManager.set(directionX, nbt.getFloat(tagDirectionX));
-		dataManager.set(directionY, nbt.getFloat(tagDirectionY));
-		dataManager.set(directionZ, nbt.getFloat(tagDirectionZ));
-		dataManager.set(speed, nbt.getFloat(tagSpeed));
-		dataManager.set(frequency, nbt.getFloat(tagFrequency));
-		dataManager.set(distance, nbt.getFloat(tagDistance));
-		dataManager.set(traveled, nbt.getFloat(tagTraveled));
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		entityData.set(colorizer, ItemStack.of(nbt.getCompound(tagColorizer)));
+		entityData.set(shooter, Optional.of(nbt.getUUID(tagShooter)));
+		entityData.set(directionX, nbt.getFloat(tagDirectionX));
+		entityData.set(directionY, nbt.getFloat(tagDirectionY));
+		entityData.set(directionZ, nbt.getFloat(tagDirectionZ));
+		entityData.set(speed, nbt.getFloat(tagSpeed));
+		entityData.set(frequency, nbt.getFloat(tagFrequency));
+		entityData.set(distance, nbt.getFloat(tagDistance));
+		entityData.set(traveled, nbt.getFloat(tagTraveled));
 	}
 	
 	@Override
 	public void tick() {
-		setMotion(dataManager.get(directionX) * dataManager.get(speed) / 40,
-				dataManager.get(directionY) * dataManager.get(speed) / 40,
-				dataManager.get(directionZ) * dataManager.get(speed) / 40);
+		setDeltaMovement(entityData.get(directionX) * entityData.get(speed) / 40,
+				entityData.get(directionY) * entityData.get(speed) / 40,
+				entityData.get(directionZ) * entityData.get(speed) / 40);
 		super.tick();
-		dataManager.set(traveled, dataManager.get(traveled) + dataManager.get(speed) / 40);
-		if (dataManager.get(traveled) > dataManager.get(distance)) {
-			remove();
+		entityData.set(traveled, entityData.get(traveled) + entityData.get(speed) / 40);
+		if (entityData.get(traveled) > entityData.get(distance)) {
+			discard();
 		}
 	}
 	
 	@Override
-	protected void onImpact(RayTraceResult result) {
-		float traveledPercent = dataManager.get(traveled) / dataManager.get(distance);
+	protected void onHit(HitResult result) {
+		float traveledPercent = entityData.get(traveled) / entityData.get(distance);
 		float focus = 2 * traveledPercent * (traveledPercent - 1) + 1;
-		if (result instanceof EntityRayTraceResult) {
-			Entity hit = ((EntityRayTraceResult) result).getEntity();
-			if (hit.getUniqueID().equals(dataManager.get(shooter).get()) && dataManager.get(traveled) < 0.8) {
+		if (result instanceof EntityHitResult) {
+			Entity hit = ((EntityHitResult) result).getEntity();
+			if (hit.getUUID().equals(entityData.get(shooter).get()) && entityData.get(traveled) < 0.8) {
 				return;
 			}
-			if (hit instanceof PlayerEntity && !world.isRemote) {
-				PlayerEntity player = (PlayerEntity) hit;
+			if (hit instanceof Player && !level.isClientSide) {
+				Player player = (Player) hit;
 				IPlayerData data = PsiAPI.internalHandler.getDataForPlayer(player);
-				data.deductPsi((int) Math.ceil(dataManager.get(frequency) * 10 * focus),
-						(int) Math.ceil(dataManager.get(frequency) * 2 * focus), true, true);
-				EffectInstance effect = player.getActivePotionEffect(Effects.SLOWNESS);
+				data.deductPsi((int) Math.ceil(entityData.get(frequency) * 10 * focus),
+						(int) Math.ceil(entityData.get(frequency) * 2 * focus), true, true);
+				MobEffectInstance effect = player.getEffect(MobEffects.MOVEMENT_SLOWDOWN);
 				int newTime;
 				if (effect == null) {
-					newTime = (int) Math.ceil(dataManager.get(frequency) * focus);
+					newTime = (int) Math.ceil(entityData.get(frequency) * focus);
 				} else {
 					newTime = (int) Math
-							.ceil(Math.pow(dataManager.get(frequency) * focus + effect.getDuration(), 1 + 0.2 * focus));
+							.ceil(Math.pow(entityData.get(frequency) * focus + effect.getDuration(), 1 + 0.2 * focus));
 				}
-				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, newTime % 600, newTime / 60, false, false));
+				player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, newTime % 600, newTime / 60, false, false));
 			}
-			remove();
-		} else if (result instanceof BlockRayTraceResult) {
-			TileEntity tile = world.getTileEntity(((BlockRayTraceResult) result).getPos());
+			discard();
+		} else if (result instanceof BlockHitResult) {
+			BlockEntity tile = level.getBlockEntity(((BlockHitResult) result).getBlockPos());
 			if (tile instanceof IWaveImpacted) {
-				((IWaveImpacted) tile).waveImpact(dataManager.get(frequency), focus);
-				remove();
+				((IWaveImpacted) tile).waveImpact(entityData.get(frequency), focus);
+				discard();
 			}
 		}
 	}
 	
 	@Override
-	protected float getGravityVelocity() {
+	protected float getGravity() {
 		return 0;
 	}
 	
 	@Override
-	public boolean doesEntityNotTriggerPressurePlate() {
+	public boolean isIgnoringBlockTriggers() {
 		return true;
 	}
 	
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

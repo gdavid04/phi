@@ -4,12 +4,12 @@ import gdavid.phi.block.ModBlocks;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.Errors;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.village.PointOfInterestManager;
-import net.minecraft.village.PointOfInterestManager.Status;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -38,14 +38,14 @@ public class NearbySpeechSelector extends PieceSelector {
 	
 	@SubscribeEvent
 	public static void speech(ServerChatEvent event) {
-		PlayerEntity player = event.getPlayer();
-		if (!(player.world instanceof ServerWorld)) return;
-		BlockPos pos = player.getPosition();
-		PointOfInterestManager poiManager = ((ServerWorld) player.world).getPointOfInterestManager();
-		poiManager.func_219146_b(type -> type == ModBlocks.mpuPOI, pos, (int) SpellContext.MAX_DISTANCE, Status.ANY)
+		Player player = event.getPlayer();
+		if (!(player.level instanceof ServerLevel)) return;
+		BlockPos pos = player.blockPosition();
+		PoiManager poiManager = ((ServerLevel) player.level).getPoiManager();
+		poiManager.getInRange(type -> type.get() == ModBlocks.mpuPOI, pos, (int) SpellContext.MAX_DISTANCE, Occupancy.ANY)
 				.forEach(poi -> {
-					TileEntity tile = player.world.getTileEntity(poi.getPos());
-					if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getMessage());
+					BlockEntity tile = player.level.getBlockEntity(poi.getPos());
+					if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getRawText());
 				});
 	}
 	

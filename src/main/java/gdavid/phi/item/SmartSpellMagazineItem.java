@@ -1,7 +1,7 @@
 package gdavid.phi.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.cad.EnumCADComponent;
@@ -18,7 +18,7 @@ public class SmartSpellMagazineItem extends SpellMagazineItem {
 	
 	@SubscribeEvent
 	public static void loopcastEnd(LoopcastEndEvent event) {
-		ItemStack item = event.getPlayer().getHeldItem(event.getHand());
+		ItemStack item = event.getPlayer().getItemInHand(event.getHand());
 		if (!(item.getItem() instanceof ICAD) || !ISocketable.isSocketable(item)) return;
 		ICAD cad = (ICAD) item.getItem();
 		Item socket = cad.getComponentInSlot(item, EnumCADComponent.SOCKET).getItem();
