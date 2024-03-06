@@ -20,10 +20,12 @@ public class ModWorld {
 	@SubscribeEvent
 	public static void registerFeatures(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
+			/* TODO fix before 1.19 release
 			psionicDustOre = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, "psionic_dust_ore",
 					Feature.ORE.configured(new OreConfiguration(new BlockMatchTest(Blocks.END_STONE), ModBlocks.psionicDustOre.defaultBlockState(), 10))
 							.decorated(FeatureDecorator.RANGE.configured(new RangeDecoratorConfiguration(10, 20, 128)))
 							.decorated(FeatureDecorator.SQUARE.configured(NoneDecoratorConfiguration.NONE)).count(5));
+			*/
 		});
 	}
 	

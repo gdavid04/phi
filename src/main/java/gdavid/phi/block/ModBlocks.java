@@ -1,7 +1,6 @@
 package gdavid.phi.block;
 
 import com.google.common.collect.ImmutableSet;
-import gdavid.phi.Phi;
 import gdavid.phi.block.tile.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
@@ -17,51 +16,36 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tiers;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
-
-import java.util.HashSet;
 
 @EventBusSubscriber(bus = Bus.MOD)
 public class ModBlocks {
 	
-	public static final Block shadow = new ShadowBlock();
-	public static final Block mpu = new MPUBlock();
-	public static final Block vsu = new VSUBlock();
-	public static final Block textsu = new TextSUBlock();
-	public static final Block cadHolder = new CADHolderBlock();
-	public static final Block spellStorage = new SpellStorageBlock();
-	public static final Block textDisplay = new TextDisplayBlock();
-	public static final Block cable = new CableBlock();
-	public static final Block spellDisplay = new SpellDisplayBlock();
-	public static final Block infusionLaser = new InfusionLaserBlock();
-	public static final Block distillChamberWall = new DistillChamberWallBlock();
-	public static final Block distillChamberController = new DistillChamberControllerBlock();
-	public static final Block psimetalCrusher = new PsimetalCrusherBlock();
-	public static final Block psionicDustOre = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().harvestLevel(Tiers.NETHERITE.getLevel()).harvestTool(
-			ToolType.PICKAXE).strength(3.0F, 9.0F));
+	public static Block shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay, infusionLaser, distillChamberWall, distillChamberController, psimetalCrusher, psionicDustOre;
 	
-	public static final PoiType mpuPOI = new PoiType(ImmutableSet.of(mpu.defaultBlockState()), 0, 1);
+	public static PoiType mpuPOI;
 	
 	@SubscribeEvent
 	public static void init(RegisterEvent event) {
 		event.register(Keys.BLOCKS, handler -> {
-			handler.register(ShadowBlock.id, shadow);
-			handler.register(MPUBlock.id, mpu);
-			handler.register(VSUBlock.id, vsu);
-			handler.register(TextSUBlock.id, textsu);
-			handler.register(CADHolderBlock.id, cadHolder);
-			handler.register(SpellStorageBlock.id, spellStorage);
-			handler.register(TextDisplayBlock.id, textDisplay);
-			handler.register(CableBlock.id, cable);
-			handler.register(SpellDisplayBlock.id, spellDisplay);
-			handler.register(InfusionLaserBlock.id, infusionLaser);
-			handler.register(DistillChamberWallBlock.id, distillChamberWall);
-			handler.register(DistillChamberControllerBlock.id, distillChamberController);
-			handler.register(PsimetalCrusherBlock.id, psimetalCrusher);
-			handler.register("psionic_dust_ore", psionicDustOre);
+			handler.register(ShadowBlock.id, shadow = new ShadowBlock());
+			handler.register(MPUBlock.id, mpu = new MPUBlock());
+			handler.register(VSUBlock.id, vsu = new VSUBlock());
+			handler.register(TextSUBlock.id, textsu = new TextSUBlock());
+			handler.register(CADHolderBlock.id, cadHolder = new CADHolderBlock());
+			handler.register(SpellStorageBlock.id, spellStorage = new SpellStorageBlock());
+			handler.register(TextDisplayBlock.id, textDisplay = new TextDisplayBlock());
+			handler.register(CableBlock.id, cable = new CableBlock());
+			handler.register(SpellDisplayBlock.id, spellDisplay = new SpellDisplayBlock());
+			handler.register(InfusionLaserBlock.id, infusionLaser = new InfusionLaserBlock());
+			handler.register(DistillChamberWallBlock.id, distillChamberWall = new DistillChamberWallBlock());
+			handler.register(DistillChamberControllerBlock.id, distillChamberController = new DistillChamberControllerBlock());
+			handler.register(PsimetalCrusherBlock.id, psimetalCrusher = new PsimetalCrusherBlock());
+			handler.register("psionic_dust_ore", psionicDustOre = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops()
+					/* TODO fix before 1.19 release
+					.harvestLevel(Tiers.NETHERITE.getLevel()).harvestTool(ToolType.PICKAXE).strength(3.0F, 9.0F)
+					*/));
 		});
 		event.register(Keys.ITEMS, handler -> {
 			handler.register(MPUBlock.id, new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)));
@@ -92,7 +76,7 @@ public class ModBlocks {
 			handler.register(PsimetalCrusherBlock.id, PsimetalCrusherTile.type = BlockEntityType.Builder.of(PsimetalCrusherTile::new, psimetalCrusher).build(null));
 		});
 		event.register(Keys.POI_TYPES, handler -> {
-			handler.register("mpu", mpuPOI);
+			handler.register("mpu", mpuPOI = new PoiType(ImmutableSet.of(mpu.defaultBlockState()), 0, 1));
 		});
 	}
 	

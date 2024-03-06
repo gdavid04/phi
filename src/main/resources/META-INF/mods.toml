@@ -14,18 +14,18 @@ A Psi addon
 [[dependencies.phi]]
 	modId="forge"
     mandatory=true
-    versionRange="[34.1.0,)"
+    versionRange="[43.3.0,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.phi]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3,1.17)"
+    versionRange="[1.19.2,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.phi]]
     modId="psi"
     mandatory=true
-    versionRange="[1.16-95,)"
+    versionRange="[1.19-101,)"
     ordering="AFTER"
     side="BOTH"

@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"package": "gdavid.phi.mixin",
-	"compatibilityLevel": "JAVA_8",
+	"compatibilityLevel": "JAVA_17",
 	"refmap": "phi.refmap.json",
 	"mixins": [
 		"SpellPieceMixin",
@@ -13,5 +13,5 @@
 		"SpellGridMixin",
 		"ProgrammerGuiMixin"
 	],
-	"minVersion": "0.8"
+	"minVersion": "0.8.3"
 }
