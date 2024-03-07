@@ -99,6 +99,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	@OnlyIn(Dist.CLIENT)
 	public void drawLine(PoseStack ms, MultiBufferSource buffers, int light, Side side) {
 		if (!side.isEnabled()) return;
+		/* TODO fix before 1.19 release
 		GlStateManager._enableBlend();
 		GlStateManager.glBlendFuncSeparate(SourceFactor.SRC_ALPHA.value, DestFactor.ONE_MINUS_SRC_ALPHA.value,
 				SourceFactor.ZERO.value, SourceFactor.ONE.value);
@@ -136,6 +137,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 		buffer.vertex(mat, -8, -8, 0).color(r, g, b, a);
 		buffer.uv(minU, minV).uv2(light).endVertex();
 		GlStateManager._disableBlend();
+		*/
 	}
 	
 	@Override
