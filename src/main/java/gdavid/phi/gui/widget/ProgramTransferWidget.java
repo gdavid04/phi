@@ -1,5 +1,6 @@
 package gdavid.phi.gui.widget;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
@@ -38,7 +39,7 @@ public class ProgramTransferWidget extends AbstractWidget {
 	@Override
 	public void renderButton(PoseStack ms, int mouseX, int mouseY, float partial) {
 		if (parent.takingScreenshot) return;
-		parent.getMinecraft().textureManager.bindForSetup(texture);
+		RenderSystem.setShaderTexture(0, texture);
 		drawButton(mouseX, mouseY, ms, 0, 0, 0);
 		if (clickButton(mouseX, mouseY, 0, 0)) {
 			parent.tooltip.add(Component.translatable(Phi.modId + ".program_transfer.write"));

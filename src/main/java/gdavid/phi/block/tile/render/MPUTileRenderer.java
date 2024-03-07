@@ -98,7 +98,7 @@ public class MPUTileRenderer implements BlockEntityRenderer<MPUTile> {
 	}
 	
 	public void drawPsiBar(MPUTile mpu, PoseStack ms, MultiBufferSource buf, int light) {
-		Minecraft.getInstance().textureManager.bindForSetup(psiBarTexture);
+		RenderSystem.setShaderTexture(0, psiBarTexture);
 		ms.pushPose();
 		ms.translate(0, 0, -0.01f);
 		RenderSystem.disableCull();
@@ -138,7 +138,7 @@ public class MPUTileRenderer implements BlockEntityRenderer<MPUTile> {
 	}
 	
 	public void drawRedstoneMode(MPUTile mpu, PoseStack ms, MultiBufferSource buf, int light) {
-		Minecraft.getInstance().textureManager.bindForSetup(RedstoneMode.texture);
+		RenderSystem.setShaderTexture(0, RedstoneMode.texture);
 		RenderSystem.disableCull();
 		RenderSystem.enableDepthTest();
 		RenderSystem.enableBlend();

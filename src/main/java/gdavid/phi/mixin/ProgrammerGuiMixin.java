@@ -40,15 +40,15 @@ public class ProgrammerGuiMixin extends Screen {
 		if (left instanceof IProgramTransferTarget) {
 			ProgramTransferWidget transfer = new ProgramTransferWidget(self, (IProgramTransferTarget) left, false,
 					dir.getClockWise());
-			addWidget(transfer);
-			addWidget(transfer.select);
+			addRenderableWidget(transfer);
+			addRenderableWidget(transfer.select);
 		}
 		BlockEntity right = world.getBlockEntity(pos.relative(dir.getCounterClockWise()));
 		if (right instanceof IProgramTransferTarget) {
 			ProgramTransferWidget transfer = new ProgramTransferWidget(self, (IProgramTransferTarget) right, true,
 					dir.getCounterClockWise());
-			addWidget(transfer);
-			addWidget(transfer.select);
+			addRenderableWidget(transfer);
+			addRenderableWidget(transfer.select);
 		}
 	}
 	

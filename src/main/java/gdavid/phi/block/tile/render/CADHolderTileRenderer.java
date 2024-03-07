@@ -51,7 +51,7 @@ public class CADHolderTileRenderer implements BlockEntityRenderer<CADHolderTile>
 				RenderSystem.enableBlend();
 				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				RenderSystem.setShaderColor(1, 1, 1, 1 - Math.abs(2 * progress - 1));
-				Minecraft.getInstance().textureManager.bindForSetup(holder.scan.texture);
+				RenderSystem.setShaderTexture(0, holder.scan.texture);
 				GuiComponent.blit(ms, 0, 0, 0, 0, 64, 64, 64, 64);
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				RenderSystem.disableBlend();

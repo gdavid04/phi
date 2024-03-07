@@ -34,7 +34,7 @@ public class Messages {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	static void register(Class<? extends Message> clazz) {
-		channel.messageBuilder(clazz, id++).encoder(Message::encode).consumer(Message::receive)
+		channel.messageBuilder(clazz, id++).encoder(Message::encode).consumerNetworkThread(Message::receive)
 				.decoder((Function) buf -> {
 					try {
 						return clazz.getConstructor(FriendlyByteBuf.class).newInstance(buf);

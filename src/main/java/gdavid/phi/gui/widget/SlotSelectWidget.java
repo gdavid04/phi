@@ -1,6 +1,7 @@
 package gdavid.phi.gui.widget;
 
 import com.google.common.collect.Streams;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
@@ -49,9 +50,9 @@ public class SlotSelectWidget extends AbstractWidget {
 			int i = 0;
 			for (ResourceLocation icon : icons) {
 				int x = 19 * (i % 5), y = 19 * (i / 5);
-				parent.getMinecraft().textureManager.bindForSetup(texture);
+				RenderSystem.setShaderTexture(0, texture);
 				drawButton(mouseX, mouseY, ms, x, y, 3);
-				parent.getMinecraft().textureManager.bindForSetup(icon);
+				RenderSystem.setShaderTexture(0, icon);
 				blit(ms, this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
 				i++;
 			}
@@ -59,9 +60,9 @@ public class SlotSelectWidget extends AbstractWidget {
 			Streams.zip(slots.stream(), icons.stream(), Pair::of).forEach(elem -> {
 				int i = elem.getLeft();
 				int x = px[i] + 46, y = py[i] + 46;
-				parent.getMinecraft().textureManager.bindForSetup(texture);
+				RenderSystem.setShaderTexture(0, texture);
 				drawButton(mouseX, mouseY, ms, x, y, 3);
-				parent.getMinecraft().textureManager.bindForSetup(elem.getRight());
+				RenderSystem.setShaderTexture(0, elem.getRight());
 				blit(ms, this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
 			});
 		}
