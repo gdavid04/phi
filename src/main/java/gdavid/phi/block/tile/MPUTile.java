@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.network.PacketSendListener;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.OutgoingPlayerChatMessage;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -305,7 +307,16 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 		}
 		
 		@Override
-		public void displayClientMessage(Component component, boolean actionBar) {
+		public void sendSystemMessage(Component component, boolean bypassHidden) {
+			sendMessage(component);
+		}
+		
+		@Override
+		public void sendChatMessage(OutgoingPlayerChatMessage message, boolean filter, ChatType.Bound bound) {
+			sendMessage(message.serverContent());
+		}
+		
+		private void sendMessage(Component component) {
 			message = component;
 			setChanged();
 			MPUTile.this.level.sendBlockUpdated(worldPosition, getFeetBlockState(), getFeetBlockState(), 18);
