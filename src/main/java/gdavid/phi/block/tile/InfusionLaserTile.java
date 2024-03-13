@@ -100,10 +100,9 @@ public class InfusionLaserTile extends BlockEntity implements IWaveImpacted, IPs
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		nbt.putInt(tagPsi, psi);
-		return nbt;
 	}
 	
 }

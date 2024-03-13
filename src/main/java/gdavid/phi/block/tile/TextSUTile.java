@@ -40,10 +40,9 @@ public class TextSUTile extends BlockEntity implements ICableConnected {
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		nbt.putString(tagText, text);
-		return nbt;
 	}
 	
 	@Override

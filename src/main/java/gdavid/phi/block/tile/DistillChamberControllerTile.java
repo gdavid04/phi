@@ -163,8 +163,8 @@ public class DistillChamberControllerTile extends BlockEntity {
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		ListTag list = new ListTag();
 		for (Pair<ItemStack, Integer> pair : fuel) {
 			CompoundTag item = new CompoundTag();
@@ -174,7 +174,6 @@ public class DistillChamberControllerTile extends BlockEntity {
 		}
 		nbt.put(tagFuel, list);
 		nbt.putInt(tagPsi, psi);
-		return nbt;
 	}
 	
 }

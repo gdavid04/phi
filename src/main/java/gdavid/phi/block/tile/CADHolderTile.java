@@ -140,20 +140,21 @@ public class CADHolderTile extends BlockEntity implements IProgramTransferTarget
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		nbt.put(tagItem, item.save(new CompoundTag()));
-		return nbt;
 	}
 	
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 	
 	@Override
 	public CompoundTag getUpdateTag() {
-		return serializeNBT();
+		var nbt = new CompoundTag();
+		saveAdditional(nbt);
+		return nbt;
 	}
 	
 	@Override

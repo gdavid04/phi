@@ -81,15 +81,14 @@ public class SpellStorageTile extends BlockEntity implements IProgramTransferTar
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		for (int i = 0; i < slots; i++) {
 			CompoundTag spellNbt = new CompoundTag();
 			if (spells[i] != null) spells[i].writeToNBT(spellNbt);
 			nbt.put(tagSpell + i, spellNbt);
 		}
 		nbt.putInt(tagSelectedSlot, selectedSlot);
-		return nbt;
 	}
 	
 }

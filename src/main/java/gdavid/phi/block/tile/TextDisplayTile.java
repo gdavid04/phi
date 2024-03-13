@@ -91,24 +91,25 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		var list = new ListTag();
 		for (String line : text) {
 			list.add(StringTag.valueOf(line));
 		}
 		nbt.put(tagText, list);
-		return nbt;
 	}
 	
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 	
 	@Override
 	public CompoundTag getUpdateTag() {
-		return serializeNBT();
+		var nbt = new CompoundTag();
+		saveAdditional(nbt);
+		return nbt;
 	}
 	
 	@Override

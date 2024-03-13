@@ -82,11 +82,10 @@ public class CableTile extends BlockEntity implements ICableSegment {
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		if (connected != null) nbt.putLong(tagConnection, connected.asLong());
 		else nbt.remove(tagConnection);
-		return nbt;
 	}
 	
 }

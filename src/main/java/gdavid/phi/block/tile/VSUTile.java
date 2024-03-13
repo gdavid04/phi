@@ -39,14 +39,13 @@ public class VSUTile extends BlockEntity implements ICableConnected {
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		ListTag list = new ListTag();
 		list.add(DoubleTag.valueOf(vector.x));
 		list.add(DoubleTag.valueOf(vector.y));
 		list.add(DoubleTag.valueOf(vector.z));
 		nbt.put(tagVector, list);
-		return nbt;
 	}
 	
 	@Override

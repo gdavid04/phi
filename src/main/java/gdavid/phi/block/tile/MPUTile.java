@@ -231,8 +231,8 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 	}
 	
 	@Override
-	public CompoundTag serializeNBT() {
-		var nbt = super.serializeNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		CompoundTag spellNbt = new CompoundTag();
 		if (spell != null) spell.writeToNBT(spellNbt);
 		nbt.put(tagSpell, spellNbt);
@@ -243,17 +243,18 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 		nbt.putInt(tagComparatorSignal, comparatorSignal);
 		nbt.putInt(tagSuccessCount, successCount);
 		nbt.putInt(tagRedstoneMode, redstoneMode.ordinal());
-		return nbt;
 	}
 	
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 	
 	@Override
 	public CompoundTag getUpdateTag() {
-		return serializeNBT();
+		var nbt = new CompoundTag();
+		saveAdditional(nbt);
+		return nbt;
 	}
 	
 	@Override

@@ -86,7 +86,7 @@ public class PsimetalCrusherTile extends BlockEntity {
 	
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 	
 	@Override
