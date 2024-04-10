@@ -38,9 +38,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -278,11 +276,7 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 				
 			}, this);
 			getInventory().items.set(0, cad);
-			try {
-				ObfuscationReflectionHelper.setPrivateValue(Entity.class, this, 0, "eyeHeight");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			eyeHeight = 0;
 		}
 		
 		@Override

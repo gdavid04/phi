@@ -21,7 +21,6 @@ import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import vazkii.psi.api.internal.Vector3;
 
 @EventBusSubscriber
@@ -74,10 +73,7 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 								+ (((49 * y) - (Math.log(y) / Math.log(4 * invTermVel))) / invTermVel))));
 				}
 			}
-			if (acc.y > 0 && entity instanceof ServerPlayer) {
-				ObfuscationReflectionHelper.setPrivateValue(ServerGamePacketListenerImpl.class,
-						((ServerPlayer) entity).connection, false, "clientIsFloating");
-			}
+			if (acc.y > 0 && entity instanceof ServerPlayer) ((ServerPlayer) entity).connection.clientIsFloating = false;
 		} else if (entity instanceof Player) entity.push(acc.x, acc.y, acc.z);
 		for (int i = accelerations.size() - 1; i >= 0; i--) {
 			if (--accelerations.get(i).duration <= 0) accelerations.remove(i);
