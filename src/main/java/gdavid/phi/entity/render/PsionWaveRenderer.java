@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import gdavid.phi.Phi;
 import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.util.RenderHelper;
@@ -12,7 +11,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +21,6 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.PsiAPI;
 
 import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
@@ -37,6 +34,7 @@ public class PsionWaveRenderer extends EntityRenderer<PsionWaveEntity> {
 					.setTextureState(new RenderStateShard.TextureStateShard(
 							new ResourceLocation(PsiAPI.MOD_ID, "textures/particle/wisp.png"), false, false))
 					.setCullState(new RenderStateShard.CullStateShard(false))
+					.setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
 					.setTransparencyState(new RenderStateShard.TransparencyStateShard("lightning_transparency", () -> {
 						RenderSystem.enableBlend();
 						RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
