@@ -1,20 +1,17 @@
 package gdavid.phi.block.tile.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.util.RedstoneMode;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import com.mojang.blaze3d.vertex.BufferBuilder;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
@@ -116,6 +113,7 @@ public class MPUTileRenderer implements BlockEntityRenderer<MPUTile> {
 		int g = RenderHelper.g(color);
 		int b = RenderHelper.b(color);
 		Matrix4f mat = ms.last().pose();
+		RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
 		BufferBuilder builder = Tesselator.getInstance().getBuilder();
 		builder.begin(QUADS, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
 		builder.vertex(mat, 6, 20 + 106, 0).color(r, g, b, 255).uv(34 / 64f, 106 / 256f).uv2(light).endVertex();
@@ -132,7 +130,7 @@ public class MPUTileRenderer implements BlockEntityRenderer<MPUTile> {
 				.uv(46 / 64f, (1 - percent2) * 106 / 256f).uv2(light).endVertex();
 		builder.vertex(mat, 6, 20 + (1 - percent2) * 106, 0).color(r, g, b, 128).uv(34 / 64f, (1 - percent2) * 106 / 256f)
 				.uv2(light).endVertex();
-		Tesselator.getInstance().end();
+		BufferUploader.drawWithShader(builder.end());
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();
 	}
