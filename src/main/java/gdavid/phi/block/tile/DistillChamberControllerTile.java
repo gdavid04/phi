@@ -54,7 +54,6 @@ public class DistillChamberControllerTile extends BlockEntity {
 		}
 		if (fuel.size() < size * storagePerBlock) {
 			ItemEntity item = getFuelItem();
-			System.out.println(item);
 			if (item != null) {
 				ItemStack stack = item.getItem();
 				ItemStack fuelStack = stack.split(1);
