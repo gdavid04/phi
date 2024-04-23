@@ -36,7 +36,9 @@ public class SpellPieceMixin {
 			throws SpellRuntimeException {
 		Object res = callback.getReturnValue();
 		if (res instanceof PropagatingSpellRuntimeException && !(param instanceof ErrorParam)) {
-			((PropagatingSpellRuntimeException) res).rethrow(((SpellPiece) (Object) this).getPieceType().isTrick());
+			var self = (SpellPiece) (Object) this;
+			boolean suppress = context.cspell.metadata.getFlag(PropagatingSpellRuntimeException.suppressFlag(self));
+			((PropagatingSpellRuntimeException) res).rethrow(self.getPieceType().isTrick() && !suppress);
 		}
 		SpellParam.Side side = paramSides.get(param);
 		if (!side.isEnabled()) {
