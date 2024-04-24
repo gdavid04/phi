@@ -6,7 +6,6 @@ import gdavid.phi.util.ParamHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.ticks.ScheduledTick;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -66,7 +65,7 @@ public class ShadowSequenceTrick extends PieceTrick {
 			BlockState block = world.getBlockState(at);
 			if (block.isAir() || block.getMaterial().isReplaceable()) {
 				if (world.setBlockAndUpdate(at, ModBlocks.shadow.defaultBlockState())) {
-					world.getBlockTicks().schedule(new ScheduledTick<>(ModBlocks.shadow, at, timeVal, 0));
+					world.scheduleTick(at, ModBlocks.shadow, timeVal);
 				}
 			}
 		}
