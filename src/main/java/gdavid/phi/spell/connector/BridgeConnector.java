@@ -21,6 +21,7 @@ import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.ClientPsiAPI;
+import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -29,6 +30,7 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellParam.Any;
+import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
@@ -88,9 +90,28 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 			for (Side side : Side.values()) {
 				if (!side.isEnabled()) continue;
 				SpellPiece nb = spell.grid.getPieceAtSideSafely(x, y, side.getOpposite());
-				if (nb != null && nb.isInputSide(side)) drawLine(ms, buffers, light, side);
+				if (nb == null || !nb.isInputSide(side)) continue;
+				drawLine(ms, buffers, light, side); // TODO use percent
+				int index = 0, count = 1;
+				SpellPiece underBridge = spell.grid.getPieceAtSideSafely(x, y, side);
+				if (underBridge != null) {
+					int nbcount = underBridge.getParamArrowCount(side.getOpposite());
+					if (side.asInt() > side.getOpposite().asInt()) index += nbcount;
+					count += nbcount;
+				}
+				float percent = count > 1 ? (float) index / (count - 1) : 0.5f;
+				VertexConsumer buffer = buffers.getBuffer(PsiAPI.internalHandler.getProgrammerLayer());
+				drawParam(ms, buffer, light, side, direction.color, ArrowType.IN, percent);
 			}
 		}
+	}
+	
+	@Override
+	public int getParamArrowCount(Side side) {
+		if (paramSides.get(direction).isEnabled()) return super.getParamArrowCount(side);
+		if (!side.isEnabled()) return 0;
+		SpellPiece nb = spell.grid.getPieceAtSideSafely(x, y, side.getOpposite());
+		return nb != null && nb.isInputSide(side) ? 1 : 0;
 	}
 	
 	@OnlyIn(Dist.CLIENT)
@@ -126,6 +147,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float maxU = minU + 0.5f, maxV = minV + 0.5f;
 		int r = 255, g = 255, b = 255, a = 255;
+		ms.pushPose();
 		Matrix4f mat = ms.last().pose();
 		mat.translate(new Vector3f(side.offx * 18, side.offy * 18, 0));
 		buffer.vertex(mat, -8, 24, 0).color(r, g, b, a);
@@ -136,6 +158,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 		buffer.uv(maxU, minV).uv2(light).endVertex();
 		buffer.vertex(mat, -8, -8, 0).color(r, g, b, a);
 		buffer.uv(minU, minV).uv2(light).endVertex();
+		ms.popPose();
 		RenderSystem.disableBlend();
 	}
 	
