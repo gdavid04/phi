@@ -42,10 +42,8 @@ public class ModBlocks {
 			handler.register(DistillChamberWallBlock.id, distillChamberWall = new DistillChamberWallBlock());
 			handler.register(DistillChamberControllerBlock.id, distillChamberController = new DistillChamberControllerBlock());
 			handler.register(PsimetalCrusherBlock.id, psimetalCrusher = new PsimetalCrusherBlock());
-			handler.register("psionic_dust_ore", psionicDustOre = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops()
-					/* TODO fix before 1.19 release
-					.harvestLevel(Tiers.NETHERITE.getLevel()).harvestTool(ToolType.PICKAXE).strength(3.0F, 9.0F)
-					*/));
+			handler.register("psionic_dust_ore", psionicDustOre = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
+					.requiresCorrectToolForDrops().strength(3, 9)));
 		});
 		event.register(Keys.ITEMS, handler -> {
 			handler.register(MPUBlock.id, new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)));
