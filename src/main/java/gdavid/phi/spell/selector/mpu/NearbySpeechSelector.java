@@ -44,8 +44,10 @@ public class NearbySpeechSelector extends PieceSelector {
 		PoiManager poiManager = ((ServerLevel) player.level).getPoiManager();
 		poiManager.getInRange(type -> type.get() == ModBlocks.mpuPOI, pos, (int) SpellContext.MAX_DISTANCE, Occupancy.ANY)
 				.forEach(poi -> {
-					BlockEntity tile = player.level.getBlockEntity(poi.getPos());
-					if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getRawText());
+					player.level.getServer().execute(() -> {
+						BlockEntity tile = player.level.getBlockEntity(poi.getPos());
+						if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getRawText());
+					});
 				});
 	}
 	

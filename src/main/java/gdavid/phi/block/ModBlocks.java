@@ -74,7 +74,7 @@ public class ModBlocks {
 			handler.register(PsimetalCrusherBlock.id, PsimetalCrusherTile.type = BlockEntityType.Builder.of(PsimetalCrusherTile::new, psimetalCrusher).build(null));
 		});
 		event.register(Keys.POI_TYPES, handler -> {
-			handler.register("mpu", mpuPOI = new PoiType(ImmutableSet.of(mpu.defaultBlockState()), 0, 1));
+			handler.register("mpu", mpuPOI = new PoiType(ImmutableSet.copyOf(mpu.getStateDefinition().getPossibleStates()), 0, 1));
 		});
 	}
 	
