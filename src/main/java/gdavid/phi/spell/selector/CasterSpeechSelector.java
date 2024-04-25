@@ -30,7 +30,7 @@ public class CasterSpeechSelector extends PieceSelector {
 	}
 	
 	@SubscribeEvent
-	public static void speech(ServerChatEvent event) {
+	public static void speech(ServerChatEvent.Submitted event) {
 		lastSaid.put(event.getPlayer(), event.getRawText());
 	}
 	

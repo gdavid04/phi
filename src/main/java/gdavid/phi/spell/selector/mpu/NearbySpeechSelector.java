@@ -37,7 +37,7 @@ public class NearbySpeechSelector extends PieceSelector {
 	}
 	
 	@SubscribeEvent
-	public static void speech(ServerChatEvent event) {
+	public static void speech(ServerChatEvent.Submitted event) {
 		Player player = event.getPlayer();
 		if (!(player.level instanceof ServerLevel)) return;
 		BlockPos pos = player.blockPosition();
