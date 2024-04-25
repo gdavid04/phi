@@ -6,11 +6,12 @@ import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import gdavid.phi.Phi;
 import gdavid.phi.util.IWarpRedirector;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.Material;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -19,7 +20,6 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.ClientPsiAPI;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -99,13 +99,13 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 	@OnlyIn(Dist.CLIENT)
 	public void drawLine(PoseStack ms, MultiBufferSource buffers, int light, Side side) {
 		if (!side.isEnabled()) return;
-		/* TODO fix before 1.19 release
-		GlStateManager._enableBlend();
-		GlStateManager.glBlendFuncSeparate(SourceFactor.SRC_ALPHA.value, DestFactor.ONE_MINUS_SRC_ALPHA.value,
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(SourceFactor.SRC_ALPHA.value, DestFactor.ONE_MINUS_SRC_ALPHA.value,
 				SourceFactor.ZERO.value, SourceFactor.ONE.value);
 		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
 		if (lineLayer == null) {
 			RenderType.CompositeState glState = RenderType.CompositeState.builder()
+					.setShaderState(new ShaderStateShard(GameRenderer::getPositionColorTexShader))
 					.setTextureState(new RenderStateShard.TextureStateShard(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, false, false))
 					.setLightmapState(new RenderStateShard.LightmapStateShard(true)).setCullState(new RenderStateShard.CullStateShard(false))
 					.setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
@@ -136,8 +136,7 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 		buffer.uv(maxU, minV).uv2(light).endVertex();
 		buffer.vertex(mat, -8, -8, 0).color(r, g, b, a);
 		buffer.uv(minU, minV).uv2(light).endVertex();
-		GlStateManager._disableBlend();
-		*/
+		RenderSystem.disableBlend();
 	}
 	
 	@Override
