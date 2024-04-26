@@ -5,9 +5,12 @@ import gdavid.phi.block.tile.TextSUTile;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.spell.param.TextParam;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -18,6 +21,8 @@ import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
+
+import java.util.List;
 
 public class WriteTextStorageTrick extends PieceTrick {
 	
@@ -32,6 +37,13 @@ public class WriteTextStorageTrick extends PieceTrick {
 	public void initParams() {
 		addParam(direction = new ParamVector(SpellParam.GENERIC_NAME_DIRECTION, SpellParam.GREEN, false, false));
 		addParam(text = new TextParam(Param.text.name, SpellParam.RED, false, false));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<Component> tooltip) {
+		tooltip.add(Component.translatable("phi.tooltip.require_mpu"));
+		super.addToTooltipAfterShift(tooltip);
 	}
 	
 	@Override

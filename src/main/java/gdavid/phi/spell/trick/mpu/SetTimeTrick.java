@@ -4,9 +4,12 @@ import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -18,6 +21,8 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
+
+import java.util.List;
 
 public class SetTimeTrick extends PieceTrick {
 	
@@ -32,6 +37,13 @@ public class SetTimeTrick extends PieceTrick {
 	public void initParams() {
 		addParam(num = new ParamNumber(SpellParam.GENERIC_NAME_TIME, SpellParam.RED, false, false));
 		addParam(target = new ParamVector(SpellParam.GENERIC_NAME_TARGET, SpellParam.BLUE, true, false));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<Component> tooltip) {
+		tooltip.add(Component.translatable("phi.tooltip.require_mpu"));
+		super.addToTooltipAfterShift(tooltip);
 	}
 	
 	@Override

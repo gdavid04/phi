@@ -40,6 +40,8 @@
 	"phi.redstone_mode.enable": "\u00a7cRedstone Mode\u00a7f: Enable with redstone signal",
 	"phi.redstone_mode.disable": "\u00a7cRedstone Mode\u00a7f: Disable with redstone signal",
 	"phi.redstone_mode.pulse": "\u00a7cRedstone Mode\u00a7f: Activate on redstone pulse",
+	
+	"phi.tooltip.require_mpu": "\u00a7cRequires Magic Processing Unit",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
