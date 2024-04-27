@@ -11,6 +11,7 @@ import vazkii.psi.api.internal.VanillaPacketDispatcher;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.common.block.tile.TileProgrammer;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class ProgramTransferMessage implements Message {
@@ -48,6 +49,7 @@ public class ProgramTransferMessage implements Message {
 			} else if (a instanceof IProgramTransferTarget) {
 				spell = ((IProgramTransferTarget) a).getSpell();
 			} else return;
+			if (spell != null) spell.uuid = UUID.randomUUID(); // Ensure we don't accidentally cause a cache collision
 			if (b instanceof TileProgrammer) {
 				((TileProgrammer) b).spell = spell;
 				((TileProgrammer) b).onSpellChanged();
