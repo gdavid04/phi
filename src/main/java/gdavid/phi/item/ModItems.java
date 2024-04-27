@@ -24,7 +24,7 @@ public class ModItems {
 			handler.register("increased_storage_spell_magazine", new SpellMagazineItem("increased_storage_spell_magazine", 5, 9, 9));
 			handler.register("bulk_storage_spell_magazine", new SpellMagazineItem("bulk_storage_spell_magazine", 3, 9, 15));
 			
-			handler.register("smart_spell_magazine", new SmartSpellMagazineItem("smart_spell_magazine", 3, 9, 2));
+			handler.register("smart_spell_magazine", new SmartSpellMagazineItem("smart_spell_magazine", 6, 9, 2));
 			handler.register("compound_spell_magazine", new CompoundSpellMagazineItem("compound_spell_magazine", 3, 9, 2));
 			
 			handler.register("blood_converter", new BloodConverterItem("blood_converter", 0.5f));
