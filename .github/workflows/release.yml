@@ -1,4 +1,4 @@
-name: Release
+name: release
 on:
   release:
     types: [published]
@@ -9,30 +9,30 @@ jobs:
       contents: write
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Get Release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
       env:
         GITHUB_TOKEN: ${{github.token}}
     - name: JDK 17
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         distribution: adopt
         java-version: 17
     - name: Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.gradle/caches
         key: ${{runner.os}}-gradle-${{hashFiles('build.gradle')}}
     - name: Gradle Build
       run: ./gradlew -Pversion=${{steps.get_release.outputs.tag_name}} build
     - name: Publish
-      uses: actions/upload-release-asset@v1.0.2
-      env:
-        GITHUB_TOKEN: ${{github.token}}
+      uses: Kir-Antipov/mc-publish@v3.3
       with:
-        upload_url: ${{steps.get_release.outputs.upload_url}}
-        asset_path: ./build/libs/phi-${{steps.get_release.outputs.tag_name}}.jar
-        asset_name: Phi-${{steps.get_release.outputs.tag_name}}.jar
-        asset_content_type: application/java-archive
+        curseforge-id: 476728
+        curseforge-token: ${{secrets.CURSEFORGE_API_KEY}}
+        modrinth-id: G6bswYcv
+        modrinth-token: ${{secrets.MODRINTH_API_KEY}}
+        github-token: ${{github.token}}
+        java: 17
