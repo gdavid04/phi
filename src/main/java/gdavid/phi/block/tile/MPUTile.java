@@ -2,35 +2,43 @@ package gdavid.phi.block.tile;
 
 import com.mojang.authlib.GameProfile;
 import gdavid.phi.block.MPUBlock;
+import gdavid.phi.cable.CableNetwork;
+import gdavid.phi.cable.ICableConnected;
 import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
 import gdavid.phi.spell.trick.marker.MoveMarkerTrick;
 import gdavid.phi.spell.trick.mpu.PsiTransferTrick;
+import gdavid.phi.util.IProgramTransferTarget;
+import gdavid.phi.util.IPsiAcceptor;
+import gdavid.phi.util.IWaveImpacted;
 import gdavid.phi.util.RedstoneMode;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.lang.ref.WeakReference;
 import java.util.Set;
 import java.util.UUID;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.PacketDirection;
-import net.minecraft.network.play.ServerPlayNetHandler;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+
+import net.minecraft.network.PacketSendListener;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.OutgoingPlayerChatMessage;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.PacketFlow;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import vazkii.psi.api.spell.EnumPieceType;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -39,13 +47,13 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellMetadata;
 import vazkii.psi.api.spell.SpellPiece;
 
-public class MPUTile extends TileEntity implements ITickableTileEntity {
+public class MPUTile extends BlockEntity implements ICableConnected, IProgramTransferTarget, IWaveImpacted, IPsiAcceptor {
 	
-	public static TileEntityType<MPUTile> type;
+	public static BlockEntityType<MPUTile> type;
 	
 	public static final int complexityPerTick = 5;
 	
-	public static final ITextComponent statError = new TranslationTextComponent("psimisc.weak_cad");
+	public static final Component statError = Component.translatable("psimisc.weak_cad");
 	
 	public static final String tagSpell = "spell";
 	public static final String tagPsi = "psi";
@@ -58,7 +66,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public Spell spell;
 	public int psi;
-	public ITextComponent message;
+	public Component message;
 	public String nearbySpeech = "";
 	public int comparatorSignal;
 	public int successCount;
@@ -73,8 +81,23 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public int prevPsi;
 	
-	public MPUTile() {
-		super(type);
+	public MPUTile(BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
+	
+	@Override
+	public BlockPos getPosition() {
+		return worldPosition;
+	}
+	
+	@Override
+	public Spell getSpell() {
+		return spell;
+	}
+	
+	@Override
+	public void setSpell(Player player, Spell spell) {
+		setSpell(spell);
 	}
 	
 	public void setSpell(Spell to) {
@@ -86,15 +109,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		}
 		message = null;
 		successCount = 0;
-		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
 	}
 	
+	@Override
 	public void addPsi(int amount) {
 		if (amount == 0) return;
 		psi = Math.max(0, Math.min(getPsiCapacity(), psi + amount));
-		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
 	}
 	
 	public int getPsiCapacity() {
@@ -103,9 +127,10 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public void setTime(int time) {
 		MPUCAD.instance.setTime(cad, time);
-		markDirty();
+		setChanged();
 	}
 	
+	@Override
 	public void waveImpact(Float frequency, float focus) {
 		addPsi(-Math.round(frequency * focus * 4));
 		castDelay = Math.round(frequency * focus * 4);
@@ -113,13 +138,12 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	
 	public void setNearbySpeech(String to) {
 		nearbySpeech = to;
-		markDirty();
+		setChanged();
 	}
 	
-	@Override
 	@SuppressWarnings("unchecked")
 	public void tick() {
-		if (world.isRemote) {
+		if (level.isClientSide) {
 			if (psi < prevPsi) prevPsi = Math.max(psi, prevPsi - 25);
 			else prevPsi = psi;
 			return;
@@ -127,7 +151,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		// TODO save CAD data changes when not casting
 		MPUCAD.instance.incrementTime(cad);
 		prevRedstoneSignal = redstoneSignal;
-		redstoneSignal = world.isBlockPowered(getPos());
+		redstoneSignal = level.hasNeighborSignal(getBlockPos());
 		if (spell == null) return;
 		if (caster == null) caster = new MPUCaster();
 		caster.fix();
@@ -152,8 +176,8 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			if (!ctx.cspell.metadata.evaluateAgainst(cad)) {
 				if (message != statError) {
 					message = statError;
-					markDirty();
-					world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+					setChanged();
+					level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
 				}
 				return;
 			}
@@ -165,7 +189,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 			if (ctx.cspell.metadata.getFlag(PsiTransferTrick.flag)) castDelay = Math.max(castDelay, 4);
 			ctx.cspell.safeExecute(ctx);
 			successCount++;
-			markDirty();
+			setChanged();
 		}
 	}
 	
@@ -191,17 +215,13 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	}
 	
 	@Override
-	public void read(BlockState state, CompoundNBT nbt) {
-		super.read(state, nbt);
-		read(nbt);
-	}
-	
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		if (spell == null) spell = Spell.createFromNBT(nbt.getCompound(tagSpell));
 		else spell.readFromNBT(nbt.getCompound(tagSpell));
 		psi = nbt.getInt(tagPsi);
 		MPUCAD.instance.getData(cad).deserializeNBT(nbt.getCompound(tagCad));
-		message = ITextComponent.Serializer.getComponentFromJson(nbt.getString(tagMessage));
+		message = Component.Serializer.fromJson(nbt.getString(tagMessage));
 		nearbySpeech = nbt.getString(tagNearbySpeech);
 		comparatorSignal = nbt.getInt(tagComparatorSignal);
 		successCount = nbt.getInt(tagSuccessCount);
@@ -209,82 +229,92 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 	}
 	
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
-		nbt = super.write(nbt);
-		CompoundNBT spellNbt = new CompoundNBT();
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
+		CompoundTag spellNbt = new CompoundTag();
 		if (spell != null) spell.writeToNBT(spellNbt);
 		nbt.put(tagSpell, spellNbt);
 		nbt.putInt(tagPsi, psi);
 		nbt.put(tagCad, MPUCAD.instance.getData(cad).serializeNBT());
-		nbt.putString(tagMessage, ITextComponent.Serializer.toJson(message));
+		nbt.putString(tagMessage, Component.Serializer.toJson(message));
 		nbt.putString(tagNearbySpeech, nearbySpeech);
 		nbt.putInt(tagComparatorSignal, comparatorSignal);
 		nbt.putInt(tagSuccessCount, successCount);
 		nbt.putInt(tagRedstoneMode, redstoneMode.ordinal());
+	}
+	
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+	
+	@Override
+	public CompoundTag getUpdateTag() {
+		var nbt = new CompoundTag();
+		saveAdditional(nbt);
 		return nbt;
 	}
 	
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(getPos(), 0, write(new CompoundNBT()));
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
+		load(packet.getTag());
 	}
 	
 	@Override
-	public CompoundNBT getUpdateTag() {
-		return write(new CompoundNBT());
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-		read(packet.getNbtCompound());
+	public boolean isController() {
+		return false;
 	}
 	
 	public class MPUCaster extends FakePlayer {
 		
 		private MPUCaster() {
-			super((ServerWorld) MPUTile.this.world, new GameProfile(UUID.randomUUID(), "MPU"));
-			connection = new ServerPlayNetHandler(server, new NetworkManager(PacketDirection.SERVERBOUND) {
+			super((ServerLevel) MPUTile.this.level, new GameProfile(UUID.randomUUID(), "MPU"));
+			connection = new ServerGamePacketListenerImpl(server, new Connection(PacketFlow.SERVERBOUND) {
 				
 				@Override
-				public void sendPacket(IPacket<?> packet, GenericFutureListener<? extends Future<? super Void>> gfl) {
-				}
+				public void send(Packet<?> packet, PacketSendListener listener) {}
 				
 			}, this);
-			inventory.mainInventory.set(0, cad);
-			try {
-				ObfuscationReflectionHelper.setPrivateValue(Entity.class, this, 0, "field_213326_aJ"); // eyeHeight
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			getInventory().items.set(0, cad);
+			eyeHeight = 0;
 		}
 		
 		@Override
-		public Vector3d getPositionVec() {
-			return new Vector3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+		public Vec3 position() {
+			return new Vec3(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5);
 		}
 		
 		@Override
-		public BlockPos getPosition() {
-			return pos;
+		public BlockPos blockPosition() {
+			return worldPosition;
 		}
 		
 		@Override
-		public Vector3d getLookVec() {
-			return Vector3d.copy(getBlockState().get(MPUBlock.HORIZONTAL_FACING).getDirectionVec());
+		public Vec3 getLookAngle() {
+			return Vec3.atLowerCornerOf(getFeetBlockState().getValue(MPUBlock.FACING).getNormal());
 		}
 		
 		public void fix() {
 			// MPU can't blink
-			float yaw = getBlockState().get(MPUBlock.HORIZONTAL_FACING).getHorizontalAngle();
-			setPositionAndRotation(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, yaw, 0);
-			rotationYawHead = rotationYaw;
+			float yaw = getFeetBlockState().getValue(MPUBlock.FACING).toYRot();
+			absMoveTo(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, yaw, 0);
+			yHeadRot = getYRot();
 		}
 		
 		@Override
-		public void sendMessage(ITextComponent component, UUID senderUUID) {
+		public void sendSystemMessage(Component component, boolean bypassHidden) {
+			sendMessage(component);
+		}
+		
+		@Override
+		public void sendChatMessage(OutgoingPlayerChatMessage message, boolean filter, ChatType.Bound bound) {
+			sendMessage(message.serverContent());
+		}
+		
+		private void sendMessage(Component component) {
 			message = component;
-			markDirty();
-			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 18);
+			setChanged();
+			MPUTile.this.level.sendBlockUpdated(worldPosition, getFeetBlockState(), getFeetBlockState(), 18);
 		}
 		
 		public void deductPsi(int amount, int cd) {
@@ -302,12 +332,16 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public void setComparatorSignal(int value) {
 			comparatorSignal = Math.max(Math.min(value, 15), 0);
-			markDirty();
-			MPUTile.this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+			setChanged();
+			MPUTile.this.level.sendBlockUpdated(worldPosition, getFeetBlockState(), getFeetBlockState(), 3);
 		}
 		
 		public void setTime(int time) {
 			MPUTile.this.setTime(time);
+		}
+		
+		public BlockPos getConnected(Direction side) {
+			return CableNetwork.getController(level, worldPosition, side);
 		}
 		
 		public int getSuccessCount() {
@@ -320,7 +354,7 @@ public class MPUTile extends TileEntity implements ITickableTileEntity {
 		
 		public void fail() {
 			successCount = 0;
-			markDirty();
+			setChanged();
 		}
 		
 	}

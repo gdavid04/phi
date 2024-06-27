@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IEI",
+		"EME",
+		"IEI"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"E": { "item": "phi:psionic_dust" }
+	},
+	"result": {
+		"item": "phi:distill_chamber_wall"
+	}
+}

@@ -2,6 +2,9 @@ package gdavid.phi.spell.trick.mpu;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.Errors;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellCompilationException;
@@ -11,6 +14,8 @@ import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceTrick;
+
+import java.util.List;
 
 public class SetComparatorOutputTrick extends PieceTrick {
 	
@@ -23,6 +28,13 @@ public class SetComparatorOutputTrick extends PieceTrick {
 	@Override
 	public void initParams() {
 		addParam(num = new ParamNumber(SpellParam.GENERIC_NAME_NUMBER, SpellParam.BLUE, false, false));
+	}
+	
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<Component> tooltip) {
+		tooltip.add(Component.translatable("phi.tooltip.require_mpu"));
+		super.addToTooltipAfterShift(tooltip);
 	}
 	
 	@Override

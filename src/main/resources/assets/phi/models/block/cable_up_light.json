@@ -1,0 +1,27 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"2": "phi:block/cable_connected_light",
+		"particle": "phi:block/cable"
+	},
+	"elements": [
+		{
+			"from": [7.5, 1.0675, 2.0625],
+			"to": [8.5, 2.0675, 5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"up": {"uv": [0, 4.125, 2, 10], "texture": "#2"}
+			}
+		},
+		{
+			"from": [7.5, 2.0675, 0],
+			"to": [8.5, 18.0675, 2.0625],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"south": {"uv": [0, 4, 2, 6], "texture": "#2"},
+				"up": {"uv": [0, 0, 2, 4.125], "texture": "#2"}
+			}
+		}
+	]
+}

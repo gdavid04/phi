@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IPI",
+		"ILI",
+		"III"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"P": { "tag": "forge:ingots/psimetal" },
+		"L": { "item": "minecraft:redstone_lamp" }
+	},
+	"result": {
+		"item": "phi:text_display"
+	}
+}

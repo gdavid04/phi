@@ -2,6 +2,8 @@ package gdavid.phi.spell.param;
 
 import vazkii.psi.api.spell.param.ParamAny;
 
+import vazkii.psi.api.spell.SpellParam.ArrowType;
+
 /**
  * A parameter used for referencing other pieces. Execution order between the
  * piece and the parameter is undefined.
@@ -9,13 +11,16 @@ import vazkii.psi.api.spell.param.ParamAny;
 public class ReferenceParam extends ParamAny {
 	
 	public boolean checkLoop = false;
+	public boolean isOutput = false;
 	
-	public ReferenceParam(String name, int color, boolean canDisable) {
+	public ReferenceParam(String name, int color, boolean canDisable, boolean isOutput) {
 		super(name, color, canDisable);
+		this.isOutput = isOutput;
 	}
 	
-	public ReferenceParam(String name, int color, boolean canDisable, ArrowType arrowType) {
+	public ReferenceParam(String name, int color, boolean canDisable, boolean isOutput, ArrowType arrowType) {
 		super(name, color, canDisable, arrowType);
+		this.isOutput = isOutput;
 	}
 	
 	/**

@@ -4,8 +4,8 @@ import gdavid.phi.Phi;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.entity.PsiProjectileEntity;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.EnumCADComponent;
 import vazkii.psi.api.cad.ICAD;
@@ -52,20 +52,20 @@ public class PsiTransferTrick extends PieceTrick {
 		Vector3 directionVal = ParamHelper.nonNull(this, context, direction).copy().normalize();
 		int psiVal = getNonnullParamValue(context, psi).intValue();
 		if (psiVal == 0) return null;
-		if (context.focalPoint.getEntityWorld() instanceof ServerWorld) {
-			PsiProjectileEntity projectile = new PsiProjectileEntity(context.focalPoint.getEntityWorld(),
+		if (context.focalPoint.getCommandSenderWorld() instanceof ServerLevel) {
+			PsiProjectileEntity projectile = new PsiProjectileEntity(context.focalPoint.getCommandSenderWorld(),
 					directionVal.toVec3D(), psiVal);
 			ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
 			if (!cad.isEmpty()) {
 				projectile.setColorizer(((ICAD) cad.getItem()).getComponentInSlot(cad, EnumCADComponent.DYE));
 			}
 			projectile
-					.setPosition(context.focalPoint.getPosX(),
-							context.focalPoint.getPosY() + context.focalPoint.getEyeHeight()
+					.setPos(context.focalPoint.getX(),
+							context.focalPoint.getY() + context.focalPoint.getEyeHeight()
 									- (context.focalPoint instanceof MPUCaster ? 0 : 0.5),
-							context.focalPoint.getPosZ());
+							context.focalPoint.getZ());
 			projectile.setOrigin();
-			projectile.getEntityWorld().addEntity(projectile);
+			projectile.getCommandSenderWorld().addFreshEntity(projectile);
 		}
 		return null;
 	}

@@ -2,14 +2,13 @@ package gdavid.phi.capability;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.DoubleNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.ICADData;
@@ -41,23 +40,23 @@ public class MPUCADData implements ICapabilityProvider, ICADData, ISocketable {
 	}
 	
 	@Override
-	public CompoundNBT serializeNBT() {
-		CompoundNBT nbt = new CompoundNBT();
+	public CompoundTag serializeNBT() {
+		CompoundTag nbt = new CompoundTag();
 		nbt.putInt(tagTime, time);
-		ListNBT memory = new ListNBT();
+		ListTag memory = new ListTag();
 		for (Vector3 vec : vectors) {
-			memory.add(DoubleNBT.valueOf(vec.x));
-			memory.add(DoubleNBT.valueOf(vec.y));
-			memory.add(DoubleNBT.valueOf(vec.z));
+			memory.add(DoubleTag.valueOf(vec.x));
+			memory.add(DoubleTag.valueOf(vec.y));
+			memory.add(DoubleTag.valueOf(vec.z));
 		}
 		nbt.put(tagMemory, memory);
 		return nbt;
 	}
 	
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
+	public void deserializeNBT(CompoundTag nbt) {
 		time = nbt.getInt(tagTime);
-		ListNBT memory = nbt.getList(tagMemory, Constants.NBT.TAG_DOUBLE);
+		ListTag memory = nbt.getList(tagMemory, CompoundTag.TAG_DOUBLE);
 		for (int i = 0; i < memory.size() / 3; i++) {
 			vectors.add(new Vector3(memory.getDouble(i * 3), memory.getDouble(i * 3 + 1), memory.getDouble(i * 3 + 2)));
 		}
@@ -129,7 +128,7 @@ public class MPUCADData implements ICapabilityProvider, ICADData, ISocketable {
 	}
 	
 	@Override
-	public CompoundNBT serializeForSynchronization() {
+	public CompoundTag serializeForSynchronization() {
 		return null;
 	}
 	

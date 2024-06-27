@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IPI",
+		"IRI",
+		"III"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"P": { "tag": "forge:ingots/psimetal" },
+		"R": { "item": "psi:spell_drive" }
+	},
+	"result": {
+		"item": "phi:spell_storage"
+	}
+}

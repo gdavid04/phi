@@ -2,7 +2,7 @@ package gdavid.phi.mixin;
 
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import java.lang.ref.WeakReference;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -16,11 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class PlayerDataMixin {
 	
 	@Final
-	public WeakReference<PlayerEntity> playerWR;
+	public WeakReference<Player> playerWR;
 	
 	@Inject(method = "deductPsi(IIZZ)V", at = @At("HEAD"), cancellable = true)
 	private void deductPsi(int psi, int cd, boolean sync, boolean shatter, CallbackInfo callback) {
-		PlayerEntity player = playerWR.get();
+		Player player = playerWR.get();
 		if (player instanceof MPUCaster) {
 			((MPUCaster) player).deductPsi(psi, cd);
 			callback.cancel();
@@ -29,7 +29,7 @@ public class PlayerDataMixin {
 	
 	@Inject(method = "getAvailablePsi", at = @At("HEAD"), cancellable = true)
 	private void getAvailablePsi(CallbackInfoReturnable<Integer> callback) {
-		PlayerEntity player = playerWR.get();
+		Player player = playerWR.get();
 		if (player instanceof MPUCaster) {
 			callback.setReturnValue(((MPUCaster) player).getPsi());
 		}
@@ -37,7 +37,7 @@ public class PlayerDataMixin {
 	
 	@Inject(method = "getLastAvailablePsi", at = @At("HEAD"), cancellable = true)
 	private void getLastAvailablePsi(CallbackInfoReturnable<Integer> callback) {
-		PlayerEntity player = playerWR.get();
+		Player player = playerWR.get();
 		if (player instanceof MPUCaster) {
 			callback.setReturnValue(((MPUCaster) player).getPsi());
 		}
@@ -45,7 +45,7 @@ public class PlayerDataMixin {
 	
 	@Inject(method = "getTotalPsi", at = @At("HEAD"), cancellable = true)
 	private void getTotalPsi(CallbackInfoReturnable<Integer> callback) {
-		PlayerEntity player = playerWR.get();
+		Player player = playerWR.get();
 		if (player instanceof MPUCaster) {
 			callback.setReturnValue(((MPUCaster) player).getMaxPsi());
 		}

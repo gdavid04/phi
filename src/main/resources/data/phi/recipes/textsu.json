@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IPI",
+		"IGI",
+		"III"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"P": { "tag": "forge:ingots/psimetal" },
+		"G": { "tag": "forge:storage_blocks/gold" }
+	},
+	"result": {
+		"item": "phi:textsu"
+	}
+}

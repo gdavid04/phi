@@ -1,0 +1,22 @@
+{
+	"multipart": [
+		{ "apply": { "model": "phi:block/cable_center" } },
+		{ "when": { "online": "true" }, "apply": { "model": "phi:block/cable_center_light" } },
+		{ "when": { "north": "side" }, "apply": { "model": "phi:block/cable_side", "y": 0 } },
+		{ "when": { "north": "side", "online": "true" }, "apply": { "model": "phi:block/cable_side_light", "y": 0 } },
+		{ "when": { "north": "up" }, "apply": { "model": "phi:block/cable_up", "y": 0 } },
+		{ "when": { "north": "up", "online": "true" }, "apply": { "model": "phi:block/cable_up_light", "y": 0 } },
+		{ "when": { "south": "side" }, "apply": { "model": "phi:block/cable_side", "y": 180 } },
+		{ "when": { "south": "side", "online": "true" }, "apply": { "model": "phi:block/cable_side_light", "y": 180 } },
+		{ "when": { "south": "up" }, "apply": { "model": "phi:block/cable_up", "y": 180 } },
+		{ "when": { "south": "up", "online": "true" }, "apply": { "model": "phi:block/cable_up_light", "y": 180 } },
+		{ "when": { "west": "side" }, "apply": { "model": "phi:block/cable_side", "y": 270 } },
+		{ "when": { "west": "side", "online": "true" }, "apply": { "model": "phi:block/cable_side_light", "y": 270 } },
+		{ "when": { "west": "up" }, "apply": { "model": "phi:block/cable_up", "y": 270 } },
+		{ "when": { "west": "up", "online": "true" }, "apply": { "model": "phi:block/cable_up_light", "y": 270 } },
+		{ "when": { "east": "side" }, "apply": { "model": "phi:block/cable_side", "y": 90 } },
+		{ "when": { "east": "side", "online": "true" }, "apply": { "model": "phi:block/cable_side_light", "y": 90 } },
+		{ "when": { "east": "up" }, "apply": { "model": "phi:block/cable_up", "y": 90 } },
+		{ "when": { "east": "up", "online": "true" }, "apply": { "model": "phi:block/cable_up_light", "y": 90 } }
+	]
+}

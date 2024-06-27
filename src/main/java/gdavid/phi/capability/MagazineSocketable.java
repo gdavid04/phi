@@ -1,9 +1,9 @@
 package gdavid.phi.capability;
 
 import gdavid.phi.item.SpellMagazineItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -37,20 +37,20 @@ public class MagazineSocketable implements ICapabilityProvider, ISocketable {
 	
 	@Override
 	public ItemStack getBulletInSocket(int slot) {
-		CompoundNBT nbt = item.getOrCreateChildTag(SpellMagazineItem.tagSlot).getCompound(Integer.toString(slot));
+		CompoundTag nbt = item.getOrCreateTagElement(SpellMagazineItem.tagSlot).getCompound(Integer.toString(slot));
 		if (nbt.isEmpty()) {
 			return ItemStack.EMPTY;
 		}
-		return ItemStack.read(nbt);
+		return ItemStack.of(nbt);
 	}
 	
 	@Override
 	public void setBulletInSocket(int slot, ItemStack bullet) {
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		if (!bullet.isEmpty()) {
-			bullet.write(nbt);
+			bullet.save(nbt);
 		}
-		item.getOrCreateChildTag(SpellMagazineItem.tagSlot).put(Integer.toString(slot), nbt);
+		item.getOrCreateTagElement(SpellMagazineItem.tagSlot).put(Integer.toString(slot), nbt);
 	}
 	
 	// TODO consider allowing selecting slots and using programmer

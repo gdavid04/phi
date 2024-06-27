@@ -1,5 +1,6 @@
 package gdavid.phi.spell.operator.text;
 
+import gdavid.phi.spell.Errors;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
@@ -28,7 +29,9 @@ public class AsTextOperator extends PieceOperator {
 	
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
-		return getRawParamValue(context, value).toString();
+		Object val = getRawParamValue(context, value);
+		if (val == null) Errors.runtime(SpellRuntimeException.NULL_TARGET);
+		return val.toString();
 	}
 	
 }

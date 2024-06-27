@@ -1,0 +1,31 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "phi:spell_storage" }],
+			"functions": [{
+				"function": "copy_nbt", "source": "block_entity",
+				"ops": [
+					{ "source": "selected_slot", "target": "BlockEntityTag.selected_slot", "op": "replace" },
+					{ "source": "spell_0", "target": "BlockEntityTag.spell_0", "op": "replace" },
+					{ "source": "spell_1", "target": "BlockEntityTag.spell_1", "op": "replace" },
+					{ "source": "spell_2", "target": "BlockEntityTag.spell_2", "op": "replace" },
+					{ "source": "spell_3", "target": "BlockEntityTag.spell_3", "op": "replace" },
+					{ "source": "spell_4", "target": "BlockEntityTag.spell_4", "op": "replace" },
+					{ "source": "spell_5", "target": "BlockEntityTag.spell_5", "op": "replace" },
+					{ "source": "spell_6", "target": "BlockEntityTag.spell_6", "op": "replace" },
+					{ "source": "spell_7", "target": "BlockEntityTag.spell_7", "op": "replace" },
+					{ "source": "spell_8", "target": "BlockEntityTag.spell_8", "op": "replace" },
+					{ "source": "spell_9", "target": "BlockEntityTag.spell_9", "op": "replace" },
+					{ "source": "spell_10", "target": "BlockEntityTag.spell_10", "op": "replace" },
+					{ "source": "spell_11", "target": "BlockEntityTag.spell_11", "op": "replace" },
+					{ "source": "spell_12", "target": "BlockEntityTag.spell_12", "op": "replace" },
+					{ "source": "spell_13", "target": "BlockEntityTag.spell_13", "op": "replace" },
+					{ "source": "spell_14", "target": "BlockEntityTag.spell_14", "op": "replace" }
+				]
+			}],
+			"conditions": [{ "condition": "minecraft:survives_explosion" }]
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"type": "forge:add_features",
+	"biomes": [
+		"minecraft:end_highlands",
+		"minecraft:end_barrens"
+	],
+	"features": [
+		"phi:psionic_dust_ore_trace",
+		"phi:psionic_dust_ore_buried"
+	],
+	"step": "underground_ores"
+}

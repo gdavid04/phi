@@ -1,0 +1,17 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"particle": "phi:block/cable",
+		"connected_light": "phi:block/cable_connected_light"
+	},
+	"elements": [
+		{
+			"from": [6.5, 2.0675, 6.5],
+			"to": [9.5, 3.0675, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"up": {"uv": [2, 0, 8, 6], "texture": "#connected_light"}
+			}
+		}
+	]
+}

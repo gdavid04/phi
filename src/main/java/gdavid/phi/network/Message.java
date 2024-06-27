@@ -1,16 +1,16 @@
 package gdavid.phi.network;
 
-import java.util.function.Supplier;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent.Context;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import java.util.function.Supplier;
 
 public interface Message {
 	
 	// constructor(PacketBuffer buf);
 	
-	void encode(PacketBuffer buf);
+	void encode(FriendlyByteBuf buf);
 	
-	boolean receive(Supplier<NetworkEvent.Context> context);
+	boolean receive(Supplier<Context> context);
 	
 }

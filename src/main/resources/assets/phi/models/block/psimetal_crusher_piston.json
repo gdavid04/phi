@@ -1,0 +1,20 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"side": "phi:block/psimetal_crusher_piston_side",
+		"bottom": "phi:block/psimetal_crusher_piston_bottom"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 4],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [4, 0, 12, 16], "texture": "#side"},
+				"east": {"uv": [4, 0, 12, 16], "texture": "#side"},
+				"south": {"uv": [4, 0, 12, 16], "texture": "#side"},
+				"west": {"uv": [4, 0, 12, 16], "texture": "#side"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#bottom"}
+			}
+		}
+	]
+}

@@ -3,7 +3,7 @@ package gdavid.phi.spell.trick.marker;
 import gdavid.phi.entity.MarkerEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import vazkii.psi.api.internal.MathHelper;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
@@ -43,17 +43,17 @@ public class MoveMarkerTrick extends PieceTrick {
 		Entity targetVal = getNonnullParamValue(context, target);
 		Vector3 positionVal = ParamHelper.nonNull(this, context, position);
 		if (!(targetVal instanceof MarkerEntity)
-				|| ((MarkerEntity) targetVal).getOwner() != context.caster.getUniqueID())
+				|| ((MarkerEntity) targetVal).getOwner() != context.caster.getUUID())
 			Errors.invalidTarget.runtime();
-		if (MathHelper.pointDistanceSpace(targetVal.getPosX(), targetVal.getPosY(), targetVal.getPosZ(),
-				context.focalPoint.getPosX(), context.focalPoint.getPosY(),
-				context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2
+		if (MathHelper.pointDistanceSpace(targetVal.getX(), targetVal.getY(), targetVal.getZ(),
+				context.focalPoint.getX(), context.focalPoint.getY(),
+				context.focalPoint.getZ()) > SpellContext.MAX_DISTANCE * 2
 				|| MathHelper.pointDistanceSpace(positionVal.x, positionVal.y, positionVal.z,
-						context.focalPoint.getPosX(), context.focalPoint.getPosY(),
-						context.focalPoint.getPosZ()) > SpellContext.MAX_DISTANCE * 2) {
+						context.focalPoint.getX(), context.focalPoint.getY(),
+						context.focalPoint.getZ()) > SpellContext.MAX_DISTANCE * 2) {
 			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
 		}
-		targetVal.setPosition(positionVal.x, positionVal.y, positionVal.z);
+		targetVal.setPos(positionVal.x, positionVal.y, positionVal.z);
 		return null;
 	}
 	

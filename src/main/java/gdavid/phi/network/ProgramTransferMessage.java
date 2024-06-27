@@ -1,17 +1,18 @@
 package gdavid.phi.network;
 
-import java.util.function.Supplier;
-
-import gdavid.phi.block.tile.CADHolderTile;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import gdavid.phi.util.IProgramTransferTarget;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraftforge.network.NetworkEvent.Context;
 import vazkii.psi.api.internal.VanillaPacketDispatcher;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.common.block.tile.TileProgrammer;
+
+import java.util.UUID;
+import java.util.function.Supplier;
 
 public class ProgramTransferMessage implements Message {
 	
@@ -23,35 +24,38 @@ public class ProgramTransferMessage implements Message {
 		this.dir = dir;
 	}
 	
-	public ProgramTransferMessage(PacketBuffer buf) {
+	public ProgramTransferMessage(FriendlyByteBuf buf) {
 		pos = buf.readBlockPos();
-		dir = Direction.byIndex(buf.readInt());
+		dir = Direction.from3DDataValue(buf.readInt());
 	}
 	
 	@Override
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeBlockPos(pos);
-		buf.writeInt(dir.getIndex());
+		buf.writeInt(dir.get3DDataValue());
 	}
 	
 	@Override
 	public boolean receive(Supplier<Context> context) {
 		context.get().enqueueWork(() -> {
-			PlayerEntity player = context.get().getSender();
-			TileEntity a = player.world.getTileEntity(pos);
-			TileEntity b = player.world.getTileEntity(pos.offset(dir));
+			Player player = context.get().getSender();
+			BlockEntity a = player.level.getBlockEntity(pos);
+			BlockEntity b = player.level.getBlockEntity(pos.relative(dir));
 			Spell spell;
 			if (a instanceof TileProgrammer) {
-				spell = ((TileProgrammer) a).spell.copy();
-			} else if (a instanceof CADHolderTile) {
-				spell = ((CADHolderTile) a).getSpell();
+				Spell tmp = ((TileProgrammer) a).spell;
+				if (tmp != null) spell = tmp.copy();
+				else spell = null;
+			} else if (a instanceof IProgramTransferTarget) {
+				spell = ((IProgramTransferTarget) a).getSpell();
 			} else return;
+			if (spell != null) spell.uuid = UUID.randomUUID(); // Ensure we don't accidentally cause a cache collision
 			if (b instanceof TileProgrammer) {
 				((TileProgrammer) b).spell = spell;
 				((TileProgrammer) b).onSpellChanged();
 				VanillaPacketDispatcher.dispatchTEToNearbyPlayers(b);
-			} else if (b instanceof CADHolderTile) {
-				((CADHolderTile) b).setSpell(player, spell);
+			} else if (b instanceof IProgramTransferTarget) {
+				((IProgramTransferTarget) b).setSpell(player, spell);
 			}
 		});
 		return true;

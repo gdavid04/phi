@@ -1,7 +1,7 @@
 package gdavid.phi.spell.operator.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
@@ -37,7 +37,7 @@ public class EntityEyePositionOperator extends PieceOperator {
 	
 	@Override
 	public String getSortingName() {
-		return new TranslationTextComponent(PsiAPI.MOD_ID + ".spellpiece.operator_entity_position").getString() + "/"
+		return Component.translatable(PsiAPI.MOD_ID + ".spellpiece.operator_entity_position").getString() + "/"
 				+ super.getSortingName();
 	}
 	

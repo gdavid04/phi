@@ -1,10 +1,10 @@
 package gdavid.phi.util;
 
 import gdavid.phi.Phi;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public enum RedstoneMode {
-		
+	
 	always, enable, disable, pulse;
 	
 	public static final ResourceLocation texture = new ResourceLocation(Phi.modId, "textures/gui/redstone_mode.png");

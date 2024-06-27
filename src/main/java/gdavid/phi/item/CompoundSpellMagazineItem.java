@@ -2,10 +2,10 @@ package gdavid.phi.item;
 
 import java.lang.reflect.Field;
 import java.util.function.Consumer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.cad.EnumCADComponent;
@@ -45,10 +45,10 @@ public class CompoundSpellMagazineItem extends SpellMagazineItem {
 					overflow.set(event.playerData, false); // ignore mid-cast overflows
 					final int currentIndex = index++;
 					Class.forName("vazkii.psi.common.item.ItemCAD")
-							.getMethod("cast", World.class, PlayerEntity.class,
+							.getMethod("cast", Level.class, Player.class,
 									Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler$PlayerData"),
 									ItemStack.class, ItemStack.class, int.class, int.class, float.class, Consumer.class)
-							.invoke(null, event.context.caster.world, event.player, event.playerData,
+							.invoke(null, event.context.caster.level, event.player, event.playerData,
 									socketable.getBulletInSocket(i), event.cad, 0, 10, 0,
 									(Consumer<SpellContext>) (SpellContext ctx) -> ctx.loopcastIndex = currentIndex);
 					didOverflow |= overflow.getBoolean(event.playerData);

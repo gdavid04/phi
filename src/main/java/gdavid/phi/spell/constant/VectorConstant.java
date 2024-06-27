@@ -1,10 +1,10 @@
 package gdavid.phi.spell.constant;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
@@ -32,16 +32,16 @@ public class VectorConstant extends SpellPiece {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("resource")
-	public void drawAdditional(MatrixStack ms, IRenderTypeBuffer buffers, int light) {
-		FontRenderer font = Minecraft.getInstance().fontRenderer;
-		ms.push();
+	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
+		Font font = Minecraft.getInstance().font;
+		ms.pushPose();
 		ms.translate(2, 2, 0);
 		ms.scale(0.5f, 0.5f, 1);
 		for (int i = 0; i < 3; i++) {
 			boolean selected = true;
 			try {
 				Class<?> clazz = Class.forName("vazkii.psi.client.gui.GuiProgrammer");
-				selected = clazz.isInstance(Minecraft.getInstance().currentScreen)
+				selected = clazz.isInstance(Minecraft.getInstance().screen)
 						&& clazz.getField("selectedX").getInt(null) == x
 						&& clazz.getField("selectedY").getInt(null) == y;
 			} catch (Exception e) {
@@ -49,10 +49,10 @@ public class VectorConstant extends SpellPiece {
 			}
 			if (components[i].length() > 5) components[i] = "0";
 			int color = (selected && selectedComponent == i) ? 0xffffff : 0x808080 | 0xff << ((2 - i) * 8);
-			font.renderString(components[i], 0, 0, color, false, ms.getLast().getMatrix(), buffers, false, 0, light);
+			font.drawInBatch(components[i], 0, 0, color, false, ms.last().pose(), buffers, false, 0, light);
 			ms.translate(0, 8, 0);
 		}
-		ms.pop();
+		ms.popPose();
 	}
 	
 	@Override
@@ -137,7 +137,7 @@ public class VectorConstant extends SpellPiece {
 	}
 	
 	@Override
-	public void writeToNBT(CompoundNBT nbt) {
+	public void writeToNBT(CompoundTag nbt) {
 		super.writeToNBT(nbt);
 		nbt.putString("x", components[0]);
 		nbt.putString("y", components[1]);
@@ -145,7 +145,7 @@ public class VectorConstant extends SpellPiece {
 	}
 	
 	@Override
-	public void readFromNBT(CompoundNBT nbt) {
+	public void readFromNBT(CompoundTag nbt) {
 		super.readFromNBT(nbt);
 		components[0] = nbt.getString("x");
 		components[1] = nbt.getString("y");

@@ -3,7 +3,7 @@ package gdavid.phi.spell.selector;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.trick.SaveVectorComponentTrick;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.internal.Vector3;

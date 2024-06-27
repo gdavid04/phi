@@ -4,9 +4,12 @@ import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -18,6 +21,8 @@ import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
+
+import java.util.List;
 
 public class SetTimeTrick extends PieceTrick {
 	
@@ -35,6 +40,13 @@ public class SetTimeTrick extends PieceTrick {
 	}
 	
 	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void addToTooltipAfterShift(List<Component> tooltip) {
+		tooltip.add(Component.translatable("phi.tooltip.require_mpu"));
+		super.addToTooltipAfterShift(tooltip);
+	}
+	
+	@Override
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 		meta.addStat(EnumSpellStat.POTENCY, 4);
@@ -47,11 +59,11 @@ public class SetTimeTrick extends PieceTrick {
 		int time = getNonnullParamValue(context, num).intValue();
 		if (paramSides.get(target).isEnabled()) {
 			BlockPos pos = ParamHelper.block(this, context, target);
-			World world = context.focalPoint.getEntityWorld();
-			if (!world.isBlockLoaded(pos) || !world.isBlockModifiable(context.caster, pos)) {
+			Level world = context.focalPoint.getCommandSenderWorld();
+			if (!world.hasChunkAt(pos) || !world.mayInteract(context.caster, pos)) {
 				return null;
 			}
-			TileEntity tile = world.getTileEntity(pos);
+			BlockEntity tile = world.getBlockEntity(pos);
 			if (tile instanceof MPUTile) {
 				((MPUTile) tile).setTime(time);
 			}

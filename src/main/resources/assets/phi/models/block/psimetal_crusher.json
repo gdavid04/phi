@@ -1,0 +1,8 @@
+{
+	"parent": "block/cube_bottom_top",
+	"textures": {
+		"top": "phi:block/psimetal_crusher_top",
+		"bottom": "phi:block/psimetal_crusher_bottom",
+		"side": "minecraft:block/iron_block"
+	}
+}

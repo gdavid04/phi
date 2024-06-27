@@ -22,6 +22,7 @@
 	"phi.spellparam.after": "After",
 	"phi.spellparam.at": "At",
 	"phi.spellparam.default": "Default",
+	"phi.spellparam.line": "Line",
 	"phi.spellparam.color": "Color",
 	"phi.spellparam.size": "Size",
 
@@ -37,11 +38,13 @@
 
 	"psi.datatype.object": "Any",
 	"psi.datatype.string": "Text",
-	
+
 	"phi.redstone_mode.always": "\u00a7cRedstone Mode\u00a7f: Always active, ignore redstone signal",
 	"phi.redstone_mode.enable": "\u00a7cRedstone Mode\u00a7f: Enable with redstone signal",
 	"phi.redstone_mode.disable": "\u00a7cRedstone Mode\u00a7f: Disable with redstone signal",
 	"phi.redstone_mode.pulse": "\u00a7cRedstone Mode\u00a7f: Activate on redstone pulse",
+	
+	"phi.tooltip.require_mpu": "\u00a7cRequires Magic Processing Unit",
 
 	"phi.spellpiece.trick_psion_wave": "Trick: Psion Wave",
 	"phi.spellpiece.trick_psion_wave.desc": "Emits a psion wave. Magicians hit by it will feel dizzy",
@@ -61,8 +64,25 @@
 	"phi.spellpiece.trick_swap_blink.desc": "Targets switch place. Targets caster by default",
 	"phi.spellpiece.trick_swap_blink_position": "Trick: Swap Blink (Position Only)",
 	"phi.spellpiece.trick_swap_blink_position.desc": "Targets switch place, but not look direction. Targets caster by default",
+	"phi.spellpiece.trick_blink_eidos_reversal": "Trick: Blink Eidos Reversal",
+	"phi.spellpiece.trick_blink_eidos_reversal.desc": "Teleports the caster back in time",
 	"phi.spellpiece.trick_acceleration": "Trick: Acceleration",
 	"phi.spellpiece.trick_acceleration.desc": "Constantly accelerates the target in the given direction for the specified time",
+	"phi.spellpiece.trick_mass_acceleration": "Trick: Mass Acceleration",
+	"phi.spellpiece.trick_mass_acceleration.desc": "Constantly accelerates the targets in the given direction for the specified time",
+	"phi.spellpiece.trick_acceleration_towards_point": "Trick: Acceleration Towards Point",
+	"phi.spellpiece.trick_acceleration_towards_point.desc": "Constantly accelerates the targets towards the given point for the specified time",
+	"phi.spellpiece.trick_elastic_anchor": "Trick: Elastic Anchor",
+	"phi.spellpiece.trick_elastic_anchor.desc": "Pulls the targets towards their initial position when the trick was executed for the specified time",
+	"phi.spellpiece.trick_place_dropped_block": "Trick: Place Dropped Block",
+	"phi.spellpiece.trick_place_dropped_block.desc": "Places a block from a dropped item",
+	
+	"phi.spellpiece.trick_move_spirit": "Trick: Move Spirit",
+	"phi.spellpiece.trick_move_spirit.desc": "Moves a spirit summoned by the caster. Not limited by range.",
+	"phi.spellpiece.trick_focus_spirit": "Trick: Focus Spirit",
+	"phi.spellpiece.trick_focus_spirit.desc": "Transfers focus to a spirit summoned by the caster and outputs it. Not limited by range.",
+	"phi.spellpiece.trick_defocus_spirit": "Trick: Defocus Spirit",
+	"phi.spellpiece.trick_defocus_spirit.desc": "Returns focus to the original focal point and outputs it.",
 
 	"phi.spellpiece.trick_early_evaluate": "Trick: Early Evaluate",
 	"phi.spellpiece.trick_early_evaluate.desc": "Evaluates the target piece early if condition is within (-1, 1) exclusive",
@@ -70,23 +90,37 @@
 	"phi.spellpiece.trick_reevaluate.desc": "Reevaluates the target piece if condition is within (-1, 1) exclusive",
 
 	"phi.spellpiece.trick_save_vector_component": "Trick: Save Vector Component",
-	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.trick_save_vector_component.desc": "Saves a number to a component of a saved vector. The vector slot is given by target / 3 rounded up, the component by the remainder of target / 3",
 	"phi.spellpiece.trick_write_vector_storage": "Trick: Write Vector Storage",
-	"phi.spellpiece.trick_write_vector_storage.desc": "Writes a vector to an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_vector_storage.desc": "Writes a vector to a connected Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_text_storage": "Trick: Write Text Storage",
+	"phi.spellpiece.trick_write_text_storage.desc": "Writes text to a connected Text Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.trick_write_text_display": "Trick: Write Text Display",
+	"phi.spellpiece.trick_write_text_display.desc": "Writes text to a connected Text Display. Overwrites the given line or appends to the bottom of the screen. Requires a Magic Processing Unit",
 	"phi.spellpiece.trick_set_comparator_output": "Trick: Set Comparator Output",
 	"phi.spellpiece.trick_set_comparator_output.desc": "Sets the comparator output of the Magic Processing Unit executing the trick",
 	"phi.spellpiece.trick_set_time": "Trick: Set Time",
 	"phi.spellpiece.trick_set_time.desc": "Sets the internal time of a Magic Processing Unit",
+	
+	"phi.spellpiece.trick_spin_item_chamber": "Trick: Spin Item Chamber",
+	"phi.spellpiece.trick_spin_item_chamber.desc": "Spins the chamber of an item. Negative slot numbers select equipment slots. Selects the next or previous bullet depending on the sign of direction or the given slot number.",
 
 	"phi.spellpiece.selector_nearby_markers": "Selector: Nearby Markers",
 	"phi.spellpiece.selector_nearby_markers.desc": "Selects markers near the given position. Has an increased range.",
 	"phi.spellpiece.selector_nearby_burning": "Selector: Nearby Burning",
 	"phi.spellpiece.selector_nearby_burning.desc": "Selects burning entities near the given position.",
 
+	"phi.spellpiece.selector_nearby_spirits": "Selector: Nearby Spirits",
+	"phi.spellpiece.selector_nearby_spirits.desc": "Selects spirits near the given position.",
+	"phi.spellpiece.selector_summoned_spirits": "Selector: Summoned Spirits",
+	"phi.spellpiece.selector_summoned_spirits.desc": "Selects spirits summoned by the caster.",
+
 	"phi.spellpiece.selector_saved_vector_component": "Selector: Saved Vector Component",
-	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3, the component by the remainder of target / 3",
+	"phi.spellpiece.selector_saved_vector_component.desc": "Reads a component of a saved vector. The vector slot is given by target / 3 rounded up, the component by the remainder of target / 3",
 	"phi.spellpiece.selector_read_vector_storage": "Selector: Read Vector Storage",
-	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from an adjacent Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.selector_read_vector_storage.desc": "Reads a vector from a connected Vector Storage Unit. Requires a Magic Processing Unit",
+	"phi.spellpiece.selector_read_text_storage": "Selector: Read Text Storage",
+	"phi.spellpiece.selector_read_text_storage.desc": "Reads text from a connected Text Storage Unit. Requires a Magic Processing Unit",
 
 	"phi.spellpiece.selector_spell_name": "Selector: Spell Name",
 	"phi.spellpiece.selector_spell_name.desc": "Reads the name of the spell",
@@ -174,8 +208,12 @@
 	"phi.spellpiece.operator_hash": "Operator: Hash",
 	"phi.spellpiece.operator_hash.desc": "Converts its input to incomprehensible gibberish. Seems to output the same number for the same input and different numbers for different inputs",
 
-	"phi.spellpiece.operator_branch": "Operator: Branch",
-	"phi.spellpiece.operator_branch.desc": "Selects one of its inputs based on the sign of the condition",
+	"phi.spellpiece.operator_error_catcher": "Operator: Handle Error",
+	"phi.spellpiece.operator_error_catcher.desc": "Replaces errors with the fallback value and outputs the result. Inline version of the Error Catcher. Multiple copies of the operator can be used on the same target as it doesn't replace its original value",
+	"phi.spellpiece.operator_propagate_error": "Operator: Propagate Error",
+	"phi.spellpiece.operator_propagate_error.desc": "Makes errors passed through it propagate until they are handled by Operator: Handle Error or an Error Catcher",
+	"phi.spellpiece.operator_error_status": "Operator: Error Status",
+	"phi.spellpiece.operator_error_status.desc": "Tests whether its input errored (1 if yes, 0 if no)",
 
 	"phi.spellpiece.connector_clockwise": "Clockwise Connector",
 	"phi.spellpiece.connector_clockwise.desc": "Redirects inputs to outputs next to them clockwise",
@@ -190,6 +228,8 @@
 
 	"phi.spellpiece.constant_text": "Constant: Text",
 	"phi.spellpiece.constant_text.desc": "Select and type to set value",
+	"phi.spellpiece.constant_character_code": "Constant: Character Code",
+	"phi.spellpiece.constant_character_code.desc": "Select and type to set value",
 	"phi.spellpiece.constant_vector": "Constant: Vector",
 	"phi.spellpiece.constant_vector.desc": "Select, press X, Y or Z and type to set coordinate",
 
@@ -218,13 +258,42 @@
 	"item.phi.blood_converter": "Blood Converter",
 	"item.phi.blood_converter.desc": "\u00a7aBlood Converter\u00a77: Improves blood to psi conversion ratio, reducing overflow damage\nIt doesn't look very safe to use",
 
+	"item.phi.spirit_summoning_talisman": "Spirit Summoning Talisman",
+	"item.phi.spirit_summoning_talisman.desc": "\u00a7aSpirit Summoning Talisman\u00a77: Right click to summon spirits. Spells can control summoned spirits regardless of distance.",
+
 	"item.phi.psionic_visor": "Psionic Visor",
 	"item.phi.psionic_visor.desc": "\u00a7aPsionic Visor\u00a77: Can be programmed to display information on your HUD. Equipped with an experimental low-latency processor. Due to the nature of its processor, some pieces are not available",
 
 	"block.phi.mpu": "Magic Processing Unit",
 	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",
 	"block.phi.vsu": "Vector Storage Unit",
-	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines",
+	"block.phi.vsu.desc": "\u00a7aVector Storage Unit\u00a77: A block that stores a vector that can be accessed and modified by adjacent machines or via data cables",
+	"block.phi.textsu": "Text Storage Unit",
+	"block.phi.textsu.desc": "\u00a7aText Storage Unit\u00a77: A block that stores text that can be accessed and modified by adjacent machines or via data cables. Can store up to 256 characters",
 	"block.phi.cad_holder": "CAD Holder",
-	"block.phi.cad_holder.desc": "\u00a7aCAD Holder\u00a77: A block that can hold a CAD or Spell Magazine whose contents can be accessed and modified by adjacent machines"
+	"block.phi.cad_holder.desc": "\u00a7aCAD Holder\u00a77: A block that can hold a CAD or Spell Magazine whose contents can be accessed and modified by adjacent machines",
+	"block.phi.spell_storage": "Spell Storage",
+	"block.phi.spell_storage.desc": "\u00a7aSpell Storage\u00a77: A block that stores spells that can be accessed and modified by adjacent machines. Keeps contents when broken",
+	"block.phi.text_display": "Text Display",
+	"block.phi.text_display.desc": "\u00a7aText Display\u00a77: A block that displays text and can be written to by adjacent machines or via data cables",
+	"block.phi.cable": "Data Cable",
+	"block.phi.cable.desc": "\u00a7aData Cable\u00a77: Connects machines",
+	"block.phi.spell_display": "Spell Display",
+	"block.phi.spell_display.desc": "\u00a7aSpell Display\u00a77: A block that displays a spell\nRight click with a spell container to copy the spell\nChange spell with an adjacent spell programmer",
+	"block.phi.infusion_laser": "Psionic Infusion Laser",
+	"block.phi.infusion_laser.desc": "\u00a7aInfusion Laser\u00a77: A psionic laser that can be used to automate infusing items with psi\nFires automatically when sufficiently charged\nEquivalent to Trick: Infusion in terms of power",
+	"block.phi.distill_chamber_wall": "Psion Distillation Chamber Wall",
+	"block.phi.distill_chamber_wall.desc": "\u00a7aPsion Distillation Chamber Wall\u00a77: Walls of a psion distillation chamber\nBuild a 3x3x3-5x5x5 hollow cuboid from these with a Psion Distillation Chamber Controller on one side",
+	"block.phi.distill_chamber_controller": "Psion Distillation Chamber Controller",
+	"block.phi.distill_chamber_controller.desc": "\u00a7aPsion Distillation Chamber Controller\u00a77: A controller for a psion distillation chamber\nUse with Psion Distillation Chamber Walls to create a psion distillation chamber\nInput psidust by dropping it in front of the controller\nCan store 4 psidust / block (internal volume)",
+	"block.phi.psimetal_crusher": "Psimetal Crusher",
+	"block.phi.psimetal_crusher.desc": "\u00a7aPsimetal Crusher\u00a77: A block that crushes psimetal into psidust\nPlace psimetal ingots under the crusher to crush them",
+	
+	"block.phi.psionic_dust_ore": "Psionic Dust Ore",
+	"item.phi.psionic_dust": "Psionic Dust",
+	"item.phi.psionized_netherite_plate": "Psionized Netherite Plate",
+	
+	"phi.program_transfer.write": "\u00a7cWrite To Spell Container",
+	"phi.program_transfer.read": "\u00a79Read From Spell Container",
+	"phi.program_transfer.select_slot": "\u00a7aChange Selected Slot"
 }

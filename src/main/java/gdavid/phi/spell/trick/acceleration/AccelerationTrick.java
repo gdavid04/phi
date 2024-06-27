@@ -1,12 +1,12 @@
-package gdavid.phi.spell.trick;
+package gdavid.phi.spell.trick.acceleration;
 
 import gdavid.phi.capability.ModCapabilities;
 import gdavid.phi.network.AccelerationMessage;
 import gdavid.phi.network.Messages;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -54,12 +54,15 @@ public class AccelerationTrick extends PieceTrick {
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Entity targetVal = getNonnullParamValue(context, target);
 		context.verifyEntity(targetVal);
+		if (!context.isInRadius(targetVal)) {
+			Errors.runtime(SpellRuntimeException.OUTSIDE_RADIUS);
+		}
 		int timeVal = getNonnullParamValue(context, time).intValue();
 		double powerVal = getNonnullParamValue(context, power).doubleValue() * 0.3;
 		Vector3 accel = ParamHelper.nonNull(this, context, direction).copy().normalize().multiply(powerVal);
 		targetVal.getCapability(ModCapabilities.acceleration).ifPresent(cap -> cap.addAcceleration(accel, timeVal));
-		if (targetVal instanceof PlayerEntity) {
-			Messages.send(new AccelerationMessage(accel, timeVal), (PlayerEntity) targetVal);
+		if (targetVal instanceof Player) {
+			Messages.send(new AccelerationMessage(accel, timeVal), (Player) targetVal);
 		}
 		return null;
 	}

@@ -2,11 +2,11 @@ package gdavid.phi.spell.operator.vector.raycast;
 
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.ClipContext.Block;
+import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.phys.HitResult;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
@@ -44,10 +44,10 @@ public class OffsetRaycastOperator extends PieceOperator {
 		double length = getParamValueOrDefault(context, max, SpellContext.MAX_DISTANCE).doubleValue();
 		length = Math.max(Math.min(length, SpellContext.MAX_DISTANCE), -SpellContext.MAX_DISTANCE);
 		Vector3 end = start.copy().add(direction.copy().normalize().multiply(length));
-		BlockRayTraceResult res = context.focalPoint.world.rayTraceBlocks(new RayTraceContext(start.toVec3D(),
-				end.toVec3D(), BlockMode.OUTLINE, FluidMode.NONE, context.focalPoint));
-		if (res.getType() == RayTraceResult.Type.MISS) Errors.runtime(SpellRuntimeException.NULL_VECTOR);
-		return Vector3.fromVec3d(res.getHitVec()).subtract(Vector3.fromBlockPos(res.getPos()))
+		BlockHitResult res = context.focalPoint.level.clip(new ClipContext(start.toVec3D(),
+				end.toVec3D(), Block.OUTLINE, Fluid.NONE, context.focalPoint));
+		if (res.getType() == HitResult.Type.MISS) Errors.runtime(SpellRuntimeException.NULL_VECTOR);
+		return Vector3.fromVec3d(res.getLocation()).subtract(Vector3.fromBlockPos(res.getBlockPos()))
 				.subtract(new Vector3(0.5, 0.5, 0.5));
 	}
 	

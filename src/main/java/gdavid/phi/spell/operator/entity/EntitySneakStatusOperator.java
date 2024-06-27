@@ -1,6 +1,6 @@
 package gdavid.phi.spell.operator.entity;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellParam;
@@ -29,7 +29,7 @@ public class EntitySneakStatusOperator extends PieceOperator {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Entity e = getNonnullParamValue(context, target);
-		return e.isSneaking() ? 0 : 1;
+		return e.isShiftKeyDown() ? 0 : 1;
 	}
 	
 }

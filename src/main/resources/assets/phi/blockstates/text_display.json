@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "phi:block/text_display" },
+		"facing=south": { "model": "phi:block/text_display", "y": 180 },
+		"facing=west": { "model": "phi:block/text_display", "y": 270 },
+		"facing=east": { "model": "phi:block/text_display", "y": 90 }
+	}
+}

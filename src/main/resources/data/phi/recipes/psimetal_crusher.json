@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IGI",
+		"IMI",
+		"IPI"
+	],
+	"key": {
+		"I": { "tag": "forge:ingots/iron" },
+		"G": { "tag": "forge:gems/psigem" },
+		"M": { "tag": "forge:ingots/psimetal" },
+		"P": { "item": "minecraft:piston" }
+	},
+	"result": {
+		"item": "phi:psimetal_crusher"
+	}
+}

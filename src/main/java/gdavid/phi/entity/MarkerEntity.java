@@ -3,15 +3,15 @@ package gdavid.phi.entity;
 import gdavid.phi.Phi;
 import java.util.Optional;
 import java.util.UUID;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.spell.ISpellImmune;
 
@@ -19,63 +19,63 @@ public class MarkerEntity extends Entity implements ISpellImmune {
 	
 	public static final String id = "marker";
 	
-	@ObjectHolder(Phi.modId + ":" + id)
+	@ObjectHolder(registryName = "entity_type", value = Phi.modId + ":" + id)
 	public static EntityType<MarkerEntity> type;
 	
 	static final String tagOwner = "owner";
 	static final String tagTime = "time";
 	
-	public static final DataParameter<Optional<UUID>> owner = EntityDataManager.createKey(MarkerEntity.class,
-			DataSerializers.OPTIONAL_UNIQUE_ID);
+	public static final EntityDataAccessor<Optional<UUID>> owner = SynchedEntityData.defineId(MarkerEntity.class,
+			EntityDataSerializers.OPTIONAL_UUID);
 	
 	int time;
 	
-	public MarkerEntity(EntityType<MarkerEntity> type, World world) {
+	public MarkerEntity(EntityType<MarkerEntity> type, Level world) {
 		super(type, world);
 	}
 	
-	public MarkerEntity(World world, Entity ownerEntity, int time) {
+	public MarkerEntity(Level world, Entity ownerEntity, int time) {
 		super(type, world);
 		if (owner != null) {
-			dataManager.set(owner, Optional.of(ownerEntity.getUniqueID()));
+			entityData.set(owner, Optional.of(ownerEntity.getUUID()));
 		}
 		this.time = time;
 	}
 	
 	public UUID getOwner() {
-		return dataManager.get(owner).get();
+		return entityData.get(owner).get();
 	}
 	
 	@Override
-	protected void registerData() {
-		dataManager.register(owner, Optional.of(new UUID(0, 0)));
+	protected void defineSynchedData() {
+		entityData.define(owner, Optional.of(new UUID(0, 0)));
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT nbt) {
-		nbt.putUniqueId(tagOwner, getOwner());
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		nbt.putUUID(tagOwner, getOwner());
 		nbt.putInt(tagTime, time);
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT nbt) {
-		dataManager.set(owner, Optional.of(nbt.getUniqueId(tagOwner)));
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		entityData.set(owner, Optional.of(nbt.getUUID(tagOwner)));
 		time = nbt.getInt(tagTime);
 	}
 	
 	@Override
 	public void tick() {
 		super.tick();
-		if (!world.isRemote && time-- < 0) remove();
+		if (!level.isClientSide && time-- < 0) discard();
 	}
 	
 	@Override
-	public boolean doesEntityNotTriggerPressurePlate() {
+	public boolean isIgnoringBlockTriggers() {
 		return true;
 	}
 	
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

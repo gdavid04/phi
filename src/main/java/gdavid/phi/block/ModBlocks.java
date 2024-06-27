@@ -1,62 +1,81 @@
 package gdavid.phi.block;
 
-import gdavid.phi.Phi;
-import gdavid.phi.block.tile.CADHolderTile;
-import gdavid.phi.block.tile.MPUTile;
-import gdavid.phi.block.tile.VSUTile;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.village.PointOfInterestType;
-import net.minecraftforge.event.RegistryEvent;
+import com.google.common.collect.ImmutableSet;
+import gdavid.phi.block.tile.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.RegisterEvent;
+
 @EventBusSubscriber(bus = Bus.MOD)
 public class ModBlocks {
 	
-	public static final Block shadow = new ShadowBlock();
-	public static final Block mpu = new MPUBlock();
-	public static final Block vsu = new VSUBlock();
-	public static final Block cadHolder = new CADHolderBlock();
+	public static Block shadow, mpu, vsu, textsu, cadHolder, spellStorage, textDisplay, cable, spellDisplay, infusionLaser, distillChamberWall, distillChamberController, psimetalCrusher, psionicDustOre;
 	
-	public static final PointOfInterestType mpuPOI = new PointOfInterestType(Phi.modId + ":mpu", PointOfInterestType.getAllStates(mpu), 0, 1).setRegistryName(Phi.modId, "mpu");
+	public static PoiType mpuPOI;
 	
 	@SubscribeEvent
-	public static void init(RegistryEvent.Register<Block> event) {
-		event.getRegistry().registerAll(shadow, mpu, vsu, cadHolder);
-	}
-	
-	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(
-				new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).group(ItemGroup.MISC))
-						.setRegistryName(mpu.getRegistryName()),
-				new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(vsu.getRegistryName()),
-				new BlockItem(cadHolder, new Item.Properties().rarity(Rarity.UNCOMMON).group(ItemGroup.MISC))
-						.setRegistryName(cadHolder.getRegistryName()));
-	}
-	
-	@SubscribeEvent
-	@SuppressWarnings("unchecked")
-	public static void initTiles(RegistryEvent.Register<TileEntityType<?>> event) {
-		event.getRegistry().registerAll(
-				MPUTile.type = (TileEntityType<MPUTile>) TileEntityType.Builder.create(MPUTile::new, mpu).build(null)
-						.setRegistryName(mpu.getRegistryName()),
-				VSUTile.type = (TileEntityType<VSUTile>) TileEntityType.Builder.create(VSUTile::new, vsu).build(null)
-						.setRegistryName(vsu.getRegistryName()),
-				CADHolderTile.type = (TileEntityType<CADHolderTile>) TileEntityType.Builder.create(CADHolderTile::new, cadHolder).build(null)
-						.setRegistryName(cadHolder.getRegistryName()));
-	}
-	
-	@SubscribeEvent
-	public static void initPOIs(RegistryEvent.Register<PointOfInterestType> event) {
-		event.getRegistry().registerAll(mpuPOI);
+	public static void init(RegisterEvent event) {
+		event.register(Keys.BLOCKS, handler -> {
+			handler.register(ShadowBlock.id, shadow = new ShadowBlock());
+			handler.register(MPUBlock.id, mpu = new MPUBlock());
+			handler.register(VSUBlock.id, vsu = new VSUBlock());
+			handler.register(TextSUBlock.id, textsu = new TextSUBlock());
+			handler.register(CADHolderBlock.id, cadHolder = new CADHolderBlock());
+			handler.register(SpellStorageBlock.id, spellStorage = new SpellStorageBlock());
+			handler.register(TextDisplayBlock.id, textDisplay = new TextDisplayBlock());
+			handler.register(CableBlock.id, cable = new CableBlock());
+			handler.register(SpellDisplayBlock.id, spellDisplay = new SpellDisplayBlock());
+			handler.register(InfusionLaserBlock.id, infusionLaser = new InfusionLaserBlock());
+			handler.register(DistillChamberWallBlock.id, distillChamberWall = new DistillChamberWallBlock());
+			handler.register(DistillChamberControllerBlock.id, distillChamberController = new DistillChamberControllerBlock());
+			handler.register(PsimetalCrusherBlock.id, psimetalCrusher = new PsimetalCrusherBlock());
+			handler.register("psionic_dust_ore", psionicDustOre = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
+					.requiresCorrectToolForDrops().strength(3, 9)));
+		});
+		event.register(Keys.ITEMS, handler -> {
+			handler.register(MPUBlock.id, new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(VSUBlock.id, new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(TextSUBlock.id, new BlockItem(textsu, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(CADHolderBlock.id, new BlockItem(cadHolder, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(SpellStorageBlock.id, new BlockItem(spellStorage, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(TextDisplayBlock.id, new BlockItem(textDisplay, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(CableBlock.id, new BlockItem(cable, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
+			handler.register(SpellDisplayBlock.id, new BlockItem(spellDisplay, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(InfusionLaserBlock.id, new BlockItem(infusionLaser, new Item.Properties().rarity(Rarity.EPIC).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(DistillChamberWallBlock.id, new BlockItem(distillChamberWall, new Item.Properties().rarity(Rarity.EPIC).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(DistillChamberControllerBlock.id, new BlockItem(distillChamberController, new Item.Properties().rarity(Rarity.EPIC).tab(CreativeModeTab.TAB_MISC)));
+			handler.register(PsimetalCrusherBlock.id, new BlockItem(psimetalCrusher, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
+			handler.register("psionic_dust_ore", new BlockItem(psionicDustOre, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+		});
+		event.register(Keys.BLOCK_ENTITY_TYPES, handler -> {
+			handler.register(MPUBlock.id, MPUTile.type = BlockEntityType.Builder.of(MPUTile::new, mpu).build(null));
+			handler.register(VSUBlock.id, VSUTile.type = BlockEntityType.Builder.of(VSUTile::new, vsu).build(null));
+			handler.register(TextSUBlock.id, TextSUTile.type = BlockEntityType.Builder.of(TextSUTile::new, textsu).build(null));
+			handler.register(CADHolderBlock.id, CADHolderTile.type = BlockEntityType.Builder.of(CADHolderTile::new, cadHolder).build(null));
+			handler.register(SpellStorageBlock.id, SpellStorageTile.type = BlockEntityType.Builder.of(SpellStorageTile::new, spellStorage).build(null));
+			handler.register(TextDisplayBlock.id, TextDisplayTile.type = BlockEntityType.Builder.of(TextDisplayTile::new, textDisplay).build(null));
+			handler.register(CableBlock.id, CableTile.type = BlockEntityType.Builder.of(CableTile::new, cable).build(null));
+			handler.register(SpellDisplayBlock.id, SpellDisplayTile.type = BlockEntityType.Builder.of(SpellDisplayTile::new, spellDisplay).build(null));
+			handler.register(InfusionLaserBlock.id, InfusionLaserTile.type = BlockEntityType.Builder.of(InfusionLaserTile::new, infusionLaser).build(null));
+			handler.register(DistillChamberControllerBlock.id, DistillChamberControllerTile.type = BlockEntityType.Builder.of(DistillChamberControllerTile::new, distillChamberController).build(null));
+			handler.register(PsimetalCrusherBlock.id, PsimetalCrusherTile.type = BlockEntityType.Builder.of(PsimetalCrusherTile::new, psimetalCrusher).build(null));
+		});
+		event.register(Keys.POI_TYPES, handler -> {
+			handler.register("mpu", mpuPOI = new PoiType(ImmutableSet.copyOf(mpu.getStateDefinition().getPossibleStates()), 0, 1));
+		});
 	}
 	
 }
