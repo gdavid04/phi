@@ -1,8 +1,8 @@
 package gdavid.phi.capability;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -35,7 +35,7 @@ public class SimpleSpellAcceptor implements ICapabilityProvider, ISpellAcceptor 
 	}
 	
 	@Override
-	public void setSpell(PlayerEntity player, Spell spell) {
+	public void setSpell(Player player, Spell spell) {
 		ItemSpellDrive.setSpell(item, spell);
 	}
 	

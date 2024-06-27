@@ -11,7 +11,8 @@
 		"SuccessCounterSelectorMixin",
 		"CompiledSpellMixin",
 		"SpellGridMixin",
-		"ProgrammerGuiMixin"
+		"ProgrammerGuiMixin",
+		"LevelRendererMixin"
 	],
 	"minVersion": "0.8.3"
 }

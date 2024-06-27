@@ -2,21 +2,18 @@ package gdavid.phi.gui;
 
 import java.util.Stack;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.Phi;
 import gdavid.phi.item.VisorItem;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.spell.CompiledSpell.Action;
 import vazkii.psi.api.spell.ISpellAcceptor;
@@ -25,46 +22,46 @@ import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(Dist.CLIENT)
 public class VisorHUD {
 	
-	@SubscribeEvent
-	@SuppressWarnings({ "resource", "unchecked" })
-	public static void render(RenderGameOverlayEvent.Pre event) {
-		if (event.getType() != ElementType.ALL) return;
-		PlayerEntity player = Minecraft.getInstance().player;
-		ItemStack helmet = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-		if (!(helmet.getItem() instanceof VisorItem)) return;
-		ItemStack cad = PsiAPI.getPlayerCAD(player);
-		if (cad == null) {
-			renderMessage(I18n.format(helmet.getItem().getTranslationKey() + ".no_cad"));
-			return;
-		}
-		Spell spell = ISpellAcceptor.acceptor(helmet).getSpell();
-		if (spell == null) return;
-		SpellContext ctx = new SpellContext().setPlayer(player).setSpell(spell);
-		ctx.tool = helmet;
-		if (!ctx.isValid()) {
-			renderMessage(I18n.format(helmet.getItem().getTranslationKey() + ".invalid_spell"));
-			return;
-		}
-		if (!ctx.cspell.metadata.evaluateAgainst(cad)) {
-			renderMessage(I18n.format(helmet.getItem().getTranslationKey() + ".weak_cad"));
-			return;
-		}
-		ctx.customData.put(Phi.modId + ":visor.window", event.getWindow());
-		// TODO piece safety check
-		ctx.actions = (Stack<Action>) ctx.cspell.actions.clone();
+	public static void renderWorld(PoseStack ms, RenderBuffers buffers, Camera camera, float partialTicks) {
+		Minecraft.getInstance().getProfiler().push(Phi.modId + ":visor-hud");
 		try {
-			// Bypass the non-client side check by calling execute directly
-			ctx.cspell.execute(ctx);
-			// TODO render
-		} catch (SpellRuntimeException e) {
-			if (!ctx.shouldSuppressErrors()) renderMessage(e.getMessage());
+			var hudContext = new HUDContext(ms, buffers, camera, partialTicks);
+			Player player = Minecraft.getInstance().player;
+			ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
+			if (!(helmet.getItem() instanceof VisorItem)) return;
+			ItemStack cad = PsiAPI.getPlayerCAD(player);
+			if (cad == null) {
+				errorMessage(hudContext, I18n.get(helmet.getItem().getDescriptionId() + ".no_cad"), true);
+				return;
+			}
+			Spell spell = ISpellAcceptor.acceptor(helmet).getSpell();
+			if (spell == null) return;
+			SpellContext ctx = new SpellContext().setPlayer(player).setSpell(spell);
+			ctx.tool = helmet;
+			if (!ctx.isValid()) {
+				errorMessage(hudContext, I18n.get(helmet.getItem().getDescriptionId() + ".invalid_spell"), true);
+				return;
+			}
+			if (!ctx.cspell.metadata.evaluateAgainst(cad)) {
+				errorMessage(hudContext, I18n.get(helmet.getItem().getDescriptionId() + ".weak_cad"), true);
+				return;
+			}
+			ctx.customData.put(Phi.modId + ":visor.ctx", hudContext);
+			// TODO piece safety check
+			ctx.actions = (Stack<Action>) ctx.cspell.actions.clone();
+			try {
+				ctx.cspell.execute(ctx); // Bypass the non-client side check by calling execute directly
+			} catch (SpellRuntimeException e) {
+				if (!ctx.shouldSuppressErrors()) errorMessage(hudContext, e.getMessage(), false);
+			}
+		} finally {
+			Minecraft.getInstance().getProfiler().pop();
 		}
 	}
 	
-	static void renderMessage(String key) {
+	static void errorMessage(HUDContext ctx, String message, boolean startup) {
 		// TODO
 	}
 	
