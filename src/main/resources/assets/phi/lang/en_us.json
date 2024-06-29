@@ -264,6 +264,9 @@
 
 	"item.phi.psionic_visor": "Psionic Visor",
 	"item.phi.psionic_visor.desc": "\u00a7aPsionic Visor\u00a77: Can be programmed to display information on your HUD. Equipped with an experimental low-latency processor. Due to the nature of its processor, some pieces are not available",
+	"item.phi.psionic_visor.no_cad": "Waiting for CAD connection...",
+	"item.phi.psionic_visor.invalid_spell": "ERROR: HUD drawing program not valid",
+	"item.phi.psionic_visor.weak_cad": "ERROR: Insufficient resources (check the limits of paired CAD)",
 
 	"block.phi.mpu": "Magic Processing Unit",
 	"block.phi.mpu.desc": "\u00a7aMagic Processing Unit\u00a77: A block that automatically casts spells\nRight click with a spell container to reprogram it\nRight click with a redstone torch to configure redstone mode",

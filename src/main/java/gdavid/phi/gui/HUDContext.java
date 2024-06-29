@@ -15,7 +15,8 @@ public record HUDContext(PoseStack ms, RenderBuffers buffers, Camera camera, flo
 	
 	public void setup(SpellContext context) {
 		ms.pushPose();
-		ms.mulPose(Vector3f.YN.rotationDegrees(context.caster.getViewYRot(partialTicks)));
+		ms.mulPose(Vector3f.YN.rotationDegrees(180 + context.caster.getViewYRot(partialTicks)));
+		ms.translate(0, 0, -1);
 		RenderSystem.disableCull();
 		RenderSystem.disableDepthTest();
 		RenderSystem.depthMask(false);

@@ -83,10 +83,10 @@ public class HUDLineTrick extends PieceTrick {
 			var mat = ctx.ms().last().pose();
 			BufferBuilder buf = Tesselator.getInstance().getBuilder();
 			buf.begin(QUADS, DefaultVertexFormat.POSITION_COLOR);
-			buf.vertex(mat, (float) (v1.x - offset.x), (float) (v1.y - offset.y), (float) (v1.z - offset.z + 1)).color(col[0], col[1], col[2], 0.6f).endVertex();
-			buf.vertex(mat, (float) (v1.x + offset.x), (float) (v1.y + offset.y), (float) (v1.z + offset.z + 1)).color(col[0], col[1], col[2], 0.6f).endVertex();
-			buf.vertex(mat, (float) (v2.x + offset.x), (float) (v2.y + offset.y), (float) (v2.z + offset.z + 1)).color(col[0], col[1], col[2], 0.6f).endVertex();
-			buf.vertex(mat, (float) (v2.x - offset.x), (float) (v2.y - offset.y), (float) (v2.z - offset.z + 1)).color(col[0], col[1], col[2], 0.6f).endVertex();
+			buf.vertex(mat, (float) (v1.x - offset.x), (float) (v1.y - offset.y), (float) (v1.z - offset.z)).color(col[0], col[1], col[2], 0.6f).endVertex();
+			buf.vertex(mat, (float) (v1.x + offset.x), (float) (v1.y + offset.y), (float) (v1.z + offset.z)).color(col[0], col[1], col[2], 0.6f).endVertex();
+			buf.vertex(mat, (float) (v2.x + offset.x), (float) (v2.y + offset.y), (float) (v2.z + offset.z)).color(col[0], col[1], col[2], 0.6f).endVertex();
+			buf.vertex(mat, (float) (v2.x - offset.x), (float) (v2.y - offset.y), (float) (v2.z - offset.z)).color(col[0], col[1], col[2], 0.6f).endVertex();
 			BufferUploader.drawWithShader(buf.end());
 			ctx.cleanup();
 		});
