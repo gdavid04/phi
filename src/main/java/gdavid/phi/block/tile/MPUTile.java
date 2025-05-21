@@ -12,40 +12,31 @@ import gdavid.phi.util.IProgramTransferTarget;
 import gdavid.phi.util.IPsiAcceptor;
 import gdavid.phi.util.IWaveImpacted;
 import gdavid.phi.util.RedstoneMode;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.PacketSendListener;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.OutgoingChatMessage;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.PacketFlow;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.util.FakePlayer;
+import vazkii.psi.api.spell.*;
+
 import java.lang.ref.WeakReference;
 import java.util.Set;
 import java.util.UUID;
-
-import net.minecraft.network.PacketSendListener;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.OutgoingPlayerChatMessage;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.PacketFlow;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.util.FakePlayer;
-import vazkii.psi.api.spell.EnumPieceType;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellPiece;
 
 public class MPUTile extends BlockEntity implements ICableConnected, IProgramTransferTarget, IWaveImpacted, IPsiAcceptor {
 	
@@ -307,8 +298,8 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 		}
 		
 		@Override
-		public void sendChatMessage(OutgoingPlayerChatMessage message, boolean filter, ChatType.Bound bound) {
-			sendMessage(message.serverContent());
+		public void sendChatMessage(OutgoingChatMessage message, boolean filter, ChatType.Bound bound) {
+			sendMessage(message.content());
 		}
 		
 		private void sendMessage(Component component) {

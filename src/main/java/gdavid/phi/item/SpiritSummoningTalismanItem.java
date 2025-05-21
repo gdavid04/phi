@@ -3,24 +3,20 @@ package gdavid.phi.item;
 import gdavid.phi.Phi;
 import gdavid.phi.entity.SpiritEntity;
 import gdavid.phi.util.RenderHelper;
-import java.util.List;
-
-import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.PsiAPI;
@@ -31,9 +27,7 @@ import vazkii.psi.common.Psi;
 import vazkii.psi.common.core.handler.PlayerDataHandler;
 import vazkii.psi.common.core.handler.PlayerDataHandler.PlayerData;
 
-import net.minecraft.world.item.Item.Properties;
-
-import static net.minecraft.world.entity.Entity.RemovalReason.DISCARDED;
+import java.util.List;
 
 public class SpiritSummoningTalismanItem extends Item {
 	
@@ -42,7 +36,7 @@ public class SpiritSummoningTalismanItem extends Item {
 	static final String tagUuid = "uuid";
 	
 	public SpiritSummoningTalismanItem(String id) {
-		super(new Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC));
+		super(new Properties().stacksTo(1));
 		this.id = id;
 	}
 	

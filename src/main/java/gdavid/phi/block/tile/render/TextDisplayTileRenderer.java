@@ -1,14 +1,13 @@
 package gdavid.phi.block.tile.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import gdavid.phi.block.TextDisplayBlock;
 import gdavid.phi.block.tile.TextDisplayTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,8 +24,7 @@ public class TextDisplayTileRenderer implements BlockEntityRenderer<TextDisplayT
 			int worldLight, int overlay) {
 		ms.pushPose();
 		ms.translate(0.5f, 0.5f, 0.5f);
-		ms.mulPose(Vector3f.YN
-				.rotationDegrees(display.getBlockState().getValue(TextDisplayBlock.FACING).toYRot()));
+		ms.mulPose(Axis.YN.rotationDegrees(display.getBlockState().getValue(TextDisplayBlock.FACING).toYRot()));
 		ms.translate(0, 0, 0.505f);
 		ms.scale(1 / 256f, -1 / 256f, 1);
 		ms.translate(-80, -80, 0);

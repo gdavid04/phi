@@ -2,10 +2,10 @@ package gdavid.phi.spell.operator.vector.raycast;
 
 import gdavid.phi.spell.Errors;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Block;
 import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.Spell;
@@ -44,7 +44,7 @@ public class OffsetRaycastOperator extends PieceOperator {
 		double length = getParamValueOrDefault(context, max, SpellContext.MAX_DISTANCE).doubleValue();
 		length = Math.max(Math.min(length, SpellContext.MAX_DISTANCE), -SpellContext.MAX_DISTANCE);
 		Vector3 end = start.copy().add(direction.copy().normalize().multiply(length));
-		BlockHitResult res = context.focalPoint.level.clip(new ClipContext(start.toVec3D(),
+		BlockHitResult res = context.focalPoint.level().clip(new ClipContext(start.toVec3D(),
 				end.toVec3D(), Block.OUTLINE, Fluid.NONE, context.focalPoint));
 		if (res.getType() == HitResult.Type.MISS) Errors.runtime(SpellRuntimeException.NULL_VECTOR);
 		return Vector3.fromVec3d(res.getLocation()).subtract(Vector3.fromBlockPos(res.getBlockPos()))

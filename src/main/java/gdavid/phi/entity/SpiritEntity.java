@@ -1,21 +1,23 @@
 package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
-import java.util.Optional;
-import java.util.UUID;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.cad.ICADColorizer;
 import vazkii.psi.api.spell.ISpellImmune;
 import vazkii.psi.common.Psi;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class SpiritEntity extends Entity implements ISpellImmune {
 	
@@ -68,13 +70,13 @@ public class SpiritEntity extends Entity implements ISpellImmune {
 	@Override
 	public void tick() {
 		super.tick();
-		if (level.isClientSide && random.nextFloat() < 0.1f) {
+		if (level().isClientSide && random.nextFloat() < 0.1f) {
 			int color = ICADColorizer.DEFAULT_SPELL_COLOR;
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = (color & 0xFF) / 255f;
 			Psi.proxy.wispFX(
-				level,
+				level(),
 				getX(), getY() + getBbHeight() / 2, getZ(),
 				r, g, b,
 				0.1f + random.nextFloat() * 0.05f,
@@ -82,7 +84,7 @@ public class SpiritEntity extends Entity implements ISpellImmune {
 				2
 			);
 		}
-		if (!level.isClientSide && time-- < 0) discard();
+		if (!level().isClientSide && time-- < 0) discard();
 	}
 	
 	@Override
@@ -91,7 +93,7 @@ public class SpiritEntity extends Entity implements ISpellImmune {
 	}
 	
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

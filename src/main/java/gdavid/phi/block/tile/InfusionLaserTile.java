@@ -4,13 +4,13 @@ import gdavid.phi.block.InfusionLaserBlock;
 import gdavid.phi.util.IPsiAcceptor;
 import gdavid.phi.util.IWaveImpacted;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.ItemStackHandler;
@@ -77,7 +77,7 @@ public class InfusionLaserTile extends BlockEntity implements IWaveImpacted, IPs
 				stack.shrink(1);
 				if (stack.isEmpty()) item.discard();
 				else item.setItem(stack);
-				ItemStack result = recipe.get().getResultItem().copy();
+				ItemStack result = recipe.get().getResultItem(level.registryAccess()).copy();
 				level.addFreshEntity(new ItemEntity(level, item.getX(), item.getY(), item.getZ(), result));
 				return;
 			}

@@ -1,7 +1,6 @@
 package gdavid.phi.item;
 
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -31,8 +30,8 @@ public class ModItems {
 			
 			handler.register("spirit_summoning_talisman", new SpiritSummoningTalismanItem("spirit_summoning_talisman"));
 			
-			handler.register("psionic_dust", new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC).rarity(Rarity.EPIC)));
-			handler.register("psionized_netherite_plate", new Item(new Item.Properties().tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE)));
+			handler.register("psionic_dust", new Item(new Item.Properties().rarity(Rarity.EPIC)));
+			handler.register("psionized_netherite_plate", new Item(new Item.Properties().rarity(Rarity.RARE)));
 			
 			handler.register(MPUCAD.id, MPUCAD.instance);
 		});

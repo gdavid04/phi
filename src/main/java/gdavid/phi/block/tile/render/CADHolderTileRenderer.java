@@ -1,19 +1,17 @@
 package gdavid.phi.block.tile.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import gdavid.phi.block.CADHolderBlock;
 import gdavid.phi.block.tile.CADHolderTile;
 import gdavid.phi.block.tile.CADHolderTile.ScanType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import com.mojang.math.Vector3f;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -28,14 +26,14 @@ public class CADHolderTileRenderer implements BlockEntityRenderer<CADHolderTile>
 			int overlay) {
 		ms.pushPose();
 		ms.translate(0.5f, 1.05f, 0.5f);
-		ms.mulPose(Vector3f.ZP.rotationDegrees(180));
-		ms.mulPose(Vector3f.YP
+		ms.mulPose(Axis.ZP.rotationDegrees(180));
+		ms.mulPose(Axis.YP
 				.rotationDegrees(holder.getBlockState().getValue(CADHolderBlock.FACING).toYRot()));
-		ms.mulPose(Vector3f.XP.rotationDegrees(90));
+		ms.mulPose(Axis.XP.rotationDegrees(90));
 		if (holder.hasItem()) {
 			ms.pushPose();
 			ms.scale(0.6f, 0.6f, 0.6f);
-			Minecraft.getInstance().getItemRenderer().renderStatic(holder.item, TransformType.FIXED, worldLight,
+			Minecraft.getInstance().getItemRenderer().renderStatic(holder.item, ItemDisplayContext.FIXED, worldLight,
 					OverlayTexture.NO_OVERLAY, ms, buf, 0);
 			ms.popPose();
 		}
@@ -45,7 +43,7 @@ public class CADHolderTileRenderer implements BlockEntityRenderer<CADHolderTile>
 				holder.scan = ScanType.none;
 			} else {
 				ms.pushPose();
-				ms.mulPose(Vector3f.XP.rotationDegrees(180));
+				ms.mulPose(Axis.XP.rotationDegrees(180));
 				ms.translate(-0.5f, -0.5f, 0.06f);
 				ms.scale(1 / 64f, 1 / 64f, 1);
 				RenderSystem.enableBlend();

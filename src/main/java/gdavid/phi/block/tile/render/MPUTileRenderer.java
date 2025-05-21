@@ -1,13 +1,13 @@
 package gdavid.phi.block.tile.render;
 
-import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
 import gdavid.phi.block.MPUBlock;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.util.RedstoneMode;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,10 +15,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.ICADColorizer;
@@ -62,11 +61,11 @@ public class MPUTileRenderer implements BlockEntityRenderer<MPUTile> {
 	
 	public void setupTransform(MPUTile mpu, PoseStack ms, int width, int height) {
 		ms.translate(0.5f, 1.62f, 0.5f);
-		ms.mulPose(Vector3f.ZP.rotationDegrees(180));
+		ms.mulPose(Axis.ZP.rotationDegrees(180));
 		ms.mulPose(
-				Vector3f.YP.rotationDegrees(mpu.getBlockState().getValue(MPUBlock.FACING).toYRot()));
+				Axis.YP.rotationDegrees(mpu.getBlockState().getValue(MPUBlock.FACING).toYRot()));
 		ms.translate(0, 0, 0.5f);
-		ms.mulPose(Vector3f.XP.rotationDegrees(-60));
+		ms.mulPose(Axis.XP.rotationDegrees(-60));
 		ms.scale(1 / 300f, 1 / 300f, -1 / 300f);
 		ms.translate(-width / 2f, height / 2f, 0);
 	}

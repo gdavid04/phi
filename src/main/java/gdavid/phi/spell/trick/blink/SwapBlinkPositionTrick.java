@@ -3,19 +3,12 @@ package gdavid.phi.spell.trick.blink;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
-import java.util.EnumSet;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.phys.Vec3;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
-import vazkii.psi.api.spell.SpellRuntimeException;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.param.ParamEntity;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceTrick;
@@ -60,15 +53,13 @@ public class SwapBlinkPositionTrick extends PieceTrick {
 		e1.setPos(e2.getX(), e2.getY(), e2.getZ());
 		if (e1 instanceof ServerPlayer) {
 			ServerGamePacketListenerImpl c = ((ServerPlayer) e1).connection;
-			c.teleport(e2.getX(), e2.getY(), e2.getZ(), e1.getYRot(), e1.getXRot(),
-					EnumSet.of(ClientboundPlayerPositionPacket.RelativeArgument.X_ROT, ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT));
+			c.teleport(e2.getX(), e2.getY(), e2.getZ(), e1.getYRot(), e1.getXRot(), RelativeMovement.ROTATION);
 			c.resetPosition();
 		}
 		e2.setPos(pos1.x, pos1.y, pos1.z);
 		if (e2 instanceof ServerPlayer) {
 			ServerGamePacketListenerImpl c = ((ServerPlayer) e2).connection;
-			c.teleport(pos1.x, pos1.y, pos1.z, e2.getYRot(), e2.getXRot(),
-					EnumSet.of(ClientboundPlayerPositionPacket.RelativeArgument.X_ROT, ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT));
+			c.teleport(pos1.x, pos1.y, pos1.z, e2.getYRot(), e2.getXRot(), RelativeMovement.ROTATION);
 			c.resetPosition();
 		}
 		return null;

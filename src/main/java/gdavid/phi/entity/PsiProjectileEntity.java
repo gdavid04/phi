@@ -2,24 +2,23 @@ package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
 import gdavid.phi.util.IPsiAcceptor;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
-import vazkii.psi.api.PsiAPI;
 import vazkii.psi.common.block.base.ModBlocks;
 
 public class PsiProjectileEntity extends ThrowableProjectile {
@@ -125,12 +124,12 @@ public class PsiProjectileEntity extends ThrowableProjectile {
 	
 	@Override
 	protected void onHit(HitResult result) {
-		if (level.isClientSide) return;
+		if (level().isClientSide) return;
 		if (result instanceof BlockHitResult) {
 			BlockPos hit = ((BlockHitResult) result).getBlockPos();
-			if (level.getBlockState(hit).is(ModBlocks.conjured)) return;
+			if (level().getBlockState(hit).is(ModBlocks.conjured)) return;
 			if (hit.equals(entityData.get(origin))) return;
-			BlockEntity tile = level.getBlockEntity(hit);
+			BlockEntity tile = level().getBlockEntity(hit);
 			if (tile instanceof IPsiAcceptor) {
 				((IPsiAcceptor) tile).addPsi(entityData.get(psi));
 			}
@@ -149,7 +148,7 @@ public class PsiProjectileEntity extends ThrowableProjectile {
 	}
 	
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

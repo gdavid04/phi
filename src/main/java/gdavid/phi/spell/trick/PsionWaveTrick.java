@@ -5,20 +5,13 @@ import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.spell.Errors;
 import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.world.item.ItemStack;
-import com.mojang.math.Vector3f;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.cad.EnumCADComponent;
 import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.internal.Vector3;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
-import vazkii.psi.api.spell.SpellRuntimeException;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
@@ -68,7 +61,7 @@ public class PsionWaveTrick extends PieceTrick {
 		distanceVal = Math.max(1, distanceVal);
 		if (context.focalPoint.getCommandSenderWorld() instanceof ServerLevel) {
 			PsionWaveEntity wave = new PsionWaveEntity(context.focalPoint.getCommandSenderWorld(),
-					new Vector3f((float) directionVal.x, (float) directionVal.y, (float) directionVal.z), speedVal,
+					new Vector3((float) directionVal.x, (float) directionVal.y, (float) directionVal.z), speedVal,
 					frequencyVal, distanceVal);
 			ItemStack cad = PsiAPI.getPlayerCAD(context.caster);
 			if (!cad.isEmpty()) {

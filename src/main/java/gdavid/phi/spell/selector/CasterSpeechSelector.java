@@ -1,6 +1,5 @@
 package gdavid.phi.spell.selector;
 
-import java.util.WeakHashMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,6 +8,8 @@ import vazkii.psi.api.spell.Spell;
 import vazkii.psi.api.spell.SpellContext;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.piece.PieceSelector;
+
+import java.util.WeakHashMap;
 
 @EventBusSubscriber
 public class CasterSpeechSelector extends PieceSelector {
@@ -30,7 +31,7 @@ public class CasterSpeechSelector extends PieceSelector {
 	}
 	
 	@SubscribeEvent
-	public static void speech(ServerChatEvent.Submitted event) {
+	public static void speech(ServerChatEvent event) {
 		lastSaid.put(event.getPlayer(), event.getRawText());
 	}
 	

@@ -1,10 +1,11 @@
 package gdavid.phi.spell.connector;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import gdavid.phi.Phi;
 import gdavid.phi.util.IWarpRedirector;
@@ -13,27 +14,18 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.psi.api.ClientPsiAPI;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import vazkii.psi.api.PsiAPI;
-import vazkii.psi.api.spell.EnumPieceType;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.SpellParam.Any;
 import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
-import vazkii.psi.api.spell.SpellPiece;
-import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamAny;
 
 import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
@@ -123,11 +115,11 @@ public class BridgeConnector extends SpellPiece implements IWarpRedirector {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(SourceFactor.SRC_ALPHA.value, DestFactor.ONE_MINUS_SRC_ALPHA.value,
 				SourceFactor.ZERO.value, SourceFactor.ONE.value);
-		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
+		Material material = new Material(TextureAtlas.LOCATION_BLOCKS, lineTexture);
 		if (lineLayer == null) {
 			RenderType.CompositeState glState = RenderType.CompositeState.builder()
 					.setShaderState(new ShaderStateShard(GameRenderer::getPositionColorTexShader))
-					.setTextureState(new RenderStateShard.TextureStateShard(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, false, false))
+					.setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, false))
 					.setLightmapState(new RenderStateShard.LightmapStateShard(true)).setCullState(new RenderStateShard.CullStateShard(false))
 					.setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
 					.setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () -> {

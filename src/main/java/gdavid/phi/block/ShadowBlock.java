@@ -1,12 +1,11 @@
 package gdavid.phi.block;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,7 +14,7 @@ public class ShadowBlock extends AirBlock {
 	public static final String id = "shadow";
 	
 	public ShadowBlock() {
-		super(Properties.of(Material.AIR).noOcclusion().noLootTable());
+		super(Properties.of().replaceable().noOcclusion().noLootTable());
 	}
 	
 	@Override

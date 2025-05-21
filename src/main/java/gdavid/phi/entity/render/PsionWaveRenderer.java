@@ -1,9 +1,11 @@
 package gdavid.phi.entity.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import gdavid.phi.Phi;
 import gdavid.phi.entity.PsionWaveEntity;
 import gdavid.phi.util.RenderHelper;
@@ -11,16 +13,15 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import vazkii.psi.api.PsiAPI;
 
 import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
@@ -59,18 +60,16 @@ public class PsionWaveRenderer extends EntityRenderer<PsionWaveEntity> {
 		int b = RenderHelper.b(color);
 		VertexConsumer buffer = buffers.getBuffer(layer);
 		int fullbright = 0xF000F0;
-		Quaternion rotation = Vector3f.YP.rotationDegrees(entity.getYRot());
-		rotation.mul(Vector3f.XN.rotationDegrees(entity.getXRot()));
+		Quaternionf rotation = Axis.YP.rotationDegrees(entity.getYRot());
+		rotation.mul(Axis.XN.rotationDegrees(entity.getXRot()));
 		float traveledPercent = (float) (dm.get(PsionWaveEntity.traveled) / dm.get(PsionWaveEntity.distance));
 		float size = 4 * traveledPercent * (1 - traveledPercent);
-		size += Math.sin(
-				dm.get(PsionWaveEntity.frequency) * dm.get(PsionWaveEntity.traveled) / dm.get(PsionWaveEntity.speed))
-				* size / 20;
+		size += Math.sin(dm.get(PsionWaveEntity.frequency) * dm.get(PsionWaveEntity.traveled) / dm.get(PsionWaveEntity.speed)) * size / 20;
 		int particleCount = 90;
 		for (float angle = 0; angle < 360; angle += 360f / particleCount) {
 			Vector3f pos = new Vector3f(0, size / 2f, 0);
-			pos.transform(Vector3f.ZN.rotationDegrees(angle));
-			pos.transform(rotation);
+			pos.rotateZ(-angle);
+			pos.rotate(rotation);
 			pos.add(0, 0.5f, 0);
 			particle(buffer, ms, fullbright, r, g, b, pos, 0.05f);
 		}
@@ -81,7 +80,7 @@ public class PsionWaveRenderer extends EntityRenderer<PsionWaveEntity> {
 		ms.pushPose();
 		ms.translate(pos.x(), pos.y(), pos.z());
 		ms.mulPose(entityRenderDispatcher.cameraOrientation());
-		ms.mulPose(Vector3f.YP.rotationDegrees(180));
+		ms.mulPose(Axis.YP.rotationDegrees(180));
 		Matrix4f mat = ms.last().pose();
 		buffer.vertex(mat, -halfSize, +halfSize, 0).color(r, g, b, 255).uv(0, 1).uv2(light).endVertex();
 		buffer.vertex(mat, +halfSize, +halfSize, 0).color(r, g, b, 255).uv(1, 1).uv2(light).endVertex();

@@ -2,20 +2,18 @@ package gdavid.phi.block;
 
 import com.google.common.collect.ImmutableSet;
 import gdavid.phi.block.tile.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -42,23 +40,23 @@ public class ModBlocks {
 			handler.register(DistillChamberWallBlock.id, distillChamberWall = new DistillChamberWallBlock());
 			handler.register(DistillChamberControllerBlock.id, distillChamberController = new DistillChamberControllerBlock());
 			handler.register(PsimetalCrusherBlock.id, psimetalCrusher = new PsimetalCrusherBlock());
-			handler.register("psionic_dust_ore", psionicDustOre = new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
+			handler.register("psionic_dust_ore", psionicDustOre = new Block(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).sound(SoundType.STONE)
 					.requiresCorrectToolForDrops().strength(3, 9)));
 		});
 		event.register(Keys.ITEMS, handler -> {
-			handler.register(MPUBlock.id, new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(VSUBlock.id, new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(TextSUBlock.id, new BlockItem(textsu, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(CADHolderBlock.id, new BlockItem(cadHolder, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(SpellStorageBlock.id, new BlockItem(spellStorage, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(TextDisplayBlock.id, new BlockItem(textDisplay, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(CableBlock.id, new BlockItem(cable, new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
-			handler.register(SpellDisplayBlock.id, new BlockItem(spellDisplay, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(InfusionLaserBlock.id, new BlockItem(infusionLaser, new Item.Properties().rarity(Rarity.EPIC).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(DistillChamberWallBlock.id, new BlockItem(distillChamberWall, new Item.Properties().rarity(Rarity.EPIC).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(DistillChamberControllerBlock.id, new BlockItem(distillChamberController, new Item.Properties().rarity(Rarity.EPIC).tab(CreativeModeTab.TAB_MISC)));
-			handler.register(PsimetalCrusherBlock.id, new BlockItem(psimetalCrusher, new Item.Properties().rarity(Rarity.UNCOMMON).tab(CreativeModeTab.TAB_MISC)));
-			handler.register("psionic_dust_ore", new BlockItem(psionicDustOre, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)));
+			handler.register(MPUBlock.id, new BlockItem(mpu, new Item.Properties().rarity(Rarity.RARE)));
+			handler.register(VSUBlock.id, new BlockItem(vsu, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register(TextSUBlock.id, new BlockItem(textsu, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register(CADHolderBlock.id, new BlockItem(cadHolder, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register(SpellStorageBlock.id, new BlockItem(spellStorage, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register(TextDisplayBlock.id, new BlockItem(textDisplay, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register(CableBlock.id, new BlockItem(cable, new Item.Properties()));
+			handler.register(SpellDisplayBlock.id, new BlockItem(spellDisplay, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register(InfusionLaserBlock.id, new BlockItem(infusionLaser, new Item.Properties().rarity(Rarity.EPIC)));
+			handler.register(DistillChamberWallBlock.id, new BlockItem(distillChamberWall, new Item.Properties().rarity(Rarity.EPIC)));
+			handler.register(DistillChamberControllerBlock.id, new BlockItem(distillChamberController, new Item.Properties().rarity(Rarity.EPIC)));
+			handler.register(PsimetalCrusherBlock.id, new BlockItem(psimetalCrusher, new Item.Properties().rarity(Rarity.UNCOMMON)));
+			handler.register("psionic_dust_ore", new BlockItem(psionicDustOre, new Item.Properties()));
 		});
 		event.register(Keys.BLOCK_ENTITY_TYPES, handler -> {
 			handler.register(MPUBlock.id, MPUTile.type = BlockEntityType.Builder.of(MPUTile::new, mpu).build(null));

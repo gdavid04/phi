@@ -1,11 +1,11 @@
 package gdavid.phi.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
 import gdavid.phi.network.ProgramTransferMessage;
 import gdavid.phi.util.IProgramTransferTarget;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.core.Direction;
@@ -37,19 +37,19 @@ public class ProgramTransferWidget extends AbstractWidget {
 	}
 	
 	@Override
-	public void renderButton(PoseStack ms, int mouseX, int mouseY, float partial) {
+	public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partial) {
 		if (parent.takingScreenshot) return;
 		RenderSystem.setShaderTexture(0, texture);
-		drawButton(mouseX, mouseY, ms, 0, 0, 0);
+		drawButton(mouseX, mouseY, g, 0, 0, 0);
 		if (clickButton(mouseX, mouseY, 0, 0)) {
 			parent.tooltip.add(Component.translatable(Phi.modId + ".program_transfer.write"));
 		}
-		drawButton(mouseX, mouseY, ms, 19, 0, 1);
+		drawButton(mouseX, mouseY, g, 19, 0, 1);
 		if (clickButton(mouseX, mouseY, 19, 0)) {
 			parent.tooltip.add(Component.translatable(Phi.modId + ".program_transfer.read"));
 		}
 		if (holder.hasSlots()) {
-			drawButton(mouseX, mouseY, ms, 38, 0, 2, select.active);
+			drawButton(mouseX, mouseY, g, 38, 0, 2, select.active);
 			if (clickButton(mouseX, mouseY, 38, 0)) {
 				parent.tooltip.add(Component.translatable(Phi.modId + ".program_transfer.select_slot"));
 			}
@@ -67,13 +67,13 @@ public class ProgramTransferWidget extends AbstractWidget {
 		}
 	}
 	
-	void drawButton(int mx, int my, PoseStack ms, int x, int y, int id) {
-		drawButton(mx, my, ms, x, y, id, false);
+	void drawButton(int mx, int my, GuiGraphics g, int x, int y, int id) {
+		drawButton(mx, my, g, x, y, id, false);
 	}
 	
-	void drawButton(int mx, int my, PoseStack ms, int x, int y, int id, boolean pressed) {
+	void drawButton(int mx, int my, GuiGraphics g, int x, int y, int id, boolean pressed) {
 		if (mirror) x = 54 - x - 16;
-		blit(ms, this.x + x, this.y + y, 16 * id, pressed ? 16 : highlight(mx, my, x, y, 16, 16), 16, 16, 64, 32);
+		g.blit(this.x + x, this.y + y, 16 * id, pressed ? 16 : highlight(mx, my, x, y, 16, 16), 16, 16, 64, 32);
 	}
 	
 	boolean clickButton(double mx, double my, int x, int y) {
@@ -89,6 +89,6 @@ public class ProgramTransferWidget extends AbstractWidget {
 	}
 	
 	@Override
-	public void updateNarration(NarrationElementOutput p_169152_) {}
+	public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {}
 	
 }

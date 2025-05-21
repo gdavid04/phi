@@ -1,11 +1,11 @@
 package gdavid.phi.network;
 
 import gdavid.phi.util.IProgramTransferTarget;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.network.NetworkEvent.Context;
 import vazkii.psi.api.internal.VanillaPacketDispatcher;
 import vazkii.psi.api.spell.Spell;
@@ -39,8 +39,8 @@ public class ProgramTransferMessage implements Message {
 	public boolean receive(Supplier<Context> context) {
 		context.get().enqueueWork(() -> {
 			Player player = context.get().getSender();
-			BlockEntity a = player.level.getBlockEntity(pos);
-			BlockEntity b = player.level.getBlockEntity(pos.relative(dir));
+			BlockEntity a = player.level().getBlockEntity(pos);
+			BlockEntity b = player.level().getBlockEntity(pos.relative(dir));
 			Spell spell;
 			if (a instanceof TileProgrammer) {
 				Spell tmp = ((TileProgrammer) a).spell;

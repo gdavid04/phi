@@ -2,28 +2,29 @@ package gdavid.phi.entity;
 
 import gdavid.phi.Phi;
 import gdavid.phi.util.IWaveImpacted;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import com.mojang.math.Vector3f;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ObjectHolder;
 import vazkii.psi.api.PsiAPI;
 import vazkii.psi.api.internal.IPlayerData;
+import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.ISpellImmune;
 
 import java.util.Optional;
@@ -69,11 +70,11 @@ public class PsionWaveEntity extends ThrowableProjectile implements ISpellImmune
 		super(type, world);
 	}
 	
-	public PsionWaveEntity(Level world, Vector3f direction, float speed, float frequency, float distance) {
+	public PsionWaveEntity(Level world, Vector3 direction, float speed, float frequency, float distance) {
 		super(type, world);
-		entityData.set(directionX, direction.x());
-		entityData.set(directionY, direction.y());
-		entityData.set(directionZ, direction.z());
+		entityData.set(directionX, (float) direction.x);
+		entityData.set(directionY, (float) direction.y);
+		entityData.set(directionZ, (float) direction.z);
 		entityData.set(PsionWaveEntity.speed, speed);
 		entityData.set(PsionWaveEntity.frequency, frequency);
 		entityData.set(PsionWaveEntity.distance, distance);
@@ -154,7 +155,7 @@ public class PsionWaveEntity extends ThrowableProjectile implements ISpellImmune
 			if (hit.getUUID().equals(entityData.get(shooter).get()) && entityData.get(traveled) < 0.8) {
 				return;
 			}
-			if (hit instanceof Player && !level.isClientSide) {
+			if (hit instanceof Player && !level().isClientSide) {
 				Player player = (Player) hit;
 				IPlayerData data = PsiAPI.internalHandler.getDataForPlayer(player);
 				data.deductPsi((int) Math.ceil(entityData.get(frequency) * 10 * focus),
@@ -171,7 +172,7 @@ public class PsionWaveEntity extends ThrowableProjectile implements ISpellImmune
 			}
 			discard();
 		} else if (result instanceof BlockHitResult) {
-			BlockEntity tile = level.getBlockEntity(((BlockHitResult) result).getBlockPos());
+			BlockEntity tile = level().getBlockEntity(((BlockHitResult) result).getBlockPos());
 			if (tile instanceof IWaveImpacted) {
 				((IWaveImpacted) tile).waveImpact(entityData.get(frequency), focus);
 				discard();
@@ -190,7 +191,7 @@ public class PsionWaveEntity extends ThrowableProjectile implements ISpellImmune
 	}
 	
 	@Override
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 	

@@ -3,36 +3,35 @@ package gdavid.phi.block;
 import gdavid.phi.Phi;
 import gdavid.phi.block.tile.CableTile;
 import gdavid.phi.cable.CableNetwork;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CableBlock extends Block implements EntityBlock {
 	
@@ -50,8 +49,8 @@ public class CableBlock extends Block implements EntityBlock {
 	static final VoxelShape shape = Shapes.box(0, 0, 0, 1, 0.125f, 1);
 	
 	public CableBlock() {
-		super(Properties.of(Material.DECORATION).instabreak().sound(SoundType.WOOD)
-				.noCollission());
+		super(Properties.of().instabreak().sound(SoundType.WOOD)
+				.noCollission().pushReaction(PushReaction.DESTROY));
 		BlockState state = getStateDefinition().any().setValue(online, false);
 		for (EnumProperty<CableSide> side : sides.values()) {
 			state = state.setValue(side, CableSide.none);

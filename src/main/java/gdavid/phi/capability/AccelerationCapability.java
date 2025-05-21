@@ -1,17 +1,14 @@
 package gdavid.phi.capability;
 
 import gdavid.phi.Phi;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -22,6 +19,9 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.internal.Vector3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EventBusSubscriber
 public class AccelerationCapability implements IAccelerationCapability, INBTSerializable<CompoundTag> {
@@ -61,7 +61,7 @@ public class AccelerationCapability implements IAccelerationCapability, INBTSeri
 	@Override
 	public void tick(Entity entity) {
 		Vector3 acc = getAcceleration(entity);
-		if (!entity.level.isClientSide) {
+		if (!entity.level().isClientSide) {
 			entity.push(acc.x, acc.y, acc.z);
 			if (Math.abs(acc.y) > 0.0001) {
 				if (entity.getDeltaMovement().y() >= 0) entity.fallDistance = 0;

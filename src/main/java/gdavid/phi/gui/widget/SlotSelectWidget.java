@@ -2,12 +2,11 @@ package gdavid.phi.gui.widget;
 
 import com.google.common.collect.Streams;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import gdavid.phi.Phi;
 import gdavid.phi.network.Messages;
 import gdavid.phi.network.ProgramTransferSlotMessage;
 import gdavid.phi.util.IProgramTransferTarget;
-import java.util.List;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.core.Direction;
@@ -17,6 +16,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.psi.client.gui.GuiProgrammer;
+
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class SlotSelectWidget extends AbstractWidget {
@@ -42,7 +43,7 @@ public class SlotSelectWidget extends AbstractWidget {
 	}
 	
 	@Override
-	public void renderButton(PoseStack ms, int mouseX, int mouseY, float partial) {
+	public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partial) {
 		if (parent.takingScreenshot) return;
 		List<Integer> slots = holder.getSlots();
 		List<ResourceLocation> icons = holder.getSlotIcons();
@@ -51,9 +52,9 @@ public class SlotSelectWidget extends AbstractWidget {
 			for (ResourceLocation icon : icons) {
 				int x = 19 * (i % 5), y = 19 * (i / 5);
 				RenderSystem.setShaderTexture(0, texture);
-				drawButton(mouseX, mouseY, ms, x, y, 3);
+				drawButton(mouseX, mouseY, g, x, y, 3);
 				RenderSystem.setShaderTexture(0, icon);
-				blit(ms, this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
+				g.blit(this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
 				i++;
 			}
 		} else {
@@ -61,9 +62,9 @@ public class SlotSelectWidget extends AbstractWidget {
 				int i = elem.getLeft();
 				int x = px[i] + 46, y = py[i] + 46;
 				RenderSystem.setShaderTexture(0, texture);
-				drawButton(mouseX, mouseY, ms, x, y, 3);
+				drawButton(mouseX, mouseY, g, x, y, 3);
 				RenderSystem.setShaderTexture(0, elem.getRight());
-				blit(ms, this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
+				g.blit(this.x + x, this.y + y, 0, 0, 16, 16, 16, 16);
 			});
 		}
 	}
@@ -101,8 +102,8 @@ public class SlotSelectWidget extends AbstractWidget {
 		Messages.channel.sendToServer(new ProgramTransferSlotMessage(holder.getPosition(), slot));
 	}
 	
-	void drawButton(int mx, int my, PoseStack ms, int x, int y, int id) {
-		blit(ms, this.x + x, this.y + y, 16 * id, highlight(mx, my, x, y, 16, 16), 16, 16, 64, 32);
+	void drawButton(int mx, int my, GuiGraphics g, int x, int y, int id) {
+		g.blit(this.x + x, this.y + y, 16 * id, highlight(mx, my, x, y, 16, 16), 16, 16, 64, 32);
 	}
 	
 	boolean clickButton(double mx, double my, int x, int y) {
@@ -118,6 +119,6 @@ public class SlotSelectWidget extends AbstractWidget {
 	}
 	
 	@Override
-	public void updateNarration(NarrationElementOutput p_169152_) {}
+	public void updateWidgetNarration(NarrationElementOutput pNarrationElementOutput) {}
 	
 }

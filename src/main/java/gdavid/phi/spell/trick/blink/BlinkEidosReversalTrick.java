@@ -1,22 +1,16 @@
 package gdavid.phi.spell.trick.blink;
 
 import gdavid.phi.spell.Errors;
-import java.util.EnumSet;
-import java.util.Stack;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+import net.minecraft.world.entity.RelativeMovement;
 import vazkii.psi.api.internal.Vector3;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
-import vazkii.psi.api.spell.SpellRuntimeException;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.piece.PieceTrick;
 import vazkii.psi.common.core.handler.PlayerDataHandler;
+
+import java.util.Stack;
 
 public class BlinkEidosReversalTrick extends PieceTrick {
 	
@@ -53,8 +47,7 @@ public class BlinkEidosReversalTrick extends PieceTrick {
 		context.caster.setPos(pos.x, pos.y, pos.z);
 		if (context.caster instanceof ServerPlayer) {
 			ServerGamePacketListenerImpl c = ((ServerPlayer) context.caster).connection;
-			c.teleport(pos.x, pos.y, pos.z, context.caster.getYRot(), context.caster.getXRot(),
-					EnumSet.of(ClientboundPlayerPositionPacket.RelativeArgument.X_ROT, ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT));
+			c.teleport(pos.x, pos.y, pos.z, context.caster.getYRot(), context.caster.getXRot(), RelativeMovement.ROTATION);
 			c.resetPosition();
 		}
 		return null;

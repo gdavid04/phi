@@ -9,25 +9,17 @@ import gdavid.phi.util.ISidedResult;
 import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Matrix4f;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.psi.api.ClientPsiAPI;
+import org.joml.Matrix4f;
 import vazkii.psi.api.internal.Vector3;
-import vazkii.psi.api.spell.EnumPieceType;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
-import vazkii.psi.api.spell.SpellPiece;
-import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamVector;
 
 import java.util.List;
@@ -82,7 +74,7 @@ public class SplitVectorOperator extends SpellPiece {
 		if (!side.isEnabled()) {
 			return;
 		}
-		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, lineTexture);
+		Material material = new Material(TextureAtlas.LOCATION_BLOCKS, lineTexture);
 		VertexConsumer buffer = material.buffer(buffers, get -> SpellPiece.getLayer());
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;
 		float minV = (side == SpellParam.Side.TOP || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;

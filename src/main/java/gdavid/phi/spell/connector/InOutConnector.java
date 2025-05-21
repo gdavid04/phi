@@ -7,25 +7,16 @@ import gdavid.phi.spell.Param;
 import gdavid.phi.util.ParamHelper;
 import gdavid.phi.util.RenderHelper;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import vazkii.psi.api.ClientPsiAPI;
-import vazkii.psi.api.spell.EnumPieceType;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.IGenericRedirector;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
+import org.joml.Matrix4f;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.SpellParam.Any;
 import vazkii.psi.api.spell.SpellParam.ArrowType;
 import vazkii.psi.api.spell.SpellParam.Side;
-import vazkii.psi.api.spell.SpellPiece;
-import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamAny;
 
 public class InOutConnector extends SpellPiece implements IGenericRedirector {
@@ -62,7 +53,7 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
 		if (!paramSides.get(bidir).isEnabled()
 				&& (!paramSides.get(from).isEnabled() || !paramSides.get(to).isEnabled())) {
-			Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS, hintTexture);
+			Material material = new Material(TextureAtlas.LOCATION_BLOCKS, hintTexture);
 			VertexConsumer buffer = material.buffer(buffers, get -> SpellPiece.getLayer());
 			Matrix4f mat = ms.last().pose();
 			buffer.vertex(mat, 0, 16, 0).color(255, 255, 255, 255);
@@ -90,7 +81,7 @@ public class InOutConnector extends SpellPiece implements IGenericRedirector {
 		if (!side.isEnabled()) {
 			return;
 		}
-		Material material = new Material(ClientPsiAPI.PSI_PIECE_TEXTURE_ATLAS,
+		Material material = new Material(TextureAtlas.LOCATION_BLOCKS,
 				BidirectionalConnector.lineTexture);
 		VertexConsumer buffer = material.buffer(buffers, get -> SpellPiece.getLayer());
 		float minU = (side == SpellParam.Side.LEFT || side == SpellParam.Side.BOTTOM) ? 0.5f : 0;

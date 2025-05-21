@@ -2,23 +2,20 @@ package gdavid.phi.block.tile.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
+import com.mojang.math.Axis;
 import gdavid.phi.block.InfusionLaserBlock;
 import gdavid.phi.block.tile.SpellDisplayTile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Direction.Axis;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 @OnlyIn(Dist.CLIENT)
 public class SpellDisplayTileRenderer implements BlockEntityRenderer<SpellDisplayTile> {
@@ -34,16 +31,16 @@ public class SpellDisplayTileRenderer implements BlockEntityRenderer<SpellDispla
 		ms.pushPose();
 		ms.translate(0.5f, 0.5f, 0.5f);
 		Direction dir = tile.getBlockState().getValue(InfusionLaserBlock.FACING);
-		if (dir.getAxis() == Axis.Y) {
-			Quaternion look = Minecraft.getInstance().getBlockEntityRenderDispatcher().camera.rotation();
-			Quaternion faceCamera = new Quaternion(0, look.j(), 0, look.r());
+		if (dir.getAxis() == Direction.Axis.Y) {
+			Quaternionf look = Minecraft.getInstance().getBlockEntityRenderDispatcher().camera.rotation();
+			Quaternionf faceCamera = new Quaternionf(0, look.y, 0, look.w);
 			faceCamera.normalize();
 			ms.mulPose(faceCamera);
-			ms.mulPose(Vector3f.YP.rotationDegrees(180));
+			ms.mulPose(Axis.YP.rotationDegrees(180));
 		}
 		ms.mulPose(dir.getRotation());
 		ms.translate(0, 0.4f, 0);
-		ms.mulPose(Vector3f.XP.rotationDegrees(90));
+		ms.mulPose(Axis.XP.rotationDegrees(90));
 		ms.scale(1.2f / 300f, 1.2f / 300f, -1.2f / 300f);
 		ms.translate(-w / 2f, -h / 2f, 0);
 		drawSpell(tile, ms, buf, light);

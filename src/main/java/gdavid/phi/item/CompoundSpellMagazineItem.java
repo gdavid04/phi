@@ -1,7 +1,5 @@
 package gdavid.phi.item;
 
-import java.lang.reflect.Field;
-import java.util.function.Consumer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +11,9 @@ import vazkii.psi.api.cad.ICAD;
 import vazkii.psi.api.cad.ISocketable;
 import vazkii.psi.api.spell.SpellCastEvent;
 import vazkii.psi.api.spell.SpellContext;
+
+import java.lang.reflect.Field;
+import java.util.function.Consumer;
 
 @EventBusSubscriber
 public class CompoundSpellMagazineItem extends SpellMagazineItem {
@@ -48,7 +49,7 @@ public class CompoundSpellMagazineItem extends SpellMagazineItem {
 							.getMethod("cast", Level.class, Player.class,
 									Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler$PlayerData"),
 									ItemStack.class, ItemStack.class, int.class, int.class, float.class, Consumer.class)
-							.invoke(null, event.context.caster.level, event.player, event.playerData,
+							.invoke(null, event.context.caster.level(), event.player, event.playerData,
 									socketable.getBulletInSocket(i), event.cad, 0, 10, 0,
 									(Consumer<SpellContext>) (SpellContext ctx) -> ctx.loopcastIndex = currentIndex);
 					didOverflow |= overflow.getBoolean(event.playerData);

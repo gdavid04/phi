@@ -4,13 +4,13 @@ import gdavid.phi.block.ModBlocks;
 import gdavid.phi.block.tile.MPUTile;
 import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.spell.Errors;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ServerChatEvent;
@@ -49,14 +49,14 @@ public class NearbySpeechSelector extends PieceSelector {
 	}
 	
 	@SubscribeEvent
-	public static void speech(ServerChatEvent.Submitted event) {
+	public static void speech(ServerChatEvent event) {
 		Player player = event.getPlayer();
-		if (!(player.level instanceof ServerLevel)) return;
+		if (!(player.level() instanceof ServerLevel)) return;
 		BlockPos pos = player.blockPosition();
-		PoiManager poiManager = ((ServerLevel) player.level).getPoiManager();
+		PoiManager poiManager = ((ServerLevel) player.level()).getPoiManager();
 		poiManager.getInRange(type -> type.get() == ModBlocks.mpuPOI, pos, (int) SpellContext.MAX_DISTANCE, Occupancy.ANY)
-				.forEach(poi -> player.level.getServer().execute(() -> {
-					BlockEntity tile = player.level.getBlockEntity(poi.getPos());
+				.forEach(poi -> player.level().getServer().execute(() -> {
+					BlockEntity tile = player.level().getBlockEntity(poi.getPos());
 					if (tile instanceof MPUTile) ((MPUTile) tile).setNearbySpeech(event.getRawText());
 				}));
 	}

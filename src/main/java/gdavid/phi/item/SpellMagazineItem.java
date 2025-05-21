@@ -2,17 +2,15 @@ package gdavid.phi.item;
 
 import gdavid.phi.Phi;
 import gdavid.phi.capability.MagazineSocketable;
-import java.util.List;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,16 +18,11 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import vazkii.psi.api.PsiAPI;
-import vazkii.psi.api.cad.CADTakeEvent;
-import vazkii.psi.api.cad.EnumCADComponent;
-import vazkii.psi.api.cad.EnumCADStat;
-import vazkii.psi.api.cad.ICAD;
-import vazkii.psi.api.cad.ICADComponent;
-import vazkii.psi.api.cad.ISocketable;
+import vazkii.psi.api.cad.*;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
-import net.minecraft.world.item.Item.Properties;
+import java.util.List;
 
 @EventBusSubscriber
 public class SpellMagazineItem extends Item implements ICADComponent {
@@ -42,7 +35,7 @@ public class SpellMagazineItem extends Item implements ICADComponent {
 	public int bandwidth, sockets, vectors;
 	
 	public SpellMagazineItem(String id, int sockets, int bandwidth, int vectors) {
-		super(new Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC));
+		super(new Properties().stacksTo(1));
 		this.id = id;
 		this.bandwidth = bandwidth;
 		this.sockets = sockets;

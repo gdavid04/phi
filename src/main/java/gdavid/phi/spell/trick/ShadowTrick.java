@@ -2,17 +2,11 @@ package gdavid.phi.spell.trick;
 
 import gdavid.phi.block.ModBlocks;
 import gdavid.phi.util.ParamHelper;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import vazkii.psi.api.internal.Vector3;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellParam;
-import vazkii.psi.api.spell.SpellRuntimeException;
+import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.param.ParamNumber;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
@@ -51,7 +45,7 @@ public class ShadowTrick extends PieceTrick {
 			return null;
 		}
 		BlockState block = world.getBlockState(pos);
-		if (block.isAir() || block.getMaterial().isReplaceable()) {
+		if (block.isAir() || block.canBeReplaced()) {
 			if (world.setBlockAndUpdate(pos, ModBlocks.shadow.defaultBlockState())) {
 				world.scheduleTick(pos, ModBlocks.shadow, timeVal);
 			}
