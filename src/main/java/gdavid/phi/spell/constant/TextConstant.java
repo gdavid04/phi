@@ -38,12 +38,11 @@ public class TextConstant extends SpellPiece {
 	
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	@SuppressWarnings("resource")
 	public void drawAdditional(PoseStack ms, MultiBufferSource buffers, int light) {
 		if (str.length() > 5) str = str.substring(0, 5);
 		Font font = Minecraft.getInstance().font;
-		String rstr = str.replaceAll(" ", "§8_§r");
-		if (rstr.length() == 0) rstr = "§8Text";
+		String rstr = str.replaceAll(" ", "\u00a78_\u00a7r");
+		if (rstr.length() == 0) rstr = "\u00a78Text";
 		ms.pushPose();
 		ms.translate(8 - font.width(rstr) / 4f, 4, 0);
 		ms.scale(0.5f, 0.5f, 1);

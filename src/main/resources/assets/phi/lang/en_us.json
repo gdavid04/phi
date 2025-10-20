@@ -227,6 +227,10 @@
 	"phi.spellpiece.constant_text.desc": "Select and type to set value",
 	"phi.spellpiece.constant_character_code": "Constant: Character Code",
 	"phi.spellpiece.constant_character_code.desc": "Select and type to set value",
+	"phi.spellpiece.constant_formatting_code": "Constant: Formatting Code",
+	"phi.spellpiece.constant_formatting_code.desc": "Select and type a formatting code\n\u00a700\u00a711\u00a722\u00a733\u00a744\u00a755\u00a766\u00a777\u00a788\u00a799\u00a7aa\u00a7bb\u00a7cc\u00a7dd\u00a7ee\u00a7ff\u00a77: color\n\u00a77k: obfuscated\n\u00a77l: bold\n\u00a77m: strikethrough\n\u00a77n: underlined\n\u00a77o: italic\n\u00a77r: reset",
+	"phi.spellpiece.constant_line_break": "Constant: Line Break",
+	"phi.spellpiece.constant_line_break.desc": "A newline character",
 	"phi.spellpiece.constant_vector": "Constant: Vector",
 	"phi.spellpiece.constant_vector.desc": "Select, press X, Y or Z and type to set coordinate",
 
