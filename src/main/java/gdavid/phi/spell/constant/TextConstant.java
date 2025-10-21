@@ -18,6 +18,8 @@ import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellPiece;
 import vazkii.psi.api.spell.SpellRuntimeException;
 
+import java.lang.Character.UnicodeBlock;
+
 public class TextConstant extends SpellPiece {
 	
 	public static final String tagValue = "value";
@@ -60,7 +62,8 @@ public class TextConstant extends SpellPiece {
 	@OnlyIn(Dist.CLIENT)
 	public boolean onCharTyped(char ch, int key, boolean doit) {
 		if (str.length() + 1 > 5) return false;
-		if (ch < 0x20 || ch > 0x7e) return false;
+		var block = UnicodeBlock.of(ch);
+		if (ch != '\n' && (Character.isISOControl(ch) || block == null || block == UnicodeBlock.SPECIALS)) return false;
 		if (doit) {
 			str = str + ch;
 		}

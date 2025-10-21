@@ -29,8 +29,8 @@ public class CharacterFromCodeOperator extends PieceOperator {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		int c = getParamValue(context, code).intValue();
-		if (c < 0 || c >= 256) Errors.runtime(SpellRuntimeException.OUT_OF_BOUNDS);
-		return String.valueOf((char) c);
+		if (!Character.isValidCodePoint(c)) Errors.runtime(SpellRuntimeException.OUT_OF_BOUNDS);
+		return Character.toString(c);
 	}
 	
 }
