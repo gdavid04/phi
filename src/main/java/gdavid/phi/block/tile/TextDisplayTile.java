@@ -45,7 +45,7 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 		for (var actualLine : normalizeFormatting(line)) {
 			if (index > text.size()) text.add("");
 			text.set(index++ - 1, actualLine);
-			if (index > lines) return;
+			if (index > lines) break;
 		}
 		setChanged();
 		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 18);
