@@ -61,7 +61,9 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 	private List<String> normalizeFormatting(String str) {
 		var res = new ArrayList<String>();
 		var b = new StringBuilder();
+		
 		int column = 0;
+		boolean wrap = false;
 		
 		char curColor = 0;
 		boolean[] curFormats = new boolean[5];
@@ -104,11 +106,10 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 			if (i == -1) i = str.length();
 			int nl = str.indexOf('\n', from);
 			if (nl != -1 && nl < i) i = nl;
-			if (column + i - from > columns) i = from + columns - column;
-			column += i - from;
-			b.append(str, from, i);
-			if (column >= columns || nl == i) {
-				if (nl == i) i++;
+			boolean wrapAfter = column + i - from > columns;
+			if (wrapAfter) i = from + columns - column;
+			else column += i - from;
+			if (wrap) { // Only wrap if there's more text
 				column = 0;
 				res.add(b.toString());
 				b = new StringBuilder();
@@ -119,6 +120,20 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 					if (curFormats[f]) b.append('\u00a7').append((char) ('k' + f));
 				}
 			}
+			b.append(str, from, i);
+			if (nl == i) {
+				i++;
+				column = 0;
+				res.add(b.toString());
+				b = new StringBuilder();
+				
+				// Keep formatting on newline
+				if (curColor != 0) b.append('\u00a7').append(curColor);
+				for (int f = 0; f < 5; f++) {
+					if (curFormats[f]) b.append('\u00a7').append((char) ('k' + f));
+				}
+			}
+			wrap = wrapAfter;
 		}
 		res.add(b.toString());
 		return res;
