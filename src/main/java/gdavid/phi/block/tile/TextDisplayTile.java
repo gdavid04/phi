@@ -67,12 +67,14 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 		boolean[] curFormats = new boolean[5];
 		
 		int i = 0;
+		outer:
 		while (i < str.length()) {
 			char color = 0;
 			boolean[] formats = new boolean[5];
 			boolean reset = false;
 			
-			while (i + 1 < str.length() && str.charAt(i) == '\u00a7') {
+			while (str.charAt(i) == '\u00a7') {
+				if (i + 1 >= str.length()) break outer; // Remove trailing §
 				char code = Character.toLowerCase(str.charAt(i + 1));
 				if (code == 'r') {
 					reset = true;
@@ -85,8 +87,10 @@ public class TextDisplayTile extends BlockEntity implements ICableConnected {
 					Arrays.fill(formats, false);
 					Arrays.fill(curFormats, false);
 				} else if (code >= 'k' && code <= 'o') curFormats[code - 'k'] = formats[code - 'k'] = true;
-				else break; // Unknown formatting code, append as text
+				// Remove unknown formatting codes
+				// TODO allow escaping §?
 				i += 2;
+				if (i >= str.length()) break outer; // No need to write formatting at the end
 			}
 			
 			if (reset) b.append("\u00a7r");
