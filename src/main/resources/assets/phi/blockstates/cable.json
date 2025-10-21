@@ -1,7 +1,31 @@
 {
 	"multipart": [
-		{ "apply": { "model": "phi:block/cable_center" } },
-		{ "when": { "online": "true" }, "apply": { "model": "phi:block/cable_center_light" } },
+		{
+			"when": {
+				"OR": [
+					{ "north": "none", "south": "none", "west": "none", "east": "none" },
+					{ "north": "side|up", "south": "side|up", "west": "side|up", "east": "side|up" },
+					{ "north":  "side|up", "south": "none" },
+					{ "south":  "side|up", "north": "none" },
+					{ "west":  "side|up", "east": "none" },
+					{ "east":  "side|up", "west": "none" }
+				]
+			},
+			"apply": { "model": "phi:block/cable_center" }
+		},
+		{
+			"when": {
+				"OR": [
+					{ "online": "true", "north": "none", "south": "none", "west": "none", "east": "none" },
+					{ "online": "true", "north": "side|up", "south": "side|up", "west": "side|up", "east": "side|up" },
+					{ "online": "true", "north":  "side|up", "south": "none" },
+					{ "online": "true", "south":  "side|up", "north": "none" },
+					{ "online": "true", "west":  "side|up", "east": "none" },
+					{ "online": "true", "east":  "side|up", "west": "none" }
+				]
+			},
+			"apply": { "model": "phi:block/cable_center_light" }
+		},
 		{ "when": { "north": "side" }, "apply": { "model": "phi:block/cable_side", "y": 0 } },
 		{ "when": { "north": "side", "online": "true" }, "apply": { "model": "phi:block/cable_side_light", "y": 0 } },
 		{ "when": { "north": "up" }, "apply": { "model": "phi:block/cable_up", "y": 0 } },

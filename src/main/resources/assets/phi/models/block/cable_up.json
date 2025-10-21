@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
 		"1": "phi:block/cable_up",
@@ -9,7 +8,7 @@
 	"elements": [
 		{
 			"from": [5.5, 0, 2],
-			"to": [10.5, 2, 5],
+			"to": [10.5, 2, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
 				"north": {"uv": [0, 12, 5, 14], "texture": "#texture"},
