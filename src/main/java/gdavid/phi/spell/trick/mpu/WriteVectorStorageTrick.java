@@ -1,14 +1,8 @@
 package gdavid.phi.spell.trick.mpu;
 
-import gdavid.phi.block.tile.MPUTile.MPUCaster;
 import gdavid.phi.block.tile.VSUTile;
+import gdavid.phi.cable.PeripheralContext;
 import gdavid.phi.spell.Errors;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import vazkii.psi.api.internal.Vector3;
 import vazkii.psi.api.spell.EnumSpellStat;
 import vazkii.psi.api.spell.Spell;
@@ -19,8 +13,6 @@ import vazkii.psi.api.spell.SpellParam;
 import vazkii.psi.api.spell.SpellRuntimeException;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceTrick;
-
-import java.util.List;
 
 public class WriteVectorStorageTrick extends PieceTrick {
 	
@@ -38,13 +30,6 @@ public class WriteVectorStorageTrick extends PieceTrick {
 	}
 	
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void addToTooltipAfterShift(List<Component> tooltip) {
-		tooltip.add(Component.translatable("phi.tooltip.require_mpu"));
-		super.addToTooltipAfterShift(tooltip);
-	}
-	
-	@Override
 	public void addToMetadata(SpellMetadata meta) throws SpellCompilationException {
 		meta.addStat(EnumSpellStat.COMPLEXITY, 1);
 		meta.addStat(EnumSpellStat.POTENCY, 20);
@@ -53,14 +38,10 @@ public class WriteVectorStorageTrick extends PieceTrick {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 dir = getNonnullParamValue(context, direction);
-		Direction d = Direction.getNearest(dir.x, dir.y, dir.z);
 		Vector3 vec = getNonnullParamValue(context, vector);
-		if (!(context.caster instanceof MPUCaster)) Errors.noMpu.runtime();
-		BlockPos pos = ((MPUCaster) context.caster).getConnected(d);
-		if (pos == null) Errors.runtime(SpellRuntimeException.NULL_TARGET);
-		BlockEntity tile = context.caster.level.getBlockEntity(pos);
-		if (!(tile instanceof VSUTile)) Errors.runtime(SpellRuntimeException.NULL_TARGET);
-		((VSUTile) tile).setVector(vec);
+		var tile = PeripheralContext.get(context).getPeripheral(VSUTile.class, dir);
+		Errors.runtimeNull(tile);
+		tile.setVector(vec);
 		return null;
 	}
 	

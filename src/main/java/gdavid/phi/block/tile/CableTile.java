@@ -61,8 +61,7 @@ public class CableTile extends BlockEntity implements ICableSegment {
 	
 	void tryAddNeighbour(List<BlockPos> to, BlockPos pos, Direction side, boolean stepUp) {
 		BlockEntity tile = level.getBlockEntity(pos);
-		if (tile instanceof ICableConnected
-				|| (tile instanceof ICableSegment && ((ICableSegment) tile).canConnect(side))) {
+		if (tile instanceof ICableConnected || (tile instanceof ICableSegment && ((ICableSegment) tile).canConnect(side))) {
 			to.add(pos);
 		} else if (stepUp) {
 			tryAddNeighbour(to, pos.relative(Direction.UP), side, false);

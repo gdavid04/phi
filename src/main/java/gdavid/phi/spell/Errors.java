@@ -50,4 +50,8 @@ public enum Errors {
 		throw new SpellRuntimeException(name);
 	}
 	
+	public static void runtimeNull(Object o) throws SpellRuntimeException {
+		if (o == null) runtime(SpellRuntimeException.NULL_TARGET);
+	}
+	
 }

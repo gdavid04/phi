@@ -2,7 +2,6 @@ package gdavid.phi.block.tile;
 
 import com.mojang.authlib.GameProfile;
 import gdavid.phi.block.MPUBlock;
-import gdavid.phi.cable.CableNetwork;
 import gdavid.phi.cable.ICableConnected;
 import gdavid.phi.item.MPUCAD;
 import gdavid.phi.spell.trick.evaluation.ReevaluateTrick;
@@ -12,40 +11,30 @@ import gdavid.phi.util.IProgramTransferTarget;
 import gdavid.phi.util.IPsiAcceptor;
 import gdavid.phi.util.IWaveImpacted;
 import gdavid.phi.util.RedstoneMode;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
-import java.lang.ref.WeakReference;
-import java.util.Set;
-import java.util.UUID;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.PacketSendListener;
 import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.OutgoingPlayerChatMessage;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.PacketFlow;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.PacketFlow;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayer;
-import vazkii.psi.api.spell.EnumPieceType;
-import vazkii.psi.api.spell.EnumSpellStat;
-import vazkii.psi.api.spell.Spell;
-import vazkii.psi.api.spell.SpellCompilationException;
-import vazkii.psi.api.spell.SpellContext;
-import vazkii.psi.api.spell.SpellMetadata;
-import vazkii.psi.api.spell.SpellPiece;
+import vazkii.psi.api.spell.*;
+import vazkii.psi.common.core.handler.PlayerDataHandler;
+
+import java.lang.ref.WeakReference;
+import java.util.UUID;
 
 public class MPUTile extends BlockEntity implements ICableConnected, IProgramTransferTarget, IWaveImpacted, IPsiAcceptor {
 	
@@ -96,11 +85,7 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 	}
 	
 	@Override
-	public void setSpell(Player player, Spell spell) {
-		setSpell(spell);
-	}
-	
-	public void setSpell(Spell to) {
+	public void setSpell(Player player, Spell to) {
 		if (to == null) {
 			spell = null;
 		} else {
@@ -163,8 +148,7 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 		boolean recast = context == null || context.get() == null;
 		if (!recast) {
 			try {
-				recast = !((Set<SpellContext>) Class.forName("vazkii.psi.common.core.handler.PlayerDataHandler")
-						.getField("delayedContexts").get(null)).contains(context.get());
+				PlayerDataHandler.delayedContexts.contains(context.get());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -338,10 +322,6 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 		
 		public void setTime(int time) {
 			MPUTile.this.setTime(time);
-		}
-		
-		public BlockPos getConnected(Direction side) {
-			return CableNetwork.getController(level, worldPosition, side);
 		}
 		
 		public int getSuccessCount() {

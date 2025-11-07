@@ -21,13 +21,11 @@ public class CableNetwork {
 			boolean stepDown) {
 		BlockPos opos = pos.relative(side);
 		BlockEntity tile = world.getBlockEntity(opos);
-		if (tile instanceof ICableSegment) {
-			if (((ICableSegment) tile).canConnect(side.getOpposite())) {
-				return ((ICableSegment) tile).getConnection();
-			}
+		if (tile instanceof ICableSegment segment) {
+			if (segment.canConnect(side.getOpposite())) return segment.getConnection();
 		} else if (stepDown) {
-			if (tile instanceof ICableConnected) {
-				if (((ICableConnected) tile).isController()) return opos;
+			if (tile instanceof ICableConnected connected) {
+				if (connected.isController()) return opos;
 			} else if (side.getAxis() != Axis.Y) {
 				return getControllerInternal(world, pos.relative(Direction.DOWN), side, false);
 			}
@@ -59,13 +57,13 @@ public class CableNetwork {
 		tryAdd(s, matched, world, pos);
 		while (!s.isEmpty()) {
 			BlockEntity tile = s.pop();
-			if (tile instanceof ICableSegment) {
-				cables.add((ICableSegment) tile);
-				for (BlockPos opos : ((ICableSegment) tile).getNeighbours()) {
+			if (tile instanceof ICableSegment segment) {
+				cables.add(segment);
+				for (BlockPos opos : segment.getNeighbours()) {
 					tryAdd(s, matched, world, opos);
 				}
-			} else if (tile instanceof ICableConnected) {
-				if (((ICableConnected) tile).isController()) {
+			} else if (tile instanceof ICableConnected connected) {
+				if (connected.isController()) {
 					if (controller == null && valid) {
 						controller = tile.getBlockPos();
 					} else {
