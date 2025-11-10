@@ -1,6 +1,6 @@
-package gdavid.phi.spell.selector.mpu;
+package gdavid.phi.spell.selector.cable;
 
-import gdavid.phi.block.tile.VSUTile;
+import gdavid.phi.block.tile.TextSUTile;
 import gdavid.phi.cable.PeripheralContext;
 import gdavid.phi.spell.Errors;
 import vazkii.psi.api.internal.Vector3;
@@ -8,11 +8,11 @@ import vazkii.psi.api.spell.*;
 import vazkii.psi.api.spell.param.ParamVector;
 import vazkii.psi.api.spell.piece.PieceSelector;
 
-public class ReadVectorStorageSelector extends PieceSelector {
+public class ReadTextStorageSelector extends PieceSelector {
 	
 	SpellParam<Vector3> direction;
 	
-	public ReadVectorStorageSelector(Spell spell) {
+	public ReadTextStorageSelector(Spell spell) {
 		super(spell);
 	}
 	
@@ -30,14 +30,14 @@ public class ReadVectorStorageSelector extends PieceSelector {
 	@Override
 	public Object execute(SpellContext context) throws SpellRuntimeException {
 		Vector3 dir = getNonnullParamValue(context, direction);
-		var tile = PeripheralContext.get(context).getPeripheral(VSUTile.class, dir);
+		var tile = PeripheralContext.get(context).getPeripheral(TextSUTile.class, dir);
 		Errors.runtimeNull(tile);
-		return tile.getVector();
+		return tile.getText();
 	}
 	
 	@Override
 	public Class<?> getEvaluationType() {
-		return Vector3.class;
+		return String.class;
 	}
 	
 }

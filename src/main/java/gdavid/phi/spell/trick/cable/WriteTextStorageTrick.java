@@ -1,4 +1,4 @@
-package gdavid.phi.spell.trick.mpu;
+package gdavid.phi.spell.trick.cable;
 
 import gdavid.phi.block.tile.TextSUTile;
 import gdavid.phi.cable.PeripheralContext;

@@ -30,6 +30,8 @@ public class NearbySpeechSelector extends PieceSelector {
 		super(spell);
 	}
 	
+	// TODO Remove dependency on MPU
+	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addToTooltipAfterShift(List<Component> tooltip) {

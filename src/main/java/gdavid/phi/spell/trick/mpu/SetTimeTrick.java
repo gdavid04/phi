@@ -39,6 +39,8 @@ public class SetTimeTrick extends PieceTrick {
 		addParam(target = new ParamVector(SpellParam.GENERIC_NAME_TARGET, SpellParam.BLUE, true, false));
 	}
 	
+	// TODO Remove dependency on MPU
+	
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void addToTooltipAfterShift(List<Component> tooltip) {
@@ -59,17 +61,14 @@ public class SetTimeTrick extends PieceTrick {
 		int time = getNonnullParamValue(context, num).intValue();
 		if (paramSides.get(target).isEnabled()) {
 			BlockPos pos = ParamHelper.block(this, context, target);
-			Level world = context.focalPoint.getCommandSenderWorld();
-			if (!world.hasChunkAt(pos) || !world.mayInteract(context.caster, pos)) {
-				return null;
-			}
+			Level world = context.focalPoint.level;
+			if (!world.hasChunkAt(pos) || !world.mayInteract(context.caster, pos)) Errors.runtime(SpellRuntimeException.NULL_TARGET);
 			BlockEntity tile = world.getBlockEntity(pos);
-			if (tile instanceof MPUTile) {
-				((MPUTile) tile).setTime(time);
-			}
+			if (tile instanceof MPUTile mpu) mpu.setTime(time);
+			else Errors.runtime(SpellRuntimeException.NULL_TARGET);
 		} else {
-			if (!(context.caster instanceof MPUCaster)) Errors.noMpu.runtime();
-			((MPUCaster) context.caster).setTime(time);
+			if (!(context.caster instanceof MPUCaster caster)) Errors.noMpu.runtime();
+			caster.setTime(time);
 		}
 		return null;
 	}
