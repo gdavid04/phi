@@ -67,8 +67,8 @@ public class SetTimeTrick extends PieceTrick {
 			if (tile instanceof MPUTile mpu) mpu.setTime(time);
 			else Errors.runtime(SpellRuntimeException.NULL_TARGET);
 		} else {
-			if (!(context.caster instanceof MPUCaster caster)) Errors.noMpu.runtime();
-			caster.setTime(time);
+			if (!(context.caster instanceof MPUCaster)) Errors.noMpu.runtime();
+			((MPUCaster) context.caster).setTime(time);
 		}
 		return null;
 	}
