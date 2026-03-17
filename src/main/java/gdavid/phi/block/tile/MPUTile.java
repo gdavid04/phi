@@ -145,14 +145,8 @@ public class MPUTile extends BlockEntity implements ICableConnected, IProgramTra
 			return;
 		}
 		if (!redstoneMode.isActive(prevRedstoneSignal, redstoneSignal)) return;
-		boolean recast = context == null || context.get() == null;
-		if (!recast) {
-			try {
-				PlayerDataHandler.delayedContexts.contains(context.get());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		boolean recast = context == null || context.get() == null
+			|| !PlayerDataHandler.delayedContexts.contains(context.get());
 		if (recast) {
 			SpellContext ctx = new SpellContext().setPlayer(caster).setSpell(spell);
 			context = new WeakReference<>(ctx);
